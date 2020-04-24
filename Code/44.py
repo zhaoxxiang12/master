@@ -3,7 +3,10 @@ print('已成功拉取Git仓库中的代码，开始执行代码')
 print(1)
 print(2)
 from selenium.webdriver.chrome.options import Options
+import sys
 from selenium import webdriver
+reload(sys)
+sys.setdefaultencoding('utf-8')
 chrome_options = Options()
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
