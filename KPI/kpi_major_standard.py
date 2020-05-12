@@ -1,6 +1,6 @@
 #coding=utf-8
 import requests,json,time,os
-from KPI.kpi import GetLabCanjiaItems,log
+from kpi import GetLabCanjiaItems,log
 # pwd=input('输入pwd')
 def Count_Major():
     lab1=GetLabCanjiaItems()
