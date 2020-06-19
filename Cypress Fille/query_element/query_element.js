@@ -1,5 +1,5 @@
 describe('CQB测试用例',function(){
-    beforeEach(()=>{
+    before(()=>{
         
         cy.visit('http://cqb-mgr.test.sh-weiyi.com/cqb-base-mgr-fe/app.html#/login')
         cy.get('button[class="el-button el-button--default el-button--small"').click()
@@ -26,7 +26,7 @@ describe('CQB测试用例',function(){
          // 在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').type('test123')
         // 点击搜索按键
-        cy.get('i[class="el-icon-search"]').click()
+        // cy.get('i[class="el-icon-search"]').click()
         // // 点击编辑按键
         // cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click()
         // //查找实验室名称输入框
@@ -47,24 +47,25 @@ describe('CQB测试用例',function(){
         // cy.get('table[class=el-table__body]').eq(2).find('button').eq(2).find('span').invoke('text').then((text)=>{
         //        var data=text
         //         console.log(data)
-        // })
+        // }
+
         //点击启用/锁定按键
-        cy.get('table[class=el-table__body]').eq(2).find('button').eq(2).click()
-        cy.get('div[class=el-message-box__btns').find('button').eq(1).find('span').invoke('text').then((text)=>{
-            var data2=text
-            data2=data2.replace(/\s+/g,"")//去除字符串所有空格
-             console.log(data2)
-             console.log(typeof data2)
-             var judge_value='启用'
-             if(data2===judge_value){
-                cy.get('div[class=el-message-box__btns').find('button[ class="el-button el-button--default el-button--small el-button--primary "]')
-                .click()
-            }else{
-                cy.get('div[class=el-message-box__btns')
-                .find('button[class="el-button el-button--default el-button--small el-button--primary el-button--danger"]')
-                .click()
-            }
-        })
+        // cy.get('table[class=el-table__body]').eq(2).find('button').eq(2).click()
+        // cy.get('div[class=el-message-box__btns').find('button').eq(1).find('span').invoke('text').then((text)=>{
+        //     var data2=text
+        //     data2=data2.replace(/\s+/g,"")//去除字符串所有空格
+        //      console.log(data2)
+        //      console.log(typeof data2)
+        //      var judge_value='启用'
+        //      if(data2===judge_value){
+        //         cy.get('div[class=el-message-box__btns').find('button[ class="el-button el-button--default el-button--small el-button--primary "]')
+        //         .click()
+        //     }else{
+        //         cy.get('div[class=el-message-box__btns')
+        //         .find('button[class="el-button el-button--default el-button--small el-button--primary el-button--danger"]')
+        //         .click()
+        //     }
+        // })
         // cy.get('div[class=el-message-box__btns')
         //     .find('button[class="el-button el-button--default el-button--small el-button--primary el-button--danger"]')
         //     .click()
@@ -78,19 +79,15 @@ describe('CQB测试用例',function(){
         //     .find('button[class="el-button el-button--default el-button--small el-button--primary el-button--danger"]')
         //     .click()
         // }
-      var a='启用'
-      var b='停用'
-      var c='启用'
-      if(a===b){
-          console.log('t')
-      }else{
-          console.log('p')
-      }
 
-      if (b===c){
-        console.log('abc')
-      }else{
-          console.log('???')
-      }
+        //复选框
+        cy.get('div[class="el-table__fixed"]').find('div[class="el-table__fixed-body-wrapper"]').find('tbody>tr>td>div>label>span>span')
+        .eq(2).click()
+   
+    })
+    it.only('iqc',()=>{
+        cy.get('div[class="el-submenu__title"]').eq(7).click()
+        cy.get('div[class="el-submenu__title"]').eq(9).click()
+        cy.get('ul[role="menu"]').eq(9).find('li[class=el-menu-item]').eq(0).click()
     })
 })
