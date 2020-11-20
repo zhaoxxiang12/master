@@ -1,0 +1,31 @@
+[ {
+  "uid" : "7c3c7c0bda5201ce",
+  "name" : "testWorkload",
+  "time" : {
+    "start" : 1605515253330,
+    "stop" : 1605515253553,
+    "duration" : 223
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "31a3433ca35f9e",
+  "name" : "testNation",
+  "time" : {
+    "start" : 1605515252034,
+    "stop" : 1605515252524,
+    "duration" : 490
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "ef9bb4fa6cf25b19",
+  "name" : "testSpecialpovince",
+  "time" : {
+    "start" : 1605515252570,
+    "stop" : 1605515253325,
+    "duration" : 755
+  },
+  "status" : "passed",
+  "severity" : "normal"
+} ]
