@@ -1,6 +1,8 @@
 from COV2.report_Casse import *
 import time
 import datetime
+
+
 class performCase():
     def __init__(self):
         self.Case = Case()
@@ -19,7 +21,6 @@ class performCase():
             except Exception as e:
                 print(e)
                 print('日期格式不正确，重新输入')
-        self.inputName = input('输入省份名称')
         # cls.testDate = 20201001
         self.intDate = int(self.inputDate)
         self.yesterday = datetime.datetime.strptime(self.inputDate, "%Y%m%d")
@@ -30,14 +31,19 @@ class performCase():
         self.intStartdate = int(self.startDate)
         self.startDate = datetime.datetime.strptime(self.startDate, '%Y%m%d')
         self.realStartdate = self.startDate.strftime('%m{m}%d{d}').format(m='月', d='日')
+
     def startCase(self):
         provinceJudge = input('是否需要生成省份测试报告')
         if provinceJudge == '是':
-            self.Case.testSpecialpovince(self.inputName)
-            self.Case.testWorkload(self.testDate)
+            self.inputName = input('输入省份名称')
+            self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+            self.Case.testSpecialpovince(self.testDate, self.inputName, self.intDate, self.reportDate,
+                                         self.yesterdate, self.intStartdate, self.realStartdate)
         else:
             self.Case.testNation(self.testDate)
-            self.Case.testWorkload(self.yesterdate,self.intDate,self.reportDate)
+            self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+
+
 if __name__ == '__main__':
     startCase = performCase()
     startCase.startCase()

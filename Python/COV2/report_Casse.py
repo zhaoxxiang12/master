@@ -199,7 +199,7 @@ class Case():
                                                        '' + thirdProvinceName[2] + '约(' + str(
                 thirdProvincevalue) + '万人份)。')
 
-    def testSpecialpovince(self,testDate,inputName):
+    def testSpecialpovince(self,testDate,inputName,intDate,reportDate,yesterdate,intStartdate,realStartdate):
             testLoad = []
             compareDateresult = []
             # 全省所有医疗卫生机构
@@ -236,13 +236,13 @@ class Case():
                           "join common_province t3 on t3.province_code = t1.province_code  where  t1.flow_status = 2 and " \
                           "t1.test_day = '%s' and t3.province_name like '%%%s%%' and t2.inst_function " \
                           "in('inst_function_0002','inst_function_0003')  and t2.inst_category = 'inst_category_0003'" % (
-                              self.testDate, self.inputName)
+                              testDate, inputName)
             thirdLabresult = self.Common.connectMySQL(thirdLabsql)[0][0]
             #  全省样本人份
             provinceCol = [
                 {
                     '$match': {
-                        'testDate': self.intDate,
+                        'testDate': intDate,
                         'flowStatus': 2,
                         'lab.provinceCode': provinceCode}},
 
@@ -253,14 +253,14 @@ class Case():
                             '$sum': '$reportResult.B1'
                         }}}
             ]
-            totalServings = self.mycol.aggregate(provinceCol)
+            totalServings = self.Common.connectMongDB(provinceCol)
             for i in totalServings:
                 totalServings = i['totalwork']
             aroundTotalservings = round(totalServings / 10000, 1)
             #  医疗机构样本人份
             medicalCol = [{
                 '$match': {
-                    'testDate': self.intDate,
+                    'testDate': intDate,
                     'flowStatus': 2,
                     'lab.provinceCode': provinceCode,
                     'lab.instCategory': 'inst_category_0001',
@@ -280,7 +280,7 @@ class Case():
             #   疾控样本人份
             CDCcol = [{
                 '$match': {
-                    'testDate': self.intDate,
+                    'testDate': intDate,
                     'flowStatus': 2,
                     'lab.provinceCode': provinceCode,
                     'lab.instCategory': 'inst_category_0002',
@@ -300,7 +300,7 @@ class Case():
             #   第三方实验室样本人份
             thirdLabcol = [{
                 '$match': {
-                    'testDate': self.intDate,
+                    'testDate': intDate,
                     'flowStatus': 2,
                     'lab.provinceCode': provinceCode,
                     'lab.instCategory': 'inst_category_0003',
@@ -317,7 +317,7 @@ class Case():
                 thirdLabservings = i['totalwork']
             aroundThirdlabServings = round(thirdLabservings / 10000, 1)
             thirdLabpercent = '{:.1f}%'.format(thirdLabservings / totalServings * 100)
-            print(self.reportDate + '0时至24时,我委收到' + provinceName + str(
+            print(reportDate + '0时至24时,我委收到' + provinceName + str(
                 provinceTotal) + '家卫生医疗机构上报新冠病毒核酸检测数据，其中医疗机构' + str(
                 medicalResult) + '家,疾控机构' + str(CDCResult) + '家,第三方实验室' + str(thirdLabresult) + '家.')
             print('共检测样本' + str(aroundTotalservings) + '万人份,其中医疗机构检测' + str(
@@ -327,7 +327,7 @@ class Case():
             #   省份检测量
             workloadCol = [{
                 '$match': {
-                    'testDate': {'$gte': self.yesterdate, '$lte': self.intDate},
+                    'testDate': {'$gte': yesterdate, '$lte': intDate},
                     'flowStatus': 2,
                     'lab.provinceCode': provinceCode}},
 
@@ -356,7 +356,7 @@ class Case():
             #   省份检测量(开始时间)
             workloadCol = [{
                 '$match': {
-                    'testDate': self.intStartdate,
+                    'testDate': intStartdate,
                     'flowStatus': 2,
                     'lab.provinceCode': provinceCode}},
 
@@ -374,6 +374,6 @@ class Case():
             aroundStartworkload = round(startWorkload / 1000, 1)
             startPercent = '{:.0f}%'.format(abs(testLoad[1] - startWorkload) / startWorkload * 100)
             if testLoad[1] - startWorkload < 0:
-                print('比' + self.realStartdate + '(' + str(aroundStartworkload) + '万人份' + ')降低了' + startPercent)
+                print('比' + realStartdate + '(' + str(aroundStartworkload) + '万人份' + ')降低了' + startPercent)
             else:
-                print('比' + self.realStartdate + '(' + str(aroundStartworkload) + '万人份' + ')升高了' + startPercent)
+                print('比' + realStartdate + '(' + str(aroundStartworkload) + '万人份' + ')升高了' + startPercent)
