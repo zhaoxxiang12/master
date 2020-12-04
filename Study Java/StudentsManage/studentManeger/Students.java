@@ -1,7 +1,7 @@
 package studentManeger;
 
 public class Students {
-    //学生ID
+    //学生学号
     private String sid;
     //学生姓名
     private String name;

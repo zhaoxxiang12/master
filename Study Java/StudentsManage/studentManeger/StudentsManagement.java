@@ -5,6 +5,9 @@ import java.util.Scanner;
 
 public class StudentsManagement {
     public static void main(String[] args) {
+        // 创建集合对象，用于存储学生数据
+        ArrayList<Students> array = new ArrayList<Students>();
+
         while (true) {
             // 主界面编写
             System.out.println("--------Welcome--------");
@@ -20,6 +23,7 @@ public class StudentsManagement {
             switch (chose) {
                 case "1":
                     System.out.println("添加学生");
+                    addStudents(array);
                     break;
                 case "2":
                     System.out.println("删除学生");
@@ -46,23 +50,33 @@ public class StudentsManagement {
         String name = chose.nextLine();
         System.out.println("请输入学生年龄");
         String Age = chose.nextLine();
-        // 实例化对象
-        Students student  = new Students();
-        try{
-            int age =  Integer.parseInt(Age);
-            student.setAge(age);
-        }catch (NumberFormatException e){
-            e.printStackTrace();
-        }
         System.out.println("请输入学生地址");
         String address = chose.nextLine();
+
+        // 实例化对象
+        Students student  = new Students();
         // 创建学生对象，把输入的数据赋值给学生对象的成员变量
         student.setSid(sid);
         student.setName(name);
+        try{
+            int age = Integer.parseInt(Age);
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
         student.setAddress(address);
         // 将学生对象添加到集合中
         array.add(student);
         //给出添加提示
         System.out.println("添加成功！");
     }
+//    //定义一个查看学生的方法
+//    public static void findAllStudengts(ArrayList<Students>array){
+//        //显示表头信息
+//        System.out.println("学号\t\t\t姓名\t\t年龄\t\t居住地");
+//        //将集合中的数据取出按照对应格式显示学生信息，年龄显示补充“岁”
+//        for (int i = 0;i<array.size();i++){
+//            Students s = array.get(i);
+//            System.out.println(s.getSid()+"\t"+s.getName()+"\t"+s.getAge()+"岁\t\t"+s.getAddress());
+//        }
+//    }
 }
