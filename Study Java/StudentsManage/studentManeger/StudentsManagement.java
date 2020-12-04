@@ -37,4 +37,32 @@ public class StudentsManagement {
         }
 
     }
+    //定义一个添加学生的方法
+    public  static  void addStudents(ArrayList<Students>array){
+        Scanner chose = new Scanner(System.in);
+        System.out.println("请输入学生学号");
+        String sid = chose.nextLine();
+        System.out.println("请输入学生名字");
+        String name = chose.nextLine();
+        System.out.println("请输入学生年龄");
+        String Age = chose.nextLine();
+        // 实例化对象
+        Students student  = new Students();
+        try{
+            int age =  Integer.parseInt(Age);
+            student.setAge(age);
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        System.out.println("请输入学生地址");
+        String address = chose.nextLine();
+        // 创建学生对象，把输入的数据赋值给学生对象的成员变量
+        student.setSid(sid);
+        student.setName(name);
+        student.setAddress(address);
+        // 将学生对象添加到集合中
+        array.add(student);
+        //给出添加提示
+        System.out.println("添加成功！");
+    }
 }
