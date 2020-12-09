@@ -29,6 +29,9 @@ public class work10 {
     public static int count(char ch,String str){
         int count = 0;
         for(int i =0;i<str.length();i++){
+            // charAt() 方法用于返回指定索引处的字符。索引范围为从 0 到 length() - 1.
+            // 比如：字符串 s= "runoob"  char  result = s.charAt(3)  运行结果为o
+            // 语法： public char charAt(int index) index -- 字符的索引
             if(ch == str.charAt(i)){
                 count++;
             }
