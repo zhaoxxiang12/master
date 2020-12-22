@@ -80,32 +80,33 @@ public class Homework1 {
         }
         System.out.println("输入要查找的数字");
         int findNum = sc.nextInt();
-<<<<<<< HEAD
+
         boolean isExist = false;
-        for (int j = 0 ; j<arr.length;j++){
-            if(findNum==arr[j]){
+        for (int j = 0; j < arr.length; j++) {
+            if (findNum == arr[j]) {
 //               System.out.println(i);
-               isExist = true;
-            }else if(!isExist){
+                isExist = true;
+            } else if (!isExist) {
                 System.out.println(-1);
             }
-=======
-        int count = 0;
-        for (int j = 0; j < arr.length; j++) {
+
+            int count = 0;
+            for (int k = 0; k < arr.length; k++) {
 //            if(findNum==arr[j]){
 //                System.out.println(j);//打印数组下标
 //                break;// 提高效率
 //            }
-            if (findNum != arr[j])
-                continue;
-                System.out.println(j);
+                if (findNum != arr[k])
+                    continue;
+                System.out.println(k);
                 count++;
 
 
-        }
-        if(count==0){
-            System.out.println("未找到：-1");
->>>>>>> 2d909c167a8d55a9289f26c8eb20e333dbc8723f
+            }
+            if (count == 0) {
+                System.out.println("未找到：-1");
+
+            }
         }
     }
 }
