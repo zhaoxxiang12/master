@@ -80,9 +80,13 @@ public class Homework1 {
         }
         System.out.println("输入要查找的数字");
         int findNum = sc.nextInt();
+        boolean isExist = false;
         for (int j = 0 ; j<arr.length;j++){
             if(findNum==arr[j]){
-                return 1;
+//               System.out.println(i);
+               isExist = true;
+            }else if(!isExist){
+                System.out.println(-1);
             }
         }
     }
