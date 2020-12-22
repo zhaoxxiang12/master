@@ -73,13 +73,14 @@ public class Homework1 {
          *  输入10个数存入数组中 ，然后再输入一个数字进行查找，有则返回1，无则返回-1
          */
         Scanner sc = new Scanner(System.in);
-        int [] arr = new int[10];
-        for (int i = 0;i<10;i++){
+        int[] arr = new int[10];
+        for (int i = 0; i < 10; i++) {
             System.out.println("输入一个整数");
-            arr[i]=sc.nextInt();
+            arr[i] = sc.nextInt();
         }
         System.out.println("输入要查找的数字");
         int findNum = sc.nextInt();
+<<<<<<< HEAD
         boolean isExist = false;
         for (int j = 0 ; j<arr.length;j++){
             if(findNum==arr[j]){
@@ -88,7 +89,26 @@ public class Homework1 {
             }else if(!isExist){
                 System.out.println(-1);
             }
+=======
+        int count = 0;
+        for (int j = 0; j < arr.length; j++) {
+//            if(findNum==arr[j]){
+//                System.out.println(j);//打印数组下标
+//                break;// 提高效率
+//            }
+            if (findNum != arr[j])
+                continue;
+                System.out.println(j);
+                count++;
+
+
+        }
+        if(count==0){
+            System.out.println("未找到：-1");
+>>>>>>> 2d909c167a8d55a9289f26c8eb20e333dbc8723f
         }
     }
-
 }
+
+
+
