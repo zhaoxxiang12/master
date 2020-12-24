@@ -10,5 +10,7 @@ public class Test2 {
         System.out.println(zi.sno);
 
         System.out.println(zi.age);
+        zi.info();//子类共享父类的方法
+        zi.test();//子类调用自己的方法
     }
 }
