@@ -1,6 +1,4 @@
-package HomeworkDemo;
-
-import java.util.Locale;
+package StringPackage;
 
 public class StringDemo6 {
     public static void main(String[] args) {

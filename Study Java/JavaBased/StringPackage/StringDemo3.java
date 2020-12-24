@@ -1,4 +1,4 @@
-package HomeworkDemo;
+package StringPackage;
 
 import java.util.Arrays;
 

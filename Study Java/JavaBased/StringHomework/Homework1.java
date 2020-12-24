@@ -35,21 +35,49 @@ public class Homework1 {
 //        System.out.println(count3);
         /**
          * string = "12345678901234567890",打印效果如下：
-         * 1
-         * 23
-         * 456
-         * 7890
-         * 12345
+         * 1  [0,1)
+         * 23 [1,3)
+         * 456 [3,6)
+         * 7890 [6,10)
+         * 12345 [10,15)
          * 67890
          */
         String string = "12345678901234567890";
-        int row =0;
-        for (int i = 0; i < 6; i++) {
-            char[] chr = string.toCharArray();
-            for (int j = 0;j<chr.length;j++){
-                System.out.println(chr[j]);
+        int startIndex = 0;
+        int endIndex = 1;
+//        for (int i = 1; i < 7; i++) {
+//            String temp ="";
+//            System.out.println("第"+i+"循环");
+//            String value = string.substring(startIndex, endIndex);
+//            StringBuilder stringBuilder = new StringBuilder(); //StringBuilder是可变字符串
+//            stringBuilder.append(value);
+//            temp =stringBuilder.toString();
+//            System.out.println(temp);
+//            if(i>=2 || i<=3){
+//                startIndex = endIndex;
+//                endIndex = temp.length()+2;
+//            }else if(i==4){
+//                startIndex = endIndex;
+//                endIndex = temp.length()+4;
+//            }else if(i==5||i==6){
+//                startIndex = endIndex;
+//                endIndex = temp.length()+5;
+//            }
+//
+//        }
+//        System.out.println(temp);
+        for (int i = 1; i <= 6; i++) {
+            if (i >= 1 && i <= 5) {
+                endIndex = (i + 1) * i / 2;
+                String value = string.substring(startIndex,endIndex);
+                System.out.println(value);
+            } else {
+                endIndex = string.length();
+                String value = string.substring(startIndex,endIndex);
+                System.out.println(value);
             }
-            System.out.println();
+            startIndex = endIndex;
+
         }
     }
 }
