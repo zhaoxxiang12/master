@@ -4,18 +4,16 @@ from COV2.reportCommon import *
 class publicLab():
     def __init__(self):
         self.Common = Common()
-        self.date = 20201215
+        self.date = 20201217
 
     def firstArea(self):
         firstAreaLab = []
-        firstAreaSQL = " SELECT lab_id from belong_area_region t1 join report_lab_info t2 on t1.province_code = t2.province_code " \
-                       "join report_lab_info_ext t3 on t3.lab_id = t2.id " \
-                       "where t2.enabled = 1 and t1.belong_area = 'belong_area_0001' and t3.public_testing_lab = 1; "
+        firstAreaSQL = "SELECT lab_id from belong_area_region t1 join report_lab_info t2 on t1.province_code = t2.province_code join report_lab_info_ext t3 on t3.lab_id = t2.id where t2.enabled = 1 and t1.belong_area = 'belong_area_0001' and t3.public_testing_lab = 1; "
         labId = self.Common.connectMySQL(firstAreaSQL)
+
         for i in range(0, len(labId)):
             # print(labId[i][0])
             firstAreaLab.append(labId[i][0])
-        # print(firstAreaLab)
         collectionSql = [
             {'$match': {'flowStatus': 2, "lab.labId": {"$in": firstAreaLab},
                         '$and': [{'testDate': self.date}]}},
@@ -28,11 +26,11 @@ class publicLab():
         # print(strLabId)
         # 阳性案例
         COVSql = "select count(*) from report_cov_cases where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(strLabId,
-                                                                                                          self.date)
+                                                                                                         self.date)
         COVData = self.Common.connectMySQL(COVSql)[0][0]
         # print(COVSql)
         # 上报机构数
-        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and test_day in ({})".format(
+        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(
             strLabId, self.date)
         reportedLabResult = self.Common.connectMySQL(reportedLabSql)[0][0]
         print("第一分区上报机构数：" + str(reportedLabResult))
@@ -61,7 +59,7 @@ class publicLab():
                                                                                                           self.date)
         COVData = self.Common.connectMySQL(COVSql)[0][0]
         # 上报机构数
-        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and test_day in ({})".format(
+        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(
             strLabId, self.date)
         reportedLabResult = self.Common.connectMySQL(reportedLabSql)[0][0]
         print("第二分区上报机构数：" + str(reportedLabResult))
@@ -90,7 +88,7 @@ class publicLab():
                                                                                                           self.date)
         COVData = self.Common.connectMySQL(COVSql)[0][0]
         # 上报机构数
-        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and test_day in ({})".format(
+        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(
             strLabId, self.date)
         reportedLabResult = self.Common.connectMySQL(reportedLabSql)[0][0]
         print("第三分区上报机构数：" + str(reportedLabResult))
@@ -119,7 +117,7 @@ class publicLab():
                                                                                                           self.date)
         COVData = self.Common.connectMySQL(COVSql)[0][0]
         # 上报机构数
-        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and test_day in ({})".format(
+        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(
             strLabId, self.date)
         reportedLabResult = self.Common.connectMySQL(reportedLabSql)[0][0]
         print("第四分区上报机构数：" + str(reportedLabResult))
@@ -147,7 +145,7 @@ class publicLab():
                                                                                                           self.date)
         COVData = self.Common.connectMySQL(COVSql)[0][0]
         # 上报机构数
-        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and test_day in ({})".format(
+        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(
             strLabId, self.date)
         reportedLabResult = self.Common.connectMySQL(reportedLabSql)[0][0]
         print("第五分区上报机构数：" + str(reportedLabResult))
@@ -175,7 +173,7 @@ class publicLab():
                                                                                                           self.date)
         COVData = self.Common.connectMySQL(COVSql)[0][0]
         # 上报机构数
-        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and test_day in ({})".format(
+        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(
             strLabId, self.date)
         reportedLabResult = self.Common.connectMySQL(reportedLabSql)[0][0]
         print("第六分区上报机构数：" + str(reportedLabResult))
@@ -203,7 +201,7 @@ class publicLab():
                                                                                                           self.date)
         COVData = self.Common.connectMySQL(COVSql)[0][0]
         # 上报机构数
-        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and test_day in ({})".format(
+        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(
             strLabId, self.date)
         reportedLabResult = self.Common.connectMySQL(reportedLabSql)[0][0]
         print("第七分区上报机构数：" + str(reportedLabResult))
@@ -231,7 +229,7 @@ class publicLab():
                                                                                                           self.date)
         COVData = self.Common.connectMySQL(COVSql)[0][0]
         # 上报机构数
-        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and test_day in ({})".format(
+        reportedLabSql = "select count(*) from report_workload_record where lab_id in ({}) and flow_status = 2 and test_day in ({})".format(
             strLabId, self.date)
         reportedLabResult = self.Common.connectMySQL(reportedLabSql)[0][0]
         print("第八分区上报机构数：" + str(reportedLabResult))

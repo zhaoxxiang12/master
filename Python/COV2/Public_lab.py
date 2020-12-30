@@ -35,7 +35,7 @@ class labCount(unittest.TestCase):
             for i in range(0, len(result)):
                 # print(result[i][0])
                 self.dataList.append(result[i][0])
-            print(self.dataList)
+            # print(self.dataList)
             # 分区检测量
             collectionSql = [
                 {'$match': {'flowStatus': 2, "lab.labId": {"$in": self.dataList},

@@ -33,15 +33,92 @@ class performCase():
         self.realStartdate = self.startDate.strftime('%m{m}%d{d}').format(m='月', d='日')
 
     def startCase(self):
-        provinceJudge = input('是否需要生成省份测试报告')
-        if provinceJudge == '是':
-            self.inputName = input('输入省份名称')
-            self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
-            self.Case.testSpecialpovince(self.testDate, self.inputName, self.intDate, self.reportDate,
-                                         self.yesterdate, self.intStartdate, self.realStartdate)
-        else:
-            self.Case.testNation(self.testDate)
-            self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+        while True:
+            provinceJudge = input('是否需要生成省份测试报告:1.是 2.否')
+            cityJudge = input('是否需要生成城市测试报告:1.是 2.否')
+            areaJudge = input('是否需要生成区县测试报告:1.是 2.否')
+            if provinceJudge == '1'and cityJudge == '1' and areaJudge =='1':
+                self.inputProvinceName = input('输入省份名称')
+                self.inputCityName = input('请输入城市名称')
+                self.inputAreaName = input('请输入区县名称')
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                self.Case.testSpecialpovince(self.testDate, self.inputProvinceName, self.intDate, self.reportDate,
+                                             self.yesterdate, self.intStartdate, self.realStartdate)
+                self.Case.testSpecialCity(self.testDate, self.inputCityName, self.intDate, self.reportDate,
+                                             self.yesterdate, self.intStartdate, self.realStartdate)
+                self.Case.testSpecialArea(self.testDate, self.inputAreaName, self.intDate, self.reportDate,
+                                             self.yesterdate, self.intStartdate, self.realStartdate)
+                break
+            elif provinceJudge=='1'and cityJudge == '1' and areaJudge =='2' :
+                self.inputProvinceName = input('输入省份名称')
+                self.inputCityName = input('请输入城市名称')
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                self.Case.testSpecialpovince(self.testDate, self.inputProvinceName, self.intDate, self.reportDate,
+                                             self.yesterdate, self.intStartdate, self.realStartdate)
+                self.Case.testSpecialCity(self.testDate, self.inputCityName, self.intDate, self.reportDate,
+                                          self.yesterdate, self.intStartdate, self.realStartdate)
+                break
+            elif provinceJudge == '2' and cityJudge == '1' and areaJudge == '1':
+                self.inputCityName = input('请输入城市名称')
+                self.inputAreaName = input('请输入区县名称')
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                self.Case.testSpecialCity(self.testDate, self.inputCityName, self.intDate, self.reportDate,
+                                          self.yesterdate, self.intStartdate, self.realStartdate)
+                self.Case.testSpecialArea(self.testDate, self.inputAreaName, self.intDate, self.reportDate,
+                                          self.yesterdate, self.intStartdate, self.realStartdate)
+                break
+            elif provinceJudge == '2' and cityJudge == '1' and areaJudge == '2':
+                self.inputCityName = input('请输入城市名称')
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                self.Case.testSpecialCity(self.testDate, self.inputCityName, self.intDate, self.reportDate,
+                                          self.yesterdate, self.intStartdate, self.realStartdate)
+                break
+            elif provinceJudge == '2'and cityJudge == '2' and areaJudge =='1':
+                self.inputAreaName = input('请输入区县名称')
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                self.Case.testSpecialArea(self.testDate, self.inputAreaName, self.intDate, self.reportDate,
+                                             self.yesterdate, self.intStartdate, self.realStartdate)
+                break
+            elif provinceJudge == '1'and cityJudge == '2' and areaJudge =='2':
+                self.inputProvinceName = input('输入省份名称')
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                self.Case.testSpecialpovince(self.testDate, self.inputProvinceName, self.intDate, self.reportDate,
+                                             self.yesterdate, self.intStartdate, self.realStartdate)
+                break
+            elif provinceJudge == '1' and cityJudge == '1' and areaJudge == '2':
+                self.inputProvinceName = input('输入省份名称')
+                self.inputCityName = input('请输入城市名称')
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                self.Case.testSpecialpovince(self.testDate, self.inputProvinceName, self.intDate, self.reportDate,
+                                             self.yesterdate, self.intStartdate, self.realStartdate)
+                self.Case.testSpecialCity(self.testDate, self.inputCityName, self.intDate, self.reportDate,
+                                          self.yesterdate, self.intStartdate, self.realStartdate)
+                break
+            elif provinceJudge == '1' and cityJudge == '2' and areaJudge == '1':
+                self.inputProvinceName = input('输入省份名称')
+                self.inputAreaName = input('请输入区县名称')
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                self.Case.testSpecialpovince(self.testDate, self.inputProvinceName, self.intDate, self.reportDate,
+                                             self.yesterdate, self.intStartdate, self.realStartdate)
+                self.Case.testSpecialCity(self.testDate, self.inputCityName, self.intDate, self.reportDate,
+                                          self.yesterdate, self.intStartdate, self.realStartdate)
+                self.Case.testSpecialArea(self.testDate, self.inputAreaName, self.intDate, self.reportDate,
+                                          self.yesterdate, self.intStartdate, self.realStartdate)
+                break
+            elif provinceJudge == '2' and cityJudge == '2' and areaJudge == '2':
+                self.Case.testNation(self.testDate)
+                self.Case.testWorkload(self.yesterdate, self.intDate, self.reportDate)
+                break
+            else:
+                print("输入有误，请重新输入")
 
 
 if __name__ == '__main__':
