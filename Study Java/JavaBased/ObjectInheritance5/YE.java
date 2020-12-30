@@ -6,5 +6,6 @@ package ObjectInheritance5;
  */
 public class YE {
     int money = 100;
+    String name = "KOBE";
 
 }
