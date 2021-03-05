@@ -1,9 +1,9 @@
 context('信息互通设置-推送设置', () => {
-    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
-        let SettingIndex = 12
-        let MessageSettingIndex = 13
-        let PushSettingIndex = 13
+        let SettingIndex = 14
+        let MessageSettingIndex = 15
+        let PushSettingIndex = 15
         let UseIndex = 0
         cy.loginCQB()
         //点击设置
@@ -240,7 +240,7 @@ context('信息互通设置-推送设置', () => {
         // 断言(界面出现请选择消息内容则通过)
         cy.get('body').should('contain', '请选择检测时间')
     })  
-    it('008-新建失控告警规则-检测目标未选择不能保存', () => {
+    it('008-新建失控告警规则-检测目标(指定实验室)未选择不能保存', () => {
         cy.wait(1000)
         let SelectIndex = 2
         let MessageIndex = 1
@@ -249,7 +249,7 @@ context('信息互通设置-推送设置', () => {
         let TimeBoxIndex = 1
         let LabIndex = 1
         let ChoiceIndex = 0
-        let DesignatedLabIndex = 9
+        let DesignatedLabIndex = 10
         let ButtonIndex = 2
         //点击添加
         cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
@@ -294,7 +294,7 @@ context('信息互通设置-推送设置', () => {
         let TypeIndex = 0
         let ButtonIndex = 1
         let AddLabButton = 8
-        let ChooseLab = 4
+        let ChooseLab = 3
         let DeleteButton =9
         let DeleteIndex =1
         //点击添加

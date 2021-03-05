@@ -2,20 +2,15 @@
  * 告警查询
  */
 context('消息互通-告警查询', () => {
-    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         let MessageSharegIndex = 1
         let WarningMessageIndex = 1
         let UseIndex = 0
         let ExpandButton = 0
         let ChooseButton = 0
-        let DateType = 4
+        let DateType = 5
         let ListIndex = 2
-        let ChooseDate = 0
-        let StartDate = 0
-        let EndDate = 1
-        let ChooseStartDate = 2
-        let ChooseEndDate = 2
         cy.loginCQB()
         // 点击消息互通
         cy.get('.el-submenu__title').eq(MessageSharegIndex).click({
@@ -32,29 +27,15 @@ context('消息互通-告警查询', () => {
         cy.get('input[placeholder="请选择"]').eq(ChooseButton).click({
             force: true
         })
+        cy.wait(500)
         // 选择指定日期
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DateType).find('li').eq(ListIndex).click({
-            force: true
-        })
-        //选择日期2020/12/01 - 2021/1/13
-        cy.get('.el-range-input').eq(ChooseDate).click({
-            force: true
-        })
-        //开始时间
-        cy.get('.el-date-table').eq(StartDate).find('.el-date-table__row').eq(StartDate).find('td').eq(ChooseStartDate).click({
-            force: true
-        })
-        //结束时间
-        cy.get('.el-range-input').eq(EndDate).click({
-            force: true
-        })
-        cy.get('.el-date-table').eq(EndDate).find('.el-date-table__row').eq(ChooseEndDate).find('td').eq(ChooseEndDate).click({
             force: true
         })
     })
     it('001-使用消息状态进行查询-已知晓', () => {
         let StatusType = 2
-        let ListIndex = 4
+        let ListIndex = 5
         let know = 2
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
@@ -88,7 +69,7 @@ context('消息互通-告警查询', () => {
     })
     it('002-使用消息状态进行查询-未读', () => {
         let StatusType = 2
-        let ListIndex = 4
+        let ListIndex = 5
         let NotRead = 1
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
@@ -122,7 +103,7 @@ context('消息互通-告警查询', () => {
     })
     it('003-使用消息状态进行查询-已处理', () => {
         let StatusType = 2
-        let ListIndex = 4
+        let ListIndex = 5
         let processed = 3
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
@@ -226,7 +207,7 @@ context('消息互通-告警查询', () => {
     })
     it('006-使用消息类型进行查询-选择未上报', () => {
         let MessageType = 1
-        let ListIndex = 4
+        let ListIndex = 5
         let NotReportedIndex = 1
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
@@ -258,7 +239,7 @@ context('消息互通-告警查询', () => {
     })
     it('007-使用消息类型进行查询-选择项目失控', () => {
         let MessageType = 1
-        let ListIndex = 4
+        let ListIndex = 5
         let IteamOutOfControl = 2
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
@@ -290,7 +271,7 @@ context('消息互通-告警查询', () => {
     })
     it('008-使用消息类型进行查询-CV/符合率失控', () => {
         let MessageType = 1
-        let ListIndex = 4
+        let ListIndex = 5
         let CVIndex = 3
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
@@ -324,7 +305,7 @@ context('消息互通-告警查询', () => {
 
     it('010-使用消息状态进行查询-已认可', () => {
         let StatusType = 2
-        let ListIndex = 4
+        let ListIndex = 5
         let approved = 4
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
@@ -357,7 +338,7 @@ context('消息互通-告警查询', () => {
 
     })
     it('011-使用标签进行查询-公立标签', () => {
-        let ListIndex = 3
+        let ListIndex = 0
         let PublicTag = 0
         cy.get('.el-select__input.is-medium').click({
             force: true
@@ -390,7 +371,7 @@ context('消息互通-告警查询', () => {
 
     })
     it('012-使用标签进行查询-私立标签', () => {
-        let ListIndex = 3
+        let ListIndex = 0
         let PrivateTag = 1
         cy.get('.el-select__input.is-medium').click({
             force: true

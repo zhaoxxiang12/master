@@ -2,11 +2,11 @@
  * 告警原因和措施
  */
 context('信息互通设置-告警原因和措施', () => {
-    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
-        let SettingIndex = 12
-        let MessageSettingIndex = 13
-        let WariningIndex = 13
+        let SettingIndex = 14
+        let MessageSettingIndex = 15
+        let WariningIndex = 15
         let UseIndex = 1
         cy.loginCQB()
         //点击设置
