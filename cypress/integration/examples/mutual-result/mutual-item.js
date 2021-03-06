@@ -1,0 +1,356 @@
+/**
+ * 开展项目设置
+ */
+context('结果互认设置-开展项目设置', () => {
+    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    beforeEach(() => {
+        let SettingIndex = 12
+        let ItemSetting = 14
+        let ResultAppoveSetting = 14
+        let UseIndex = 0
+        cy.loginCQB()
+        //点击设置
+        cy.get('.el-submenu__title').eq(SettingIndex).click({
+            force: true
+        })
+        cy.wait(500)
+        // 点击结果互认设置
+        cy.get('.el-submenu__title').eq(ResultAppoveSetting).click({
+            force: true
+        })
+        cy.wait(500)
+        //点击开展项目设置
+        cy.get('.el-menu.el-menu--inline').eq(ItemSetting).find('.el-menu-item').eq(UseIndex).click({
+            force: true
+        })
+    })
+    it('001-开展项目设置-添加相同的项目分类', () => {
+        cy.wait(500)
+        let ItemType = 0
+        let ItemChoose = 1
+        let DropDownList = 1
+        let ItemList = 0
+        let Type = 4
+        //点击添加项目分类
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ItemType).click({
+            force: true
+        })
+        //点击项目分类下拉框
+        cy.get('input[placeholder="请选择"]').eq(ItemChoose).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(ItemList).click({
+            force: true
+        })
+        cy.get('.el-input__inner').eq(Type).type("尿干化学",{force:true})
+        cy.get('button').contains('确定').click({
+            force: true
+        })
+        //界面弹出【分类名称已存在, 请重输】提示则通过
+        cy.get('body').should('contain', '分类名称已存在, 请重输')
+    })
+    it('002-开展项目设置-添加不存在的项目分类', () => {
+        cy.wait(500)
+        let ItemType = 0
+        let ItemChoose = 1
+        let DropDownList = 1
+        let ItemList = 0
+        let Type = 4
+        //点击添加项目分类
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ItemType).click({
+            force: true
+        })
+        //点击项目分类下拉框
+        cy.get('input[placeholder="请选择"]').eq(ItemChoose).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(ItemList).click({
+            force: true
+        })
+        cy.get('.el-input__inner').eq(Type).type("自动化测试", {
+            force: true
+        })
+        cy.get('button').contains('确定').click({
+            force: true
+        })
+        //界面存在【自动化测试】这个分类则通过
+        cy.get('body').should('contain', "自动化测试")
+    })
+    it('003-开展项目设置-编辑项目分类', () => {
+        let CustomerItem = 1
+        let Edit = 0
+        let InputBox = 3
+        cy.get('.item-configNew__type-action').eq(CustomerItem).find('i').eq(Edit).click({
+            force: true
+        })
+        /**
+         * 点击已存在的名称不允许删除
+         */
+        cy.get('.el-input__inner').eq(InputBox).clear({force:true}).type("常规化学")
+        cy.get('body').should('contain', '分类名称已存在, 请重输')
+        /**
+         * 编辑新的名称可以保存
+         */
+        cy.get('.el-input__inner').eq(InputBox).clear({force:true}).type("自定义名称AAA")
+        cy.get('button').contains('确定').click({
+            force: true
+        })
+        //界面存在【自定义名称AAA】这个分类则通过
+        cy.get('body').should('contain', '自定义名称AAA')
+    })
+    it('004-开展项目设置-删除项目项目分类', () => {
+        /**
+         * 分类下已存在项目不允许删除(删除常规化学)
+         */
+        let ChemicalType = 0
+        let Delete = 1
+        cy.get('.item-configNew__aside-body').find('.el-menu-item').then((Yielded)=>{
+            let ElementLength = Yielded.length
+            cy.get('.item-configNew__type-action').eq(ChemicalType).find('i').eq(Delete).click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+            //界面弹出【项目分类下存在项目】则通过
+            cy.get('body').should('contain', '项目分类下存在项目')
+            /**
+             * 分类下不存在项目允许删除(删除自定义项目分类)
+             */
+            let CustomerItem = 1
+            cy.get('.item-configNew__type-action').eq(CustomerItem).find('i').eq(Delete).click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+
+            //删除成功 类el-menu-item的长度如果减一，就通过
+            cy.get('.item-configNew__aside-body').find('.el-menu-item').should('have.length',ElementLength-1)
+        })
+
+    })
+    it('005-开展项目设置-添加项目', () => {
+        /**
+         * 添加已存在的项目(钾)
+         */
+        cy.wait(500)
+        let AddItem = 1
+        let ItemList = 2
+        let DropDownList = 4
+        let ChooseFe = 20
+        let ChooseK = 1
+        let Unit = 4
+        let UnitDownList = 4
+        let ChooseUnit = 0
+        let ConfirmButton = 4
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(AddItem).click({
+            force: true
+        })
+        //选择项目
+        cy.get('input[placeholder="请选择"]').eq(ItemList).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(ChooseK).click({
+            force: true
+        })
+        //选择单位
+        cy.get('input[placeholder="请选择"]').eq(Unit).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(UnitDownList).find('li').eq(ChooseUnit).click({
+            force: true
+        })
+        //点击确定
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+            force: true
+        })
+        //界面弹出【项目已存在】则通过
+        cy.get('body').should('contain', '项目已存在')
+        /**
+         * 添加新的项目(铁)
+         */
+        //获取初始项目个数
+        cy.get('.item-configNew__list').find('div').eq(0).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').then((Yielded) => {
+            let ElementLength = Yielded.length
+            cy.log(ElementLength)
+            cy.get('input[placeholder="请选择"]').eq(ItemList).click({
+                force: true
+            })
+            cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(ChooseFe).click({
+                force: true
+            })
+            //选择单位
+            cy.get('input[placeholder="请选择"]').eq(Unit).click({
+                force: true
+            })
+            cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(UnitDownList).find('li').eq(ChooseUnit).click({
+                force: true
+            })
+            //点击确定
+            cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+                force: true
+            })
+            // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否加一了,即项目添加成功
+            cy.get('.item-configNew__list').find('div').eq(0).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ElementLength + 1)
+        })
+
+    })
+    it('006-开展项目设置-编辑项目', () => {
+        /**
+         * 编辑项目-将常规化学中的项目铁划分到全血细胞计数
+         */
+        cy.wait(500)
+        let ConfirmButton = 4
+        let EditButton = 1
+        let EditIndex = 0
+        let DropList = 4
+        let InputBox = 1
+        let BloodType = 1
+        let BloodMenu = 17
+        let BloodIndex = 1
+        let Classindex = 0
+        let ChemicalType = 0
+        let ClassIndex =0
+        //获取未将将常规化学中的项目铁划分到全血细胞计数时的.el-card.ql-itemCard.item-configNew__item.is-always-shadow的长度
+        cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').then((Yielded) => {
+            let ChemicalLength = Yielded.length
+            cy.log(ChemicalLength)
+            cy.wait(500)
+            cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
+                force: true
+            })
+            cy.get('input[placeholder="请选择"]').eq(InputBox).click({
+                force: true
+            })
+            cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(BloodType).click({
+                force: true
+            })
+            //    点击确定
+            cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+                force: true
+            })
+            cy.wait(500)
+            // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否减一了,即项目编辑成功
+            cy.get('.item-configNew__list').find('div').eq(ClassIndex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ChemicalLength - 1)
+            /**
+             * 将项目铁返回到之前的项目分类
+             */
+            cy.wait(500)
+            cy.get('.el-menu').eq(BloodMenu).find('div>li').eq(BloodIndex).click({
+                force: true
+            })
+            cy.wait(500)
+            cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
+                force: true
+            })
+            cy.get('input[placeholder="请选择"]').eq(InputBox).click({
+                force: true
+            })
+            cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(ChemicalType).click({
+                force: true
+            })
+            cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+                force: true
+            })
+        })
+
+    })
+    it('007-开展项目设置-开展定性项目', () => {
+        let EditButton = 1
+        let EditIndex = 0
+        let SelectIndex = 3
+        let DropList = 4
+        let SelectQualitative = 3
+        let ConfirmButton = 4
+        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
+            force: true
+        })
+        cy.get('input[placeholder="请选择"]').eq(SelectIndex).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(SelectQualitative).click({
+            force: true
+        })
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+            force: true
+        })
+        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
+            force: true
+        })
+        // 界面出现定性则通过
+        cy.get('body').should('contain', '定性')
+
+    })
+    it('008-开展项目设置-开展定量项目', () => {
+        let EditButton = 1
+        let EditIndex = 0
+        let SelectIndex = 3
+        let DropList = 4
+        let SelectQuantitative = 1
+        let ConfirmButton = 4
+        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
+            force: true
+        })
+        cy.get('input[placeholder="请选择"]').eq(SelectIndex).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(SelectQuantitative).click({
+            force: true
+        })
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+            force: true
+        })
+        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
+            force: true
+        })
+        // 界面出现定量则通过
+        cy.get('body').should('contain', '定量')
+
+    })
+    it('009-开展项目设置-开展不限项目', () => {
+        let EditButton = 1
+        let EditIndex = 0
+        let SelectIndex = 3
+        let DropList = 4
+        let SelectUnlimited = 0
+        let ConfirmButton = 4
+        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
+            force: true
+        })
+        cy.get('input[placeholder="请选择"]').eq(SelectIndex).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(SelectUnlimited).click({
+            force: true
+        })
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+            force: true
+        })
+        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
+            force: true
+        })
+        // 界面出现定性则通过
+        cy.get('body').should('contain', '不限')
+
+    })
+    it('010-开展项目设置-删除项目', () => {
+        cy.wait(500)
+        let DeleteIndex = 1
+        let DeleteButton = 1
+        let Classindex = 0
+        cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').then((Yielded) => {
+            let ChemicalLength = Yielded.length
+            cy.log(ChemicalLength)
+            cy.get('.item-configNew__item-action').eq(DeleteButton).find('i').eq(DeleteIndex).click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+            // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否减一了,即项目删除成功
+            cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ChemicalLength - 1)
+        })
+
+    })
+})

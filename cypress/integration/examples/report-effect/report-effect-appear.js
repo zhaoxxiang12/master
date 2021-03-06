@@ -1,0 +1,260 @@
+context('参与实验室情况', () => {
+    let judgeData
+    let reporteData
+    // URL地址全局变量
+    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    beforeEach(() => {
+        cy.loginCQB()
+        //管理效果评价报表下标
+        let listIndex = 7
+        //参与实验室情况下标
+        let tagIndex = 1
+        cy.get('.el-submenu__title').eq(listIndex).click({force:true})
+        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({force:true})
+    })
+    it('001-实验室上报情况-使用路由查询接口返回的数据有多少', () => {
+        cy.server()
+        // 拦截参与实验室情况查询的接口，使用通配符*拦截更灵活
+        cy.route('**/service/mgr/evaReport/labReport?*').as('getLabdata')
+        // 拦截请求必须写在visit之前
+        cy.visit(urlHost+'#/manage/report-effect/report-effect-appear')
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.log(xhr.response)
+            //获取接口返回了多少条数据
+            cy.get(xhr.response.body.data.detail.length).then((data) => {
+                judgeData = data[0]
+                cy.log(judgeData)
+            })
+
+        })
+    })
+    it('002-实验室上报情况-进行数据对比', () => {
+        //接口返回的数据量与前端元素tr的长度进行对比
+        cy.get('.table-line__fixed-header+.table-line').find('tbody').find('tr').should('have.length', judgeData)
+        cy.log(judgeData)
+    })
+    it('003-实验室上报情况-总上报天数为零工作日上报率就为零', () => {
+        //日期选择框下标
+        let dateIndex = 0
+        //实验室下标
+        let labIndex = 0
+        //总上报天数下标
+        let reportIndex = 2
+        //上报率下标
+        let reportedRateIndex = 1
+        //tr标签下标
+        let trIndex = 1
+        //五月份的下标
+        let MayIndex = 0
+        //点击开始时间选择框
+        cy.get('[placeholder="起始时间"]').eq(dateIndex).click()
+        //月份选择五月
+        cy.get('.el-month-table').find('tr').eq(trIndex).find('td').eq(MayIndex).click()
+        //点击结束时间选择框
+        cy.get('[placeholder="结束时间"]').eq(dateIndex).click()
+        //月份选择五月
+        cy.get('.el-month-table').find('tr').eq(4).find('td').eq(MayIndex).click({
+            force: true
+        })
+        //点击搜索
+        cy.get('button').contains('搜索').click()
+        cy.wait(1000)
+        //断言
+        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td').eq(reportIndex).invoke('text')
+            .then((data) => {
+                reporteData = data
+                reporteData = parseInt(reporteData)
+                cy.log(reporteData)
+                let reportedRate = Math.round(reporteData / 19 * 1000) / 10 + "%"
+                cy.log(reportedRate)
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportedRateIndex)
+                    .should('have.text', reportedRate)
+            })
+    })
+    it('004-实验室上报情况-规定上报记录数为零工作日上报率就为零', () => {
+        //日期选择框下标
+        let dateIndex = 0
+        //实验室下标
+        let labIndex = 0
+        //tr的下标
+        let trIndex = 1
+        //规定上报记录数下标
+        let reportIndex = 4
+        //上报率下标
+        let reportedRateIndex = 1
+        //五月下标
+        let MayIndex = 0
+        //点击开始时间选择框
+        cy.get('[placeholder="起始时间"]').eq(dateIndex).click()
+        //月份选择五月
+        cy.get('.el-month-table').find('tr').eq(trIndex).find('td').eq(MayIndex).click()
+        //点击结束时间选择框
+        cy.get('[placeholder="结束时间"]').eq(dateIndex).click()
+        //月份选择五月
+        cy.get('.el-month-table').find('tr').eq(4).find('td').eq(MayIndex).click({
+            force: true
+        })
+        //点击搜索
+        cy.get('button').contains('搜索').click()
+        cy.wait(1000)
+        //
+        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportIndex).invoke('text')
+            .then((data) => {
+                let reportedData = data
+                reportedData = parseInt(reportedData)
+                cy.log(reportedData)
+                let reportedRate = Math.round(reportedData / 19 * 1000) / 10 + "%"
+                cy.log(reportedRate)
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportedRateIndex)
+                    .should('have.text', reportedRate)
+            })
+    })
+    it('005-实验室上报情况-输入关键字进行模糊搜索查询', () => {
+        let labCode = 'yl1250'
+        let typeLabName = '青浦区重固镇社区卫生服务中心'
+        let labName = '上海市测试专用实验室'
+        let guangdongLabCode = 'gd18030'
+        let guangdongTypeLabName = '佛山市南海区第五人民医院'
+        let guangdongLabName = '佛山市妇幼保健院'
+        let labNameIndex = 0
+        let choiceIndex = 3
+        //点击质控主管单位
+        cy.get('[placeholder="请选择"]').click({
+            force: true
+        })
+        //获取质控主管单位里面有多少个选项，即多少个管理机构
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(choiceIndex).find('li').then((data) => {
+            let judgle = data
+            let getData = judgle.length
+            //判断管理机构里面有多少个选项，如果管理机构只有一个，说明是上海环境；如果选项大于1说明为广东环境，就执行else语句
+            if (getData == 1) {
+
+                //输入实验室编码
+                cy.get('[placeholder="实验室名称或编码"]').type(labCode, {
+                    force: true
+                })
+                //断言(判断界面是否有符合的实验室名字)
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
+                //输入实验室名称
+                cy.get('[placeholder="实验室名称或编码"]').clear().type(typeLabName)
+                //断言(判断界面是否有符合的实验室名字)
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', typeLabName)
+            } else {
+                //输入实验室编码
+                cy.get('[placeholder="实验室名称或编码"]').type(guangdongLabCode)
+                //断言(判断界面是否有符合的实验室名字)
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', guangdongLabName)
+                //输入实验室名称
+                cy.get('[placeholder="实验室名称或编码"]').clear().type(guangdongTypeLabName)
+                //断言(判断界面是否有符合的实验室名字)
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', guangdongTypeLabName)
+            }
+
+        })
+    })
+    it('006-实验室上报情况-显示字段-取消勾选某个字段', () => {
+        cy.wait(1000)
+        //点击显示字段
+        cy.get('button').contains('显示字段').click()
+        //获取显示字段的长度
+        cy.get('.print-tool__columns').find('li').then((data) => {
+            let webData = data
+            webData = data.length
+            cy.log(webData)
+            cy.get('.el-checkbox.is-checked').then((getData) => {
+                let lengthData = getData.length
+                cy.log(lengthData)
+                //使用for 循环取消勾选显示字段
+                for (var i = 0, j = lengthData - 1; i < webData, j >= Math.abs(webData - lengthData); i++, j--) {
+                    cy.get('.print-tool__columns').find('li>label>span').find('.el-checkbox__inner').eq(i).click()
+                    //断言(每次取消勾选一个显示字段，.el-checkbox.is-checked长度就会减少一个)
+                    cy.get('.el-checkbox.is-checked').should('have.length', j)
+
+                }
+            })
+        })
+    })
+    it('007-实验室上报情况-切换质控主管单位(广东环境-切换至贵州临床检验中心)', () => {
+        let boxIndex =5
+        let guizhouIndex = 1
+        let choiceIndex = 5
+        //点击质控主管单位
+        cy.get('[placeholder="请选择"]').click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(choiceIndex).find('li').then((data) => {
+            let judgle = data
+            let getData = judgle.length
+            let shanghaiEnvironment = 1
+            cy.log(typeof getData)
+            console.log(getData)
+            console.log(2)
+            if (getData == shanghaiEnvironment) {
+                cy.log('上海医联体系统，无其他管理机构选项')
+            } else {
+                //点击质控主管单位选择框
+                cy.get('[placeholder="请选择"]').click({force:true})
+                cy.wait(1000)
+                //选择贵州省临床检验中心
+                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guizhouIndex).click({
+                    force: true
+                })
+                cy.server()
+                cy.route('**/service/mgr/evaReport/labReport?*').as('getLabdata')
+                // 拦截请求必须写在visit之前
+                cy.visit(urlHost+'#/manage/report-effect/report-effect-appear')
+                cy.get('button').contains('搜索').click()
+                // 获取标签未配置的实验室数量
+                cy.wait('@getLabdata').then((xhr) => {
+                    cy.log(xhr.response)
+                    cy.get(xhr.response.body.data.detail).then((getLabData) => {
+                        let labName = getLabData[0]
+                        labName = labName['labName']
+                        let labNameIndex = 0
+                        //   cy.log(labName)
+                        //断言(判断界面是否有符合的实验室名字)
+                        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
+                    })
+                })
+            }
+        })
+
+    })
+    it('008-实验室上报情况-使用地区进行查询(贵州省)', () => {
+        let areaIndex = 0
+        let boxIndex = 5
+        let guizhouProvinceindex = 2
+        let guizhouIndex = 1
+        // let choiceIndex = 3
+        //点击质控主管单位选择框
+        cy.get('[placeholder="请选择"]').click({force:true})
+        //选择贵州省临床检验中心
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guizhouIndex).click()
+        //点击地区
+        cy.get('.el-radio__inner').eq(areaIndex).click()
+        //点击省选择框
+        cy.get('[placeholder="请选择省"]').click({force:true})
+        cy.wait(1000)
+        //选择贵州省
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guizhouProvinceindex).click()
+        cy.server()
+        cy.route('**/service/mgr/evaReport/labReport?*').as('getLabdata')
+        // 拦截请求必须写在visit之前
+        cy.visit(urlHost+'#/manage/report-effect/report-effect-appear')
+        cy.get('button').contains('搜索').click()
+        // 获取标签未配置的实验室数量
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.log(xhr.response)
+            cy.get(xhr.response.body.data.detail).then((data) => {
+                let labName = data[0]
+                labName = labName['labName']
+                let labNameIndex = 0
+                //   cy.log(labName)
+                //断言
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
+            })
+
+        })
+    })
+})
