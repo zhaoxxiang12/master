@@ -4,6 +4,7 @@ package javaDate;
 import java.util.Calendar;
 
 // 计算2008-2-17 到 2008-3月29日相差多少天
+// 考点:通过日历类来获取时间戳,最终两个时间戳的差再换算成天数
 public class work2 {
     public static void main(String[] args) {
         Calendar calendar = Calendar.getInstance();
