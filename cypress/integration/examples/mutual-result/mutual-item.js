@@ -2,12 +2,12 @@
  * 开展项目设置
  */
 context('结果互认设置-开展项目设置', () => {
-    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         let SettingIndex = 12
         let ItemSetting = 14
-        let ResultAppoveSetting = 14
-        let UseIndex = 0
+        let ResultAppoveSetting = 16
+        let UseIndex = 3
         cy.loginCQB()
         //点击设置
         cy.get('.el-submenu__title').eq(SettingIndex).click({
@@ -137,13 +137,19 @@ context('结果互认设置-开展项目设置', () => {
         cy.wait(500)
         let AddItem = 1
         let ItemList = 2
-        let DropDownList = 4
-        let ChooseFe = 20
+        let DropDownList = 6
+        let ChooseFe = 63
         let ChooseK = 1
         let Unit = 4
-        let UnitDownList = 4
+        let UnitDownList = 6
         let ChooseUnit = 0
         let ConfirmButton = 4
+        let menu = 20
+        let conventionalChemical = 2
+        //项目分类选择常规化学
+        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+            force: true
+        })
         cy.get('.el-button.el-button--primary.el-button--medium').eq(AddItem).click({
             force: true
         })
@@ -204,15 +210,21 @@ context('结果互认设置-开展项目设置', () => {
         let ConfirmButton = 4
         let EditButton = 1
         let EditIndex = 0
-        let DropList = 4
+        let DropList = 6
         let InputBox = 1
-        let BloodType = 1
-        let BloodMenu = 17
-        let BloodIndex = 1
+        let BloodType = 3
+        let BloodIndex = 3
         let Classindex = 0
-        let ChemicalType = 0
-        let ClassIndex =0
-        //获取未将将常规化学中的项目铁划分到全血细胞计数时的.el-card.ql-itemCard.item-configNew__item.is-always-shadow的长度
+        let ChemicalType = 2
+        let ClassIndex = 0
+        let menu = 20
+        let conventionalChemical = 2
+        //项目分类选择常规化学
+        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+            force: true
+        })
+        cy.wait(1000)
+        // 获取未将将常规化学中的项目铁划分到全血细胞计数时的.el-card.ql-itemCard.item-configNew__item.is-always-shadow的长度
         cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').then((Yielded) => {
             let ChemicalLength = Yielded.length
             cy.log(ChemicalLength)
@@ -220,6 +232,7 @@ context('结果互认设置-开展项目设置', () => {
             cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
                 force: true
             })
+            cy.wait(3000)
             cy.get('input[placeholder="请选择"]').eq(InputBox).click({
                 force: true
             })
@@ -230,14 +243,14 @@ context('结果互认设置-开展项目设置', () => {
             cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
                 force: true
             })
-            cy.wait(500)
+            cy.wait(1000)
             // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否减一了,即项目编辑成功
             cy.get('.item-configNew__list').find('div').eq(ClassIndex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ChemicalLength - 1)
             /**
              * 将项目铁返回到之前的项目分类
              */
             cy.wait(500)
-            cy.get('.el-menu').eq(BloodMenu).find('div>li').eq(BloodIndex).click({
+            cy.get('.el-menu').eq(menu).find('li').eq(BloodIndex).click({
                 force: true
             })
             cy.wait(500)
@@ -260,9 +273,17 @@ context('结果互认设置-开展项目设置', () => {
         let EditButton = 1
         let EditIndex = 0
         let SelectIndex = 3
-        let DropList = 4
+        let DropList = 6
         let SelectQualitative = 3
         let ConfirmButton = 4
+        let menu = 20
+        let conventionalChemical = 2
+        //项目分类选择常规化学
+        cy.wait(500)
+        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+            force: true
+        })
+        cy.wait(1000)
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
             force: true
         })
@@ -286,9 +307,16 @@ context('结果互认设置-开展项目设置', () => {
         let EditButton = 1
         let EditIndex = 0
         let SelectIndex = 3
-        let DropList = 4
+        let DropList = 6
         let SelectQuantitative = 1
         let ConfirmButton = 4
+        let menu = 20
+        let conventionalChemical = 2
+        //项目分类选择常规化学
+        cy.wait(1000)
+        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+            force: true
+        })
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
             force: true
         })
@@ -312,9 +340,16 @@ context('结果互认设置-开展项目设置', () => {
         let EditButton = 1
         let EditIndex = 0
         let SelectIndex = 3
-        let DropList = 4
+        let DropList = 6
         let SelectUnlimited = 0
         let ConfirmButton = 4
+        let menu = 20
+        let conventionalChemical = 2
+        //项目分类选择常规化学
+        cy.wait(1000)
+        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+            force: true
+        })
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
             force: true
         })
@@ -338,16 +373,41 @@ context('结果互认设置-开展项目设置', () => {
         cy.wait(500)
         let DeleteIndex = 1
         let DeleteButton = 1
+        let deleteK = 0
         let Classindex = 0
+        let menu = 20
+        let conventionalChemical = 2
+        //项目分类选择常规化学
+        cy.wait(1000)
+        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+            force: true
+        })
+        cy.wait(1000)
         cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').then((Yielded) => {
             let ChemicalLength = Yielded.length
             cy.log(ChemicalLength)
+            /**
+             * 项目已关联数据不能删除
+             */
+            cy.get('.item-configNew__item-action').eq(DeleteButton).find('i').eq(deleteK).click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+            cy.wait(500)
+            // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否未减一了,即项目未删除
+            cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ChemicalLength)
+            /**
+             * 项目未关联数据可以删除成功
+             */
             cy.get('.item-configNew__item-action').eq(DeleteButton).find('i').eq(DeleteIndex).click({
                 force: true
             })
             cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
                 force: true
             })
+            cy.wait(500)
             // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否减一了,即项目删除成功
             cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ChemicalLength - 1)
         })
