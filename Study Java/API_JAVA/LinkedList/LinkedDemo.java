@@ -29,6 +29,5 @@ public class LinkedDemo {
         list.clear(); //清空集合
         System.out.println(list.size());//求集合长度
         System.out.println(list.contains(3));//判断是否包含某个元素
-        list.
     }
 }
