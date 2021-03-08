@@ -389,7 +389,7 @@ context('结果互认设置-开展项目设置', () => {
             /**
              * 项目已关联数据不能删除
              */
-            cy.get('.item-configNew__item-action').eq(DeleteButton).find('i').eq(deleteK).click({
+            cy.get('.item-configNew__item-action').eq(deleteK).find('i').eq(DeleteButton).click({
                 force: true
             })
             cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
@@ -398,6 +398,7 @@ context('结果互认设置-开展项目设置', () => {
             cy.wait(500)
             // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否未减一了,即项目未删除
             cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ChemicalLength)
+            cy.get('body').should('contain','该项目下存在检测体系,无法删除')
             /**
              * 项目未关联数据可以删除成功
              */

@@ -2,12 +2,12 @@
  * 单位转换设置
  */
 context('结果互认设置-单位转换设置', () => {
-    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         let SettingIndex = 12
         let ItemSetting = 14
-        let ResultAppoveSetting = 14
-        let UseIndex = 3
+        let ResultAppoveSetting = 16
+        let UseIndex = 6
         cy.loginCQB()
         //点击设置
         cy.get('.el-submenu__title').eq(SettingIndex).click({
@@ -162,7 +162,7 @@ context('结果互认设置-单位转换设置', () => {
     it('004-单位转换设置-互认项目搜索(项目钾)', () => {
         let inputBox = 0
         let itemDownList = 7
-        let choseK = 0
+        let choseK = 4
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
             force: true
@@ -200,7 +200,7 @@ context('结果互认设置-单位转换设置', () => {
     it('005-单位转换设置-互认项目搜索(项目钠)', () => {
         let inputBox = 0
         let itemDownList = 7
-        let choseNa = 1
+        let choseNa = 5
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
             force: true
@@ -273,10 +273,10 @@ context('结果互认设置-单位转换设置', () => {
             }
         })
     })
-    it('007-单位转换设置-地区搜索(贵州)', () => {
+    it('007-单位转换设置-地区搜索(上海)', () => {
         let inputBox = 0
         let areaDownList = 7
-        let Guizhou = 2
+        let Shanghai = 1
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
             force: true
@@ -285,7 +285,7 @@ context('结果互认设置-单位转换设置', () => {
             force: true
         })
         cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Guizhou).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Shanghai).click({
             force: true
         })
         cy.server()
@@ -314,7 +314,7 @@ context('结果互认设置-单位转换设置', () => {
     it('008-单位转换设置-地区搜索(广东)', () => {
         let inputBox = 0
         let areaDownList = 7
-        let Guangdong = 1
+        let Guangdong = 2
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
             force: true
@@ -351,15 +351,15 @@ context('结果互认设置-单位转换设置', () => {
     })
     it('009-单位转换设置-标签搜索(选择公立)', () => {
         let inputBox = 0
-        let areaBox = 1
-        let bussinessList = 3
+        let Tag = 1
+        let bussinessList = 0
         let publicTag = 0
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
             force: true
         })
         //选择实验室标签
-        cy.get('.el-radio__inner').eq(areaBox).click({force:true})
+        cy.get('.el-radio__inner').eq(Tag).click({force:true})
         //标签选择公立
         cy.wait(500)
         cy.get('.el-select__input.is-medium').click({force:true})
@@ -389,15 +389,15 @@ context('结果互认设置-单位转换设置', () => {
     })
     it('010-单位转换设置-标签搜索(选择私立)', () => {
         let inputBox = 0
-        let areaBox = 1
-        let bussinessList = 3
+        let Tag = 1
+        let bussinessList = 0
         let privateTag = 1
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
             force: true
         })
         //选择实验室标签
-        cy.get('.el-radio__inner').eq(areaBox).click({force:true})
+        cy.get('.el-radio__inner').eq(Tag).click({force:true})
         //标签选择公立
         cy.wait(500)
         cy.get('.el-select__input.is-medium').click({force:true})
@@ -432,6 +432,7 @@ context('结果互认设置-单位转换设置', () => {
         let formulaBox = 1
         let editFormulaBox = 9
         let saveButton = 7
+        let typeNumber = parseInt(Math.random() * 1000)
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, ({
             force: true
         }))
@@ -463,7 +464,7 @@ context('结果互认设置-单位转换设置', () => {
                 //录入新值
                 cy.get('.el-input__inner').eq(editFormulaBox).clear({
                     force: true
-                }).type(1)
+                }).type(typeNumber)
                 cy.get('.el-button.el-button--text.el-button--medium').eq(7).click({
                     force: true
                 })
@@ -476,10 +477,10 @@ context('结果互认设置-单位转换设置', () => {
         let labName = '南方医科大学顺德医院附属杏坛医院'
         let firstBox = 5
         let secondBox = 6
-        let thirdBox = 3
-        let forthBox = 4
-        let formulaBox1 = 2 // 第一条数据
-        let formulaBox2 = 3 // 第二条数据
+        let thirdBox = 4
+        let forthBox =5
+        let formulaBox1 = 9 // 第一条数据
+        let formulaBox2 =10 // 第二条数据
         let typeInputBox = 12
         let typeNumber = parseInt(Math.random() * 1000)
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labName, ({
