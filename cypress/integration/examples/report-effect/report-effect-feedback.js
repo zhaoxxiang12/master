@@ -4,12 +4,12 @@ context('信息反馈情况', () => {
         outControlMsg = [],
         outControlCVMsg = [],
         labName
-    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         let dateIndex = 1
-        let listIndex = 7
-        let tagIndex = 2
+        let listIndex = 8
+        let tagIndex = 3
         let monthIndex = 4
         let MayIndex = 0
         let yearIndex = 0
@@ -24,7 +24,7 @@ context('信息反馈情况', () => {
             force: true
         })
         //选择广东省临床检验中心
-        cy.get('[title="广东省临床检验中心"]').click({
+        cy.get('[title="佛山市临床检验质量控制中心"]').click({
             force: true
         })
         //选择开始月份
@@ -232,7 +232,7 @@ context('信息反馈情况', () => {
             })
         })
     })
-    it('007-信息反馈情况-切换质控主管单位(选择贵州省临床检验中心)', () => {
+    it('007-信息反馈情况-切换质控主管单位(青浦医联体)', () => {
         //清除之前的选择
         cy.get('.el-tag__close.el-icon-close').click({
             force: true
@@ -242,7 +242,7 @@ context('信息反馈情况', () => {
             force: true
         })
         //选择贵州省临床检验中心
-        cy.get('.el-tree-node__children').find('.el-tree-node.is-focusable').find('[title="贵州省临床检验中心"]').click({
+        cy.get('.el-tree-node__children').find('.el-tree-node.is-focusable').find('[title="青浦医联体"]').click({
             force: true
         })
         cy.get('button').contains('搜索').click()
@@ -263,10 +263,10 @@ context('信息反馈情况', () => {
             })
         })
     })
-    it('008-信息反馈情况-使用标签进行搜索查询(标签选择贵州)', () => {
+    it('008-信息反馈情况-使用标签进行搜索查询(标签选择广西)', () => {
         let tagIndex = 2 //实验室标签下标
-        let systemTag = 0
-        let guizhouTag = 0
+        let systemTag = 7
+        let GuangxiTag = 5
         let labNameIndex = 0
         //点击实验室标签
         cy.get('.el-radio__inner').eq(tagIndex).click()
@@ -274,8 +274,10 @@ context('信息反馈情况', () => {
         cy.get('[placeholder="请选择实验室标签"]').click({
             force: true
         })
-        //标签选择贵州
-        cy.get('.el-select-group').eq(systemTag).find('li').eq(guizhouTag).click()
+        //标签选择广西
+        cy.get('.el-select-group').eq(systemTag).find('li').eq(GuangxiTag).click({
+            force: true
+        })
         cy.server()
         cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
@@ -304,8 +306,8 @@ context('信息反馈情况', () => {
     })
     it('009-信息反馈情况-使用标签进行搜索查询(标签选择佛山)', () => {
         let tagIndex = 2 //实验室标签下标
-        let systemTag = 0
-        let foshanTag = 1
+        let systemTag = 7
+        let foshanTag = 6
         let labNameIndex = 0
         //点击实验室标签
         cy.get('.el-radio__inner').eq(tagIndex).click()
@@ -314,7 +316,9 @@ context('信息反馈情况', () => {
             force: true
         })
         //标签选择佛山
-        cy.get('.el-select-group__wrap').eq(systemTag).find('li').eq(foshanTag).click()
+        cy.get('.el-select-group__wrap').eq(systemTag).find('li').eq(foshanTag).click({
+            force: true
+        })
         cy.server()
         cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前

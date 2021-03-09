@@ -1,19 +1,25 @@
 context('失控处理情况', () => {
-    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
-        let listIndex = 7
-        let tagIndex = 4
+        let listIndex = 8
+        let tagIndex = 5
         let yearIndex = 0
         let startDate = 0
         let monthIndex = 4
         let MayIndex = 4
         let dateIndex = 1
         //点击管理效果评价报表
-        cy.get('.el-submenu__title').eq(listIndex).click()
+        cy.get('.el-submenu__title').eq(listIndex).click({
+            force: true
+        })
         //点击失控处理情况
-        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click()
-        cy.get('input[placeholder="起始时间"]').eq(startDate).click({force:true})
+        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({
+            force: true
+        })
+        cy.get('input[placeholder="起始时间"]').eq(startDate).click({
+            force: true
+        })
         cy.get('.el-date-picker__header-label').eq(yearIndex).invoke('text').then((text) => {
             let currentYear = parseInt(text.slice(0, 4))
             let expectYear = 2020
@@ -68,7 +74,7 @@ context('失控处理情况', () => {
         })
     })
 
-    it('001-互认合格情况-切换质控主管单位(切换至贵州临床检验中心)', () => {
+    it('001-互认合格情况-切换质控主管单位(切换至青浦医联体)', () => {
         let institutionsIndex = 1
         let boxIndex = 5
         //点击下拉框
@@ -76,14 +82,16 @@ context('失控处理情况', () => {
             force: true
         })
         cy.wait(1000)
-        //选择贵州省临检中心
+        //选择青浦医联体
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(institutionsIndex).click()
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/itemRecogQualified?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click({force:true})
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-mutual')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-mutual')
         cy.wait('@getLabdata').then((xhr) => {
             // labName='贵阳华夏不孕不育医院'
             cy.log(xhr.response)
@@ -94,14 +102,14 @@ context('失控处理情况', () => {
             })
         })
     })
-    it('002-互认合格情况-切换地区进行查询(切换到贵州省)', () => {
+    it('002-互认合格情况-切换地区进行查询(切换到上海)', () => {
         let chooseIndex = 5
-        let provinceIndex = 2
+        let provinceIndex = 1
         //点击地区
         cy.get('.el-col.el-col-16').find('div>div>label>span').find('.el-radio__inner').eq(0).click({
             force: true
         })
-        //选择省份(贵州省)
+        //选择省份(上海)
         cy.get('[placeholder="请选择省"]').click({
             force: true
         })
@@ -169,11 +177,15 @@ context('失控处理情况', () => {
     it('006-互认合格情况-显示字段-取消勾选某个字段', () => {
         //点击显示字段
         cy.wait(5000)
-        cy.get('.el-button.el-button--text.el-button--medium.el-popover__reference').click({force:true})
+        cy.get('.el-button.el-button--text.el-button--medium.el-popover__reference').click({
+            force: true
+        })
         //使用for循环遍历取消勾选字段
-        for (var i = 2, j = 15; i <= 13; i++, j--) {
+        for (var i = 1, j = 15; i < 13; i++, j--) {
             //取消勾选某个显示字段
-            cy.get('.el-checkbox__inner').eq(i).click({force:true})
+            cy.get('.el-checkbox__inner').eq(i).click({
+                force: true
+            })
             //断言
             cy.get('[aria-checked="true"]').should('have.length', j)
         }

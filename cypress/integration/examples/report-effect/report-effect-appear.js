@@ -2,22 +2,74 @@ context('参与实验室情况', () => {
     let judgeData
     let reporteData
     // URL地址全局变量
-    let urlHost = 'http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         //管理效果评价报表下标
-        let listIndex = 7
+        let listIndex = 8
         //参与实验室情况下标
-        let tagIndex = 1
-        cy.get('.el-submenu__title').eq(listIndex).click({force:true})
-        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({force:true})
+        let tagIndex = 2
+        cy.get('.el-submenu__title').eq(listIndex).click({
+            force: true
+        })
+        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({
+            force: true
+        })
+        //日期选择框下标
+        let dateIndex = 0
+        //tr标签下标
+        let trIndex = 1
+        //五月份的下标
+        let MayIndex = 0
+        //起始时间
+        let startDate = 0
+        //结束时间
+        let endDate = 2
+        let chose = 1
+        //点击开始时间选择框
+        cy.get('[placeholder="起始时间"]').eq(dateIndex).click()
+        cy.get('.el-date-picker__header-label').eq(startDate).invoke('text').then((getData) => {
+            let getYear = parseInt(getData.slice(0, 4))
+            let difference = getYear - 2020
+            for (let i = 1; i <= difference; i++) {
+                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click({
+                    force: true
+                })
+            }
+            //月份选择五月
+            cy.get('.el-month-table').find('tr').eq(trIndex).find('td').eq(MayIndex).click({
+                force: true
+            })
+        })
+        //点击结束时间选择框
+        cy.get('[placeholder="结束时间"]').eq(dateIndex).click({
+            force: true
+        })
+        cy.get('.el-date-picker__header-label').eq(endDate).invoke('text').then((getData) => {
+            let getYear = parseInt(getData.slice(0, 4))
+            let difference = getYear - 2020
+            for (let i = 1; i <= difference; i++) {
+                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').eq(chose).click({
+                    force: true
+                })
+            }
+            // //月份选择五月
+            cy.get('.el-month-table').find('tr').eq(4).find('td').eq(MayIndex).click({
+                force: true
+            })
+        })
+
+
     })
     it('001-实验室上报情况-使用路由查询接口返回的数据有多少', () => {
         cy.server()
         // 拦截参与实验室情况查询的接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/labReport?*').as('getLabdata')
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-appear')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-appear')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             //获取接口返回了多少条数据
@@ -34,30 +86,16 @@ context('参与实验室情况', () => {
         cy.log(judgeData)
     })
     it('003-实验室上报情况-总上报天数为零工作日上报率就为零', () => {
-        //日期选择框下标
-        let dateIndex = 0
         //实验室下标
         let labIndex = 0
         //总上报天数下标
         let reportIndex = 2
         //上报率下标
         let reportedRateIndex = 1
-        //tr标签下标
-        let trIndex = 1
-        //五月份的下标
-        let MayIndex = 0
-        //点击开始时间选择框
-        cy.get('[placeholder="起始时间"]').eq(dateIndex).click()
-        //月份选择五月
-        cy.get('.el-month-table').find('tr').eq(trIndex).find('td').eq(MayIndex).click()
-        //点击结束时间选择框
-        cy.get('[placeholder="结束时间"]').eq(dateIndex).click()
-        //月份选择五月
-        cy.get('.el-month-table').find('tr').eq(4).find('td').eq(MayIndex).click({
+        //点击搜索
+        cy.get('button').contains('搜索').click({
             force: true
         })
-        //点击搜索
-        cy.get('button').contains('搜索').click()
         cy.wait(1000)
         //断言
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td').eq(reportIndex).invoke('text')
@@ -72,30 +110,16 @@ context('参与实验室情况', () => {
             })
     })
     it('004-实验室上报情况-规定上报记录数为零工作日上报率就为零', () => {
-        //日期选择框下标
-        let dateIndex = 0
         //实验室下标
         let labIndex = 0
-        //tr的下标
-        let trIndex = 1
         //规定上报记录数下标
         let reportIndex = 4
         //上报率下标
         let reportedRateIndex = 1
-        //五月下标
-        let MayIndex = 0
-        //点击开始时间选择框
-        cy.get('[placeholder="起始时间"]').eq(dateIndex).click()
-        //月份选择五月
-        cy.get('.el-month-table').find('tr').eq(trIndex).find('td').eq(MayIndex).click()
-        //点击结束时间选择框
-        cy.get('[placeholder="结束时间"]').eq(dateIndex).click()
-        //月份选择五月
-        cy.get('.el-month-table').find('tr').eq(4).find('td').eq(MayIndex).click({
+        //点击搜索
+        cy.get('button').contains('搜索').click({
             force: true
         })
-        //点击搜索
-        cy.get('button').contains('搜索').click()
         cy.wait(1000)
         //
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportIndex).invoke('text')
@@ -155,7 +179,9 @@ context('参与实验室情况', () => {
     it('006-实验室上报情况-显示字段-取消勾选某个字段', () => {
         cy.wait(1000)
         //点击显示字段
-        cy.get('button').contains('显示字段').click()
+        cy.get('button').contains('显示字段').click({
+            force: true
+        })
         //获取显示字段的长度
         cy.get('.print-tool__columns').find('li').then((data) => {
             let webData = data
@@ -174,9 +200,9 @@ context('参与实验室情况', () => {
             })
         })
     })
-    it('007-实验室上报情况-切换质控主管单位(广东环境-切换至贵州临床检验中心)', () => {
-        let boxIndex =5
-        let guizhouIndex = 1
+    it('007-实验室上报情况-切换质控主管单位(广东环境-切换至青浦医联体)', () => {
+        let boxIndex = 5
+        let ShanghaiIndex = 1
         let choiceIndex = 5
         //点击质控主管单位
         cy.get('[placeholder="请选择"]').click({
@@ -193,16 +219,18 @@ context('参与实验室情况', () => {
                 cy.log('上海医联体系统，无其他管理机构选项')
             } else {
                 //点击质控主管单位选择框
-                cy.get('[placeholder="请选择"]').click({force:true})
+                cy.get('[placeholder="请选择"]').click({
+                    force: true
+                })
                 cy.wait(1000)
-                //选择贵州省临床检验中心
-                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guizhouIndex).click({
+                //选择青浦医联体
+                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiIndex).click({
                     force: true
                 })
                 cy.server()
                 cy.route('**/service/mgr/evaReport/labReport?*').as('getLabdata')
                 // 拦截请求必须写在visit之前
-                cy.visit(urlHost+'#/manage/report-effect/report-effect-appear')
+                cy.visit(urlHost + '#/manage/report-effect/report-effect-appear')
                 cy.get('button').contains('搜索').click()
                 // 获取标签未配置的实验室数量
                 cy.wait('@getLabdata').then((xhr) => {
@@ -220,28 +248,36 @@ context('参与实验室情况', () => {
         })
 
     })
-    it('008-实验室上报情况-使用地区进行查询(贵州省)', () => {
+    it('008-实验室上报情况-使用地区进行查询(上海)', () => {
         let areaIndex = 0
         let boxIndex = 5
-        let guizhouProvinceindex = 2
-        let guizhouIndex = 1
+        let ShanghaiProvinceIndex = 1
+        let ShanghaiIndex = 1
         // let choiceIndex = 3
         //点击质控主管单位选择框
-        cy.get('[placeholder="请选择"]').click({force:true})
-        //选择贵州省临床检验中心
+        cy.get('[placeholder="请选择"]').click({
+            force: true
+        })
+        //选择青浦医联体
         cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guizhouIndex).click()
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiIndex).click({
+            force: true
+        })
         //点击地区
         cy.get('.el-radio__inner').eq(areaIndex).click()
         //点击省选择框
-        cy.get('[placeholder="请选择省"]').click({force:true})
+        cy.get('[placeholder="请选择省"]').click({
+            force: true
+        })
         cy.wait(1000)
         //选择贵州省
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guizhouProvinceindex).click()
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiProvinceIndex).click({
+            force: true
+        })
         cy.server()
         cy.route('**/service/mgr/evaReport/labReport?*').as('getLabdata')
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-appear')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-appear')
         cy.get('button').contains('搜索').click()
         // 获取标签未配置的实验室数量
         cy.wait('@getLabdata').then((xhr) => {

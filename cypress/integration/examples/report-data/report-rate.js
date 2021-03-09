@@ -235,7 +235,7 @@ context('数据分析管理', () => {
         //省选择框下标
         let boxIndex = 3
         //广东省下标
-        let guangdongProvice = 1
+        let guangdongProvice = 2
         // 判断环境是广东还是上海的下标
         let judgeIndex = 1
         // 环境如果是广东，表单中的第一个地区是贵州省的下标
@@ -252,7 +252,7 @@ context('数据分析管理', () => {
                 //点击搜索
                 cy.get('button').contains('搜索').click()
                 //断言
-                cy.get('body').should('contain', '佛山市').and('not.contain', '贵阳市')
+                cy.get('body').should('contain', '佛山市')
             } else {
                 //点击省份选择框
                 cy.get('[placeholder="请选择省"]').click()
@@ -267,52 +267,41 @@ context('数据分析管理', () => {
     })
     it('005-数据分析管理-上报率-不同分级机构查看的数据不一样', () => {
         let queryIndex = 1
-        let boxIndex = 1
-        let provinceIndex = 0
-        let province = '贵州省'
-        cy.get('.el-table__body').eq(boxIndex).find('tbody').find('tr>td').eq(provinceIndex).find('.cell').invoke('text').then((data) => {
-            let webData = data
-            // cy.log(webData)
-            if (webData = province) {
-                //点击搜索按键
-                cy.get('[placeholder="请选择省"]').click()
-                //断言
-                cy.get('body').should('contain', '北京市').and('contain', '广东省').and('contain', '贵州省')
-                //点击右上角的管理员
-                cy.get('span[aria-haspopup="list"]').eq(queryIndex).click()
-                //点击注销，切换用户登录
-                cy.get('.cqbicon.icon-logout').click()
-                // 关闭登录界面弹窗提示
-                cy.get('button').contains('关闭').click({
-                    force: true
-                })
-                //调用gdccl账户登录的函数
-                cy.gdccl_user_login()
-                //----------------gdccl账户登录 省账户只能查看本省市的数据-----------
-                //断言
-                cy.get('[placeholder="请选择省"]').should('not.have.css', 'disabled')
-                cy.get('body').should('contain', '广州市').and('contain', '佛山市')
-
-                // ---------gdfskj账户登录  市账户只能查看本市的数据------------
-                // 点击右上角的管理员
-                cy.get('span[aria-haspopup="list"]').eq(queryIndex).click()
-                //点击注销，切换用户登录
-                cy.get('.cqbicon.icon-logout').click()
-                // cy.wait(3000)
-                //关闭登录弹窗
-                cy.get('button').contains('关闭').click({
-                    force: true
-                })
-                //gdfslj账户登录(调用函数)
-                cy.gdfslj_user_login()
-                //断言
-                cy.get('[placeholder="所有市"]').should('not.have.css', 'disabled')
-                cy.get('body').should('contain', '高明区').and('contain', '三水区').and('contain', '禅城区')
-
-            } else {
-                cy.log(0)
-            }
-
+        //点击搜索按键
+        cy.get('[placeholder="请选择省"]').click()
+        //断言
+        cy.get('body').should('contain', '北京市').and('contain', '广东省').and('contain', '广西壮族自治区')
+        //点击右上角的管理员
+        cy.get('span[aria-haspopup="list"]').eq(queryIndex).click()
+        //点击注销，切换用户登录
+        cy.get('.cqbicon.icon-logout').click()
+        // 关闭登录界面弹窗提示
+        cy.get('button').contains('关闭').click({
+            force: true
         })
+        //调用QPYLTl账户登录的函数
+        cy.QPYLT_user_login()
+        //----------------QPYLT账户登录 省账户只能查看本省市的数据-----------
+        //断言
+        cy.get('[placeholder="请选择省"]').should('not.have.css', 'disabled')
+        cy.get('body').should('contain', '青浦区').and('not.contain', '佛山市')
+
+        // ---------gdfskj账户登录  市账户只能查看本市的数据------------
+        // 点击右上角的管理员
+        cy.get('span[aria-haspopup="list"]').eq(queryIndex).click()
+        //点击注销，切换用户登录
+        cy.get('.cqbicon.icon-logout').click()
+        // cy.wait(3000)
+        //关闭登录弹窗
+        cy.get('button').contains('关闭').click({
+            force: true
+        })
+        //gdfslj账户登录(调用函数)
+        cy.gdfslj_user_login()
+        //断言
+        cy.get('[placeholder="所有市"]').should('not.have.css', 'disabled')
+        cy.get('body').should('contain', '高明区').and('contain', '三水区').and('contain', '禅城区')
+
+
     })
 })
