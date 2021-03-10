@@ -197,6 +197,7 @@ context('结果互认设置-开展项目设置', () => {
             cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
                 force: true
             })
+            cy.wait(1000)
             // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否加一了,即项目添加成功
             cy.get('.item-configNew__list').find('div').eq(0).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ElementLength + 1)
         })
@@ -408,9 +409,29 @@ context('结果互认设置-开展项目设置', () => {
             cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
                 force: true
             })
-            cy.wait(500)
+            cy.wait(1000)
             // 判断类.el-card.ql-itemCard.item-configNew__item.is-always-shadow是否减一了,即项目删除成功
             cy.get('.item-configNew__list').find('div').eq(Classindex).find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', ChemicalLength - 1)
+        })
+
+    })
+    it('010-开展项目设置-项目搜索', () => {
+        cy.wait(500)
+        let menu = 20
+        let conventionalChemical = 2
+        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+            force: true
+        })
+        cy.get('input[placeholder="项目快速检索"]').type('钾',{force:true})
+        //断言
+        cy.wait(500)
+        cy.get('.item-configNew__list').find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').then((data) => {
+            let getData = data.length
+            if (getData != 0) {
+                cy.get('.item-configNew__list').should('have.length', getData)
+            } else {
+                cy.get('body').should('contain', '无匹配数据')
+            }
         })
 
     })

@@ -15,7 +15,9 @@ context('失控处理情况', () => {
         //点击管理效果评价报表
         cy.get('.el-submenu__title').eq(listIndex).click()
         //点击失控处理情况
-        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click()
+        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({
+            force: true
+        })
 
         cy.get('input[placeholder="起始时间"]').eq(startDate).click({
             force: true
@@ -28,7 +30,9 @@ context('失控处理情况', () => {
             let difference = Math.abs(currentYear - expectYear)
             if (difference == 0) {
                 //开始月份选择5月
-                cy.get('.el-month-table').find('tr').find('td').eq(monthIndex).click()
+                cy.get('.el-month-table').find('tr').find('td').eq(monthIndex).click({
+                    force: true
+                })
                 //点击结束时间选择框
                 cy.get('[placeholder="结束时间"]').eq(dateIndex).click({
                     force: true
@@ -44,7 +48,9 @@ context('失控处理情况', () => {
                     cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click()
                 }
                 //开始月份选择5月
-                cy.get('.el-month-table').find('tr').find('td').eq(monthIndex).click()
+                cy.get('.el-month-table').find('tr').find('td').eq(monthIndex).click({
+                    force: true
+                })
             }
             // 结束时间
             if (difference == 0) {

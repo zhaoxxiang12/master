@@ -61,33 +61,33 @@ context('参与实验室情况', () => {
 
 
     })
-    it('001-实验室上报情况-使用路由查询接口返回的数据有多少', () => {
-        cy.server()
-        // 拦截参与实验室情况查询的接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/labReport?*').as('getLabdata')
-        // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-appear')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
-            //获取接口返回了多少条数据
-            cy.get(xhr.response.body.data.detail.length).then((data) => {
-                judgeData = data[0]
-                cy.log(judgeData)
-            })
+    // it('001-实验室上报情况-使用路由查询接口返回的数据有多少', () => {
+    //     cy.server()
+    //     // 拦截参与实验室情况查询的接口，使用通配符*拦截更灵活
+    //     cy.route('**/service/mgr/evaReport/labReport?*').as('getLabdata')
+    //     // 拦截请求必须写在visit之前
+    //     cy.visit(urlHost + '#/manage/report-effect/report-effect-appear')
+    //     cy.get('button').contains('搜索').click({
+    //         force: true
+    //     })
+    //     cy.wait('@getLabdata').then((xhr) => {
+    //         cy.log(xhr.response)
+    //         //获取接口返回了多少条数据
+    //         cy.get(xhr.response.body.data.detail.length).then((data) => {
+    //             judgeData = data[0]
+    //             cy.log(judgeData)
+    //         })
 
-        })
-    })
-    it('002-实验室上报情况-进行数据对比', () => {
-        //接口返回的数据量与前端元素tr的长度进行对比
-        cy.get('.table-line__fixed-header+.table-line').find('tbody').find('tr').should('have.length', judgeData)
-        cy.log(judgeData)
-    })
+    //     })
+    // })
+    // it('002-实验室上报情况-进行数据对比', () => {
+    //     //接口返回的数据量与前端元素tr的长度进行对比
+    //     cy.get('.table-line__fixed-header+.table-line').find('tbody').find('tr').should('have.length', judgeData)
+    //     cy.log(judgeData)
+    // })
     it('003-实验室上报情况-总上报天数为零工作日上报率就为零', () => {
         //实验室下标
-        let labIndex = 0
+        let labIndex = 68
         //总上报天数下标
         let reportIndex = 2
         //上报率下标
@@ -101,8 +101,9 @@ context('参与实验室情况', () => {
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td').eq(reportIndex).invoke('text')
             .then((data) => {
                 reporteData = data
-                reporteData = parseInt(reporteData)
                 cy.log(reporteData)
+                reporteData = parseInt(reporteData)
+    
                 let reportedRate = Math.round(reporteData / 19 * 1000) / 10 + "%"
                 cy.log(reportedRate)
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportedRateIndex)
@@ -111,7 +112,7 @@ context('参与实验室情况', () => {
     })
     it('004-实验室上报情况-规定上报记录数为零工作日上报率就为零', () => {
         //实验室下标
-        let labIndex = 0
+        let labIndex = 68
         //规定上报记录数下标
         let reportIndex = 4
         //上报率下标
