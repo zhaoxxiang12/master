@@ -33,109 +33,109 @@ context('消息互通-告警查询', () => {
             force: true
         })
     })
-    // it('001-使用消息状态进行查询-已知晓', () => {
-    //     let StatusType = 2
-    //     let ListIndex = 4
-    //     let know = 2
-    //     cy.get('input[placeholder="请选择"]').eq(StatusType).click({
-    //         force: true
-    //     })
-    //     cy.wait(500)
-    //     cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(know).click({
-    //         force: true
-    //     })
-    //     cy.server()
-    //     cy.route('**/service/mgr/messages/mgrList?dateType*').as('getData')
-    //     cy.visit(urlHost + '#/message-mgr/alert')
-    //     //点击搜索
-    //     cy.wait(500)
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     cy.wait('@getData').then((xhr) => {
-    //         let Data = xhr.response.body.data.total
-    //         if (Data == null) {
-    //             let ExpectStatus = 200
-    //             let ResponseStatus = xhr.status
-    //             expect(ResponseStatus).to.equal(ExpectStatus)
-    //             cy.get('body').should('contain', '暂无数据')
-    //         } else {
-    //             let ExpectStatus = 200
-    //             let ResponseStatus = xhr.status
-    //             expect(ResponseStatus).to.equal(ExpectStatus)
-    //             cy.get('.el-pagination__total').should('contain', Data)
-    //         }
+    it('001-使用消息状态进行查询-已知晓', () => {
+        let StatusType = 2
+        let ListIndex = 4
+        let know = 2
+        cy.get('input[placeholder="请选择"]').eq(StatusType).click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(know).click({
+            force: true
+        })
+        cy.server()
+        cy.route('**/service/mgr/messages/mgrList?dateType*').as('getData')
+        cy.visit(urlHost + '#/message-mgr/alert')
+        //点击搜索
+        cy.wait(500)
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let Data = xhr.response.body.data.total
+            if (Data == null) {
+                let ExpectStatus = 200
+                let ResponseStatus = xhr.status
+                expect(ResponseStatus).to.equal(ExpectStatus)
+                cy.get('body').should('contain', '暂无数据')
+            } else {
+                let ExpectStatus = 200
+                let ResponseStatus = xhr.status
+                expect(ResponseStatus).to.equal(ExpectStatus)
+                cy.get('.el-pagination__total').should('contain', Data)
+            }
 
-    //     })
-    // })
-    // it('002-使用消息状态进行查询-未读', () => {
-    //     let StatusType = 2
-    //     let ListIndex = 4
-    //     let NotRead = 1
-    //     cy.get('input[placeholder="请选择"]').eq(StatusType).click({
-    //         force: true
-    //     })
-    //     cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(NotRead).click({
-    //         force: true
-    //     })
-    //     cy.server()
-    //     cy.route('**/service/mgr/messages/mgrList?dateType?*').as('getData')
-    //     cy.visit(urlHost + '#/message-mgr/alert')
-    //     //点击搜索
-    //     cy.wait(500)
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     cy.wait('@getData').then((xhr) => {
-    //         let Data = xhr.response.body.data.total
-    //         if (Data == null) {
-    //             let ExpectStatus = 200
-    //             let ResponseStatus = xhr.status
-    //             expect(ResponseStatus).to.equal(ExpectStatus)
-    //             cy.get('body').should('contain', '暂无数据')
-    //         } else {
-    //             let ExpectStatus = 200
-    //             let ResponseStatus = xhr.status
-    //             expect(ResponseStatus).to.equal(ExpectStatus)
-    //             cy.get('.el-pagination__total').should('contain', Data)
-    //         }
+        })
+    })
+    it('002-使用消息状态进行查询-未读', () => {
+        let StatusType = 2
+        let ListIndex = 4
+        let NotRead = 1
+        cy.get('input[placeholder="请选择"]').eq(StatusType).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(NotRead).click({
+            force: true
+        })
+        cy.server()
+        cy.route('**/service/mgr/messages/mgrList?dateType?*').as('getData')
+        cy.visit(urlHost + '#/message-mgr/alert')
+        //点击搜索
+        cy.wait(500)
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let Data = xhr.response.body.data.total
+            if (Data == null) {
+                let ExpectStatus = 200
+                let ResponseStatus = xhr.status
+                expect(ResponseStatus).to.equal(ExpectStatus)
+                cy.get('body').should('contain', '暂无数据')
+            } else {
+                let ExpectStatus = 200
+                let ResponseStatus = xhr.status
+                expect(ResponseStatus).to.equal(ExpectStatus)
+                cy.get('.el-pagination__total').should('contain', Data)
+            }
 
-    //     })
-    // })
-    // it('003-使用消息状态进行查询-已处理', () => {
-    //     let StatusType = 2
-    //     let ListIndex = 4
-    //     let processed = 3
-    //     cy.get('input[placeholder="请选择"]').eq(StatusType).click({
-    //         force: true
-    //     })
-    //     cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(processed).click({
-    //         force: true
-    //     })
-    //     cy.server()
-    //     cy.route('**/service/mgr/messages/mgrList?dateType?*').as('getData')
-    //     cy.visit(urlHost + '#/message-mgr/alert')
-    //     //点击搜索
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     cy.wait('@getData').then((xhr) => {
-    //         let Data = xhr.response.body.data.total
-    //         if (Data == null) {
-    //             let ExpectStatus = 200
-    //             let ResponseStatus = xhr.status
-    //             expect(ResponseStatus).to.equal(ExpectStatus)
-    //             cy.get('body').should('contain', '暂无数据')
-    //         } else {
-    //             let ExpectStatus = 200
-    //             let ResponseStatus = xhr.status
-    //             expect(ResponseStatus).to.equal(ExpectStatus)
-    //             cy.get('.el-pagination__total').should('contain', Data)
-    //         }
+        })
+    })
+    it('003-使用消息状态进行查询-已处理', () => {
+        let StatusType = 2
+        let ListIndex = 4
+        let processed = 3
+        cy.get('input[placeholder="请选择"]').eq(StatusType).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(processed).click({
+            force: true
+        })
+        cy.server()
+        cy.route('**/service/mgr/messages/mgrList?dateType?*').as('getData')
+        cy.visit(urlHost + '#/message-mgr/alert')
+        //点击搜索
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let Data = xhr.response.body.data.total
+            if (Data == null) {
+                let ExpectStatus = 200
+                let ResponseStatus = xhr.status
+                expect(ResponseStatus).to.equal(ExpectStatus)
+                cy.get('body').should('contain', '暂无数据')
+            } else {
+                let ExpectStatus = 200
+                let ResponseStatus = xhr.status
+                expect(ResponseStatus).to.equal(ExpectStatus)
+                cy.get('.el-pagination__total').should('contain', Data)
+            }
 
-    //     })
+        })
 
-    // })
+    })
 
     it('004-查询指定日期数据-2020/12/01-2021/1/12', () => {
         let startDate = 0

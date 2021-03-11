@@ -103,7 +103,7 @@ context('参与实验室情况', () => {
       force: true
     })
     //断言
-    cy.get('body').should('contain', '佛山市第一人民医院').and("contain", '佛山市第二人民医院').and('contain', '佛山市三水区人民医院')
+    cy.get('body').should('contain', '佛山市第一人民医院').and("contain", '佛山市第二人民医院').and('not.contain', '佛山市三水区人民医院')
       .and('contain', '佛山市南海区人民医院').and('contain', '佛山市高明区人民医院')
   })
   it('004-参与实验室情况-获取实验室数据', () => {
