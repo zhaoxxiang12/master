@@ -554,5 +554,63 @@ context('结果互认设置-单位转换设置', () => {
             })
         })
     })
+    it('013-单位转换设置-重置公式功能', () => {
+        let selectBox = 0
+        let setFormula = 1
+        let formulaStatus = 7
+        let alreadySet = 2
+        let chooseData = 0
+        let editFormulaBox = 9
+        let resetButton = 25
+        let saveButton = 24
+        cy.get('.el-button.el-button--text.el-button--medium').eq(selectBox).click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('input[placeholder="请选择"]').eq(setFormula).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(alreadySet).click({
+            force: true
+        })
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula)=>{
+            let oldFormula = formula
+            cy.log(oldFormula)
+              //选择第一条数据进行编辑
+        cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.el-button.el-button--text.el-button--medium').click({
+            force: true
+        })
+        //录入新值
+        cy.get('.el-input__inner').eq(editFormulaBox).clear({
+            force: true
+        }).type(123, {
+            force: true
+        })
+        //点击重置
+        cy.get('.el-button.el-button--text.el-button--medium').eq(resetButton).click({
+            force: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/update*').as('getData')
+        //点击保存
+        cy.get('.el-button.el-button--text.el-button--medium').eq(saveButton).click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr)=>{
+            let getStatus = xhr.response.statusCode
+            let expectStatus = 200
+            expect(getStatus).to.eq(expectStatus)
+            cy.get('body').should('contain','已设置')
+            cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula)=>{
+                let getNewFormula = formula
+                expect(getNewFormula).to.eq(oldFormula)
+            })
+        })
+        })
+      
 
+    })
 })
