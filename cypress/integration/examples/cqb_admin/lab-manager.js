@@ -175,10 +175,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '编码已存在，请重新输入')
     })
     it('004-添加实验室-所在地为空不能保存', () => {
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //点击添加实验室
         cy.get('i[class=el-icon-circle-plus]').click({
             force: true
