@@ -283,10 +283,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '请输入GPS坐标')
     })
     it('006-添加实验室-联系人为空不能保存', () => {
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //点击添加实验室
         cy.get('i[class=el-icon-circle-plus]').click({
             force: true
@@ -465,7 +461,7 @@ describe('CQB测试用例', function () {
 
 
     // --------------------------------------------编辑实验室------------------------------------------------
-   it('009-编辑实验室-修改实验室名称', () => {
+    it('009-编辑实验室-修改实验室名称', () => {
         // 点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
