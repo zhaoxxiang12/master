@@ -1,45 +1,16 @@
 //声明这是一个测试用例
 describe('CQB测试用例', function () {
     beforeEach(() => {
-
-        cy.visit('http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html#/login')
-        cy.get('button[class="el-button el-button--default el-button--small"').click()
-        //输入用户名
-        cy.get('input[placeholder=用户名]').type('weiyi')
-        //输入密码
-        cy.get('input[placeholder=密码').type('weiyi-2019')
-        //输入验证码
-        cy.get('input[placeholder=验证码]').type('1AAC')
-        //点击登录按键
-        cy.get('button[type=submit').click()
-        //断言
-        cy.get('body').should('contain', '实验室总数')
-        //显示浮沉
-        cy.get('div[class=ql-splitview__top').trigger('mouseover', {
-            force: true
-        })
-        //关闭浮沉
-        cy.get('i[class=el-icon-close]').click()
+        cy.loginCQB()
+        cy.visit('/cqb-base-mgr-fe/app.html#/manage/account/lab-manage')
     })
     // 进入实验室账户
     it('#/manage/account/lab-manage', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title').eq(4).click()
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click()
         //断言
         cy.get('body').should('contain', '佛山市第一人民医院')
     })
     //--------------------------------------------添加实验室------------------------------------------------
     it('001-添加实验室-实验室名称为空不能保存', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //点击添加实验室
         cy.get('i[class=el-icon-circle-plus]').click({
             force: true
@@ -99,14 +70,6 @@ describe('CQB测试用例', function () {
 
     })
     it('002-添加实验室-实验室编码为空不能保存', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //点击添加实验室
         cy.get('i[class=el-icon-circle-plus]').click({
             force: true
@@ -158,14 +121,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '请输入编码')
     })
     it('003-添加实验室-实验室编码重复不能保存', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //点击添加实验室
         cy.get('i[class=el-icon-circle-plus]').click({
             force: true
@@ -220,10 +175,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '编码已存在，请重新输入')
     })
     it('004-添加实验室-所在地为空不能保存', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
@@ -270,10 +221,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '请选择所在地')
     })
     it('005-添加实验室-GPS坐标为空不能保存', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
@@ -336,10 +283,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '请输入GPS坐标')
     })
     it('006-添加实验室-联系人为空不能保存', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
@@ -399,10 +342,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '请输入联系人名称')
     })
     it('007-添加实验室-联系人电话为空不能保存', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
@@ -468,9 +407,6 @@ describe('CQB测试用例', function () {
         })
     })
     // it('008-添加实验室-必填项按照正确格式填写保存成功', () => {
-    //     //点击账户管理
-    //     cy.get('div[class=el-submenu__title]').eq(4).click()
-    //     //点击实验室账户
     //     cy.get('li[class=el-menu-item]').eq(8).click()
     //     //点击添加实验室
     //     cy.get('i[class=el-icon-circle-plus]').click()
@@ -530,10 +466,6 @@ describe('CQB测试用例', function () {
 
     // --------------------------------------------编辑实验室------------------------------------------------
    it('009-编辑实验室-修改实验室名称', () => {
-        // 点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         // 点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
@@ -591,10 +523,6 @@ describe('CQB测试用例', function () {
 
     })
     it('010-编辑实验室-修改实验室编码(相同)', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
@@ -625,10 +553,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '编码已存在，请重新输入')
     })
     it('011-编辑实验室-修改实验室编码', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
@@ -672,10 +596,6 @@ describe('CQB测试用例', function () {
 
     })
     it('012-编辑实验室-修改联系人', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
@@ -721,8 +641,6 @@ describe('CQB测试用例', function () {
         cy.get('input[maxlength="16"').eq(1).should('have.value', New_User_Name)
     })
     it('013-编辑实验室-修改联系电话', () => {
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click()
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click()
         //在搜索框输入数据
@@ -762,10 +680,6 @@ describe('CQB测试用例', function () {
     it('014-启用/停用实验室实验室', () => {
         let keyWord = 13
         let status = 12
-        //点击账户管理
-        cy.get('div[class=el-submenu__title]').eq(4).click({
-            force: true
-        })
         //点击实验室账户
         cy.get('li[class=el-menu-item]').eq(8).click({
             force: true
