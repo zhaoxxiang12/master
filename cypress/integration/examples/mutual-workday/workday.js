@@ -70,6 +70,7 @@ context('月度工作日申请审核', () => {
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true
         })
+        cy.wait(500)
         //勾选两条数据
         cy.get('.el-checkbox__inner').eq(3).click({
             force: true
@@ -77,6 +78,7 @@ context('月度工作日申请审核', () => {
         cy.get('.el-checkbox__inner').eq(4).click({
             force: true
         })
+        cy.wait(500)
         cy.intercept('**/cqb-base-mgr/service/mgr/item/workDays/batch/audit*').as('getPage')
         //点击批量审核不通过
         cy.get('.el-button.el-button--danger.el-button--medium.is-plain').click({
@@ -108,6 +110,7 @@ context('月度工作日申请审核', () => {
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true
         })
+        cy.wait(500)
         //勾选两条数据
         cy.get('.el-checkbox__inner').eq(3).click({
             force: true
@@ -116,6 +119,7 @@ context('月度工作日申请审核', () => {
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/item/workDays/batch/audit*').as('getPage')
+        cy.wait(500)
         //点击批量审核
         cy.get('.el-button.el-button--primary.el-button--medium.is-plain').eq(auditedMany).click({
             force: true
@@ -363,6 +367,7 @@ context('月度工作日申请审核', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(QPYLT).click({
             force: true
         })
+        cy.wait(500)
         cy.wait('@getData').then((xhr) => {
             let expectStatus = 200
             let totalData = xhr.response.body.data.total

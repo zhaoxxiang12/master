@@ -405,7 +405,7 @@ context('结果互认设置-开展项目设置', () => {
         })
 
     })
-    it('010-开展项目设置-项目搜索', () => {
+    it('011-开展项目设置-项目搜索', () => {
         cy.wait(500)
         let menu = 20
         let conventionalChemical = 2
@@ -427,7 +427,7 @@ context('结果互认设置-开展项目设置', () => {
             }
         })
     })
-    it('011-开展项目设置-添加自定义项目(已存在)', () => {
+    it('012-开展项目设置-添加自定义项目(已存在)', () => {
         let addItem = 1
         let menu = 20
         let conventionalChemical = 2
@@ -466,7 +466,7 @@ context('结果互认设置-开展项目设置', () => {
         })
         cy.get('body').should('contain', '该项目已存在')
     })
-    it('012-开展项目设置-添加自定义项目(项目中文名称未填写不能保存)', () => {
+    it('013-开展项目设置-添加自定义项目(项目中文名称未填写不能保存)', () => {
         let addItem = 1
         let menu = 20
         let conventionalChemical = 2
@@ -504,7 +504,7 @@ context('结果互认设置-开展项目设置', () => {
         })
         cy.get('body').should('contain', '项目简称和项目中文名称必需填写')
     })
-    it('013-开展项目设置-添加自定义项目(项目简称未填写不能保存)', () => {
+    it('014-开展项目设置-添加自定义项目(项目简称未填写不能保存)', () => {
         let addItem = 1
         let menu = 20
         let conventionalChemical = 2
@@ -542,7 +542,7 @@ context('结果互认设置-开展项目设置', () => {
         })
         cy.get('body').should('contain', '项目简称和项目中文名称必需填写')
     })
-    it('014-开展项目设置-添加自定义项目(默认单位未填写不能保存)', () => {
+    it('015-开展项目设置-添加自定义项目(默认单位未填写不能保存)', () => {
         let addItem = 1
         let menu = 20
         let conventionalChemical = 2
@@ -574,7 +574,7 @@ context('结果互认设置-开展项目设置', () => {
         })
         cy.get('body').should('contain', '请选择默认单位')
     })
-    it('015-开展项目设置-添加自定义项目(数据正确添加成功)', () => {
+    it('016-开展项目设置-添加自定义项目(数据正确添加成功)', () => {
         let addItem = 1
         let menu = 20
         let conventionalChemical = 2
@@ -629,7 +629,7 @@ context('结果互认设置-开展项目设置', () => {
             cy.get('.el-main.item-configNew__content').find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').should('have.length', getLength + 1)
         })
     })
-    it('016-开展项目设置-添加自定义项目(新增的自定义未审核时不能开启)', () => {
+    it('017-开展项目设置-添加自定义项目(新增的自定义未审核时不能开启)', () => {
         let menu = 20
         let conventionalChemical = 2
         let customItem = 1
@@ -644,7 +644,7 @@ context('结果互认设置-开展项目设置', () => {
         })
         cy.get('body').should('contain', '该项目未审核通过，请等待该项目审核通过后再启用!')
     })
-    it('017-开展项目设置-删除自定义项目', () => {
+    it('018-开展项目设置-删除自定义项目', () => {
         let menu = 20
         let conventionalChemical = 2
         let customItem = 1
@@ -669,7 +669,7 @@ context('结果互认设置-开展项目设置', () => {
         })
 
     })
-    it('018-开展项目设置-质控主管单位切换至青浦医联体', () => {
+    it('019-开展项目设置-质控主管单位切换至青浦医联体', () => {
         let QPYLT = 1
         let menu = 20
         cy.wait(1000)

@@ -602,6 +602,7 @@ context('结果互认设置-单位转换设置', () => {
                 let expectStatus = 200
                 expect(getStatus).to.eq(expectStatus)
                 cy.get('body').should('contain', '已设置')
+                cy.wait(1000)
                 cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula) => {
                     let getNewFormula = formula
                     expect(getNewFormula).to.eq(oldFormula)
