@@ -5,20 +5,12 @@ context('失控处理情况', () => {
     let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
-        let listIndex = 8
-        let tagIndex = 4
         let dateIndex = 1
         let yearIndex = 0
         let startDate = 0
         let monthIndex = 4
         let MayIndex = 4
-        //点击管理效果评价报表
-        cy.get('.el-submenu__title').eq(listIndex).click()
-        //点击失控处理情况
-        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({
-            force: true
-        })
-
+        cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-effect/report-effect-outcontrol')
         cy.get('input[placeholder="起始时间"]').eq(startDate).click({
             force: true
         })

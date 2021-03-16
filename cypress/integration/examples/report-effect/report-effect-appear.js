@@ -5,16 +5,7 @@ context('参与实验室情况', () => {
     let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
-        //管理效果评价报表下标
-        let listIndex = 8
-        //参与实验室情况下标
-        let tagIndex = 2
-        cy.get('.el-submenu__title').eq(listIndex).click({
-            force: true
-        })
-        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-effect/report-effect-appear')
         //日期选择框下标
         let dateIndex = 0
         //tr标签下标
@@ -77,7 +68,6 @@ context('参与实验室情况', () => {
                 judgeData = data[0]
                 cy.log(judgeData)
             })
-
         })
     })
     it('002-实验室上报情况-进行数据对比', () => {
@@ -87,7 +77,7 @@ context('参与实验室情况', () => {
     })
     it('003-实验室上报情况-总上报天数为零工作日上报率就为零', () => {
         //实验室下标
-        let labIndex = 68
+        let labIndex = 66
         //总上报天数下标
         let reportIndex = 2
         //上报率下标
@@ -103,7 +93,7 @@ context('参与实验室情况', () => {
                 reporteData = data
                 cy.log(reporteData)
                 reporteData = parseInt(reporteData)
-    
+
                 let reportedRate = Math.round(reporteData / 19 * 1000) / 10 + "%"
                 cy.log(reportedRate)
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportedRateIndex)
@@ -112,7 +102,7 @@ context('参与实验室情况', () => {
     })
     it('004-实验室上报情况-规定上报记录数为零工作日上报率就为零', () => {
         //实验室下标
-        let labIndex = 68
+        let labIndex = 66
         //规定上报记录数下标
         let reportIndex = 4
         //上报率下标
@@ -271,7 +261,7 @@ context('参与实验室情况', () => {
             force: true
         })
         cy.wait(1000)
-        //选择贵州省
+        //选择上海
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiProvinceIndex).click({
             force: true
         })
@@ -291,7 +281,6 @@ context('参与实验室情况', () => {
                 //断言
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
             })
-
         })
     })
 })

@@ -8,17 +8,10 @@ context('信息反馈情况', () => {
     beforeEach(() => {
         cy.loginCQB()
         let dateIndex = 1
-        let listIndex = 8
-        let tagIndex = 3
         let monthIndex = 4
         let MayIndex = 0
         let yearIndex = 0
-        cy.get('.el-submenu__title').eq(listIndex).click({
-            force: true
-        })
-        cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-effect/report-effect-feedback')
         //点击管理机构下拉框
         cy.get('[placeholder="请选择管理机构"]').click({
             force: true

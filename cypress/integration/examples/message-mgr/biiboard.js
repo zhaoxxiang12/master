@@ -8,14 +8,7 @@ context('消息互通-公告板', () => {
         let endMonth = 3
         let endYear = 3
         cy.loginCQB()
-        // 点击消息互通
-        cy.get('.el-submenu__title').eq(MessageSharegIndex).click({
-            force: true
-        })
-        // //点击公告板
-        cy.get('.el-menu.el-menu--inline').eq(biiloardIndex).find('.el-menu-item').eq(UseIndex).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/billboard')
         cy.get('input[placeholder="开始时间"]').click({
             force: true
         })
@@ -104,7 +97,7 @@ context('消息互通-公告板', () => {
             })
         })
     })
-    it.skip('001-公告板-未填写公告标题不能保存', () => {
+    it('001-公告板-未填写公告标题不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1
@@ -236,7 +229,7 @@ context('消息互通-公告板', () => {
         //断言
         cy.get('body').should('contain', '请输入公告标题')
     })
-    it.skip('002-公告板-未填写公告正文不能保存', () => {
+    it('002-公告板-未填写公告正文不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1
@@ -368,7 +361,7 @@ context('消息互通-公告板', () => {
         //断言
         cy.get('body').should('contain', '请输入公告内容')
     })
-    it.skip('003-公告板-未选择实验室不能保存', () => {
+    it('003-公告板-未选择实验室不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1
@@ -484,7 +477,7 @@ context('消息互通-公告板', () => {
         //断言
         cy.get('body').should('contain', '请选择关联实验室')
     })
-    it.skip('004-公告板-数据填写完整正常保存', () => {
+    it('004-公告板-数据填写完整正常保存', () => {
         cy.get('.el-table__body').find('tbody>tr').then((Data) => {
             let getLength = Data.length
             let timeBox = 6
@@ -624,7 +617,7 @@ context('消息互通-公告板', () => {
             cy.get('.el-table__body').find('tbody>tr').should('have.length', getLength + 1)
         })
     })
-    it.skip('005-公告板-推送/取消推送公告', () => {
+    it('005-公告板-推送/取消推送公告', () => {
         cy.get('.el-table__body').find('tbody>tr').then((Data) => {
             let getLength = Data.length
             if (getLength != 0) {
@@ -659,7 +652,7 @@ context('消息互通-公告板', () => {
             }
         })
     })
-    it.skip('006-公告板-搜索', () => {
+    it('006-公告板-搜索', () => {
         cy.intercept('**/cqb-base-mgr/service/mgr/bulletin?*').as('search')
         cy.get('button').contains('搜索').click({
             force: true
@@ -679,7 +672,7 @@ context('消息互通-公告板', () => {
             }
         })
     })
-    it.skip('007-公告板-关键字搜索', () => {
+    it('007-公告板-关键字搜索', () => {
         cy.get('input[placeholder="请输入关键字"]').type('自动化填写公告标题', {
             force: true
         })

@@ -4,23 +4,8 @@
 context('信息互通设置-告警原因和措施', () => {
     let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
-        let SettingIndex = 14
-        let MessageSettingIndex = 15
-        let WariningIndex = 15
-        let UseIndex = 1
         cy.loginCQB()
-        //点击设置
-        cy.get('.el-submenu__title').eq(SettingIndex).click({
-            force: true
-        })
-        // 点击信息互通设置
-        cy.get('.el-submenu__title').eq(MessageSettingIndex).click({
-            force: true
-        })
-        //点击推送设置
-        cy.get('.el-menu.el-menu--inline').eq(WariningIndex).find('.el-menu-item').eq(UseIndex).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/message-setting/reason-step-dict')
     })
     it('001-告警原因和措施(未上报)-未填写未上报原因不能保存', () => {
         cy.wait(500)

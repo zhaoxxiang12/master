@@ -4,25 +4,8 @@
 context('结果互认设置-开展项目设置', () => {
     let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
-        let SettingIndex = 12
-        let ItemSetting = 14
-        let ResultAppoveSetting = 16
-        let UseIndex = 3
         cy.loginCQB()
-        //点击设置
-        cy.get('.el-submenu__title').eq(SettingIndex).click({
-            force: true
-        })
-        cy.wait(500)
-        // 点击结果互认设置
-        cy.get('.el-submenu__title').eq(ResultAppoveSetting).click({
-            force: true
-        })
-        cy.wait(500)
-        //点击开展项目设置
-        cy.get('.el-menu.el-menu--inline').eq(ItemSetting).find('.el-menu-item').eq(UseIndex).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-item')
     })
     it('001-开展项目设置-添加相同的项目分类', () => {
         cy.wait(1000)
@@ -48,6 +31,7 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('button').contains('确定').click({
             force: true
         })
+        cy.wait(1000)
         //界面弹出【分类名称已存在, 请重输】提示则通过
         cy.get('body').should('contain', '分类名称已存在, 请重输')
     })
@@ -654,12 +638,13 @@ context('结果互认设置-开展项目设置', () => {
             force: true
         })
         cy.wait(1000)
+        //点击开启
         cy.get('.el-main.item-configNew__content').find('.el-switch.ql-itemCard__switch').eq(customItem).click({
             force: true
         })
         cy.get('body').should('contain', '该项目未审核通过，请等待该项目审核通过后再启用!')
     })
-    it('017-开展项目设置-添加自定义项目(新增的自定义未审核时不能开启)', () => {
+    it('017-开展项目设置-删除自定义项目', () => {
         let menu = 20
         let conventionalChemical = 2
         let customItem = 1

@@ -11,21 +11,13 @@ context('参与实验室情况', () => {
   // let Join_lab_rate = []
   beforeEach(() => {
     cy.loginCQB()
-    let listIndex = 8
-    let tagIndex = 0
-
-    cy.get('.el-submenu__title').eq(listIndex).click({
-      force: true
-    })
-    cy.get('.el-menu.el-menu--inline').eq(listIndex).find('.el-menu-item').eq(tagIndex).click({
-      force: true
-    })
+    cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-effect/report-effect-partake')
   })
   it('001-参与实验室情况-未参与标签实验室数', () => {
     let businessTag = 5
     let notJoinTag = 1
     let tagIndex = 2
-    let clickNotJoin =3
+    let clickNotJoin = 3
     //点击实验室标签
     cy.get('.el-col.el-col-16').find('.el-form-item.el-form-item--medium').eq(tagIndex).find('div>label>span')
       .get('.el-radio__input').eq(tagIndex).click({
@@ -204,7 +196,7 @@ context('参与实验室情况', () => {
     }
     if (stringApplyRate.length > 1) {
       if (stringApplyRate[1].length < 3) {
-        applyRate = applyRate.toString() + "0"
+        applyRate = applyRate.toString() + ""
       }
       if (stringApplyRate[1].length < 2) {
         applyRate = applyRate.toString() + "0"
@@ -219,7 +211,7 @@ context('参与实验室情况', () => {
     }
     if (stringNotJoinedRate.length > 1) {
       if (stringNotJoinedRate[1].length < 3) {
-        notjoinedRate = notjoinedRate.toString() + "0"
+        notjoinedRate = notjoinedRate.toString() + ""
       }
       if (stringNotJoinedRate[1].length < 2) {
         notjoinedRate = notjoinedRate.toString() + "0"
@@ -507,7 +499,7 @@ context('参与实验室情况', () => {
           }
           // -------------------------断言------------------------------
           // 参与
-          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(joinIndex).should('have.text', joinResult) 
+          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(joinIndex).should('have.text', joinResult)
           if (joinLab.length != 0) {
             cy.get('.table-line__fixed-header+.table-line').find('thead>tr>th').eq(joinIndex).click({
               force: true
@@ -518,7 +510,7 @@ context('参与实验室情况', () => {
             }
           }
           //申请中
-          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(applyIndex).should('have.text', applyResult) 
+          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(applyIndex).should('have.text', applyResult)
           if (applyLab.length != 0) {
             cy.get('.table-line__fixed-header+.table-line').find('thead>tr>th').eq(applyIndex).click({
               force: true
@@ -529,7 +521,7 @@ context('参与实验室情况', () => {
             }
           }
           //未参与
-          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(notJoinIndex).should('have.text', notJoinResult) 
+          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(notJoinIndex).should('have.text', notJoinResult)
           if (notJoinLab.length != 0) {
             cy.get('.table-line__fixed-header+.table-line').find('thead>tr>th').eq(notJoinIndex).click({
               force: true
@@ -540,7 +532,7 @@ context('参与实验室情况', () => {
             }
           }
           //标签未配置
-          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(unTagIndex).should('have.text', unTagResult) 
+          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(unTagIndex).should('have.text', unTagResult)
           if (unTagLab.length != 0) {
             cy.get('.table-line__fixed-header+.table-line').find('thead>tr>th').eq(unTagIndex).click({
               force: true
@@ -659,7 +651,7 @@ context('参与实验室情况', () => {
           }
           // -------------------------断言------------------------------
           // 参与
-          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(joinIndex).should('have.text', joinResult) 
+          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(joinIndex).should('have.text', joinResult)
           if (joinLab.length != 0) {
             cy.get('.table-line__fixed-header+.table-line').find('thead>tr>th').eq(joinIndex).click({
               force: true
@@ -670,7 +662,7 @@ context('参与实验室情况', () => {
             }
           }
           //申请中
-          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(applyIndex).should('have.text', applyResult) 
+          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(applyIndex).should('have.text', applyResult)
           if (applyLab.length != 0) {
             cy.get('.table-line__fixed-header+.table-line').find('thead>tr>th').eq(applyIndex).click({
               force: true
@@ -681,7 +673,7 @@ context('参与实验室情况', () => {
             }
           }
           //未参与
-          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(notJoinIndex).should('have.text', notJoinResult) 
+          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(notJoinIndex).should('have.text', notJoinResult)
           if (notJoinLab.length != 0) {
             cy.get('.table-line__fixed-header+.table-line').find('thead>tr>th').eq(notJoinIndex).click({
               force: true
@@ -692,7 +684,7 @@ context('参与实验室情况', () => {
             }
           }
           //标签未配置
-          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(unTagIndex).should('have.text', unTagResult) 
+          cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(unTagIndex).should('have.text', unTagResult)
           if (unTagLab.length != 0) {
             cy.get('.table-line__fixed-header+.table-line').find('thead>tr>th').eq(unTagIndex).click({
               force: true

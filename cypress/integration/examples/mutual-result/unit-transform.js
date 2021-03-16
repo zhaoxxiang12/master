@@ -4,25 +4,8 @@
 context('结果互认设置-单位转换设置', () => {
     let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
-        let SettingIndex = 12
-        let ItemSetting = 14
-        let ResultAppoveSetting = 16
-        let UseIndex = 6
         cy.loginCQB()
-        //点击设置
-        cy.get('.el-submenu__title').eq(SettingIndex).click({
-            force: true
-        })
-        cy.wait(500)
-        // 点击结果互认设置
-        cy.get('.el-submenu__title').eq(ResultAppoveSetting).click({
-            force: true
-        })
-        cy.wait(500)
-        //点击单位转换设置
-        cy.get('.el-menu.el-menu--inline').eq(ItemSetting).find('.el-menu-item').eq(UseIndex).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/unit-transform')
     })
     it('001-单位转换设置-使用是否配置公式进行查询(已配置)', () => {
         let selectBox = 0
@@ -359,11 +342,17 @@ context('结果互认设置-单位转换设置', () => {
             force: true
         })
         //选择实验室标签
-        cy.get('.el-radio__inner').eq(Tag).click({force:true})
+        cy.get('.el-radio__inner').eq(Tag).click({
+            force: true
+        })
         //标签选择公立
         cy.wait(500)
-        cy.get('.el-select__input.is-medium').click({force:true})
-        cy.get('.el-select-group').eq(bussinessList).find('li').eq(publicTag).click({force:true})
+        cy.get('.el-select__input.is-medium').click({
+            force: true
+        })
+        cy.get('.el-select-group').eq(bussinessList).find('li').eq(publicTag).click({
+            force: true
+        })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
@@ -382,7 +371,7 @@ context('结果互认设置-单位转换设置', () => {
                 cy.get('body').should('contain', '暂无数据')
             } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
                 cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else {//如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
+            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
                 cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
             }
         })
@@ -397,11 +386,17 @@ context('结果互认设置-单位转换设置', () => {
             force: true
         })
         //选择实验室标签
-        cy.get('.el-radio__inner').eq(Tag).click({force:true})
+        cy.get('.el-radio__inner').eq(Tag).click({
+            force: true
+        })
         //标签选择公立
         cy.wait(500)
-        cy.get('.el-select__input.is-medium').click({force:true})
-        cy.get('.el-select-group').eq(bussinessList).find('li').eq(privateTag).click({force:true})
+        cy.get('.el-select__input.is-medium').click({
+            force: true
+        })
+        cy.get('.el-select-group').eq(bussinessList).find('li').eq(privateTag).click({
+            force: true
+        })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
@@ -448,12 +443,15 @@ context('结果互认设置-单位转换设置', () => {
             //录入新值
             cy.get('.el-input__inner').eq(editFormulaBox).clear({
                 force: true
-            }).type(123)
+            }).type(typeNumber, {
+                force: true
+            })
             //点击保存
             cy.get('.el-button.el-button--text.el-button--medium').eq(saveButton).click({
                 force: true
             })
             cy.get('body').should('contain', '已设置')
+            cy.wait(500)
             cy.get('.unit-fn').eq(formulaBox).invoke('text').then((data) => {
                 let newFormula = data
                 expect(oldFormula).not.to.equal(newFormula)
@@ -478,9 +476,9 @@ context('结果互认设置-单位转换设置', () => {
         let firstBox = 5
         let secondBox = 6
         let thirdBox = 4
-        let forthBox =5
+        let forthBox = 5
         let formulaBox1 = 9 // 第一条数据
-        let formulaBox2 =10 // 第二条数据
+        let formulaBox2 = 10 // 第二条数据
         let typeInputBox = 12
         let typeNumber = parseInt(Math.random() * 1000)
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labName, ({
@@ -577,40 +575,38 @@ context('结果互认设置-单位转换设置', () => {
             force: true
         })
         cy.wait(500)
-        cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula)=>{
+        cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula) => {
             let oldFormula = formula
             cy.log(oldFormula)
-              //选择第一条数据进行编辑
-        cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.el-button.el-button--text.el-button--medium').click({
-            force: true
-        })
-        //录入新值
-        cy.get('.el-input__inner').eq(editFormulaBox).clear({
-            force: true
-        }).type(123, {
-            force: true
-        })
-        //点击重置
-        cy.get('.el-button.el-button--text.el-button--medium').eq(resetButton).click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/update*').as('getData')
-        //点击保存
-        cy.get('.el-button.el-button--text.el-button--medium').eq(saveButton).click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr)=>{
-            let getStatus = xhr.response.statusCode
-            let expectStatus = 200
-            expect(getStatus).to.eq(expectStatus)
-            cy.get('body').should('contain','已设置')
-            cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula)=>{
-                let getNewFormula = formula
-                expect(getNewFormula).to.eq(oldFormula)
+            //选择第一条数据进行编辑
+            cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.el-button.el-button--text.el-button--medium').click({
+                force: true
+            })
+            //录入新值
+            cy.get('.el-input__inner').eq(editFormulaBox).clear({
+                force: true
+            }).type(123, {
+                force: true
+            })
+            //点击重置
+            cy.get('.el-button.el-button--text.el-button--medium').eq(resetButton).click({
+                force: true
+            })
+            cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/update*').as('getData')
+            //点击保存
+            cy.get('.el-button.el-button--text.el-button--medium').eq(saveButton).click({
+                force: true
+            })
+            cy.wait('@getData').then((xhr) => {
+                let getStatus = xhr.response.statusCode
+                let expectStatus = 200
+                expect(getStatus).to.eq(expectStatus)
+                cy.get('body').should('contain', '已设置')
+                cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula) => {
+                    let getNewFormula = formula
+                    expect(getNewFormula).to.eq(oldFormula)
+                })
             })
         })
-        })
-      
-
     })
 })

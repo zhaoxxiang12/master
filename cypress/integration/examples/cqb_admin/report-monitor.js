@@ -11,20 +11,8 @@ context('监控内容配置', () => {
             .then(cy.wrap)
     }
     beforeEach(() => {
-
-        let SettingIndex = 14
-        let ReportMonitorSetting = 38
-
         cy.loginCQB()
-        //点击设置
-        cy.get('.el-submenu__title').eq(SettingIndex).click({
-            force: true
-        })
-        //点击监控内容配置
-        cy.wait(500)
-        cy.get('.el-menu-item').eq(ReportMonitorSetting).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/report-monitor')
     })
     it('001-监控内容配置-关键字搜索功能', () => {
         let labCode = 'gd18020'

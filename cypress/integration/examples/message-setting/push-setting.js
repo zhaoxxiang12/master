@@ -1,25 +1,10 @@
 context('信息互通设置-推送设置', () => {
     let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
-        let SettingIndex = 14
-        let MessageSettingIndex = 15
-        let PushSettingIndex = 15
-        let UseIndex = 0
         cy.loginCQB()
-        //点击设置
-        cy.get('.el-submenu__title').eq(SettingIndex).click({
-            force: true
-        })
-        // 点击信息互通设置
-        cy.get('.el-submenu__title').eq(MessageSettingIndex).click({
-            force: true
-        })
-        //点击推送设置
-        cy.get('.el-menu.el-menu--inline').eq(PushSettingIndex).find('.el-menu-item').eq(UseIndex).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/message-setting/push-setting')
     })
-    it('001-新建失控告警规则(未上报质控数据)-消息内容为空不能保存',()=>{
+    it('001-新建失控告警规则(未上报质控数据)-消息内容为空不能保存', () => {
         cy.wait(1000)
         let TimeIndex = 2
         let TimeBoxIndex = 3
@@ -35,7 +20,9 @@ context('信息互通设置-推送设置', () => {
         cy.get('.el-input__inner').eq(TimeBoxIndex).click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(TimeIndex).find('li').eq(ChooseTime).click({force:true})
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(TimeIndex).find('li').eq(ChooseTime).click({
+            force: true
+        })
         // 发送对象选择实验室端
         cy.get('.el-checkbox-group').eq(LabIndex).find('.el-checkbox>.el-checkbox__input').eq(ChoiceIndex).click({
             force: true
@@ -171,27 +158,31 @@ context('信息互通设置-推送设置', () => {
         cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
             force: true
         })
-        cy.wait('@getData').then((xhr)=>{
+        cy.wait('@getData').then((xhr) => {
             let status = 200
             expect(xhr.status).to.equal(status)
         })
 
     })
-    it('006-新建失控告警规则(项目失控)-消息内容为空不能保存',()=>{
+    it('006-新建失控告警规则(项目失控)-消息内容为空不能保存', () => {
         cy.wait(1000)
         let LabIndex = 1
         let ChoiceIndex = 0
         let ButtonIndex = 2
-        let Warnning =1
-        let PushIndex =0
+        let Warnning = 1
+        let PushIndex = 0
         //点击添加
         cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
             force: true
         })
         //选择项目失控
-        cy.get('.el-radio__inner').eq(Warnning).click({force:true})
+        cy.get('.el-radio__inner').eq(Warnning).click({
+            force: true
+        })
         //推送形式选择实时推送
-        cy.get('.el-checkbox__input').eq(PushIndex).click({force:true})
+        cy.get('.el-checkbox__input').eq(PushIndex).click({
+            force: true
+        })
         // 发送对象选择实验室端
         cy.get('.el-checkbox-group').eq(LabIndex).find('.el-checkbox>.el-checkbox__input').eq(ChoiceIndex).click({
             force: true
@@ -202,14 +193,14 @@ context('信息互通设置-推送设置', () => {
         })
         // 断言(界面出现请选择消息内容则通过)
         cy.get('body').should('contain', '请选择消息内容')
-    })  
-    it('007-新建失控告警规则(项目失控)-推送形式选择定时推送,未选择检测时间不能保存',()=>{
+    })
+    it('007-新建失控告警规则(项目失控)-推送形式选择定时推送,未选择检测时间不能保存', () => {
         cy.wait(1000)
         let LabIndex = 1
         let ChoiceIndex = 0
         let ButtonIndex = 2
-        let Warnning =1
-        let PushIndex =1
+        let Warnning = 1
+        let PushIndex = 1
         let MessageIndex = 1
         let IteamOutOfControl = 4
         let SelectIndex = 1
@@ -218,8 +209,10 @@ context('信息互通设置-推送设置', () => {
             force: true
         })
         //选择项目失控
-        cy.get('.el-radio__inner').eq(Warnning).click({force:true})
-           //点击消息内容(设置消息)
+        cy.get('.el-radio__inner').eq(Warnning).click({
+            force: true
+        })
+        //点击消息内容(设置消息)
         cy.get('input[placeholder="请选择"]').eq(MessageIndex).click({
             force: true
         })
@@ -228,7 +221,9 @@ context('信息互通设置-推送设置', () => {
             force: true
         })
         //推送形式选择实时推送
-        cy.get('.el-checkbox__input').eq(PushIndex).click({force:true})
+        cy.get('.el-checkbox__input').eq(PushIndex).click({
+            force: true
+        })
         // 发送对象选择实验室端
         cy.get('.el-checkbox-group').eq(LabIndex).find('.el-checkbox>.el-checkbox__input').eq(ChoiceIndex).click({
             force: true
@@ -239,7 +234,7 @@ context('信息互通设置-推送设置', () => {
         })
         // 断言(界面出现请选择消息内容则通过)
         cy.get('body').should('contain', '请选择检测时间')
-    })  
+    })
     it('008-新建失控告警规则-检测目标(指定实验室)未选择不能保存', () => {
         cy.wait(1000)
         let SelectIndex = 2
@@ -295,8 +290,8 @@ context('信息互通设置-推送设置', () => {
         let ButtonIndex = 1
         let AddLabButton = 8
         let ChooseLab = 3
-        let DeleteButton =9
-        let DeleteIndex =1
+        let DeleteButton = 9
+        let DeleteIndex = 1
         //点击添加
         cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
             force: true
@@ -362,7 +357,7 @@ context('信息互通设置-推送设置', () => {
         cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
             force: true
         })
-        cy.wait('@getData').then((xhr)=>{
+        cy.wait('@getData').then((xhr) => {
             let status = 200
             expect(xhr.status).to.equal(status)
         })
@@ -373,49 +368,49 @@ context('信息互通设置-推送设置', () => {
         let TurnOnOff = 0
         let index = 2
         let text;
-    // 获取按钮文字
-    cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).invoke('text').then((data) => {
-        text = data
-        //判断文字是否是启用,启用执行if语句,否则执行else语句
-        if (text == '启用') {
-            cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).click({
-                force: true
-            })
-            cy.server()
-            cy.route('**/service/mgr/message/rules?*').as('getData')
-            cy.visit(urlHost + '#/setting/message-setting/push-setting')
-            cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
-                force: true
-            })
-            cy.wait('@getData').then((xhr) => {
-                let status = xhr.status
-                //断言状态码
-                expect(status).to.equal(200)
-                //断言界面启用按键是否变为停用
-                cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).should('have.text', '停用')
-            })
-        } else if (text == '停用') {
-            cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).click({
-                force: true
-            })
-            cy.server()
-            cy.route('**/service/mgr/message/rules?*').as('getData')
-            cy.visit(urlHost + '#/setting/message-setting/push-setting')
-            cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
-                force: true
-            })
-            cy.wait('@getData').then((xhr) => {
-                let status = xhr.status
-                //断言状态码
-                expect(status).to.equal(200)
-                //断言界面停用按键是否变为启用
-                cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).should('have.text', '启用')
-            })
+        // 获取按钮文字
+        cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).invoke('text').then((data) => {
+            text = data
+            //判断文字是否是启用,启用执行if语句,否则执行else语句
+            if (text == '启用') {
+                cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).click({
+                    force: true
+                })
+                cy.server()
+                cy.route('**/service/mgr/message/rules?*').as('getData')
+                cy.visit(urlHost + '#/setting/message-setting/push-setting')
+                cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
+                    force: true
+                })
+                cy.wait('@getData').then((xhr) => {
+                    let status = xhr.status
+                    //断言状态码
+                    expect(status).to.equal(200)
+                    //断言界面启用按键是否变为停用
+                    cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).should('have.text', '停用')
+                })
+            } else if (text == '停用') {
+                cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).click({
+                    force: true
+                })
+                cy.server()
+                cy.route('**/service/mgr/message/rules?*').as('getData')
+                cy.visit(urlHost + '#/setting/message-setting/push-setting')
+                cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
+                    force: true
+                })
+                cy.wait('@getData').then((xhr) => {
+                    let status = xhr.status
+                    //断言状态码
+                    expect(status).to.equal(200)
+                    //断言界面停用按键是否变为启用
+                    cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(TurnOnOff).find('.el-button.el-button--text.el-button--medium').eq(index).should('have.text', '启用')
+                })
 
-        } else {
-            cy.log('文本为其他数据')
-        }
-    })
+            } else {
+                cy.log('文本为其他数据')
+            }
+        })
 
     })
     it('011-失控告警规则-编辑失控规则', () => {

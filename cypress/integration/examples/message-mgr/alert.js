@@ -4,22 +4,13 @@
 context('消息互通-告警查询', () => {
     let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
-        let MessageSharegIndex = 1
-        let WarningMessageIndex = 1
-        let UseIndex = 0
         let ExpandButton = 0
         let ChooseButton = 0
-        let DateType = 4
+        let DateType = 5
         let ListIndex = 2
         cy.loginCQB()
-        // 点击消息互通
-        cy.get('.el-submenu__title').eq(MessageSharegIndex).click({
-            force: true
-        })
-        // //点击告警查询
-        cy.get('.el-menu.el-menu--inline').eq(WarningMessageIndex).find('.el-menu-item').eq(UseIndex).click({
-            force: true
-        })
+        cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/alert')
+        cy.wait(500)
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(ExpandButton).click({
             force: true
@@ -104,8 +95,8 @@ context('消息互通-告警查询', () => {
     })
     it('003-使用消息状态进行查询-已处理', () => {
         let StatusType = 2
-        let ListIndex = 4
-        let processed = 3
+        let ListIndex = 5
+        let processed = 4
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
         })
@@ -307,7 +298,7 @@ context('消息互通-告警查询', () => {
     })
     it('008-使用消息类型进行查询-CV/符合率失控', () => {
         let MessageType = 1
-        let ListIndex = 4
+        let ListIndex = 5
         let CVIndex = 3
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
@@ -339,10 +330,10 @@ context('消息互通-告警查询', () => {
         })
     })
 
-    it('010-使用消息状态进行查询-已认可', () => {
+    it('009-使用消息状态进行查询-已认可', () => {
         let StatusType = 2
-        let ListIndex = 4
-        let approved = 4
+        let ListIndex = 5
+        let approved = 5
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
         })
@@ -373,7 +364,7 @@ context('消息互通-告警查询', () => {
         })
 
     })
-    it('011-使用标签进行查询-公立标签', () => {
+    it('010-使用标签进行查询-公立标签', () => {
         let ListIndex = 0
         let PublicTag = 0
         cy.get('.el-select__input.is-medium').click({
@@ -406,7 +397,7 @@ context('消息互通-告警查询', () => {
         })
 
     })
-    it('012-使用标签进行查询-私立标签', () => {
+    it('011-使用标签进行查询-私立标签', () => {
         let ListIndex = 0
         let PrivateTag = 1
         cy.get('.el-select__input.is-medium').click({
