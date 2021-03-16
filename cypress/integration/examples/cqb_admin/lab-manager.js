@@ -450,10 +450,6 @@ describe('CQB测试用例', function () {
 
     // --------------------------------------------编辑实验室------------------------------------------------
     it('009-编辑实验室-修改实验室名称', () => {
-        // 点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         // 在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').type('测试实验室1', {
             force: true
@@ -507,10 +503,6 @@ describe('CQB测试用例', function () {
 
     })
     it('010-编辑实验室-修改实验室编码(相同)', () => {
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').type('测试实验室1', {
             force: true
@@ -537,10 +529,6 @@ describe('CQB测试用例', function () {
         cy.get('body').should('contain', '编码已存在，请重新输入')
     })
     it('011-编辑实验室-修改实验室编码', () => {
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').type('测试实验室1', {
             force: true
@@ -580,10 +568,6 @@ describe('CQB测试用例', function () {
 
     })
     it('012-编辑实验室-修改联系人', () => {
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').type('测试实验室1', {
             force: true
@@ -625,8 +609,6 @@ describe('CQB测试用例', function () {
         cy.get('input[maxlength="16"').eq(1).should('have.value', New_User_Name)
     })
     it('013-编辑实验室-修改联系电话', () => {
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click()
         //在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').type('测试实验室1', {
             force: true
@@ -664,10 +646,6 @@ describe('CQB测试用例', function () {
     it('014-启用/停用实验室实验室', () => {
         let keyWord = 13
         let status = 12
-        //点击实验室账户
-        cy.get('li[class=el-menu-item]').eq(8).click({
-            force: true
-        })
         //在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').type('测试实验室1', {
             force: true
