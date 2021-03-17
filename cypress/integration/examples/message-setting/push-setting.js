@@ -414,53 +414,61 @@ context('信息互通设置-推送设置', () => {
 
     })
     it('011-失控告警规则-编辑失控规则', () => {
-        let editIndex = 0
         let index = 0
         let ButtonIndex = 2
         let NotReportedIndex = 0
         let ChooseIndex = 0
         let IteamOutOfControl = 1
+        let time = 2
+        let dropList = 2
+        let body = 0
         cy.wait(1000)
-        //点击编辑
-        cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(editIndex).find('.el-button.el-button--text.el-button--medium').eq(index).click({
-            force: true
-        })
-        cy.wait(1000)
-        // 选择未上报质控数据
-        cy.get('.el-radio-group').eq(ChooseIndex).find('label').eq(NotReportedIndex).click({
-            force: true
-        })
-
-        cy.server()
-        cy.route('**/service/mgr/message/rules?*').as('getData')
-        cy.visit(urlHost + '#/setting/message-setting/push-setting')
-        //点击保存
-        cy.get('.el-button.el-button--primary.el-button--medium').eq(ButtonIndex).click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let ExpectStatus = 200
-            let ResponseStatus = xhr.status
-            expect(ResponseStatus).to.equal(ExpectStatus)
-        })
-        cy.get('body').should('contain', '自动推送规则已更新')
-        cy.wait(1000)
-        /**
-         * 将数据返回初始状态
-         */
-        //点击编辑
-        cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(editIndex).find('.el-button.el-button--text.el-button--medium').eq(index).click({
-            force: true
-        })
-        cy.wait(1000)
-        // 选择项目失控
-        cy.get('.el-radio-group').eq(ChooseIndex).find('label').eq(IteamOutOfControl).click({
-            force: true
-        })
-        cy.wait(1000)
-        //点击保存
-        cy.get('.el-button.el-button--primary.el-button--medium').eq(ButtonIndex).click({
-            force: true
+        cy.get('.el-table__body').eq(0).find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--text.el-button--medium').eq(index).click({
+                force: true
+            })
+            cy.wait(500)
+            // 选择未上报质控数据
+            cy.get('.el-radio__inner').eq(NotReportedIndex).click({
+                force: true
+            })
+            cy.wait(500)
+            cy.get('input[placeholder="请选择"]').eq(time).click({
+                force: true
+            })
+            //选择检测时间
+            cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(0).click({
+                force: true
+            })
+            cy.server()
+            cy.route('**/service/mgr/message/rules?*').as('getData')
+            cy.visit(urlHost + '#/setting/message-setting/push-setting')
+            //点击保存
+            cy.get('.el-button.el-button--primary.el-button--medium').eq(ButtonIndex).click({
+                force: true
+            })
+            cy.wait('@getData').then((xhr) => {
+                let ExpectStatus = 200
+                let ResponseStatus = xhr.status
+                expect(ResponseStatus).to.equal(ExpectStatus)
+            })
+            cy.get('body').should('contain', '自动推送规则已更新')
+            // 选择项目失控
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--text.el-button--medium').eq(index).click({
+                force: true
+            })
+            cy.wait(1000)
+            cy.get('.el-radio__inner').eq(IteamOutOfControl).click({
+                force: true
+            })
+            cy.get('.el-checkbox__inner').eq(ChooseIndex).click({
+                force: true
+            })
+            //点击保存
+            cy.get('.el-button.el-button--primary.el-button--medium').eq(ButtonIndex).click({
+                force: true
+            })
         })
     })
 })

@@ -62,7 +62,9 @@ context('参与实验室情况', () => {
       force: true
     })
     //点击搜索按键
-    cy.get('button').contains('搜索').click()
+    cy.get('button').contains('搜索').click({
+      force: true
+    })
     //在输入框输入数据
     cy.get('[placeholder="实验室名称或编码"]').clear().type(labName)
     //断言
@@ -214,7 +216,7 @@ context('参与实验室情况', () => {
         notjoinedRate = notjoinedRate.toString() + ""
       }
       if (stringNotJoinedRate[1].length < 2) {
-        notjoinedRate = notjoinedRate.toString() + "0"
+        notjoinedRate = notjoinedRate.toString() + ""
       }
     }
     //标签未配置百分比计算结果保留两位小数
@@ -349,7 +351,9 @@ context('参与实验室情况', () => {
       force: true
     })
     //选择市辖区
-    cy.get('[placeholder="所有市"]').click()
+    cy.get('[placeholder="所有市"]').click({
+      force: true
+    })
     cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(cityIndex).click({
       force: true
     })

@@ -376,7 +376,8 @@ context('月度工作日申请审核', () => {
             if (totalData == 0) {
                 cy.get('body').should('contain', '暂无数据')
             } else if (totalData <= 20) {
-                cy.get('.el-table__body-wrapper.is-scrolling-none').find('tbody>tr').should('have.length', totalData)
+                cy.wait(500)
+                cy.get('.el-table__body').find('tbody>tr').should('have.length', totalData)
             } else {
                 cy.get('.el-pagination__total').should('have.text', '共 ' + totalData + ' 条')
             }
