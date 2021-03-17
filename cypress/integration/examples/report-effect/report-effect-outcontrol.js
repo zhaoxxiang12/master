@@ -34,10 +34,14 @@ context('失控处理情况', () => {
                     force: true
                 })
                 //点击搜索
-                cy.get('button').contains('搜索').click()
+                cy.get('button').contains('搜索').click({
+                    force: true
+                })
             } else {
                 for (let i = 1; i <= difference; i++) {
-                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click()
+                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click({
+                        force: true
+                    })
                 }
                 //开始月份选择5月
                 cy.get('.el-month-table').find('tr').find('td').eq(monthIndex).click({
@@ -93,7 +97,7 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 4
+        let chooseIndex = 3
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -109,7 +113,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -130,7 +136,7 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 6
+        let chooseIndex = 5
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -146,7 +152,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -167,11 +175,15 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 7
+        let chooseIndex = 6
         //点击按原因查看
-        cy.get('.effect__search').find('[role="radio"]').eq(2).click()
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择定标靶值改变
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
@@ -179,7 +191,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -200,11 +214,15 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 2
+        let chooseIndex = 1
         //点击按原因查看
-        cy.get('.effect__search').find('[role="radio"]').eq(2).click()
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择人为原因
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
@@ -212,7 +230,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -249,7 +269,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -276,7 +298,9 @@ context('失控处理情况', () => {
             force: true
         })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择仪器原因
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
@@ -284,7 +308,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -311,7 +337,9 @@ context('失控处理情况', () => {
             force: true
         })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择试剂原因
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
@@ -319,7 +347,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -341,9 +371,13 @@ context('失控处理情况', () => {
         let optionsIndex = 9
         let chooseIndex = 4
         //点击按原因查看
-        cy.get('.effect__search').find('[role="radio"]').eq(2).click()
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择质控品原因
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
@@ -351,7 +385,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -373,9 +409,13 @@ context('失控处理情况', () => {
         let optionsIndex = 9
         let chooseIndex = 5
         //点击按原因查看
-        cy.get('.effect__search').find('[role="radio"]').eq(2).click()
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择人员问题
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
@@ -383,7 +423,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -406,9 +448,13 @@ context('失控处理情况', () => {
         let optionsIndex = 9
         let chooseIndex = 6
         //点击按原因查看
-        cy.get('.effect__search').find('[role="radio"]').eq(2).click()
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择其他
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
@@ -416,7 +462,9 @@ context('失控处理情况', () => {
         cy.server()
         // 拦截接口，使用通配符*拦截更灵活
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -436,17 +484,23 @@ context('失控处理情况', () => {
     it('012-失控处理情况-按原因查看-获取页面上处理方式数据', () => {
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 10
+        let chooseIndex = 9
         //点击按原因查看
-        cy.get('.effect__search').find('[role="radio"]').eq(2).click()
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择随机误差
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
         //点击搜索按键
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         //循环遍历获取失控原因的数据
         for (let i = 4; i <= 15; i++) {
             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(0).find('td').eq(i).invoke('text')
@@ -466,17 +520,23 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 10
+        let chooseIndex = 9
         //点击按原因查看
-        cy.get('.effect__search').find('[role="radio"]').eq(2).click()
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
         //点击原因选择框
-        cy.get('[placeholder="请选择"]').eq(boxIndex).click()
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
         //选择随机误差
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
         //点击搜索按键
-        cy.get('button').contains('搜索').click()
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         // 处理方式之和
         var secondJudgeData = 0
         cy.log(methodData)
@@ -518,7 +578,9 @@ context('失控处理情况', () => {
         let foshanCityIndex = 5
         let clearIndex = 1
         //点击地区
-        cy.get('.el-col.el-col-16').find('div>div>label>span').find('.el-radio__inner').eq(0).click()
+        cy.get('.el-col.el-col-16').find('div>div>label>span').find('.el-radio__inner').eq(0).click({
+            force: true
+        })
         //点击省份选择框
         cy.get('[placeholder="请选择省"]').click({
             force: true
@@ -554,7 +616,9 @@ context('失控处理情况', () => {
             })
         })
         //清除之前的选择
-        cy.get('.el-tag__close.el-icon-close').eq(clearIndex).click()
+        cy.get('.el-tag__close.el-icon-close').eq(clearIndex).click({
+            force: true
+        })
         //选择市(佛山市)
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(chooseIndex).find('li').eq(foshanCityIndex).click({
             force: true

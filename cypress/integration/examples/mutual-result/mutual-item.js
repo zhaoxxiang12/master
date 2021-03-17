@@ -240,17 +240,17 @@ context('结果互认设置-开展项目设置', () => {
             /**
              * 将项目铁返回到之前的项目分类
              */
-            cy.wait(500)
             cy.get('.el-menu').eq(menu).find('li').eq(BloodIndex).click({
                 force: true
             })
-            cy.wait(500)
+            cy.wait(1000)
             cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
                 force: true
             })
             cy.get('input[placeholder="请选择"]').eq(InputBox).click({
                 force: true
             })
+            cy.wait(1000)
             cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(ChemicalType).click({
                 force: true
             })

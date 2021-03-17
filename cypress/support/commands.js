@@ -45,18 +45,18 @@ Cypress.Commands.add("loginCQB", () => {
       cy.get('.ql-splitview__close').click({force:true})
     })
   })
-  Cypress.Commands.add('gdccl_user_login',()=>{
+  Cypress.Commands.add('QPYLT_user_login',()=>{
     // cy.visit('http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html#/login')
-    cy.fixture('gdccl').then((gdcclJSON) => {
+    cy.fixture('QPYLT').then((QPYLTJSON) => {
       // 关闭登录界面弹窗提示
       cy.get('.el-message-box__btns button:first').click()
       // 使用fixtures里的账号文件配置作为登录用户信息
       cy.get('[placeholder="用户名"]')
-        .type(gdcclJSON.username).should('have.value', gdcclJSON.username)
+        .type(QPYLTJSON.username).should('have.value', QPYLTJSON.username)
       cy.get('[placeholder="密码"]')
-        .type(gdcclJSON.password).should('have.value', gdcclJSON.password)
+        .type(QPYLTJSON.password).should('have.value', QPYLTJSON.password)
       cy.get('[placeholder="验证码"]')
-        .type(gdcclJSON.captcha).should('have.value', gdcclJSON.captcha)
+        .type(QPYLTJSON.captcha).should('have.value', QPYLTJSON.captcha)
       // 点击登录按钮
       cy.get('[type="submit"]').click()
       // 由于监控大屏会有接口轮询，登录后需要关闭监控大屏，否则后续用例界面访问会等待超时

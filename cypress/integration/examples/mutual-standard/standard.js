@@ -35,7 +35,9 @@ context('互认标准设置', () => {
                 force: true
             })
             //点击部中心‘不判定’下拉框
-            cy.get('input[placeholder="不判定"]').first().click()
+            cy.get('input[placeholder="不判定"]').first().click({
+                force: true
+            })
             //下拉框选择次数   选择3次     
             cy.get('.el-select-dropdown__wrap.el-scrollbar__wrap').eq(9).find('li').eq('2').click()
             cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
@@ -816,6 +818,7 @@ context('互认标准设置', () => {
         cy.get('.el-icon-edit-outline').eq(edit).click({
             force: true
         })
+        cy.wait(1000)
         //分类选择常规化学
         cy.get('.el-button.spec-filter__item.el-button--small').eq(chemical).click({
             force: true

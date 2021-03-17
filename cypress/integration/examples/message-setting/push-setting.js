@@ -425,6 +425,7 @@ context('信息互通设置-推送设置', () => {
         cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(editIndex).find('.el-button.el-button--text.el-button--medium').eq(index).click({
             force: true
         })
+        cy.wait(1000)
         // 选择未上报质控数据
         cy.get('.el-radio-group').eq(ChooseIndex).find('label').eq(NotReportedIndex).click({
             force: true
@@ -443,6 +444,7 @@ context('信息互通设置-推送设置', () => {
             expect(ResponseStatus).to.equal(ExpectStatus)
         })
         cy.get('body').should('contain', '自动推送规则已更新')
+        cy.wait(1000)
         /**
          * 将数据返回初始状态
          */
@@ -450,6 +452,7 @@ context('信息互通设置-推送设置', () => {
         cy.get('.el-table__fixed-body-wrapper').find('table>tbody>.el-table__row').eq(editIndex).find('.el-button.el-button--text.el-button--medium').eq(index).click({
             force: true
         })
+        cy.wait(1000)
         // 选择项目失控
         cy.get('.el-radio-group').eq(ChooseIndex).find('label').eq(IteamOutOfControl).click({
             force: true
