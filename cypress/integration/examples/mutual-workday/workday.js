@@ -381,6 +381,6 @@ context('月度工作日申请审核', () => {
                 cy.get('.el-pagination__total').should('have.text', '共 ' + totalData + ' 条')
             }
         })
-        cy.get('body').should('contain', '上海测试实验室1')
+        cy.get('body').should('contain', '上海测试实验室2')
     })
 })

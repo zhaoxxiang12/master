@@ -162,6 +162,7 @@ context('监控内容配置', () => {
         cy.get('input[placeholder="请选择"]').eq(statusBox).click({
             force: true
         })
+        cy.wait(500)
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(reported).click({
             force: true
         })
@@ -203,6 +204,7 @@ context('监控内容配置', () => {
         cy.get('input[placeholder="请选择"]').eq(statusBox).click({
             force: true
         })
+        cy.wait(500)
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(notReported).click({
             force: true
         })
@@ -623,7 +625,7 @@ context('监控内容配置', () => {
             let expectStatus = 200
             //判断接口是否异常
             expect(responseStatus).to.equal(expectStatus)
-            cy.wait(500)
+            cy.wait(2000)
             //判断界面是否有[质控数据维护]有则通过  
             getIframeBody().find('.ql-layout__title').should('have.text', '质控数据维护')
 

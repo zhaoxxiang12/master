@@ -55,6 +55,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('input[placeholder="请选择"]').eq(setFormula).click({
             force: true
         })
+        cy.wait(500)
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(notSet).click({
             force: true
         })

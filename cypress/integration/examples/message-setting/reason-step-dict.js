@@ -44,30 +44,40 @@ context('信息互通设置-告警原因和措施', () => {
     })
     it('004-告警原因和措施(未上报)-修改未上报原因', () => {
         cy.wait(500)
-        cy.get('button').contains('编辑').click({
-            force: true
+        let body = 0
+        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-edit').click({
+                force: true
+            })
+            cy.get('.el-input__inner').eq(1).clear().type('123')
+            cy.server()
+            cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
+            cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
+            // 点击保存
+            cy.get('button').contains('保存').click({
+                force: true
+            })
+            //界面出现保存成功则通过
+            cy.get('body').should('contain', '保存成功！')
         })
-        cy.get('.el-input__inner').eq(1).clear().type('123')
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
-        cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
-        // 点击保存
-        cy.get('button').contains('保存').click({
-            force: true
-        })
-        //界面出现保存成功则通过
-        cy.get('body').should('contain', '保存成功！')
+
     })
     it('005-告警原因和措施(未上报)-删除未上报原因', () => {
-        cy.wait(500)
-        cy.get('button').contains('删除').click({
-            force: true
+        let body = 0
+        cy.wait(1000)
+        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-delete').click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+            //界面出现删除成功则通过
+            cy.get('body').should('contain', '删除成功！')
         })
-        cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-            force: true
-        })
-        //界面出现删除成功则通过
-        cy.get('body').should('contain', '删除成功！')
+
     })
     it('006-告警原因和措施(未上报)-未上报的处理措施为空不能保存', () => {
         cy.wait(500)
@@ -103,31 +113,43 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('body').should('contain', '保存成功！')
     })
     it('009-告警原因和措施(未上报)-修改未上报的处理措施', () => {
-        let EditMeasures = 2
-        let TypeMeasures = 2
-        cy.wait(500)
-        cy.get('.el-button.el-button--text.el-button--medium').eq(EditMeasures).click({
-            force: true
+        let body = 1
+        cy.wait(1000)
+        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-edit').click({
+                force: true
+            })
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-input__inner').clear({
+                force: true
+            }).type('123', {
+                force: true
+            })
+            cy.server()
+            cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
+            cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
+            // 点击保存
+            cy.get('button').contains('保存').click({
+                force: true
+            })
+            //界面出现保存成功则通过
+            cy.get('body').should('contain', '保存成功！')
         })
-        cy.get('.el-input.el-input--medium').eq(TypeMeasures).type('123')
-        // 点击保存
-        cy.get('button').contains('保存').click({
-            force: true
-        })
-        //界面出现保存成功！则通过
-        cy.get('body').should('contain', '保存成功！')
     })
     it('010-告警原因和措施(未上报)-删除未上报处理措施', () => {
-        let DeleteMeasures = 1
-        cy.wait(500)
-        cy.get('.el-button.el-button--text.el-button--medium').eq(DeleteMeasures).click({
-            force: true
+        cy.wait(1000)
+        let body = 1
+        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-delete').click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+            //界面出现删除成功则通过
+            cy.get('body').should('contain', '删除成功！')
         })
-        cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-            force: true
-        })
-        //界面出现删除成功！则通过
-        cy.get('body').should('contain', '删除成功！')
     })
 
     it('011-告警原因和措施(失控)-失控类别未填写不能保存', () => {
@@ -187,6 +209,7 @@ context('信息互通设置-告警原因和措施', () => {
         let OutOfControl = 1
         let addType = 3
         let type = 0
+        let num = parseInt(Math.random() * 100000)
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
@@ -204,7 +227,7 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('body').should('contain', '名称已存在，请重新输入')
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').should('have.length', getLength)
             //修改不存在的名称可以保存
-            cy.get('.el-input__inner').eq(addType).clear().type('自动化修改')
+            cy.get('.el-input__inner').eq(addType).clear().type('自动化修改'+num)
             cy.get('button').contains('保存').click({
                 force: true
             })
@@ -292,24 +315,30 @@ context('信息互通设置-告警原因和措施', () => {
         //界面出现保存成功则通过
         cy.get('body').should('contain', '保存成功')
     })
-    it('019-告警原因和措施(失控)-修改失控原因', () => {
-        let Type = 1
+    it
+    ('019-告警原因和措施(失控)-修改失控原因', () => {
         let OutOfControl = 1
-        let EditButton = 2
         let reasonBox = 3
+        let instrumentType = 1
+        let num = parseInt(Math.random() * 100000)
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
-        cy.get('.el-icon-edit').eq(EditButton).click({
-            force: true
-        })
-        cy.get('.el-input__inner').eq(reasonBox).clear().type('自动化修改')
-        cy.get('button').contains('保存').click({
-            force: true
-        })
-        // //界面出现保存成功则通过
         cy.wait(1000)
-        cy.get('body').should('contain', '保存成功')
+        cy.get('.dict-panel-content').eq(instrumentType).find('.el-card__body').then((data) => {
+            let getLength = data.length
+            cy.get('.dict-panel-content').eq(instrumentType).find('.el-card__body').eq(getLength - 1).find('.el-icon-edit').click({
+                force: true
+            })
+            cy.get('.el-input__inner').eq(reasonBox).clear().type('自动化修改' + num)
+            cy.get('button').contains('保存').click({
+                force: true
+            })
+            // //界面出现保存成功则通过
+            cy.wait(1000)
+            cy.get('body').should('contain', '保存成功')
+        })
+
     })
     it('020-告警原因和措施(失控)-删除失控原因', () => {
         let OutOfControl = 1
@@ -321,11 +350,12 @@ context('信息互通设置-告警原因和措施', () => {
         cy.wait(500)
         cy.get('.dict-panel-content').eq(instrumentType).find('.el-card__body').then((data) => {
             let getLength = data.length
+            cy.log(getLength)
             //点击删除
-            cy.get('.el-icon-delete').eq(DeleteButton).click({
+            cy.get('.dict-panel-content').eq(instrumentType).find('.el-card__body').eq(getLength - 1).find('.el-icon-delete').click({
                 force: true
             })
-            //点击确认删除
+            // 点击确认删除
             cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
                 force: true
             })
@@ -417,6 +447,7 @@ context('信息互通设置-告警原因和措施', () => {
         let saveButton = 3
         let addBox = 3
         let type = 1
+        let num = parseInt(Math.random() * 100000)
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
@@ -431,14 +462,14 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').eq(getLength - 1).find('.el-card__body').find('.el-icon-edit').click({
                 force: true
             })
-            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因')
+            cy.get('.el-input__inner').eq(addBox).clear().type('仪器')
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true
             })
             cy.get('body').should('contain', '名称已存在，请重新输入').should('not.contain', '保存成功')
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').should('have.length', getLength)
             //------------------------修改成不存在的名称可以进行保存--------------------------
-            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改')
+            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改' + num)
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true
             })
@@ -488,12 +519,12 @@ context('信息互通设置-告警原因和措施', () => {
     it('026-告警原因和措施(失控)-失控处理措施为空不能保存', () => {
         let saveButton = 3
         let OutOfControl = 1
-        let MeasuresAdd = 11
+        let MeasuresAdd = 12
         let treatmentMeasures = 4
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
-        // cy.wait(500)
+        cy.wait(500)
         cy.get('.el-tabs__item.is-top').eq(treatmentMeasures).click({
             force: true
         })
@@ -515,7 +546,7 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-tabs__item.is-top').eq(treatmentMeasures).click({
             force: true
         })
@@ -540,7 +571,7 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
-        // cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-tabs__item.is-top').eq(treatmentMeasures).click({
             force: true
         })
@@ -562,10 +593,11 @@ context('信息互通设置-告警原因和措施', () => {
         let treatmentMeasures = 4
         let measureBox = 3
         let measureType = 10
+        let num = parseInt(Math.random() * 100000)
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-tabs__item.is-top').eq(treatmentMeasures).click({
             force: true
         })
@@ -575,7 +607,7 @@ context('信息互通设置-告警原因和措施', () => {
                 force: true
             })
             //修改处理措施
-            cy.get('.el-input__inner').eq(measureBox).clear().type('自动化修改2')
+            cy.get('.el-input__inner').eq(measureBox).clear().type('自动化修改' + num)
             //点击保存
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true
@@ -592,7 +624,7 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-tabs__item.is-top').eq(treatmentMeasures).click({
             force: true
         })
@@ -678,7 +710,9 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('.el-button.dict-panel-add.el-button--primary.el-button--medium.is-plain').eq(addTypeButton).click({
                 force: true
             })
-            cy.get('.el-input__inner').eq(addBox).type('自动化新增')
+            cy.get('.el-input__inner').eq(addBox).type('自动化新增',{
+                force: true
+            })
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true
             })
@@ -693,6 +727,7 @@ context('信息互通设置-告警原因和措施', () => {
         let saveButton = 5
         let addBox = 3
         let type = 2
+        let num = parseInt(Math.random() * 100000)
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
@@ -707,7 +742,9 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').eq(getLength - 1).find('.el-card__body').find('.el-icon-edit').click({
                 force: true
             })
-            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因', {
+            cy.get('.el-input__inner').eq(addBox).clear({
+                force: true
+            }).type('仪器原因', {
                 force: true
             })
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
@@ -716,7 +753,7 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('body').should('contain', '名称已存在，请重新输入').should('not.contain', '保存成功')
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').should('have.length', getLength)
             //------------------------修改成不存在的名称可以进行保存--------------------------
-            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改')
+            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改'+num)
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true
             })
@@ -764,13 +801,13 @@ context('信息互通设置-告警原因和措施', () => {
     it('036-告警原因和措施(失控)-预防措施为空不能保存', () => {
         let OutOfControl = 1
         let preventiveMeasures = 5
-        let measureType = 19
+        let measureType = 21
         let measureAdd = 0
         let saveButton = 5
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-tabs__item.is-top').eq(preventiveMeasures).click({
             force: true
         })
@@ -786,6 +823,7 @@ context('信息互通设置-告警原因和措施', () => {
             })
             //界面出现'请输入名称则通过
             cy.get('body').should('contain', '请输入名称')
+            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length',getLength)
         })
     })
     it('037-告警原因和措施(失控)-新增相同的预防措施', () => {
@@ -816,6 +854,7 @@ context('信息互通设置-告警原因和措施', () => {
             })
             //界面出现'请输入名称则通过
             cy.get('body').should('contain', '名称已存在，请重新输入')
+            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length',getLength)
         })
 
     })
@@ -847,14 +886,16 @@ context('信息互通设置-告警原因和措施', () => {
             })
             //界面出现'请输入名称则通过
             cy.get('body').should('contain', '保存成功')
+            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length',getLength+1)
         })
     })
     it('039-告警原因和措施(失控)-修改预防措施', () => {
         let OutOfControl = 1
         let preventiveMeasures = 5
-        let measureType = 19
+        let measureType = 21
         let saveButton = 5
         let measureBox = 3
+        let num = parseInt(Math.random() * 100000)
         cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
             force: true
         })
@@ -869,7 +910,7 @@ context('信息互通设置-告警原因和措施', () => {
                 force: true
             })
             cy.wait(500)
-            cy.get('.el-input__inner').eq(measureBox).clear().type('自动化修改')
+            cy.get('.el-input__inner').eq(measureBox).clear().type('自动化修改'+num)
             //点击保存
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true
@@ -935,41 +976,52 @@ context('信息互通设置-告警原因和措施', () => {
     })
     it('043-告警原因和措施(CV/符合率异常)-修改异常原因', () => {
         let CVAbnormal = 2
-        let ReasonEdit = 3
-        let Type = 3
+        let body = 2
         cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
             force: true
         })
-        cy.wait(500)
-        cy.get('.el-button.el-button--text.el-button--medium').eq(ReasonEdit).click({
-            force: true
+        cy.wait(1000)
+        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-edit').click({
+                force: true
+            })
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-input__inner').clear({
+                force: true
+            }).type('123', {
+                force: true
+            })
+            cy.server()
+            cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
+            cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
+            // 点击保存
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-check').click({
+                force: true
+            })
+            //界面出现保存成功则通过
+            cy.get('body').should('contain', '保存成功！')
         })
-        cy.get('.el-input__inner').eq(Type).type("AAA")
-        cy.wait(500)
-        cy.get('.el-icon-check').click({
-            force: true
-        })
-        //界面出现保存成功则通过
-        cy.get('body').should('contain', '保存成功！')
     })
     it('044-告警原因和措施(CV/符合率异常)-删除异常原因', () => {
         let CVAbnormal = 2
         let ReasonDelete = 2
+        let body = 2
         cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
             force: true
         })
-        cy.wait(500)
-        cy.get('.el-button.el-button--text.el-button--medium').eq(ReasonDelete).click({
-            force: true
+        cy.wait(1000)
+        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-delete').click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+            //界面出现删除成功则通过
+            cy.get('body').should('contain', '删除成功！')
         })
-        cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-            force: true
-        })
-
-        //界面出现删除成功则通过
-        cy.get('body').should('contain', '删除成功！')
     })
-
     it('045-告警原因和措施(CV/符合率异常)-新增异常措施为空不能保存', () => {
         let CVAbnormal = 2
         let MeasureAdd = 1
@@ -1015,37 +1067,50 @@ context('信息互通设置-告警原因和措施', () => {
     })
     it('048-告警原因和措施(CV/符合率异常)-修改处理措施', () => {
         let CVAbnormal = 2
-        let ReasonEdit = 4
-        let buttonDetermine = 4
-        let Type = 4
+        let body = 3
         cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
             force: true
         })
-        cy.wait(500)
-        cy.get('.el-button.el-button--text.el-button--medium').eq(ReasonEdit).click({
-            force: true
+        cy.wait(1000)
+        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-edit').click({
+                force: true
+            })
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-input__inner').clear({
+                force: true
+            }).type('123', {
+                force: true
+            })
+            cy.server()
+            cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
+            cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
+            // 点击保存
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-check').click({
+                force: true
+            })
+            //界面出现保存成功则通过
+            cy.get('body').should('contain', '保存成功！')
+
         })
-        cy.get('.el-input__inner').eq(Type).type("AAA")
-        cy.get('.el-button.el-button--text.el-button--medium').eq(buttonDetermine).click({
-            force: true
-        })
-        //界面出现保存成功则通过
-        cy.get('body').should('contain', '保存成功！')
     })
     it('049-告警原因和措施(CV/符合率异常)-删除处理措施', () => {
         let CVAbnormal = 2
-        let MeasureDelete = 3
+        let body = 3
         cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
             force: true
         })
-        cy.wait(500)
-        cy.get('.el-button.el-button--text.el-button--medium').eq(MeasureDelete).click({
-            force: true
+        cy.wait(1000)
+        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+            let getLength = data.length
+            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-delete').click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+            //界面出现删除成功则通过
+            cy.get('body').should('contain', '删除成功！')
         })
-        cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-            force: true
-        })
-        //界面出现删除成功则通过
-        cy.get('body').should('contain', '删除成功！')
     })
 })

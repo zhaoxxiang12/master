@@ -409,6 +409,7 @@ context('结果互认设置-开展项目设置', () => {
         cy.wait(500)
         let menu = 20
         let conventionalChemical = 2
+        cy.wait(1000)
         cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
             force: true
         })

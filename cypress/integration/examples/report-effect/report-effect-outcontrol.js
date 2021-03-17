@@ -93,7 +93,7 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 3
+        let chooseIndex = 4
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -111,7 +111,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -130,7 +130,7 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 5
+        let chooseIndex = 6
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -148,7 +148,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -167,7 +167,7 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex =6
+        let chooseIndex = 7
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click()
         //点击原因选择框
@@ -181,7 +181,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -200,7 +200,7 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 6
+        let chooseIndex = 2
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click()
         //点击原因选择框
@@ -214,7 +214,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -251,7 +251,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -286,7 +286,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -321,7 +321,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -353,7 +353,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -385,7 +385,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -418,7 +418,7 @@ context('失控处理情况', () => {
         cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click()
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -436,7 +436,7 @@ context('失控处理情况', () => {
     it('012-失控处理情况-按原因查看-获取页面上处理方式数据', () => {
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 9
+        let chooseIndex = 10
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click()
         //点击原因选择框
@@ -466,7 +466,7 @@ context('失控处理情况', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8
-        let chooseIndex = 9
+        let chooseIndex = 10
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click()
         //点击原因选择框
@@ -544,7 +544,7 @@ context('失控处理情况', () => {
         })
         // cy.get('button').contains('搜索').click({force:true})
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data).then((value) => {
@@ -568,7 +568,7 @@ context('失控处理情况', () => {
             force: true
         })
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost+'#/manage/report-effect/report-effect-outcontrol')
+        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.outControDeals.length).then((data) => {

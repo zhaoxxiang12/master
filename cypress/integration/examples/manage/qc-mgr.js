@@ -274,7 +274,7 @@ context('质控品管理', () => {
             }
         })
     })
-    it('008-质控品管理-切换质控主管单位(青浦医联体)', () => {
+    it('009-质控品管理-切换质控主管单位(青浦医联体)', () => {
         let dropList = 1
         let QP = 1
         let organizationBox = 0
@@ -290,14 +290,14 @@ context('质控品管理', () => {
             cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(QP).click({
                 force: true
             })
-            cy.wait(500)
+            cy.wait(1000)
             cy.get('.el-table__body').eq(body).find('.el-table__row').eq(first).find('.cell').eq(organization).invoke('text').then((data) => {
                 let newOrganization = data
                 expect(newOrganization).not.to.eq(oldOrganization)
             })
         })
     })
-    it('009-质控品管理-删除质控品(已关联数据的不能被删除)', () => {
+    it('010-质控品管理-删除质控品(已关联数据的不能被删除)', () => {
         let batchNumber = '20210305B'
         let batchBox = 2
         let expand = 0
