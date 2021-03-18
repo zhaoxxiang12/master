@@ -5,11 +5,11 @@ describe('CQB测试用例', function () {
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/account/lab-manage')
     })
     // 进入实验室账户
-    // it('#/manage/account/lab-manage', () => {
-    //     cy.get('.el-input__inner')
-    //     //断言
-    //     cy.get('body').should('contain', '佛山市第一人民医院')
-    // })
+    it('#/manage/account/lab-manage', () => {
+        cy.get('.el-input__inner')
+        //断言
+        cy.get('body').should('contain', '佛山市第一人民医院')
+    })
     //--------------------------------------------添加实验室------------------------------------------------
     it('001-添加实验室-实验室名称为空不能保存', () => {
         //点击添加实验室

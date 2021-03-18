@@ -198,7 +198,7 @@ context('参与实验室情况', () => {
     }
     if (stringApplyRate.length > 1) {
       if (stringApplyRate[1].length < 3) {
-        applyRate = applyRate.toString() + ""
+        applyRate = applyRate.toString() + "0"
       }
       if (stringApplyRate[1].length < 2) {
         applyRate = applyRate.toString() + "0"
@@ -213,10 +213,10 @@ context('参与实验室情况', () => {
     }
     if (stringNotJoinedRate.length > 1) {
       if (stringNotJoinedRate[1].length < 3) {
-        notjoinedRate = notjoinedRate.toString() + ""
+        notjoinedRate = notjoinedRate.toString() + "0"
       }
       if (stringNotJoinedRate[1].length < 2) {
-        notjoinedRate = notjoinedRate.toString() + ""
+        notjoinedRate = notjoinedRate.toString() + "0"
       }
     }
     //标签未配置百分比计算结果保留两位小数

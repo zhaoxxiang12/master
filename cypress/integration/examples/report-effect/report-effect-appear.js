@@ -1,4 +1,4 @@
-context('参与实验室情况', () => {
+context('实验室上报情况', () => {
     let judgeData
     let reporteData
     // URL地址全局变量

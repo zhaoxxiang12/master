@@ -9,7 +9,6 @@ context('信息互通设置-告警原因和措施', () => {
     })
     it('001-告警原因和措施(未上报)-未填写未上报原因不能保存', () => {
         cy.wait(500)
-        // cy.get('.el-input.el-input--medium').eq(Type).type('测试未上报')
         cy.get('button').contains('增加').click({
             force: true
         })
@@ -469,7 +468,9 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('body').should('contain', '名称已存在，请重新输入').should('not.contain', '保存成功')
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').should('have.length', getLength)
             //------------------------修改成不存在的名称可以进行保存--------------------------
-            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改' + num)
+            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改' + num,{
+                force: true
+            })
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true
             })
