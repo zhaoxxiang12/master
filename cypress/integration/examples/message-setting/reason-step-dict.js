@@ -226,7 +226,7 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('body').should('contain', '名称已存在，请重新输入')
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').should('have.length', getLength)
             //修改不存在的名称可以保存
-            cy.get('.el-input__inner').eq(addType).clear().type('自动化修改'+num)
+            cy.get('.el-input__inner').eq(addType).clear().type('自动化修改' + num)
             cy.get('button').contains('保存').click({
                 force: true
             })
@@ -315,30 +315,30 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('body').should('contain', '保存成功')
     })
     it
-    ('019-告警原因和措施(失控)-修改失控原因', () => {
-        let OutOfControl = 1
-        let reasonBox = 3
-        let instrumentType = 1
-        let num = parseInt(Math.random() * 100000)
-        cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
-            force: true
-        })
-        cy.wait(1000)
-        cy.get('.dict-panel-content').eq(instrumentType).find('.el-card__body').then((data) => {
-            let getLength = data.length
-            cy.get('.dict-panel-content').eq(instrumentType).find('.el-card__body').eq(getLength - 1).find('.el-icon-edit').click({
+        ('019-告警原因和措施(失控)-修改失控原因', () => {
+            let OutOfControl = 1
+            let reasonBox = 3
+            let instrumentType = 1
+            let num = parseInt(Math.random() * 100000)
+            cy.get('.el-tabs__nav.is-top').find('div').eq(OutOfControl).click({
                 force: true
             })
-            cy.get('.el-input__inner').eq(reasonBox).clear().type('自动化修改' + num)
-            cy.get('button').contains('保存').click({
-                force: true
-            })
-            // //界面出现保存成功则通过
             cy.wait(1000)
-            cy.get('body').should('contain', '保存成功')
-        })
+            cy.get('.dict-panel-content').eq(instrumentType).find('.el-card__body').then((data) => {
+                let getLength = data.length
+                cy.get('.dict-panel-content').eq(instrumentType).find('.el-card__body').eq(getLength - 1).find('.el-icon-edit').click({
+                    force: true
+                })
+                cy.get('.el-input__inner').eq(reasonBox).clear().type('自动化修改' + num)
+                cy.get('button').contains('保存').click({
+                    force: true
+                })
+                // //界面出现保存成功则通过
+                cy.wait(1000)
+                cy.get('body').should('contain', '保存成功')
+            })
 
-    })
+        })
     it('020-告警原因和措施(失控)-删除失控原因', () => {
         let OutOfControl = 1
         let DeleteButton = 2
@@ -468,7 +468,7 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('body').should('contain', '名称已存在，请重新输入').should('not.contain', '保存成功')
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').should('have.length', getLength)
             //------------------------修改成不存在的名称可以进行保存--------------------------
-            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改' + num,{
+            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改' + num, {
                 force: true
             })
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
@@ -711,7 +711,7 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('.el-button.dict-panel-add.el-button--primary.el-button--medium.is-plain').eq(addTypeButton).click({
                 force: true
             })
-            cy.get('.el-input__inner').eq(addBox).type('自动化新增',{
+            cy.get('.el-input__inner').eq(addBox).type('自动化新增', {
                 force: true
             })
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
@@ -754,7 +754,9 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('body').should('contain', '名称已存在，请重新输入').should('not.contain', '保存成功')
             cy.get('.dict-panel').eq(type).find('.dict-panel-item').should('have.length', getLength)
             //------------------------修改成不存在的名称可以进行保存--------------------------
-            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改'+num)
+            cy.get('.el-input__inner').eq(addBox).clear().type('仪器原因-自动化修改' + num, {
+                force: true
+            })
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true
             })
@@ -824,7 +826,7 @@ context('信息互通设置-告警原因和措施', () => {
             })
             //界面出现'请输入名称则通过
             cy.get('body').should('contain', '请输入名称')
-            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length',getLength)
+            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length', getLength)
         })
     })
     it('037-告警原因和措施(失控)-新增相同的预防措施', () => {
@@ -855,7 +857,7 @@ context('信息互通设置-告警原因和措施', () => {
             })
             //界面出现'请输入名称则通过
             cy.get('body').should('contain', '名称已存在，请重新输入')
-            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length',getLength)
+            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length', getLength)
         })
 
     })
@@ -887,13 +889,13 @@ context('信息互通设置-告警原因和措施', () => {
             })
             //界面出现'请输入名称则通过
             cy.get('body').should('contain', '保存成功')
-            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length',getLength+1)
+            cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length', getLength + 1)
         })
     })
     it('039-告警原因和措施(失控)-修改预防措施', () => {
         let OutOfControl = 1
         let preventiveMeasures = 5
-        let measureType = 21
+        let measureType = 19
         let saveButton = 5
         let measureBox = 3
         let num = parseInt(Math.random() * 100000)
@@ -911,7 +913,7 @@ context('信息互通设置-告警原因和措施', () => {
                 force: true
             })
             cy.wait(500)
-            cy.get('.el-input__inner').eq(measureBox).clear().type('自动化修改'+num)
+            cy.get('.el-input__inner').eq(measureBox).clear().type('自动化修改' + num)
             //点击保存
             cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
                 force: true

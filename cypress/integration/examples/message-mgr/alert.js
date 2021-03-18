@@ -6,7 +6,7 @@ context('消息互通-告警查询', () => {
     beforeEach(() => {
         let ExpandButton = 0
         let ChooseButton = 0
-        let DateType = 4
+        let DateType = 5
         let ListIndex = 2
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/alert')
@@ -26,7 +26,7 @@ context('消息互通-告警查询', () => {
     })
     it('001-使用消息状态进行查询-已知晓', () => {
         let StatusType = 2
-        let ListIndex = 4
+        let ListIndex = 5
         let know = 2
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
@@ -61,7 +61,7 @@ context('消息互通-告警查询', () => {
     })
     it('002-使用消息状态进行查询-未读', () => {
         let StatusType = 2
-        let ListIndex = 4
+        let ListIndex = 5
         let NotRead = 1
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
@@ -95,7 +95,7 @@ context('消息互通-告警查询', () => {
     })
     it('003-使用消息状态进行查询-已处理', () => {
         let StatusType = 2
-        let ListIndex = 4
+        let ListIndex = 5
         let processed = 4
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
@@ -234,7 +234,7 @@ context('消息互通-告警查询', () => {
     })
     it('006-使用消息类型进行查询-选择未上报', () => {
         let MessageType = 1
-        let ListIndex = 4
+        let ListIndex = 5
         let NotReportedIndex = 1
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
@@ -266,7 +266,7 @@ context('消息互通-告警查询', () => {
     })
     it('007-使用消息类型进行查询-选择项目失控', () => {
         let MessageType = 1
-        let ListIndex = 4
+        let ListIndex = 5
         let IteamOutOfControl = 2
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
@@ -298,7 +298,7 @@ context('消息互通-告警查询', () => {
     })
     it('008-使用消息类型进行查询-CV/符合率失控', () => {
         let MessageType = 1
-        let ListIndex = 4
+        let ListIndex = 5
         let CVIndex = 3
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
@@ -332,7 +332,7 @@ context('消息互通-告警查询', () => {
 
     it('009-使用消息状态进行查询-已认可', () => {
         let StatusType = 2
-        let ListIndex = 4
+        let ListIndex = 5
         let approved = 5
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true

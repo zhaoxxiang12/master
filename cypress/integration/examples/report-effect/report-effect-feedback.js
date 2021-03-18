@@ -95,6 +95,7 @@ context('信息反馈情况', () => {
         let outControlIndex = 3
         let outControlCVIndex = 4
         let labNameIndex = 0
+        cy.wait(5000)
         //获取总发消息数(佛山市顺德区中医院)
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(firstLabIndex).find('td').eq(totalMsgIndex).invoke('text')
             .then((text) => {
@@ -148,7 +149,7 @@ context('信息反馈情况', () => {
         let totalData = parseInt(notReportedMsg[0]) + parseInt(outControlCVMsg[0]) + parseInt(outControlMsg[0])
         //整数转字符串
         totalData = totalData.toString()
-        cy.wait(1000)
+        cy.wait(5000)
         //断言(判断)
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td').eq(totalMsgIndex)
             .should('have.text', totalData)
@@ -207,11 +208,11 @@ context('信息反馈情况', () => {
             })
         })
     })
-    it('006-信息反馈情况-使用地区进行搜索(选择贵州省)', () => {
+    it('006-信息反馈情况-使用地区进行搜索(选择广东省)', () => {
         let areaIndex = 0
         let boxIndex = 4
-        let guizhouProvinceIndex = 2
-        let guizhouIndex = 1
+        let GuangdongProvinceIndex = 2
+        let  GuangdongIndex = 1
         //点击地区
         cy.get('.el-radio__inner').eq(areaIndex).click({
             force: true
@@ -220,8 +221,8 @@ context('信息反馈情况', () => {
         cy.get('[placeholder="请选择省"]').click({
             force: true
         })
-        //选择贵州省
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guizhouProvinceIndex).click({
+        //选择广东省
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(GuangdongProvinceIndex).click({
             force: true
         })
         //点击搜索

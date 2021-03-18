@@ -575,7 +575,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
-        cy.wait(500)
+        cy.wait(3000)
         cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula) => {
             let oldFormula = formula
             cy.log(oldFormula)
@@ -583,6 +583,7 @@ context('结果互认设置-单位转换设置', () => {
             cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.el-button.el-button--text.el-button--medium').click({
                 force: true
             })
+            cy.wait(1000)
             //录入新值
             cy.get('.el-input__inner').eq(editFormulaBox).clear({
                 force: true

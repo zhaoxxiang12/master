@@ -74,7 +74,9 @@ context('结果互认设置-开展项目设置', () => {
          */
         cy.get('.el-input__inner').eq(InputBox).clear({
             force: true
-        }).type("常规化学")
+        }).type("常规化学",{
+            force: true
+        })
         cy.get('body').should('contain', '分类名称已存在, 请重输')
         /**
          * 编辑新的名称可以保存
@@ -136,6 +138,7 @@ context('结果互认设置-开展项目设置', () => {
         let ConfirmButton = 4
         let menu = 20
         let conventionalChemical = 2
+        cy.wait(1000)
         //项目分类选择常规化学
         cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
             force: true
@@ -270,7 +273,7 @@ context('结果互认设置-开展项目设置', () => {
         let menu = 20
         let conventionalChemical = 2
         //项目分类选择常规化学
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
             force: true
         })
@@ -438,7 +441,7 @@ context('结果互认设置-开展项目设置', () => {
         let unit = 4
         let customItem = 2
         //项目分类选择常规化学
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
             force: true
         })
@@ -453,8 +456,12 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(custom).click({
             force: true
         })
-        cy.get('input[placeholder="请输入项目简称"]').type('AD')
-        cy.get('input[placeholder="请输入项目中文名称"]').type('钠')
+        cy.get('input[placeholder="请输入项目简称"]').type('AD',{
+            force: true
+        })
+        cy.get('input[placeholder="请输入项目中文名称"]').type('钠',{
+            force: true
+        })
         //选择单位
         cy.get('input[placeholder="请选择"]').eq(unit).click({
             force: true
@@ -477,7 +484,7 @@ context('结果互认设置-开展项目设置', () => {
         let unit = 4
         let customItem = 2
         //项目分类选择常规化学
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
             force: true
         })
@@ -492,7 +499,9 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(custom).click({
             force: true
         })
-        cy.get('input[placeholder="请输入项目简称"]').type('AD')
+        cy.get('input[placeholder="请输入项目简称"]').type('AD',{
+            force: true
+        })
         //选择单位
         cy.get('input[placeholder="请选择"]').eq(unit).click({
             force: true
@@ -515,7 +524,7 @@ context('结果互认设置-开展项目设置', () => {
         let unit = 4
         let customItem = 2
         //项目分类选择常规化学
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
             force: true
         })
@@ -530,7 +539,9 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(custom).click({
             force: true
         })
-        cy.get('input[placeholder="请输入项目中文名称"]').type('钠')
+        cy.get('input[placeholder="请输入项目中文名称"]').type('钠',{
+            force: true
+        })
         //选择单位
         cy.get('input[placeholder="请选择"]').eq(unit).click({
             force: true
@@ -552,7 +563,7 @@ context('结果互认设置-开展项目设置', () => {
         let submitButton = 4
         let customItem = 2
         //项目分类选择常规化学
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
             force: true
         })
@@ -567,8 +578,12 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(custom).click({
             force: true
         })
-        cy.get('input[placeholder="请输入项目简称"]').type('AD')
-        cy.get('input[placeholder="请输入项目中文名称"]').type('钠AA')
+        cy.get('input[placeholder="请输入项目简称"]').type('AD',{
+            force: true
+        })
+        cy.get('input[placeholder="请输入项目中文名称"]').type('钠AA',{
+            force: true
+        })
         //点击确认
         cy.get('.el-button.el-button--primary.el-button--medium').eq(submitButton).click({
             force: true
@@ -585,7 +600,7 @@ context('结果互认设置-开展项目设置', () => {
         let unit = 4
         let customItem = 2
         //项目分类选择常规化学
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
             force: true
         })
@@ -605,10 +620,14 @@ context('结果互认设置-开展项目设置', () => {
             })
             cy.get('input[placeholder="请输入项目简称"]', {
                 force: true
-            }).type('AD')
+            }).type('AD',{
+                force: true
+            })
             cy.get('input[placeholder="请输入项目中文名称"]', {
                 force: true
-            }).type('自动化' + randomNum)
+            }).type('自动化' + randomNum,{
+                force: true
+            })
             //选择单位
             cy.get('input[placeholder="请选择"]').eq(unit).click({
                 force: true

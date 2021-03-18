@@ -198,7 +198,7 @@ context('参与实验室情况', () => {
     }
     if (stringApplyRate.length > 1) {
       if (stringApplyRate[1].length < 3) {
-        applyRate = applyRate.toString() + "0"
+        applyRate = applyRate.toString() + ""
       }
       if (stringApplyRate[1].length < 2) {
         applyRate = applyRate.toString() + "0"
@@ -213,7 +213,7 @@ context('参与实验室情况', () => {
     }
     if (stringNotJoinedRate.length > 1) {
       if (stringNotJoinedRate[1].length < 3) {
-        notjoinedRate = notjoinedRate.toString() + "0"
+        notjoinedRate = notjoinedRate.toString() + ""
       }
       if (stringNotJoinedRate[1].length < 2) {
         notjoinedRate = notjoinedRate.toString() + "0"
@@ -240,10 +240,10 @@ context('参与实验室情况', () => {
   it('006-参与实验室情况-显示字段-取消勾选某个字段', () => {
     cy.wait(1000)
     //点击显示字段
-    cy.get('button').contains('显示字段').click({
+    cy.get('.el-button.el-button--text.el-button--medium.el-popover__reference').click({
       force: true
     })
-    //取消勾选参与情况
+    // 取消勾选参与情况
     cy.get('.print-tool__columns').find('li').then((data) => {
       let webData = data
       webData = webData.length

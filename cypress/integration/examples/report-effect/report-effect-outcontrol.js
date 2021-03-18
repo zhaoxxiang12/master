@@ -72,6 +72,7 @@ context('失控处理情况', () => {
                 cy.get('button').contains('搜索').click({
                     force: true
                 })
+                cy.wait(1000)
             }
         })
     })
@@ -82,6 +83,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -116,6 +118,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -155,6 +158,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -194,6 +198,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -272,6 +277,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -311,6 +317,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -388,6 +395,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -426,6 +434,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -465,6 +474,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
@@ -501,6 +511,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         //循环遍历获取失控原因的数据
         for (let i = 4; i <= 15; i++) {
             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(0).find('td').eq(i).invoke('text')
@@ -568,6 +579,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         //获取页面实验室名称并进行对比
         cy.get('.table-line__fixed-header+.table-line').find('tr>td').eq(labIdex).should('have.text', labName)
     })
@@ -604,6 +616,7 @@ context('失控处理情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         // cy.get('button').contains('搜索').click({force:true})
         // 拦截请求必须写在visit之前
         cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
