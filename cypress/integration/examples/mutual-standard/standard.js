@@ -997,198 +997,198 @@ context('互认标准设置', () => {
             cy.get('.el-checkbox__input').eq(checkTest).should('have.class', 'is-checked')
         })
     })
-    // it('cqb-015-互认标准设置-删除模板', () => {
-    //     let chemical = 2
-    //     let edit = 1
-    //     let setRules = 1
-    //     let checkButton = 1
-    //     let miniList = 1
-    //     let miniDelete = 1
-    //     cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
-    //     //点击修改按钮
-    //     cy.get('.el-icon-edit-outline').eq(edit).click({
-    //         force: true
-    //     })
-    //     //分类选择常规化学
-    //     cy.get('.el-button.spec-filter__item.el-button--small').eq(chemical).click({
-    //         force: true
-    //     })
-    //     cy.get('.el-button.el-button--primary.el-button--small').eq(setRules).click({
-    //         force: true
-    //     })
-    //     cy.wait(500)
-    //     cy.get('button').contains('选择模板').click({
-    //         force: true
-    //     })
-    //     cy.get('.el-table__body').eq(miniList).find('.el-table__row').then((getData) => {
-    //         let getLength = getData.length
-    //         if (getLength == 1) {
-    //             cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--default.el-button--mini')
-    //             //点击删除
-    //             cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--default.el-button--mini').eq(miniDelete).click({
-    //                 force: true
-    //             })
-    //             //确认删除
-    //             cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-    //                 force: true
-    //             })
-    //             cy.wait(1000)
-    //             //断言(只有一个模板时,如果模板被删除了,选择模板这个按键会消失)
-    //             cy.get('.mutual-rule-template').find('span').eq(checkButton).should('have.css', 'display', 'none')
-    //         } else {
-    //             //点击删除
-    //             cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--default.el-button--mini').eq(miniDelete).click({
-    //                 force: true
-    //             })
-    //             //确认删除
-    //             cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-    //                 force: true
-    //             })
-    //             cy.wait(500)
-    //             //断言(判断模板数据是否少了)
-    //             cy.get('.el-table__body').eq(miniList).find('.el-table__row').should('have.length', getLength - 1)
-    //         }
-    //     })
-    // })
-    // it('cqb-016-互认标准设置-项目搜索', () => {
-    //     let chemical = 2
-    //     let edit = 1
-    //     let bigBody = 0
-    //     cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
-    //     //点击修改按钮
-    //     cy.get('.el-icon-edit-outline').eq(edit).click({
-    //         force: true
-    //     })
-    //     //分类选择常规化学
-    //     cy.get('.el-button.spec-filter__item.el-button--small').eq(chemical).click({
-    //         force: true
-    //     })
-    //     cy.get('input[placeholder ="输入项目名称"]').type('胆固醇', {
-    //         force: true
-    //     })
-    //     cy.wait(500)
-    //     cy.get('.el-table__body').find('tbody').eq(bigBody).find('.el-table__row').should('have.length', 3)
-    // })
-    // it('cqb-017-互认标准设置-已关联标准的实验室不能再次关联(复选框置灰)', () => {
-    //     let chemical = 2
-    //     let edit = 1
-    //     let typeBox = 0
-    //     let checkBox = 24
-    //     cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
-    //     //点击修改按钮
-    //     cy.get('.el-icon-edit-outline').eq(edit).click({
-    //         force: true
-    //     })
-    //     //分类选择常规化学
-    //     cy.get('.el-button.spec-filter__item.el-button--small').eq(chemical).click({
-    //         force: true
-    //     })
-    //     //点击添加
-    //     cy.get('.el-button.ql-select-lab__new.el-button--text.el-button--mini').click({
-    //         force: true
-    //     })
-    //     //输入实验室名称
-    //     cy.get('input[placeholder="请输入实验室名称或编码"]').eq(typeBox).type('gd18001', {
-    //         force: true
-    //     })
-    //     //点击搜索
-    //     cy.get('button').contains("搜索").click({
-    //         force: true
-    //     })
-    //     //断言复选框是否置灰
-    //     cy.get('.el-checkbox__input').eq(checkBox).should('have.class', 'is-disabled')
-    //     //输入实验室名称
-    //     cy.get('input[placeholder="请输入实验室名称或编码"]').eq(typeBox).clear().type('gdtest5', {
-    //         force: true
-    //     })
-    //     //点击搜索
-    //     cy.get('button').contains("搜索").click({
-    //         force: true
-    //     })
-    //     //断言复选框是否未置灰
-    //     cy.get('.el-checkbox__input').eq(checkBox).should('not.have.class', 'is-disabled')
-    // })
-    // it('cqb-018-互认标准设置-复制互认标准', () => {
-    //     let copyBbutton = 1
-    //     let standardName = 1
-    //     let saveButton = 7
-    //     let typeName = '自动化复制标准'
-    //     cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
-    //     cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
-    //         let getLength = getData.length
-    //         let index = 0
-    //         cy.get('.el-button.copy.el-button--success.el-button--medium.is-circle').eq(copyBbutton).click({
-    //             force: true
-    //         })
-    //         cy.wait(500)
-    //         //输入标准名称
-    //         cy.get('.el-input__inner').eq(standardName).type(typeName, {
-    //             force: true
-    //         })
+    it('cqb-015-互认标准设置-删除模板', () => {
+        let chemical = 2
+        let edit = 1
+        let setRules = 1
+        let checkButton = 1
+        let miniList = 1
+        let miniDelete = 1
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
+        //点击修改按钮
+        cy.get('.el-icon-edit-outline').eq(edit).click({
+            force: true
+        })
+        //分类选择常规化学
+        cy.get('.el-button.spec-filter__item.el-button--small').eq(chemical).click({
+            force: true
+        })
+        cy.get('.el-button.el-button--primary.el-button--small').eq(setRules).click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('button').contains('选择模板').click({
+            force: true
+        })
+        cy.get('.el-table__body').eq(miniList).find('.el-table__row').then((getData) => {
+            let getLength = getData.length
+            if (getLength == 1) {
+                cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--default.el-button--mini')
+                //点击删除
+                cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--default.el-button--mini').eq(miniDelete).click({
+                    force: true
+                })
+                //确认删除
+                cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                    force: true
+                })
+                cy.wait(1000)
+                //断言(只有一个模板时,如果模板被删除了,选择模板这个按键会消失)
+                cy.get('.mutual-rule-template').find('span').eq(checkButton).should('have.css', 'display', 'none')
+            } else {
+                //点击删除
+                cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--default.el-button--mini').eq(miniDelete).click({
+                    force: true
+                })
+                //确认删除
+                cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                    force: true
+                })
+                cy.wait(500)
+                //断言(判断模板数据是否少了)
+                cy.get('.el-table__body').eq(miniList).find('.el-table__row').should('have.length', getLength - 1)
+            }
+        })
+    })
+    it('cqb-016-互认标准设置-项目搜索', () => {
+        let chemical = 2
+        let edit = 1
+        let bigBody = 0
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
+        //点击修改按钮
+        cy.get('.el-icon-edit-outline').eq(edit).click({
+            force: true
+        })
+        //分类选择常规化学
+        cy.get('.el-button.spec-filter__item.el-button--small').eq(chemical).click({
+            force: true
+        })
+        cy.get('input[placeholder ="输入项目名称"]').type('胆固醇', {
+            force: true
+        })
+        cy.wait(500)
+        cy.get('.el-table__body').find('tbody').eq(bigBody).find('.el-table__row').should('have.length', 3)
+    })
+    it('cqb-017-互认标准设置-已关联标准的实验室不能再次关联(复选框置灰)', () => {
+        let chemical = 2
+        let edit = 1
+        let typeBox = 0
+        let checkBox = 24
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
+        //点击修改按钮
+        cy.get('.el-icon-edit-outline').eq(edit).click({
+            force: true
+        })
+        //分类选择常规化学
+        cy.get('.el-button.spec-filter__item.el-button--small').eq(chemical).click({
+            force: true
+        })
+        //点击添加
+        cy.get('.el-button.ql-select-lab__new.el-button--text.el-button--mini').click({
+            force: true
+        })
+        //输入实验室名称
+        cy.get('input[placeholder="请输入实验室名称或编码"]').eq(typeBox).type('gd18001', {
+            force: true
+        })
+        //点击搜索
+        cy.get('button').contains("搜索").click({
+            force: true
+        })
+        //断言复选框是否置灰
+        cy.get('.el-checkbox__input').eq(checkBox).should('have.class', 'is-disabled')
+        //输入实验室名称
+        cy.get('input[placeholder="请输入实验室名称或编码"]').eq(typeBox).clear().type('gdtest5', {
+            force: true
+        })
+        //点击搜索
+        cy.get('button').contains("搜索").click({
+            force: true
+        })
+        //断言复选框是否未置灰
+        cy.get('.el-checkbox__input').eq(checkBox).should('not.have.class', 'is-disabled')
+    })
+    it('cqb-018-互认标准设置-复制互认标准', () => {
+        let copyBbutton = 1
+        let standardName = 1
+        let saveButton = 7
+        let typeName = '自动化复制标准'
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
+        cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
+            let getLength = getData.length
+            let index = 0
+            cy.get('.el-button.copy.el-button--success.el-button--medium.is-circle').eq(copyBbutton).click({
+                force: true
+            })
+            cy.wait(500)
+            //输入标准名称
+            cy.get('.el-input__inner').eq(standardName).type(typeName, {
+                force: true
+            })
 
-    //         for (let i = 0; i < getLength - 2; i++) {
-    //             index += 1
-    //         }
-    //         //点击保存
-    //         cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton + index).click({
-    //             force: true
-    //         })
-    //         //点击弹窗确认
-    //         cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
-    //             force: true
-    //         })
-    //         //断言是否保存成功
-    //         cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').should('have.length', getLength + 1)
-    //         cy.get('body').should('contain', '互认标准创建成功！')
-    //         //断言保存后的标准名称
-    //         cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').eq(getLength).find('.sd-cfg__item-title').should('have.text', typeName)
-    //         //删除复制的模板
-    //         cy.get('.el-button.delete.el-button--danger.el-button--medium.is-circle').eq(getLength).click({
-    //             force: true
-    //         })
-    //         cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-    //             force: true
-    //         })
-    //         cy.get('body').should('contain', '删除成功！')
-    //     })
-    // })
-    // it('cqb-019-互认标准设置-删除标准', () => {
-    //     cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
-    //     cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
-    //         let getLength = getData.length
-    //         if (getLength == 1) { //防止将默认规则删除
-    //             return
-    //         } else {
-    //             //点击删除
-    //             cy.get('.el-button.delete.el-button--danger.el-button--medium.is-circle').eq(getLength - 1).click({
-    //                 force: true
-    //             })
-    //             //确认删除
-    //             cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-    //                 force: true
-    //             })
-    //             cy.get('body').should('contain', '删除成功！')
-    //             cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').should('have.length', getLength - 1)
-    //         }
-    //     })
-    // })
-    // it('cqb-020-互认标准设置-切换质控主管单位(青浦医联体)', () => {
-    //     let QPYLT = 1
-    //     let QPStandard = 0
-    //     cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
-    //     cy.wait(1000)
-    //     cy.get('input[placeholder="请选择"]').click({
-    //         forece: true
-    //     })
-    //     cy.intercept('**/cqb-base-mgr/service/mgr/std/yearrecog/list?*').as('getData')
-    //     cy.get('.el-scrollbar__view.el-select-dropdown__list').find('li').eq(QPYLT).click({
-    //         force: true
-    //     })
-    //     cy.wait('@getData').then((Data) => {
-    //         let getStatus = Data.response.statusCode
-    //         let expectStatus = 200
-    //         expect(getStatus).to.eq(expectStatus)
-    //     })
-    //     cy.get('.el-card.sd-cfg__item.is-hover-shadow').eq(QPStandard).find('.sd-cfg__item-title').should('have.text', 'WST406')
-    // })
+            for (let i = 0; i < getLength - 2; i++) {
+                index += 1
+            }
+            //点击保存
+            cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton + index).click({
+                force: true
+            })
+            //点击弹窗确认
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
+                force: true
+            })
+            //断言是否保存成功
+            cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').should('have.length', getLength + 1)
+            cy.get('body').should('contain', '互认标准创建成功！')
+            //断言保存后的标准名称
+            cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').eq(getLength).find('.sd-cfg__item-title').should('have.text', typeName)
+            //删除复制的模板
+            cy.get('.el-button.delete.el-button--danger.el-button--medium.is-circle').eq(getLength).click({
+                force: true
+            })
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                force: true
+            })
+            cy.get('body').should('contain', '删除成功！')
+        })
+    })
+    it('cqb-019-互认标准设置-删除标准', () => {
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
+        cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
+            let getLength = getData.length
+            if (getLength == 1) { //防止将默认规则删除
+                return
+            } else {
+                //点击删除
+                cy.get('.el-button.delete.el-button--danger.el-button--medium.is-circle').eq(getLength - 1).click({
+                    force: true
+                })
+                //确认删除
+                cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                    force: true
+                })
+                cy.get('body').should('contain', '删除成功！')
+                cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').should('have.length', getLength - 1)
+            }
+        })
+    })
+    it('cqb-020-互认标准设置-切换质控主管单位(青浦医联体)', () => {
+        let QPYLT = 1
+        let QPStandard = 0
+        cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
+        cy.wait(1000)
+        cy.get('input[placeholder="请选择"]').click({
+            forece: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/std/yearrecog/list?*').as('getData')
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').find('li').eq(QPYLT).click({
+            force: true
+        })
+        cy.wait('@getData').then((Data) => {
+            let getStatus = Data.response.statusCode
+            let expectStatus = 200
+            expect(getStatus).to.eq(expectStatus)
+        })
+        cy.get('.el-card.sd-cfg__item.is-hover-shadow').eq(QPStandard).find('.sd-cfg__item-title').should('have.text', 'WST406')
+    })
 })
