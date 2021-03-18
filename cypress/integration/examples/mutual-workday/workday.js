@@ -154,6 +154,7 @@ context('月度工作日申请审核', () => {
         cy.get('input[placeholder="请选择"]').eq(applyType).click({
             force: true
         })
+        cy.wait(1000)
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(plan).click({
             force: true
         })
@@ -319,6 +320,7 @@ context('月度工作日申请审核', () => {
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true
         })
+        cy.wait(2000)
         cy.wait('@getData').then((xhr) => {
             let expectStatus = 200
             let totalData = xhr.response.body.data.total
@@ -342,6 +344,7 @@ context('月度工作日申请审核', () => {
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true
         })
+        cy.wait(2000)
         cy.wait('@getData').then((xhr) => {
             let expectStatus = 200
             let totalData = xhr.response.body.data.total
@@ -360,6 +363,7 @@ context('月度工作日申请审核', () => {
         let control = 0
         let QPYLT = 1
         let dropList = 3
+        let searchButton = 1
         cy.intercept('**/cqb-base-mgr/service/mgr/item/workDays/page?*').as('getData')
         cy.get('input[placeholder="请选择"]').eq(control).click({
             force: true
@@ -367,7 +371,10 @@ context('月度工作日申请审核', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(QPYLT).click({
             force: true
         })
-        cy.wait(500)
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
+            force: true
+        })
+        cy.wait(2000)
         cy.wait('@getData').then((xhr) => {
             let expectStatus = 200
             let totalData = xhr.response.body.data.total
