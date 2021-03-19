@@ -20,29 +20,47 @@ context('数据分析管理', () => {
             // cy.log(webData)
             if (webData = province) {
                 // 点击时间下拉框
-                cy.get('[placeholder="请选择"]').click()
+                cy.get('[placeholder="请选择"]').click({
+                    force: true
+                })
                 //选择时间(指定时间范围内)
-                cy.get('body>div[class="el-select-dropdown el-popper"]>div>div>ul>li>span').eq(timeIndex).click()
+                cy.get('body>div[class="el-select-dropdown el-popper"]>div>div>ul>li>span').eq(timeIndex).click({
+                    force: true
+                })
                 //点击时间控件
-                cy.get('i[class="el-input__icon el-range__icon el-icon-date"]').click()
+                cy.get('i[class="el-input__icon el-range__icon el-icon-date"]').click({
+                    force: true
+                })
                 //选择年份2019年(上一年)
-                cy.get('[class="el-picker-panel__icon-btn el-icon-d-arrow-left"]').click()
+                cy.get('[class="el-picker-panel__icon-btn el-icon-d-arrow-left"]').click({
+                    force: true
+                })
                 //
                 for (var i = 1; i <= 3; i++) {
-                    cy.get('[class="el-picker-panel__icon-btn el-icon-arrow-right"]').click()
+                    cy.get('[class="el-picker-panel__icon-btn el-icon-arrow-right"]').click({
+                        force: true
+                    })
                 }
                 //选择开始日期2019年9月1日
                 cy.get('div[class="el-picker-panel__content el-date-range-picker__content is-left"]').find('table>tbody>tr')
-                    .find('td[class="available"]').find('div').eq(0).click()
+                    .find('td[class="available"]').find('div').eq(0).click({
+                        force: true
+                    })
                 //选择结束时间(月份)
                 for (var j = 1; j <= 2; j++) {
-                    cy.get('[class="el-picker-panel__icon-btn el-icon-arrow-right"]').click()
+                    cy.get('[class="el-picker-panel__icon-btn el-icon-arrow-right"]').click({
+                        force: true
+                    })
                 }
                 //选择日期
                 cy.get('[class="el-picker-panel__content el-date-range-picker__content is-right"]').find('table>tbody>tr')
-                    .find('td[class="available"]').find('div').eq(28).click()
+                    .find('td[class="available"]').find('div').eq(28).click({
+                        force: true
+                    })
                 //点击搜索按键
-                cy.get('[class="el-form el-form--inline"]').find('div>div>button').click()
+                cy.get('[class="el-form el-form--inline"]').find('div>div>button').click({
+                    force: true
+                })
                 //
                 // cy.wait(1000)
                 //获取已上报实验室的个数
@@ -76,29 +94,47 @@ context('数据分析管理', () => {
                     })
             } else {
                 // 点击时间下拉框
-                cy.get('[placeholder="请选择"]').click()
+                cy.get('[placeholder="请选择"]').click({
+                    force: true
+                })
                 //选择时间(指定时间范围内)
-                cy.get('body>div[class="el-select-dropdown el-popper"]>div>div>ul>li>span').eq(timeIndex).click()
+                cy.get('body>div[class="el-select-dropdown el-popper"]>div>div>ul>li>span').eq(timeIndex).click({
+                    force: true
+                })
                 //点击时间控件
-                cy.get('i[class="el-input__icon el-range__icon el-icon-date"]').click()
+                cy.get('i[class="el-input__icon el-range__icon el-icon-date"]').click({
+                    force: true
+                })
                 //选择年份2019年(上一年)
-                cy.get('[class="el-picker-panel__icon-btn el-icon-d-arrow-left"]').click()
+                cy.get('[class="el-picker-panel__icon-btn el-icon-d-arrow-left"]').click({
+                    force: true
+                })
                 //
                 for (var i = 1; i <= 3; i++) {
-                    cy.get('[class="el-picker-panel__icon-btn el-icon-arrow-right"]').click()
+                    cy.get('[class="el-picker-panel__icon-btn el-icon-arrow-right"]').click({
+                        force: true
+                    })
                 }
                 //选择开始日期2019年9月1日
                 cy.get('div[class="el-picker-panel__content el-date-range-picker__content is-left"]').find('table>tbody>tr')
-                    .find('td[class="available"]').find('div').eq(0).click()
+                    .find('td[class="available"]').find('div').eq(0).click({
+                        force: true
+                    })
                 //选择结束时间(月份)
                 for (var j = 1; j <= 2; j++) {
-                    cy.get('[class="el-picker-panel__icon-btn el-icon-arrow-right"]').click()
+                    cy.get('[class="el-picker-panel__icon-btn el-icon-arrow-right"]').click({
+                        force: true
+                    })
                 }
                 //选择日期
                 cy.get('[class="el-picker-panel__content el-date-range-picker__content is-right"]').find('table>tbody>tr')
-                    .find('td[class="available"]').find('div').eq(28).click()
+                    .find('td[class="available"]').find('div').eq(28).click({
+                        force: true
+                    })
                 //点击搜索按键
-                cy.get('[class="el-form el-form--inline"]').find('div>div>button').click()
+                cy.get('[class="el-form el-form--inline"]').find('div>div>button').click({
+                    force: true
+                })
                 //
                 // cy.wait(1000)
                 //获取已上报实验室的个数
@@ -203,15 +239,23 @@ context('数据分析管理', () => {
         var buttonIndex = 0
         var number = parseInt(Math.random() * 100000)
         //点击推送到大屏
-        cy.get('.el-button.el-button--success.el-button--medium').eq(buttonIndex).click()
+        cy.get('.el-button.el-button--success.el-button--medium').eq(buttonIndex).click({
+            force: true
+        })
         //输入分屏的标题
         cy.get('[for="title"]+.el-form-item__content').find('.el-input.el-input--medium.el-input--suffix').type("UI" + number)
         //选择推送大屏的区域
-        cy.get('.screen-area').find('tr>td>div').eq(screenIndex).click()
+        cy.get('.screen-area').find('tr>td>div').eq(screenIndex).click({
+            force: true
+        })
         //点击确定推送
-        cy.get('button').contains('确定推送').click()
+        cy.get('button').contains('确定推送').click({
+            force: true
+        })
         //点击覆盖按键
-        cy.get('button').contains('覆盖').click()
+        cy.get('button').contains('覆盖').click({
+            force: true
+        })
         //断言
         cy.get('body').should('contain', '已推送到分屏 9')
     })
@@ -224,13 +268,19 @@ context('数据分析管理', () => {
             force: true
         })
         cy.get('[for="title"]+.el-form-item__content').find('.el-input.el-input--medium.el-input--suffix').type('123')
-        cy.get('.screen-area').find('tr>td>div').eq(screenIndex).click()
+        cy.get('.screen-area').find('tr>td>div').eq(screenIndex).click({
+            force: true
+        })
         cy.get('[for="title"]+.el-form-item__content').find('.el-input.el-input--medium.el-input--suffix').find('.el-input__inner').clear()
-        cy.get('button').contains('确定推送').click()
+        cy.get('button').contains('确定推送').click({
+            force: true
+        })
         //断言
         cy.get('body').should('contain', '请输入分屏标题')
         //点击取消按键
-        cy.get('button').contains('取消').click()
+        cy.get('button').contains('取消').click({
+            force: true
+        })
     })
     it('004-数据分析管理-上报率-使用地区进行搜索(选择广东省)', () => {
         //省选择框下标
@@ -247,20 +297,32 @@ context('数据分析管理', () => {
             let webData = data
             if (webData = province) {
                 //点击省份选择框
-                cy.get('[placeholder="请选择省"]').click()
+                cy.get('[placeholder="请选择省"]').click({
+                    force: true
+                })
                 //选择广东省
-                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guangdongProvice).click()
+                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guangdongProvice).click({
+                    force: true
+                })
                 //点击搜索
-                cy.get('button').contains('搜索').click()
+                cy.get('button').contains('搜索').click({
+                    force: true
+                })
                 //断言
                 cy.get('body').should('contain', '佛山市')
             } else {
                 //点击省份选择框
-                cy.get('[placeholder="请选择省"]').click()
+                cy.get('[placeholder="请选择省"]').click({
+                    force: true
+                })
                 //选择广东省
-                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guangdongProvice).click()
+                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(guangdongProvice).click({
+                    force: true
+                })
                 //点击搜索
-                cy.get('button').contains('搜索').click()
+                cy.get('button').contains('搜索').click({
+                    force: true
+                })
                 //断言
                 cy.get('body').should('contain', '该地区数据尚未开放')
             }
@@ -269,13 +331,19 @@ context('数据分析管理', () => {
     it('005-数据分析管理-上报率-不同分级机构查看的数据不一样', () => {
         let queryIndex = 1
         //点击搜索按键
-        cy.get('[placeholder="请选择省"]').click()
+        cy.get('[placeholder="请选择省"]').click({
+            force: true
+        })
         //断言
         cy.get('body').should('contain', '北京市').and('contain', '广东省').and('contain', '广西壮族自治区')
         //点击右上角的管理员
-        cy.get('span[aria-haspopup="list"]').eq(queryIndex).click()
+        cy.get('span[aria-haspopup="list"]').eq(queryIndex).click({
+            force: true
+        })
         //点击注销，切换用户登录
-        cy.get('.cqbicon.icon-logout').click()
+        cy.get('.cqbicon.icon-logout').click({
+            force: true
+        })
         // 关闭登录界面弹窗提示
         cy.get('button').contains('关闭').click({
             force: true
@@ -289,9 +357,13 @@ context('数据分析管理', () => {
 
         // ---------gdfskj账户登录  市账户只能查看本市的数据------------
         // 点击右上角的管理员
-        cy.get('span[aria-haspopup="list"]').eq(queryIndex).click()
+        cy.get('span[aria-haspopup="list"]').eq(queryIndex).click({
+            force: true
+        })
         //点击注销，切换用户登录
-        cy.get('.cqbicon.icon-logout').click()
+        cy.get('.cqbicon.icon-logout').click({
+            force: true
+        })
         // cy.wait(3000)
         //关闭登录弹窗
         cy.get('button').contains('关闭').click({

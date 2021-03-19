@@ -138,7 +138,7 @@ context('月度IQC报告', () => {
     })
 
     it('report-002-月度IQC报告_查看IQC报告', () => {
-        let labCode = 'gd18001'
+        let labCode = 'gdtest5'
         let keywordBox = 1
         let searchButton = 1
         let view = 0
@@ -163,7 +163,7 @@ context('月度IQC报告', () => {
     })
 
     it('report-003-月度IQC报告_推送/取消推送IQC报告', () => {
-        let labCode = 'gd18001'
+        let labCode = 'gd18003'
         let keywordBox = 1
         let searchButton = 1
         let push = 2
