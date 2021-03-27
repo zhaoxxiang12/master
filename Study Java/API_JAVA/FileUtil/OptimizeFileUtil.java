@@ -21,6 +21,13 @@ public class OptimizeFileUtil {
 
     }
 
+    /**
+     * 通过字节流复制工具(自定义8KB缓冲区,效率大幅度提高)
+     * @param oldFile
+     * @param newFile
+     * @throws IOException
+     */
+
     public static void copyMedia(String oldFile, String newFile) throws IOException {
         if (oldFile == null || "".equals(oldFile) || newFile == null || "".equals(newFile)) {
             System.out.println("文件错误");

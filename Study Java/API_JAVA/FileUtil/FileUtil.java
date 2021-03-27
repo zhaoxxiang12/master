@@ -14,7 +14,12 @@ public class FileUtil {
         }
 
     }
-
+    /**
+     * 1.通过字节流复制工具(一个字节一个字节的复制,效率低)
+     * @param oldFile
+     * @param newFile
+     * @throws IOException
+     */
     public static void copyMedia(String oldFile, String newFile) throws IOException {
         if (oldFile == null || "".equals(oldFile) || newFile == null || "".equals(newFile)) {
             System.out.println("文件错误");
