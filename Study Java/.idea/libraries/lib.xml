@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../迅雷下载/poi-bin-5.0.0-20210120/poi-5.0.0/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../迅雷下载/poi-bin-5.0.0-20210120/poi-5.0.0/lib" recursive="false" />
+  </library>
+</component>
