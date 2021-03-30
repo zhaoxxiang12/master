@@ -1,5 +1,4 @@
 context('信息互通设置-推送设置', () => {
-    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/message-setting/push-setting')
@@ -130,7 +129,6 @@ context('信息互通设置-推送设置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/message/rules?*').as('getData')
-        cy.visit(urlHost + '#/setting/message-setting/push-setting')
         //点击保存
         cy.get('.el-button.el-button--primary.el-button--medium').eq(ButtonIndex).click({
             force: true
@@ -153,7 +151,6 @@ context('信息互通设置-推送设置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/message/rules?*').as('getData')
-        cy.visit(urlHost + '#/setting/message-setting/push-setting')
         //点击确认删除
         cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
             force: true
@@ -333,7 +330,6 @@ context('信息互通设置-推送设置', () => {
         // cy.wait(1000)
         cy.server()
         cy.route('**/service/mgr/message/rules?*').as('getData')
-        cy.visit(urlHost + '#/setting/message-setting/push-setting')
         //点击保存
         cy.get('.el-button.el-button--primary.el-button--medium').eq(ButtonIndex).click({
             force: true
@@ -352,7 +348,6 @@ context('信息互通设置-推送设置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/message/rules?*').as('getData')
-        cy.visit(urlHost + '#/setting/message-setting/push-setting')
         //点击确认删除
         cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
             force: true
@@ -378,7 +373,6 @@ context('信息互通设置-推送设置', () => {
                 })
                 cy.server()
                 cy.route('**/service/mgr/message/rules?*').as('getData')
-                cy.visit(urlHost + '#/setting/message-setting/push-setting')
                 cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
                     force: true
                 })
@@ -395,7 +389,6 @@ context('信息互通设置-推送设置', () => {
                 })
                 cy.server()
                 cy.route('**/service/mgr/message/rules?*').as('getData')
-                cy.visit(urlHost + '#/setting/message-setting/push-setting')
                 cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
                     force: true
                 })
@@ -443,7 +436,6 @@ context('信息互通设置-推送设置', () => {
             })
             cy.server()
             cy.route('**/service/mgr/message/rules?*').as('getData')
-            cy.visit(urlHost + '#/setting/message-setting/push-setting')
             //点击保存
             cy.get('.el-button.el-button--primary.el-button--medium').eq(ButtonIndex).click({
                 force: true

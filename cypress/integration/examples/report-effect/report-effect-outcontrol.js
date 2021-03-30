@@ -1,8 +1,6 @@
 context('失控处理情况', () => {
     let judgeData
     let methodData = []
-    // URL地址全局变量
-    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         let dateIndex = 1
@@ -85,7 +83,6 @@ context('失控处理情况', () => {
         })
         cy.wait(1000)
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.outControDeals.length).then((data) => {
@@ -120,7 +117,6 @@ context('失控处理情况', () => {
         })
         cy.wait(1000)
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -160,7 +156,6 @@ context('失控处理情况', () => {
         })
         cy.wait(1000)
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -199,8 +194,6 @@ context('失控处理情况', () => {
             force: true
         })
         cy.wait(1000)
-        // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -239,7 +232,6 @@ context('失控处理情况', () => {
             force: true
         })
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -279,7 +271,6 @@ context('失控处理情况', () => {
         })
         cy.wait(1000)
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -318,8 +309,7 @@ context('失控处理情况', () => {
             force: true
         })
         cy.wait(1000)
-        // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
+        // 拦截请求必须写在visit之
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -358,7 +348,6 @@ context('失控处理情况', () => {
             force: true
         })
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -397,7 +386,6 @@ context('失控处理情况', () => {
         })
         cy.wait(1000)
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -436,7 +424,6 @@ context('失控处理情况', () => {
         })
         cy.wait(1000)
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -476,7 +463,6 @@ context('失控处理情况', () => {
         })
         cy.wait(1000)
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
@@ -619,7 +605,6 @@ context('失控处理情况', () => {
         cy.wait(1000)
         // cy.get('button').contains('搜索').click({force:true})
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data).then((value) => {
@@ -645,7 +630,6 @@ context('失控处理情况', () => {
             force: true
         })
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-outcontrol')
         cy.wait('@getLabdata').then((xhr) => {
             cy.log(xhr.response)
             cy.get(xhr.response.body.data.outControDeals.length).then((data) => {

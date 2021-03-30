@@ -1,5 +1,4 @@
 context('互认合格情况', () => {
-    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         let yearIndex = 0
@@ -82,7 +81,6 @@ context('互认合格情况', () => {
             force: true
         })
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-mutual')
         cy.wait('@getLabdata').then((xhr) => {
             // labName='贵阳华夏不孕不育医院'
             cy.log(xhr.response)

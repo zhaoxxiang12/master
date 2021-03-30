@@ -1,9 +1,5 @@
 context('消息互通-公告板', () => {
-    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
-        let MessageSharegIndex = 1
-        let biiloardIndex = 1
-        let UseIndex = 3
         let startDate = 0
         let endMonth = 3
         let endYear = 3
@@ -86,7 +82,7 @@ context('消息互通-公告板', () => {
                             })
                         }
                     } else {
-                        cy.get('.el-date-table').find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
+                        cy.get('.el-date-table').eq(1).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
                             force: true
                         })
                     }
@@ -97,7 +93,7 @@ context('消息互通-公告板', () => {
             })
         })
     })
-    it('001-公告板-未填写公告标题不能保存', () => {
+    it.skip('001-公告板-未填写公告标题不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1
@@ -230,7 +226,7 @@ context('消息互通-公告板', () => {
         //断言
         cy.get('body').should('contain', '请输入公告标题')
     })
-    it('002-公告板-未填写公告正文不能保存', () => {
+    it.skip('002-公告板-未填写公告正文不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1
@@ -248,7 +244,9 @@ context('消息互通-公告板', () => {
             force: true
         })
         //输入公告标题
-        cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题")
+        cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题", {
+            force: true
+        })
         //选择公告时间 2021/3/11
         cy.get('.el-input__inner').eq(timeBox).click({
             force: true
@@ -362,7 +360,7 @@ context('消息互通-公告板', () => {
         //断言
         cy.get('body').should('contain', '请输入公告内容')
     })
-    it('003-公告板-未选择实验室不能保存', () => {
+    it.skip('003-公告板-未选择实验室不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1
@@ -377,7 +375,9 @@ context('消息互通-公告板', () => {
             force: true
         })
         //输入公告标题
-        cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题")
+        cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题", {
+            force: true
+        })
         //选择公告时间 2021/3/11
         cy.get('.el-input__inner').eq(timeBox).click({
             force: true
@@ -479,6 +479,9 @@ context('消息互通-公告板', () => {
         cy.get('body').should('contain', '请选择关联实验室')
     })
     it('004-公告板-数据填写完整正常保存', () => {
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
         cy.get('.el-table__body').find('tbody>tr').then((Data) => {
             let getLength = Data.length
             let timeBox = 6
@@ -498,7 +501,9 @@ context('消息互通-公告板', () => {
                 force: true
             })
             //输入公告标题
-            cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题")
+            cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题", {
+                force: true
+            })
             //选择公告时间 2021/3/11
             cy.get('.el-input__inner').eq(timeBox).click({
                 force: true

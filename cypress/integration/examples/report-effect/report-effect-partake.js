@@ -4,8 +4,6 @@ context('参与实验室情况', () => {
   let joinLabData = []
   //储存实验室未标签未配置的数据
   let newData = []
-  // URL地址全局变量
-  let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
 
   // let New_rate = []
   // let Join_lab_rate = []
@@ -198,7 +196,7 @@ context('参与实验室情况', () => {
     }
     if (stringApplyRate.length > 1) {
       if (stringApplyRate[1].length < 3) {
-        applyRate = applyRate.toString() + "0"
+        applyRate = applyRate.toString() + ""
       }
       if (stringApplyRate[1].length < 2) {
         applyRate = applyRate.toString() + "0"
@@ -213,7 +211,7 @@ context('参与实验室情况', () => {
     }
     if (stringNotJoinedRate.length > 1) {
       if (stringNotJoinedRate[1].length < 3) {
-        notjoinedRate = notjoinedRate.toString() + "0"
+        notjoinedRate = notjoinedRate.toString() + ""
       }
       if (stringNotJoinedRate[1].length < 2) {
         notjoinedRate = notjoinedRate.toString() + "0"
@@ -298,7 +296,6 @@ context('参与实验室情况', () => {
     // 拦截接口，使用通配符*拦截更灵活
     cy.route('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
     // 拦截请求必须写在visit之前
-    cy.visit(urlHost + '#/manage/report-effect/report-effect-partake')
     cy.get('button').contains('搜索').click({
       force: true
     })
@@ -312,7 +309,6 @@ context('参与实验室情况', () => {
         labJoin = labJoin.toString()
 
         //获取参与率
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-partake')
         cy.get('button').contains('搜索').click({
           force: true
         })
@@ -361,7 +357,6 @@ context('参与实验室情况', () => {
     // 拦截接口，使用通配符*拦截更灵活
     cy.route('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
     // 拦截请求必须写在visit之前
-    cy.visit(urlHost + '#/manage/report-effect/report-effect-partake')
     cy.get('button').contains('搜索').click({
       force: true
     })
@@ -374,7 +369,6 @@ context('参与实验室情况', () => {
         labJoin = labJoin.toString()
         cy.log(labJoin)
         //获取标签未配置参与率
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-partake')
         cy.get('button').contains('搜索').click({
           force: true
         })
@@ -436,7 +430,6 @@ context('参与实验室情况', () => {
     cy.server()
     cy.route('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
     // 拦截请求必须写在visit之前
-    cy.visit(urlHost + '#/manage/report-effect/report-effect-partake')
     cy.get('button').contains('搜索').click({
       force: true
     })
@@ -589,7 +582,6 @@ context('参与实验室情况', () => {
     cy.server()
     cy.route('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
     // 拦截请求必须写在visit之前
-    cy.visit(urlHost + '#/manage/report-effect/report-effect-partake')
     cy.get('button').contains('搜索').click({
       force: true
     })

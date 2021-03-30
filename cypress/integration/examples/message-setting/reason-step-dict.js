@@ -2,7 +2,6 @@
  * 告警原因和措施
  */
 context('信息互通设置-告警原因和措施', () => {
-    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/message-setting/reason-step-dict')
@@ -20,7 +19,6 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('.el-input.el-input--medium').eq(Type).type('仪器故障')
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('getData')
-        cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
         //点击增加
         cy.get('button').contains('增加').click({
             force: true
@@ -33,7 +31,6 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('.el-input.el-input--medium').eq(Type).type('测试未上报')
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('getData')
-        cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
         //点击增加
         cy.get('button').contains('增加').click({
             force: true
@@ -52,7 +49,6 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('.el-input__inner').eq(1).clear().type('123')
             cy.server()
             cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
-            cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
             // 点击保存
             cy.get('button').contains('保存').click({
                 force: true
@@ -126,7 +122,6 @@ context('信息互通设置-告警原因和措施', () => {
             })
             cy.server()
             cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
-            cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
             // 点击保存
             cy.get('button').contains('保存').click({
                 force: true
@@ -996,7 +991,6 @@ context('信息互通设置-告警原因和措施', () => {
             })
             cy.server()
             cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
-            cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
             // 点击保存
             cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-check').click({
                 force: true
@@ -1087,7 +1081,6 @@ context('信息互通设置-告警原因和措施', () => {
             })
             cy.server()
             cy.route('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
-            cy.visit(urlHost + '#/setting/message-setting/reason-step-dict')
             // 点击保存
             cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-check').click({
                 force: true

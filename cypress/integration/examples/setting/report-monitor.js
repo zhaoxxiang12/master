@@ -1,5 +1,4 @@
 context('监控内容配置', () => {
-    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     //定义一个getIframeBody的方法--后面断言需要用到
     const getIframeBody = () => {
         //尝试获取 iframe > document > body 
@@ -26,7 +25,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -55,7 +53,6 @@ context('监控内容配置', () => {
             })
             cy.server()
             cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-            cy.visit(urlHost + '#/setting/report-monitor')
             cy.get('button').contains('搜索').click({
                 force: true
             })
@@ -91,7 +88,6 @@ context('监控内容配置', () => {
         cy.get('.el-select-group').eq(DropList).find('li').eq(foshanTag).click()
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -128,7 +124,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -168,7 +163,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -210,7 +204,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -250,7 +243,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -290,7 +282,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -330,7 +321,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -549,7 +539,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/stats?labId*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.wait(500)
         cy.get('.ql-lab-list__status').find('div').eq(reportDetails).click({
             force: true
@@ -585,7 +574,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/new/reportmonitors/getLabLoginToken?*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('查看实验室信息').click({
             force: true
         })
@@ -615,7 +603,6 @@ context('监控内容配置', () => {
         })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/iqccenternew/getLoginUrl?*').as('getData')
-        cy.visit(urlHost + '#/setting/report-monitor')
         cy.get('button').contains('查看IQC信息').click({
             force: true
         })

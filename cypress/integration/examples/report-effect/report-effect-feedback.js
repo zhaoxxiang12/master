@@ -4,7 +4,6 @@ context('信息反馈情况', () => {
         outControlMsg = [],
         outControlCVMsg = [],
         labName
-    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         let dateIndex = 1
@@ -230,7 +229,6 @@ context('信息反馈情况', () => {
         cy.server()
         cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-feedback')
         cy.get('.el-button.el-button--primary.el-button--medium').eq(0).click({
             force: true
         })
@@ -265,7 +263,6 @@ context('信息反馈情况', () => {
         cy.server()
         cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-feedback')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -301,7 +298,6 @@ context('信息反馈情况', () => {
         cy.server()
         cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-feedback')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -346,7 +342,6 @@ context('信息反馈情况', () => {
         cy.server()
         cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
-        cy.visit(urlHost + '#/manage/report-effect/report-effect-feedback')
         cy.get('button').contains('搜索').click({
             force: true
         })

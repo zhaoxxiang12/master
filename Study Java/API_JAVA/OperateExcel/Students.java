@@ -2,20 +2,21 @@ package OperateExcel;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Students implements Serializable {
     private static final long serialVersionUID = 1L;
     private long StudentID;
     private String name;
     private String sex;
-    private String birth;
+    private Date birth;
     private String major;
 
     public Students() {
         super();
     }
 
-    public Students(long studentID, String name, String sex, String birth, String major) {
+    public Students(long studentID, String name, String sex, Date birth, String major) {
         super();
         StudentID = studentID;
         this.name = name;
@@ -23,6 +24,14 @@ public class Students implements Serializable {
         this.birth = birth;
         this.major = major;
     }
+
+    public Students(long studentID, String name, String sex, Date birth) {
+        StudentID = studentID;
+        this.name = name;
+        this.sex = sex;
+        this.birth = birth;
+    }
+
 
     public long getStudentID() {
         return StudentID;
@@ -59,11 +68,11 @@ public class Students implements Serializable {
         this.sex = sex;
     }
 
-    public String getBirth() {
+    public Date getBirth() {
         return birth;
     }
 
-    public void setBirth(String birth) {
+    public void setBirth(Date birth) {
         this.birth = birth;
     }
 
