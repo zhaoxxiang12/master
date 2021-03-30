@@ -2,7 +2,6 @@
  * 开展项目设置
  */
 context('结果互认设置-开展项目设置', () => {
-    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-item')
@@ -701,5 +700,63 @@ context('结果互认设置-开展项目设置', () => {
         })
         cy.get('.el-menu').eq(menu).should('have.length', 1)
         cy.get('.item-configNew__aside-label').should('contain', '全血细胞计数')
+    })
+    it('020-开展项目设置-停用所有项目', () => {
+        let menu = 20
+        let covid = 1
+        cy.wait(500)
+        cy.get('.el-menu').eq(menu).find('li').eq(covid).click({
+            force: true
+        })
+        cy.wait(2000)
+        cy.get('.el-main.item-configNew__content').find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').then((getData) => {
+            let getLength = getData.length
+            cy.get('button').contains('停用所有项目').click({
+                force: true
+            })
+            //点击保存
+            cy.get('.el-button.el-button--primary.el-button--medium.is-round').click({
+                force: true
+            })
+            //二次确认
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
+                force: true
+            })
+            cy.get('body').should('contain', '已保存')
+            for (let i = 0; i < getLength; i++) {
+                cy.get('.el-main.item-configNew__content').find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').eq(i)
+                .find('.el-switch.ql-itemCard__switch').should('not.have.class', 'is-checked')
+
+            }
+        })
+    })
+    it('021-开展项目设置-启用所有项目', () => {
+        let menu = 20
+        let covid = 1
+        cy.wait(500)
+        cy.get('.el-menu').eq(menu).find('li').eq(covid).click({
+            force: true
+        })
+        cy.wait(2000)
+        cy.get('.el-main.item-configNew__content').find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').then((getData) => {
+            let getLength = getData.length
+            cy.get('button').contains('启用所有项目').click({
+                force: true
+            })
+            //点击保存
+            cy.get('.el-button.el-button--primary.el-button--medium.is-round').click({
+                force: true
+            })
+            //二次确认
+            cy.get('.el-button.el-button--default.el-button--small.el-button--primary ').click({
+                force: true
+            })
+            cy.get('body').should('contain', '已保存')
+            for (let i = 0; i < getLength; i++) {
+                cy.get('.el-main.item-configNew__content').find('.el-card.ql-itemCard.item-configNew__item.is-always-shadow').eq(i)
+                .find('.el-switch.ql-itemCard__switch').should('have.class', 'is-checked')
+
+            }
+        })
     })
 })

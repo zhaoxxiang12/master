@@ -10,7 +10,7 @@ describe('CQB测试用例', function () {
         //断言
         cy.get('body').should('contain', '佛山市第一人民医院')
     })
-    //--------------------------------------------添加实验室------------------------------------------------
+    // --------------------------------------------添加实验室------------------------------------------------
     it('001-添加实验室-实验室名称为空不能保存', () => {
         //点击添加实验室
         cy.get('i[class=el-icon-circle-plus]').click({
@@ -62,11 +62,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
-        // cy.get('button[class=el-button.el-button--default.el-button--medium]')
-        // cy.get('button[class="el-button el-button--default el-button--medium"').eq(5).click()//点击关闭
         cy.get('body').should('contain', '请输入实验室名称')
 
     })
@@ -81,8 +79,6 @@ describe('CQB测试用例', function () {
         })
         //输入实验室编码
         var lab_Code = parseInt(Math.random() * 100000) //生成随机数
-        //  console.log('gd'+lab_Code)
-        //  cy.get('input[class=el-input__inner').eq(9).type('gd'+lab_Code)
         //选择所在地（选择省）选择广东省
         cy.get('input[class=el-input__inner').eq(10).click({
             force: true
@@ -104,8 +100,6 @@ describe('CQB测试用例', function () {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(7).find('li').eq(1).click({
             force: true
         })
-        //获取GPS坐标
-        // cy.get('div[class=el-input-group__append]').click()
         cy.get('input[placeholder="如：113.124749,23.00637"]').type('113.124749,23.00637"')
         //输入联系人
         cy.get('input[class=el-input__inner').eq(14).type('AA', {
@@ -120,11 +114,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
-        // cy.get('button[class=el-button.el-button--default.el-button--medium]')
-        // cy.get('button[class="el-button el-button--default el-button--medium"').eq(5).click()//点击关闭
         cy.get('body').should('contain', '请输入编码')
     })
     it('003-添加实验室-实验室编码重复不能保存', () => {
@@ -162,8 +154,6 @@ describe('CQB测试用例', function () {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(7).find('li').eq(1).click({
             force: true
         })
-        //获取GPS坐标
-        // cy.get('div[class=el-input-group__append]').click()
         cy.get('input[placeholder="如：113.124749,23.00637"]').type('113.124749,23.00637"')
         //输入联系人
         cy.get('input[class=el-input__inner').eq(14).type('AA', {
@@ -178,11 +168,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
-        // cy.get('button[class=el-button.el-button--default.el-button--medium]')
-        // cy.get('button[class="el-button el-button--default el-button--medium"').eq(5).click()//点击关闭
         cy.get('body').should('contain', '编码已存在，请重新输入')
     })
     it('004-添加实验室-所在地为空不能保存', () => {
@@ -198,15 +186,6 @@ describe('CQB测试用例', function () {
         cy.get('input[class=el-input__inner').eq(9).type('gd' + lab_Code, {
             force: true
         })
-        //选择所在地（选择省）
-        //  cy.get('input[class=el-input__inner').eq(10).click()//点击所在地的下拉框
-        //  cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(7).find("li").eq(2).click()//选择广东省
-        //选择所在地（选择市）
-        //  cy.get('input[placeholder=所有市]').eq(1).click()
-        //  cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(7).find('li').eq(5).click()
-        // 选择所在区
-        //  cy.get('input[placeholder=所有区]').eq(1).click()//点击所在区选择框
-        //  cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(7).find('li').eq(1).click()//选择南海区
         //获取GPS坐标
         cy.get('input[placeholder="如：113.124749,23.00637"]').type('113.124749,23.00637"')
         //输入联系人
@@ -222,9 +201,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click()
-        // cy.get('button[class=el-button.el-button--default.el-button--medium]')
-        // cy.get('button[class="el-button el-button--default el-button--medium"').eq(5).click()//点击关闭
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
+            force: true
+        })
         cy.get('body').should('contain', '请选择所在地')
     })
     it('005-添加实验室-GPS坐标为空不能保存', () => {
@@ -262,9 +241,6 @@ describe('CQB测试用例', function () {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(7).find('li').eq(1).click({
             force: true
         })
-        //获取GPS坐标
-        //   cy.get('div[class=el-input-group__append]').click()
-        //  cy.get('input[placeholder="如：113.124749,23.00637"]').type('113.124749,23.00637"')
         //输入联系人
         cy.get('input[class=el-input__inner').eq(14).type('AA', {
             force: true
@@ -278,11 +254,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
-        // cy.get('button[class=el-button.el-button--default.el-button--medium]')
-        // cy.get('button[class="el-button el-button--default el-button--medium"').eq(5).click()//点击关闭
         cy.get('body').should('contain', '请输入GPS坐标')
     })
     it('006-添加实验室-联系人为空不能保存', () => {
@@ -322,7 +296,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //获取GPS坐标
-        cy.get('div[class=el-input-group__append]').click()
+        cy.get('div[class=el-input-group__append]').click({
+            force: true
+        })
         //  cy.get('input[placeholder="如：113.124749,23.00637"]').type('113.124749,23.00637"')
         //输入联系人
         // cy.get('input[class=el-input__inner').eq(14).type('AA')
@@ -335,11 +311,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
-        // cy.get('button[class=el-button.el-button--default.el-button--medium]')
-        // cy.get('button[class="el-button el-button--default el-button--medium"').eq(5).click()//点击关闭
         cy.get('body').should('contain', '请输入联系人名称')
     })
     it('007-添加实验室-联系人电话为空不能保存', () => {
@@ -394,18 +368,18 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
-        // cy.get('button[class=el-button.el-button--default.el-button--medium]')
-        // cy.get('button[class="el-button el-button--default el-button--medium"').eq(5).click()//点击关闭
         cy.get('body').should('contain', '请输入联系电话', {
             force: true
         })
     })
     it.skip('008-添加实验室-必填项按照正确格式填写保存成功', () => {
         //点击添加实验室
-        cy.get('i[class=el-icon-circle-plus]').click()
+        cy.get('i[class=el-icon-circle-plus]').click({
+            force: true
+        })
         //输入实验室名称  
         cy.get('input[maxlength="64"').type('佛山市医院')
         //输入实验室编码
@@ -434,7 +408,9 @@ describe('CQB测试用例', function () {
             force: true
         }) //选择南海区
         //获取GPS坐标
-        cy.get('div[class=el-input-group__append]').click()
+        cy.get('div[class=el-input-group__append]').click({
+            force: true
+        })
         //  cy.get('input[placeholder="如：113.124749,23.00637"]').type('113.124749,23.00637"')
         //输入联系人
         cy.get('input[class=el-input__inner').eq(14).type('AA')
@@ -443,19 +419,18 @@ describe('CQB测试用例', function () {
         // 输入实验密码
         cy.get('input[class=el-input__inner]').eq(17).type('gd' + lab_Code)
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
-        // cy.get('button[class=el-button.el-button--default.el-button--medium]')
-        // cy.get('button[class="el-button el-button--default el-button--medium"').eq(5).click()//点击关闭
         cy.get('body').should('contain', '实验室已添加')
         //    搜索输入框输入内容
         cy.get('input[placeholder="实验室名称或编码"').type('gd' + lab_Code)
         //    点击搜索按键
-        cy.get('i[class="el-icon-search"]').click()
+        cy.get('i[class="el-icon-search"]').click({
+            force: true
+        })
         //    断言
         cy.get('body').should('contain', '共 1 条')
-
 
     })
 
@@ -485,7 +460,7 @@ describe('CQB测试用例', function () {
             force: true
         }).type(newlabName)
         // 点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
         // 保存成功断言
@@ -519,7 +494,7 @@ describe('CQB测试用例', function () {
         cy.get('input[maxlength="64"]').clear({
             force: true
         }).type("测试实验室1")
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         }) // 点击保存
 
@@ -544,7 +519,7 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
         //断言
@@ -574,7 +549,7 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
         //断言
@@ -612,7 +587,7 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click({
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
             force: true
         })
         //断言
@@ -624,7 +599,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击搜索按键
-        cy.get('i[class="el-icon-search"]').click()
+        cy.get('i[class="el-icon-search"]').click({
+            force: true
+        })
         //点击编辑按键
         cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click({
             force: true
@@ -643,7 +620,10 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击编辑按键
-        cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click()
+        cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click({
+            force: true
+        }
+        )
         //------------修改联系电话------------
         cy.get('input[class=el-input__inner]').eq(15).clear() //清除以前的数据
         var Phone_Number = parseInt(Math.random() * 1000000) //生成随机数
@@ -653,7 +633,9 @@ describe('CQB测试用例', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(4).click()
+        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
+            force: true
+        })
         //断言
         cy.get('body').should('contain', '实验室已更新')
         //在搜索框输入数据
@@ -673,7 +655,7 @@ describe('CQB测试用例', function () {
     })
     // // --------------------------------------------启用/停用实验室------------------------------------------------
     it('014-启用/停用实验室实验室', () => {
-        let keyWord = 7
+        let keyWord = 17
         let status = 6
         //在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').type('测试实验室1', {

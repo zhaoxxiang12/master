@@ -1,5 +1,5 @@
 context('互认合格情况', () => {
-    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         let yearIndex = 0

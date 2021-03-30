@@ -1,5 +1,5 @@
 context('消息互通-公告板', () => {
-    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         let MessageSharegIndex = 1
         let biiloardIndex = 1

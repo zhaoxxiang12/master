@@ -5,7 +5,7 @@ context('参与实验室情况', () => {
   //储存实验室未标签未配置的数据
   let newData = []
   // URL地址全局变量
-  let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+  let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
 
   // let New_rate = []
   // let Join_lab_rate = []
@@ -198,7 +198,7 @@ context('参与实验室情况', () => {
     }
     if (stringApplyRate.length > 1) {
       if (stringApplyRate[1].length < 3) {
-        applyRate = applyRate.toString() + ""
+        applyRate = applyRate.toString() + "0"
       }
       if (stringApplyRate[1].length < 2) {
         applyRate = applyRate.toString() + "0"
@@ -213,7 +213,7 @@ context('参与实验室情况', () => {
     }
     if (stringNotJoinedRate.length > 1) {
       if (stringNotJoinedRate[1].length < 3) {
-        notjoinedRate = notjoinedRate.toString() + ""
+        notjoinedRate = notjoinedRate.toString() + "0"
       }
       if (stringNotJoinedRate[1].length < 2) {
         notjoinedRate = notjoinedRate.toString() + "0"

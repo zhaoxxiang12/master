@@ -1,5 +1,5 @@
 context('互认标准设置', () => {
-    let host = "http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html"
+    let host = "http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html"
     beforeEach(() => {
         cy.loginCQB()
     })
@@ -942,7 +942,6 @@ context('互认标准设置', () => {
             cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find('.el-button.el-button--default.el-button--mini').eq(editDemo).click({
                 force: true
             })
-            cy.wait(1000)
             cy.get('.el-input__inner').eq(typeBox).clear({
                 force: true
             }).type(typeName, {
@@ -967,7 +966,7 @@ context('互认标准设置', () => {
         let chemical = 2
         let edit = 1
         let setRules = 1
-        let checkTest = 24
+        let checkTest = 25
         let miniList = 1
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
         //点击修改按钮
@@ -1073,7 +1072,7 @@ context('互认标准设置', () => {
         let chemical = 2
         let edit = 1
         let typeBox = 0
-        let checkBox = 24
+        let checkBox = 25
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
         //点击修改按钮
         cy.get('.el-icon-edit-outline').eq(edit).click({

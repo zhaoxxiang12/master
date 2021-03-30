@@ -2,7 +2,7 @@ context('失控处理情况', () => {
     let judgeData
     let methodData = []
     // URL地址全局变量
-    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         let dateIndex = 1

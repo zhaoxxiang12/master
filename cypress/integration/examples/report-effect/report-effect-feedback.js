@@ -4,7 +4,7 @@ context('信息反馈情况', () => {
         outControlMsg = [],
         outControlCVMsg = [],
         labName
-    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         let dateIndex = 1

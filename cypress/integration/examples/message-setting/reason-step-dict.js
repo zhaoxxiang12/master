@@ -2,7 +2,7 @@
  * 告警原因和措施
  */
 context('信息互通设置-告警原因和措施', () => {
-    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/message-setting/reason-step-dict')

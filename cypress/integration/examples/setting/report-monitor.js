@@ -1,5 +1,5 @@
 context('监控内容配置', () => {
-    let urlHost = 'http://cqb-mgr.sh.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     //定义一个getIframeBody的方法--后面断言需要用到
     const getIframeBody = () => {
         //尝试获取 iframe > document > body 
