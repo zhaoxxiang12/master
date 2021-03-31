@@ -38,7 +38,7 @@ public class Students implements Serializable {
         return StudentID;
     }
 
-    public void setStudentID(Integer studentID) {
+    public void setStudentID(long studentID) {
         StudentID = studentID;
     }
 

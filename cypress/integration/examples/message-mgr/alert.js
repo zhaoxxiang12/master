@@ -2,13 +2,19 @@
  * 告警查询
  */
 context('消息互通-告警查询', () => {
-    beforeEach(() => {
+    let cookieName
+    let cookieValue
+    let alertList = 5
+    before(() => {
         let ExpandButton = 0
         let ChooseButton = 0
-        let DateType = 5
         let ListIndex = 2
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/alert')
+        cy.getCookies().should('exist').then((cookie) => {
+            cookieName = cookie[0]['name']
+            cookieValue = cookie[0]['value']
+        })
         cy.wait(1000)
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(ExpandButton).click({
@@ -19,19 +25,21 @@ context('消息互通-告警查询', () => {
         })
         cy.wait(1000)
         // 选择指定日期
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DateType).find('li').eq(ListIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(ListIndex).click({
             force: true
-        })
+        }) 
+    })
+    beforeEach(()=>{
+        cy.setCookie(cookieName, cookieValue)
     })
     it('001-使用消息状态进行查询-已知晓', () => {
         let StatusType = 2
-        let ListIndex = 5
         let know = 2
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
         })
         cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(know).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(know).click({
             force: true
         })
         cy.server()
@@ -59,12 +67,11 @@ context('消息互通-告警查询', () => {
     })
     it('002-使用消息状态进行查询-未读', () => {
         let StatusType = 2
-        let ListIndex = 5
         let NotRead = 1
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(NotRead).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(NotRead).click({
             force: true
         })
         cy.server()
@@ -92,12 +99,11 @@ context('消息互通-告警查询', () => {
     })
     it('003-使用消息状态进行查询-已处理', () => {
         let StatusType = 2
-        let ListIndex = 5
         let processed = 4
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(processed).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(processed).click({
             force: true
         })
         cy.server()
@@ -228,12 +234,11 @@ context('消息互通-告警查询', () => {
     })
     it('006-使用消息类型进行查询-选择未上报', () => {
         let MessageType = 1
-        let ListIndex = 5
         let NotReportedIndex = 1
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(NotReportedIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(NotReportedIndex).click({
             force: true
         })
         cy.server()
@@ -259,12 +264,11 @@ context('消息互通-告警查询', () => {
     })
     it('007-使用消息类型进行查询-选择项目失控', () => {
         let MessageType = 1
-        let ListIndex = 5
         let IteamOutOfControl = 2
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(IteamOutOfControl).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(IteamOutOfControl).click({
             force: true
         })
         cy.server()
@@ -290,12 +294,11 @@ context('消息互通-告警查询', () => {
     })
     it('008-使用消息类型进行查询-CV/符合率失控', () => {
         let MessageType = 1
-        let ListIndex = 5
         let CVIndex = 3
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(ListIndex).find('li').eq(CVIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(CVIndex).click({
             force: true
         })
         cy.server()
@@ -323,8 +326,8 @@ context('消息互通-告警查询', () => {
 
     it('009-使用消息状态进行查询-已认可', () => {
         let StatusType = 2
-        let ListIndex = 5
         let approved = 5
+        let ListIndex = 4
         cy.get('input[placeholder="请选择"]').eq(StatusType).click({
             force: true
         })
@@ -389,6 +392,9 @@ context('消息互通-告警查询', () => {
     it('011-使用标签进行查询-私立标签', () => {
         let ListIndex = 0
         let PrivateTag = 1
+        cy.get('.el-tag__close.el-icon-close').click({
+            force: true
+        })
         cy.get('.el-select__input.is-medium').click({
             force: true
         })

@@ -1,5 +1,7 @@
 context('月度IQC报告', () => {
-    beforeEach(() => {
+    let cookieName
+    let cookieValue
+    before(() => {
         let startDate = 0
         let startMonth = 0
         let chooseStartMonth = 0
@@ -13,6 +15,10 @@ context('月度IQC报告', () => {
         let endTime = 0
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/lab/iqc')
+        cy.getCookies().should('exist').then((cookie) => {
+            cookieName = cookie[0]['name']
+            cookieValue = cookie[0]['value']
+        })
         //选择开始时间2020/1
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
@@ -63,8 +69,11 @@ context('月度IQC报告', () => {
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true
         })
+        
     })
-
+    beforeEach(() => {
+        cy.setCookie(cookieName, cookieValue)
+    })
     it('report-001-月度IQC报告-生成IQC报告', () => {
         let labCode = 'gdtest5'
         let keywordBox = 1
@@ -113,6 +122,7 @@ context('月度IQC报告', () => {
                     let expectStatus = 200
                     expect(getStatus).to.eq(expectStatus)
                     cy.get('body').should('contain', '生成任务已提交')
+                    cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/lab/iqc')
                 })
             } else {
                 for (let i = 0; i < differenceYear; i++) {
@@ -132,6 +142,7 @@ context('月度IQC报告', () => {
                     let expectStatus = 200
                     expect(getStatus).to.eq(expectStatus)
                     cy.get('body').should('contain', '生成任务已提交')
+                    cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/lab/iqc')
                 })
             }
         })
@@ -140,8 +151,18 @@ context('月度IQC报告', () => {
     it('report-002-月度IQC报告_查看IQC报告', () => {
         let labCode = 'gdtest5'
         let keywordBox = 1
-        let searchButton = 1
         let view = 0
+        let startDate = 0
+        let startMonth = 0
+        let chooseStartMonth = 0
+        let endMonth = 2
+        let expandButton = 0
+        let endDate = 1
+        let endDay = 0
+        let chooseEndMonth = 1
+        let searchButton = 1
+        let startTime = 0
+        let endTime = 0
         cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).type(labCode, {
             force: true
         })
@@ -160,6 +181,57 @@ context('月度IQC报告', () => {
             //断言报告能正常打开，
             expect(getStatus).to.eq(expectStatus)
         })
+        cy.get('.ql-frame-viewer__close').click({force:true})
+         //选择开始时间2020/1
+         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
+            force: true
+        })
+        cy.get('input[placeholder="开始时间"]').eq(startTime).click({
+            force: true
+        })
+        cy.get('.el-date-picker__header-label').eq(startDate).invoke('text').then((getData) => {
+            let getYear = parseInt(getData.slice(0, 4))
+            let differenceYear = getYear - 2021
+            if (differenceYear == 0) {
+                cy.get('.el-month-table').find('tbody>tr').eq(startMonth).find('td').eq(chooseStartMonth).click({
+                    force: true
+                })
+            } else {
+                for (let i = 0; i < differenceYear; i++) {
+                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click({
+                        force: true
+                    })
+                }
+                cy.get('.el-month-table').find('tbody>tr').eq(startMonth).find('td').eq(chooseStartMonth).click({
+                    force: true
+                })
+            }
+        })
+        //选择结束时间2020/2
+        cy.get('input[placeholder="结束时间"]').eq(endTime).click({
+            force: true
+        })
+        cy.get('.el-date-picker__header-label').eq(endMonth).invoke('text').then((getData) => {
+            let endYear = parseInt(getData.slice(0, 4))
+            let differenceYear = endYear - 2020
+            if (differenceYear == 0) {
+                cy.get('.el-month-table').eq(endDate).find('tbody>tr').eq(endDay).find('td').eq(chooseEndMonth).click({
+                    force: true
+                })
+            } else {
+                for (let i = 0; i < differenceYear; i++) {
+                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').eq(endDate).click({
+                        force: true
+                    })
+                }
+                cy.get('.el-month-table').eq(endDate).find('tbody>tr').eq(endDay).find('td').eq(chooseEndMonth).click({
+                    force: true
+                })
+            }
+        })
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
+            force: true
+        })
     })
 
     it('report-003-月度IQC报告_推送/取消推送IQC报告', () => {
@@ -167,7 +239,7 @@ context('月度IQC报告', () => {
         let keywordBox = 1
         let searchButton = 1
         let push = 2
-        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).type(labCode, {
+        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).clear({force:true}).type(labCode, {
             force: true
         })
         //点击搜索
@@ -221,7 +293,7 @@ context('月度IQC报告', () => {
         let searchButton = 1
         let chooseOne = 2
         let chooseTwo = 3
-        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).type(labCode, {
+        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).clear({force:true}).type(labCode, {
             force: true
         })
         //点击搜索
@@ -259,7 +331,7 @@ context('月度IQC报告', () => {
         let chooseOne = 2
         let chooseTwo = 3
         let unPush = 0
-        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).type(labCode, {
+        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).clear().type(labCode, {
             force: true
         })
         //点击搜索
@@ -369,7 +441,7 @@ context('月度IQC报告', () => {
                 })
             }
         })
-        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).type(labCode, {
+        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).clear().type(labCode, {
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?*').as('getWebData')
@@ -435,14 +507,18 @@ context('月度IQC报告', () => {
         })
     })
     it('report-007-月度IQC报告_所在地进行搜索', () => {
-        let dropList = 5
+        let dropList = 4
         let Beijing = 0
         let searchButton = 1
         let Shanghai = 1
+        let keywordBox = 1
+        //清除实验室编码
+        cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).clear()
         //----------------选择北京--------------------------------
         cy.get('input[placeholder="请选择省"]').click({
             force: true
         })
+        cy.wait(1000)
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(Beijing).click({
             force: true
         })
@@ -468,7 +544,7 @@ context('月度IQC报告', () => {
         cy.get('input[placeholder="请选择省"]').click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList - 1).find('li').eq(Shanghai).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(Shanghai).click({
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?*').as('getWebData')
@@ -493,14 +569,15 @@ context('月度IQC报告', () => {
         })
     })
     it('report-008-月度IQC报告_所在地进行搜索(选择广东)', () => {
-        let dropList = 5
+        let dropList = 4
         let searchButton = 1
         let Guangdong = 2
         //----------------选择广东--------------------------------
         cy.get('input[placeholder="请选择省"]').click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(Guangdong).click({
+        cy.wait(1000)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList+1).find('li').eq(Guangdong).click({
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?*').as('getWebData')

@@ -7,9 +7,8 @@ context('互认报告和证书管理', () => {
         let foshan = 1
         let yearBox = 2
         let currentYear = 0
-        let choose = 0
-        cy.server()
-        cy.route('**/service/mgr/report/ccls*').as('ccls')
+        let choose = 0  
+        cy.intercept('**/service/mgr/report/ccls*').as('ccls')
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/dept/report-gen')
         cy.wait(500)
         cy.wait('@ccls').then((xhr) => {
@@ -68,8 +67,7 @@ context('互认报告和证书管理', () => {
     it('002-月度汇总报告-互认报告和证书管理-生成互认报告', () => {
         let monthTime = 3
         let dayTime = 15
-        cy.server()
-        cy.route('**/service/mgr/lab/pageWithRole*').as('pageWithRole')
+        cy.intercept('**/service/mgr/lab/pageWithRole*').as('pageWithRole')
         cy.wait(2000)
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/lab/report-lab')
         //输入实验室名称
@@ -110,8 +108,7 @@ context('互认报告和证书管理', () => {
     })
 
     it('003-月度汇总报告-互认报告和证书管理-单个条件搜索实验室', () => {
-        cy.server()
-        cy.route('**/service/mgr/lab/pageWithRole*').as('pageWithRole')
+        cy.intercept('**/service/mgr/lab/pageWithRole*').as('pageWithRole')
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/lab/report-lab')
         cy.wait('@pageWithRole').then((xhr) => {
             //输入实验室名称
@@ -127,8 +124,7 @@ context('互认报告和证书管理', () => {
     })
 
     it('004-月度汇总报告-互认报告和证书管理-组合条件搜索实验室', () => {
-        cy.server()
-        cy.route('**/service/mgr/lab/pageWithRole*').as('pageWithRole')
+        cy.intercept('**/service/mgr/lab/pageWithRole*').as('pageWithRole')
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/lab/report-lab')
         cy.wait('@pageWithRole').then((xhr) => {
             //点击展开搜索条件
@@ -153,8 +149,7 @@ context('互认报告和证书管理', () => {
 
     it('005-月度汇总报告-互认报告和证书管理-预览互认报告', () => {
         let keywordBox = 0
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/mutualRecogReport*').as('mutualRecogReport')
+        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport*').as('mutualRecogReport')
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/cert/cert-year')
         cy.wait('@mutualRecogReport').then((xhr) => {
             //搜索出要预览的实验室  
@@ -232,8 +227,7 @@ context('互认报告和证书管理', () => {
     })
 
     it('007-月度汇总报告-互认报告和证书管理-批量推送互认报告', () => {
-        cy.server()
-        cy.route('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')
+        cy.intercept('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/cert/cert-year')
         cy.wait('@mutualRecogReport').then((xhr) => {
             //搜索出要推送的报告    
@@ -252,8 +246,7 @@ context('互认报告和证书管理', () => {
     })
 
     it('008-月度汇总报告-互认报告和证书管理-批量取消推送', () => {
-        cy.server()
-        cy.route('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')
+        cy.intercept('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/cert/cert-year')
         cy.wait('@mutualRecogReport').then((xhr) => {
             cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').eq(0).type('gd18003')
@@ -269,8 +262,7 @@ context('互认报告和证书管理', () => {
     })
 
     it.skip('互认报告和证书管理-批量删除互认报告',()=>{    
-        cy.server()
-        cy.route('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')    
+        cy.intercept('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')    
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/cert/cert-year')
         cy.wait('@mutualRecogReport').then((xhr) => {
             //搜索出要推送的报告     
@@ -286,9 +278,8 @@ context('互认报告和证书管理', () => {
         })                     
     }) 
 
-    it('009-月度汇总报告-互认报告和证书管理-预览证书',()=>{ 
-        cy.server()
-        cy.route('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')         
+    it('009-月度汇总报告-互认报告和证书管理-预览证书',()=>{
+        cy.intercept('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')         
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/cert/cert-year')
         cy.wait('@mutualRecogReport').then((xhr) => {
             //搜索出要推送的报告     
@@ -306,8 +297,7 @@ context('互认报告和证书管理', () => {
         let currentYear = 0
         let choose = 0
         let year = 0
-        cy.server()
-        cy.route('**/service/mgr/report/summary/month*').as('monthReport')   
+        cy.intercept('**/service/mgr/report/summary/month*').as('monthReport')   
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/dept/summary-month')
         cy.wait('@monthReport').then((xhr)=>{
             //搜索出要推送的报告     
@@ -361,8 +351,7 @@ context('互认报告和证书管理', () => {
     })
 
     it('011-月度汇总报告-删除月度汇总报告',()=>{ 
-        cy.server()
-        cy.route('**/service/mgr/report/summary/month*').as('monthReport')        
+        cy.intercept('**/service/mgr/report/summary/month*').as('monthReport')        
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-mgr/dept/summary-month')
         cy.wait('@monthReport').then((xhr)=>{
             //搜索出要推送的报告     

@@ -1,10 +1,16 @@
 context('消息互通-公告板', () => {
+    let cookieName
+    let cookieValue
     beforeEach(() => {
         let startDate = 0
         let endMonth = 3
         let endYear = 3
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/billboard')
+        cy.getCookies().should('exist').then((cookie) => {
+            cookieName = cookie[0]['name']
+            cookieValue = cookie[0]['value']
+        })
         cy.get('input[placeholder="开始时间"]').click({
             force: true
         })
@@ -93,7 +99,7 @@ context('消息互通-公告板', () => {
             })
         })
     })
-    it.skip('001-公告板-未填写公告标题不能保存', () => {
+    it('001-公告板-未填写公告标题不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1
@@ -225,8 +231,10 @@ context('消息互通-公告板', () => {
         })
         //断言
         cy.get('body').should('contain', '请输入公告标题')
+        //点击取消
+        // cy.get('.el-button.el-button--default.el-button--medium').eq(0).click()
     })
-    it.skip('002-公告板-未填写公告正文不能保存', () => {
+    it('002-公告板-未填写公告正文不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1
@@ -240,9 +248,10 @@ context('消息互通-公告板', () => {
         let searchButton = 2
         let saveButton = 9
         let titleBox = 5
-        cy.get('button').contains('添加公告').click({
+          //输入公告正文
+          cy.get('.el-textarea__inner').clear({
             force: true
-        })
+        }) 
         //输入公告标题
         cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题", {
             force: true
@@ -360,7 +369,7 @@ context('消息互通-公告板', () => {
         //断言
         cy.get('body').should('contain', '请输入公告内容')
     })
-    it.skip('003-公告板-未选择实验室不能保存', () => {
+    it('003-公告板-未选择实验室不能保存', () => {
         let timeBox = 6
         let chooseMonth = 3
         let trIndex = 1

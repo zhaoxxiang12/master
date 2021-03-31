@@ -3,7 +3,9 @@
 //     // 'text' so we can access it
 context('数据分析管理', () => {
     let reportedLabData, normalLabData, outLabData, totalLabData, notReportLabData
-    beforeEach(() => {
+    let cookieName
+    let cookieValue
+    before(() => {
         cy.loginCQB()
         let timeIndex = 2
         let labIndex = 1
@@ -12,6 +14,10 @@ context('数据分析管理', () => {
         let provinceIndex = 0
         let province = '贵州省'
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-data/report-rate')
+        cy.getCookies().should('exist').then((cookie) => {
+            cookieName = cookie[0]['name']
+            cookieValue = cookie[0]['value']
+        })
         //获取页面上的数据(判断页面上是否存在贵州省)
         cy.wait(1000)
         //判断是广东环境还是上海环境；如果是广东环境就执行if语句；反之执行else语句
@@ -135,42 +141,44 @@ context('数据分析管理', () => {
                 cy.get('[class="el-form el-form--inline"]').find('div>div>button').click({
                     force: true
                 })
-                //
-                // cy.wait(1000)
-                //获取已上报实验室的个数
-                cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_11  "]')
-                    .find('div').invoke('text').then((data) => {
-                        reportedLabData = data
-                    })
-                //获取正常的实验室个数
-                cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_12  "]')
-                    .find('div').invoke('text').then((data) => {
-                        normalLabData = data
-
-                    })
-                // 获取失控的实验室个数
-                cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_13  "]')
-                    .find('div').invoke('text').then((data) => {
-                        outLabData = data
-
-                    })
-                //获取未上报的实验室个数
-                cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_14  "]')
-                    .find('div').invoke('text').then((data) => {
-                        notReportLabData = data
-
-                    })
-                //获取实验室总数
-                cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_10  "]')
-                    .find('div').invoke('text').then((totalLab) => {
-                        totalLabData = totalLab
-                    })
             }
+            cy.wait(1000)
+            //获取已上报实验室的个数
+            cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_11  "]')
+                .find('div').invoke('text').then((data) => {
+                    reportedLabData = data
+                })
+            //获取正常的实验室个数
+            cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_12  "]')
+                .find('div').invoke('text').then((data) => {
+                    normalLabData = data
+
+                })
+            // 获取失控的实验室个数
+            cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_13  "]')
+                .find('div').invoke('text').then((data) => {
+                    outLabData = data
+
+                })
+            //获取未上报的实验室个数
+            cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_14  "]')
+                .find('div').invoke('text').then((data) => {
+                    notReportLabData = data
+
+                })
+            //获取实验室总数
+            cy.get('[class="el-row is-justify-center el-row--flex"]').find('div>div>div>table>tbody>tr').eq(shanghaiLabIndex).find('[class="el-table_2_column_10  "]')
+                .find('div').invoke('text').then((totalLab) => {
+                    totalLabData = totalLab
+                })
         })
+    })
+    beforeEach(() => {
+        cy.setCookie(cookieName, cookieValue)
     })
     it('001-数据分析管理-上报率-数据验证', () => {
         let shanghaiLabIndex = 0
-        let labIndex = 1
+        let labIndex = 0
         let provinceIndex = 0
         let provinceName = '贵州省'
         let boxIndex = 0
@@ -374,7 +382,6 @@ context('数据分析管理', () => {
         //断言
         cy.get('[placeholder="所有市"]').should('not.have.css', 'disabled')
         cy.get('body').should('contain', '高明区').and('contain', '三水区').and('contain', '禅城区')
-
 
     })
 })

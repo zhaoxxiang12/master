@@ -17,7 +17,7 @@ public class ExcelUtil {
         String[] header = {"编号", "姓名", "性别", "生日", "专业"};
 //        writeExcel(Store.list, "LOL", header);
         ArrayList<Students>readExcel = readExcel("API_JAVA/OperateExcel/LOL总表.xlsx","LOL");
-        System.out.println(readExcel);
+//        System.out.println(readExcel);
 //      for (Students students:readExcel) {
 //          System.out.println(students);
 //      }
@@ -94,11 +94,17 @@ public class ExcelUtil {
         for (int i = 1;i<=sheet.getLastRowNum();i++){//sheet.getLastRowNum()最后一行的索引
           XSSFRow row = sheet.getRow(i); //获取每一行
             Students students = new Students();
-            String id = row.getCell(0).getStringCellValue();
+            XSSFCell cell = row.getCell(0);
+            cell.setCellType(CellType.STRING);
+            String cellValue = cell.getStringCellValue();
+            System.out.println(cellValue.get);
+//            long value = Long.parseLong(cellValue);
 //            XSSFCell cell = row.getCell(0);
-//            cell.setCellType(CellType.STRING);
+//            cell.setCellType(CellType.NUMERIC);
+//            long value = (long) cell.getNumericCellValue();
+
 //            long id =Long.parseLong (cell.getStringCellValue().substring(0,(cell.getStringCellValue().indexOf("."))));
-//            students.setStudentID((int) id);
+//            students.setStudentID(value);
             students.setName(row.getCell(1).getStringCellValue());
 
             students.setSex(row.getCell(2).getStringCellValue());

@@ -1,4 +1,6 @@
 context('监控内容配置', () => {
+    let cookieName
+    let cookieValue
     //定义一个getIframeBody的方法--后面断言需要用到
     const getIframeBody = () => {
         //尝试获取 iframe > document > body 
@@ -8,10 +10,18 @@ context('监控内容配置', () => {
             // 包装body DOM元素以允许链接更多Cypress 命令, 如 ".find(...)"
             // warp命令使用文档地址 https://on.cypress.io/wrap
             .then(cy.wrap)
+
     }
-    beforeEach(() => {
+    before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/report-monitor')
+        cy.getCookies().should('exist').then((cookie) => {
+            cookieName = cookie[0]['name']
+            cookieValue = cookie[0]['value']
+        })
+    })
+    beforeEach(() => {
+        cy.setCookie(cookieName, cookieValue)
     })
     it('001-监控内容配置-关键字搜索功能', () => {
         let labCode = 'gd18020'
@@ -23,13 +33,12 @@ context('监控内容配置', () => {
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, {
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -51,13 +60,12 @@ context('监控内容配置', () => {
             }).type(labName, {
                 force: true
             })
-            cy.server()
-            cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+            cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
             cy.get('button').contains('搜索').click({
                 force: true
             })
             cy.wait('@getData').then((xhr) => {
-                let responseStatus = xhr.status
+                let responseStatus = xhr.response.statusCode
                 let expectLength = xhr.response.body.data.total
                 let expectStatus = 200
                 //断言响应状态码
@@ -79,6 +87,10 @@ context('监控内容配置', () => {
         let expandButton = 0
         let DropList = 7
         let foshanTag = 4
+        let inputBox = 0
+        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
+            force: true
+        })
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
@@ -86,13 +98,12 @@ context('监控内容配置', () => {
         cy.get('.el-select__input.is-medium').click()
         //选择标签佛山
         cy.get('.el-select-group').eq(DropList).find('li').eq(foshanTag).click()
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -113,6 +124,9 @@ context('监控内容配置', () => {
         let expandButton = 0
         let DropList = 7
         let guangXiTag = 5
+        cy.get('.el-tag__close.el-icon-close').click({
+            force: true
+        })
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
@@ -122,13 +136,12 @@ context('监控内容配置', () => {
         cy.get('.el-select-group').eq(DropList).find('li').eq(guangXiTag).click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -148,6 +161,9 @@ context('监控内容配置', () => {
         let DropList = 3
         let statusBox = 1
         let reported = 2
+        cy.get('.el-tag__close.el-icon-close').click({
+            force: true
+        })
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
@@ -161,13 +177,12 @@ context('监控内容配置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(reported).click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -186,14 +201,14 @@ context('监控内容配置', () => {
 
     it('005-监控内容配置-状态搜索功能(未上报)', () => {
         let expandButton = 0
-        let DropList = 3
+        let DropList = 2
         let statusBox = 1
         let notReported = 1
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
         })
-        cy.get('.el-select__input.is-medium').click()      
+        cy.get('.el-select__input.is-medium').click()
         //选择已上报
         cy.get('input[placeholder="请选择"]').eq(statusBox).click({
             force: true
@@ -202,13 +217,12 @@ context('监控内容配置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(notReported).click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -223,11 +237,17 @@ context('监控内容配置', () => {
                 cy.get('.ql-card-list__list').find('.el-card__body').should('have.length', expectLength)
             }
         })
+        cy.get('input[placeholder="请选择"]').eq(statusBox).click({
+            force: true
+        })
+        cy.get('.el-select__caret.el-input__icon.el-icon-circle-close').click({
+            force: true
+        })
     })
     it('006-监控内容配置-所在地进行搜索(北京)', () => {
         let expandButton = 0
         let Beijing = 0
-        let areaBox =20
+        let areaBox = 20
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
@@ -241,13 +261,12 @@ context('监控内容配置', () => {
         cy.get('.el-menu').eq(areaBox).find('li').eq(Beijing).find('.el-checkbox__inner').click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -264,29 +283,30 @@ context('监控内容配置', () => {
         })
     })
     it('007-监控内容配置-所在地进行搜索(广东)', () => {
-        let expandButton = 0
         let Guangdong = 2
         let areaBox = 20
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
+        // //点击展开
+        // cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
+        //     force: true
+        // })
+        cy.get('.el-tag__close.el-icon-close').click({
             force: true
         })
         //点击所在地选择框
-        cy.get('.multi-area__placeholder').click({
+        cy.get('.multi-area__tags').click({
             force: true
         })
-        //选择北京市
+        //选择广东
         cy.wait(500)
         cy.get('.el-menu').eq(areaBox).find('li').eq(Guangdong).find('.el-checkbox__inner').click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -303,15 +323,13 @@ context('监控内容配置', () => {
         })
     })
     it('008-监控内容配置-所在地进行搜索(广西)', () => {
-        let expandButton = 0
         let guangXi = 3
         let areaBox = 20
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
+        cy.get('.el-tag__close.el-icon-close').click({
             force: true
         })
         //点击所在地选择框
-        cy.get('.multi-area__placeholder').click({
+        cy.get('.multi-area__tags').click({
             force: true
         })
         //选择北京市
@@ -319,13 +337,12 @@ context('监控内容配置', () => {
         cy.get('.el-menu').eq(areaBox).find('li').eq(guangXi).find('.el-checkbox__inner').click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -344,7 +361,7 @@ context('监控内容配置', () => {
     it('009-监控内容配置-推送到大屏', () => {
         let titleInputBox = 8
         let title = 'UI' + parseInt(Math.random() * 100000)
-        let messageType = 6
+        let messageType = 2
         //大屏区域下标
         let screenArea = [0, 1, 2, 3, 4, 5, 6, 7, 8]
         cy.wait(500)
@@ -488,8 +505,9 @@ context('监控内容配置', () => {
     })
     it('010-监控内容配置-推送到大屏(未设置分屏标题)', () => {
         let titleInputBox = 8
-        let messageType = 6
+        let messageType = 2
         let screenArea = 8
+        let cancel = 1
         cy.wait(500)
         cy.get('button').contains("推送到大屏").click({
             force: true
@@ -497,6 +515,7 @@ context('监控内容配置', () => {
         cy.get('.el-checkbox__input').eq(messageType).click({
             force: true
         })
+
         cy.get('.screen-area__item').eq(screenArea).click({
             force: true
         })
@@ -508,10 +527,14 @@ context('监控内容配置', () => {
         })
         //断言 界面出现请输入分屏标题则通过
         cy.get('body').should('contain', '请输入分屏标题')
+        cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
+            force: true
+        })
 
     })
     it('011-监控内容配置-推送到大屏(未设置推送信息)', () => {
         let screenArea = 8
+        let cancel = 1
         cy.wait(500)
         cy.get('button').contains("推送到大屏").click({
             force: true
@@ -525,26 +548,32 @@ context('监控内容配置', () => {
         })
         //断言 界面出现请选择推送信息类型则通过
         cy.get('body').should('contain', '请选择推送信息类型')
+        cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
+            force: true
+        })
+
 
     })
     it('012-监控内容配置-实验室上报详情', () => {
         let labCode = 'gd18020'
         let inputBox = 0
         let reportDetails = 0
+        cy.get('.el-tag__close.el-icon-close').click({
+            force: true
+        })
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, {
             force: true
         })
         cy.get('button').contains('搜索').click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/stats?labId*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/stats?labId*').as('getData')
         cy.wait(500)
         cy.get('.ql-lab-list__status').find('div').eq(reportDetails).click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
             let expectLength = xhr.response.body.data.total
             let expectStatus = 200
             //断言响应状态码
@@ -562,7 +591,12 @@ context('监控内容配置', () => {
         let labCode = 'gd18020'
         let inputBox = 0
         let reportDetails = 0
-        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, {
+        cy.get('.el-dialog__close.el-icon.el-icon-close').eq(10).click({
+            force: true
+        })
+        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
+            force: true
+        }).type(labCode, {
             force: true
         })
         cy.get('button').contains('搜索').click({
@@ -572,13 +606,12 @@ context('监控内容配置', () => {
         cy.get('.ql-lab-list__status').find('div').eq(reportDetails).click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/new/reportmonitors/getLabLoginToken?*').as('getData')
+        cy.intercept('**/service/mgr/new/reportmonitors/getLabLoginToken?*').as('getData')
         cy.get('button').contains('查看实验室信息').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
 
             let expectStatus = 200
             //判断接口是否异常
@@ -591,7 +624,12 @@ context('监控内容配置', () => {
         let labCode = 'gd18020'
         let inputBox = 0
         let reportDetails = 0
-        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, {
+        cy.get('.ql-frame-viewer__close').click({
+            force: true
+        })
+        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
+            force: true
+        }).type(labCode, {
             force: true
         })
         cy.get('button').contains('搜索').click({
@@ -601,13 +639,12 @@ context('监控内容配置', () => {
         cy.get('.ql-lab-list__status').find('div').eq(reportDetails).click({
             force: true
         })
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/iqccenternew/getLoginUrl?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/iqccenternew/getLoginUrl?*').as('getData')
         cy.get('button').contains('查看IQC信息').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
-            let responseStatus = xhr.status
+            let responseStatus = xhr.response.statusCode
 
             let expectStatus = 200
             //判断接口是否异常

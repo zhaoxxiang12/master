@@ -2,7 +2,6 @@
  * 单位转换设置
  */
 context('结果互认设置-单位转换设置', () => {
-    let urlHost = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
     beforeEach(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/unit-transform')
@@ -24,7 +23,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get("button").contains('搜索').click({
             force: true
         })
@@ -61,7 +59,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get("button").contains('搜索').click({
             force: true
         })
@@ -92,7 +89,6 @@ context('结果互认设置-单位转换设置', () => {
         }))
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -121,7 +117,6 @@ context('结果互认设置-单位转换设置', () => {
             }))
             cy.server()
             cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-            cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
             cy.get('button').contains('搜索').click({
                 force: true
             })
@@ -160,7 +155,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -198,7 +192,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -236,7 +229,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -274,7 +266,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -312,7 +303,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -356,7 +346,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -400,7 +389,6 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.server()
         cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.visit(urlHost + '#/setting/mutual-result/unit-transform')
         cy.get('button').contains('搜索').click({
             force: true
         })
