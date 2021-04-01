@@ -4,7 +4,7 @@ context('信息反馈情况', () => {
         outControlMsg = [],
         outControlCVMsg = [],
         labName
-    beforeEach(() => {
+    before(() => {
         cy.loginCQB()
         let dateIndex = 1
         let monthIndex = 4
@@ -81,7 +81,6 @@ context('信息反馈情况', () => {
                 cy.get('button').contains('搜索').click({
                     force: true
                 })
-                cy.wait(1000)
             }
         })
 
@@ -94,7 +93,6 @@ context('信息反馈情况', () => {
         let outControlIndex = 3
         let outControlCVIndex = 4
         let labNameIndex = 0
-        cy.wait(5000)
         //获取总发消息数(佛山市顺德区中医院)
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(firstLabIndex).find('td').eq(totalMsgIndex).invoke('text')
             .then((text) => {
@@ -148,7 +146,6 @@ context('信息反馈情况', () => {
         let totalData = parseInt(notReportedMsg[0]) + parseInt(outControlCVMsg[0]) + parseInt(outControlMsg[0])
         //整数转字符串
         totalData = totalData.toString()
-        cy.wait(5000)
         //断言(判断)
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td').eq(totalMsgIndex)
             .should('have.text', totalData)
@@ -159,8 +156,6 @@ context('信息反馈情况', () => {
         let labNameIndex = 16
         let msgReadRateIndex = 5
         let outControlIndex = 6
-        cy.log(labName + '总消息数为' + totalMsg[1])
-        cy.wait(1000)
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labNameIndex).find('td').eq(msgReadRateIndex)
             .should('have.text', rate)
         //断言(总消息数为零时，失控纠正率是否为零)
@@ -171,7 +166,6 @@ context('信息反馈情况', () => {
         let labName = '佛山市顺德区慢性病防治中心'
         let typeName = '佛山市第二人民医院'
         let labCode = 'gd18020'
-        cy.wait(1000)
         //搜索输入框输入实验室代码
         cy.get('[placeholder="请输入实验室名称或编码"]').type(labCode)
         //断言
@@ -180,30 +174,37 @@ context('信息反馈情况', () => {
         cy.get('[placeholder="请输入实验室名称或编码"]').clear().type(typeName)
         //断言
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').should('contain', typeName)
+        cy.get('[placeholder="请输入实验室名称或编码"]').clear()
     })
-    it('005-信息反馈情况-显示字段-取消勾选某个字段', () => {
-        cy.wait(1000)
-        cy.get('button').contains('显示字段').click({
+    it('005-信息反馈情况-切换质控主管单位(青浦医联体)', () => {
+        let choose = 0
+        //清除之前的选择
+        cy.get('.el-tag__close.el-icon-close').eq(choose).click({
             force: true
         })
-        //取消勾选实验室
-        cy.get('.print-tool__columns').find('li').then((getData) => {
-            let tagLength = getData
-            let realLength = tagLength.length
-            // cy.log(tagLength)
-            // cy.log(realLength)
-            cy.get('.print-tool__columns').find('li>label').eq(0).get('[aria-checked="true"]').then((getSecondData) => {
-                let secondTagLength = getSecondData
-                let secondRealLength = secondTagLength.length
-                // 使用for循环遍历勾选/取消勾选字段
-                for (var i = 0, j = secondRealLength - 1; i < realLength, j >= Math.abs(secondRealLength - realLength); i++, j--) {
-                    //取消勾选某个字段
-                    cy.get('.print-tool__columns').find('li>label>span').find('.el-checkbox__inner').eq(i).click({
-                        force: true
-                    })
-                    //断言(取消勾选某个字段后，aria-checked="true"会自减一)
-                    cy.get('.print-tool__columns').find('li>label').eq(0).get('[aria-checked="true"]').should('have.length', j)
-                }
+        //点击管理机构下拉框
+        cy.get('[placeholder="请选择管理机构"]').click({
+            force: true
+        })
+        //选择贵州省临床检验中心
+        cy.get('.el-tree-node__children').find('.el-tree-node.is-focusable').find('[title="青浦医联体"]').click({
+            force: true
+        })
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
+        // 拦截请求必须写在visit之前
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 从接口获取实验室名称并进行断言
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data).then((data) => {
+                let labName = data[0]
+                labName = labName['labName']
+                //断言
+                cy.get('body').should('contain', labName)
             })
         })
     })
@@ -211,7 +212,6 @@ context('信息反馈情况', () => {
         let areaIndex = 0
         let boxIndex = 4
         let GuangdongProvinceIndex = 2
-        let  GuangdongIndex = 1
         //点击地区
         cy.get('.el-radio__inner').eq(areaIndex).click({
             force: true
@@ -233,50 +233,15 @@ context('信息反馈情况', () => {
         })
         // 从接口获取实验室名称并进行断言
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data).then((data) => {
                 let labName = data[0]
                 labName = labName['labName']
-                // cy.log(labName)
                 //断言
                 cy.get('body').should('contain', labName)
             })
         })
     })
-    it('007-信息反馈情况-切换质控主管单位(青浦医联体)', () => {
-        //清除之前的选择
-        cy.get('.el-tag__close.el-icon-close').click({
-            force: true
-        })
-        //点击管理机构下拉框
-        cy.get('[placeholder="请选择管理机构"]').click({
-            force: true
-        })
-        //选择贵州省临床检验中心
-        cy.get('.el-tree-node__children').find('.el-tree-node.is-focusable').find('[title="青浦医联体"]').click({
-            force: true
-        })
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
-        // 拦截请求必须写在visit之前
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        // 从接口获取实验室名称并进行断言
-        cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
-            cy.get(xhr.response.body.data).then((data) => {
-                let labName = data[0]
-                labName = labName['labName']
-                // cy.log(labName)
-                //断言
-                cy.get('body').should('contain', labName)
-            })
-        })
-    })
-    it('008-信息反馈情况-使用标签进行搜索查询(标签选择广西)', () => {
+    it('007-信息反馈情况-使用标签进行搜索查询(标签选择广西)', () => {
         let tagIndex = 2 //实验室标签下标
         let systemTag = 7
         let GuangxiTag = 5
@@ -300,11 +265,9 @@ context('信息反馈情况', () => {
         })
         // 从接口获取有多少条数据
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data.length).then((data) => {
                 //定义数据的长度
                 let returnLength = data[0]
-                // cy.log(returnLength)
                 //断言
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', returnLength)
                 //从接口获取实验室名称
@@ -319,17 +282,16 @@ context('信息反馈情况', () => {
             })
         })
     })
-    it('009-信息反馈情况-使用标签进行搜索查询(标签选择佛山)', () => {
-        let tagIndex = 2 //实验室标签下标
+    it('008-信息反馈情况-使用标签进行搜索查询(标签选择佛山)', () => {
         let systemTag = 7
         let foshanTag = 6
         let labNameIndex = 0
-        //点击实验室标签
-        cy.get('.el-radio__inner').eq(tagIndex).click({
+        let clsoeTag = 2
+        cy.get('.el-tag__close.el-icon-close').eq(clsoeTag).click({
             force: true
         })
         //点击标签选择框
-        cy.get('[placeholder="请选择实验室标签"]').click({
+        cy.get('.el-select__input.is-medium').click({
             force: true
         })
         //标签选择佛山
@@ -343,11 +305,9 @@ context('信息反馈情况', () => {
         })
         // 从接口获取有多少条数据
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data.length).then((data) => {
                 //定义数据的长度
                 let returnLength = data[0]
-                // cy.log(returnLength)
                 //断言
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', returnLength)
                 //从接口获取实验室名称
@@ -362,5 +322,28 @@ context('信息反馈情况', () => {
             })
         })
 
+    })
+    it('009-信息反馈情况-显示字段-取消勾选某个字段', () => {
+        cy.get('button').contains('显示字段').click({
+            force: true
+        })
+        //取消勾选实验室
+        cy.get('.print-tool__columns').find('li').then((getData) => {
+            let tagLength = getData
+            let realLength = tagLength.length
+            cy.get('.print-tool__columns').find('li>label').eq(0).get('[aria-checked="true"]').then((getSecondData) => {
+                let secondTagLength = getSecondData
+                let secondRealLength = secondTagLength.length
+                // 使用for循环遍历勾选/取消勾选字段
+                for (var i = 0, j = secondRealLength - 1; i < realLength, j >= Math.abs(secondRealLength - realLength); i++, j--) {
+                    //取消勾选某个字段
+                    cy.get('.print-tool__columns').find('li>label>span').find('.el-checkbox__inner').eq(i).click({
+                        force: true
+                    })
+                    //断言(取消勾选某个字段后，aria-checked="true"会自减一)
+                    cy.get('.print-tool__columns').find('li>label').eq(0).get('[aria-checked="true"]').should('have.length', j)
+                }
+            })
+        })
     })
 })
