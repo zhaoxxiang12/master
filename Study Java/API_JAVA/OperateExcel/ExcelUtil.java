@@ -97,7 +97,7 @@ public class ExcelUtil {
             XSSFCell cell = row.getCell(0);
             cell.setCellType(CellType.STRING);
             String cellValue = cell.getStringCellValue();
-            System.out.println(cellValue.get);
+//            System.out.println(cellValue.get);
 //            long value = Long.parseLong(cellValue);
 //            XSSFCell cell = row.getCell(0);
 //            cell.setCellType(CellType.NUMERIC);
