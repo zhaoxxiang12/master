@@ -1,5 +1,5 @@
 context('互认合格情况', () => {
-    beforeEach(() => {
+    before(() => {
         cy.loginCQB()
         let yearIndex = 0
         let startDate = 0
@@ -71,7 +71,6 @@ context('互认合格情况', () => {
         cy.get('[placeholder="请选择"]').click({
             force: true
         })
-        cy.wait(1000)
         //选择青浦医联体
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(institutionsIndex).click()
         // 拦截接口，使用通配符*拦截更灵活
@@ -89,6 +88,7 @@ context('互认合格情况', () => {
                 cy.get('body').should('contain', getData)
             })
         })
+        cy.get('.el-input__inner')
     })
     it('002-互认合格情况-切换地区进行查询(切换到上海)', () => {
         let chooseIndex = 5
@@ -105,16 +105,13 @@ context('互认合格情况', () => {
             force: true
         })
         //点击搜索
-        cy.wait(1000)
         cy.get('button').contains('搜索').click({
             force: true
         })
-        cy.wait(1000)
         // cy.get('.table-line__fixed-header+.table-line').find('tbody')
         cy.get('button').contains('搜索').click({
             force: true
         })
-        cy.wait(1000)
         cy.get('.table-line__fixed-header+.table-line').find('tbody').should('contain', '')
     })
     it('003-互认合格情况-输入项目名称进行模糊查询', () => {
@@ -125,6 +122,9 @@ context('互认合格情况', () => {
         })
         //断言
         cy.get('body').should('not.contain', '尿干化学')
+        cy.get('[placeholder="请输入项目名称"]').clear({
+            force: true
+        })
     })
     it('004-互认合格情况-按实验室维度进行查看', () => {
         let choiceIndex = 4
@@ -135,7 +135,6 @@ context('互认合格情况', () => {
             force: true
         })
         //断言
-        cy.wait(1000)
         cy.get('.table-line__fixed-header.is-affix+.table-line').find('thead>tr>th').eq(optionsIndex).should('have.text', judgeData)
     })
     it('005-互认合格情况-输入实验室名称进行查询', () => {
@@ -143,18 +142,19 @@ context('互认合格情况', () => {
         let labName = '佛山市第一人民医院'
         let judgeData = '测试实验室123'
         let labCode = 'gd18020'
+        let searchBox = 10
         //勾选按实验室维度查看
         cy.get('.el-radio__input').eq(choiceIndex).click({
             force: true
         })
         //输入实验室名称
-        cy.get('[placeholder="请输入实验室名称"]').type(labName, {
+        cy.get('.el-input__inner').eq(searchBox).type(labName, {
             force: true
         })
         //断言
         cy.get('body').should('not.contain', judgeData)
         //输入实验室编码
-        cy.get('[placeholder="请输入实验室名称"]').clear({
+        cy.get('.el-input__inner').eq(searchBox).clear({
             force: true
         }).type(labCode, {
             force: true
@@ -163,19 +163,32 @@ context('互认合格情况', () => {
         cy.get('body').should('not.contain', judgeData)
     })
     it('006-互认合格情况-显示字段-取消勾选某个字段', () => {
+        cy.wait(1000)
+        let table = 1
+        let index = 0
+        let searchBox = 10
+        let search = 0
         //点击显示字段
-        cy.wait(5000)
+        cy.get('.el-input__inner').eq(searchBox).clear({
+            force: true
+        }).type('yl001', {
+            force: true
+        })
+        //点击搜索
+        cy.get('.el-icon-search').eq(search).click({
+            force: true
+        })
         cy.get('.el-button.el-button--text.el-button--medium.el-popover__reference').click({
             force: true
         })
         //使用for循环遍历取消勾选字段
-        for (var i = 1, j = 15; i < 13; i++, j--) {
+        for (var i = 1, j = 12; i < 11; i++, j--) {
             //取消勾选某个显示字段
             cy.get('.el-checkbox__inner').eq(i).click({
                 force: true
             })
             //断言
-            cy.get('[aria-checked="true"]').should('have.length', j)
+            cy.get('.table-line').eq(table).find('thead>tr').eq(index).find('th').should('have.length', j - 3)
         }
     })
 })
