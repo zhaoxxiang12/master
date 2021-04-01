@@ -3,7 +3,7 @@ context('实验室上报情况', () => {
     let reporteData
     let cookieName
     let cookieValue
-    beforeEach(() => {
+    before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-effect/report-effect-appear')
         //日期选择框下标
@@ -165,32 +165,9 @@ context('实验室上报情况', () => {
             }
 
         })
+        cy.get('[placeholder="实验室名称或编码"]').clear()
     })
-    it('006-实验室上报情况-显示字段-取消勾选某个字段', () => {
-        cy.wait(1000)
-        //点击显示字段
-        cy.get('button').contains('显示字段').click({
-            force: true
-        })
-        //获取显示字段的长度
-        cy.get('.print-tool__columns').find('li').then((data) => {
-            let webData = data
-            webData = data.length
-            cy.log(webData)
-            cy.get('.el-checkbox.is-checked').then((getData) => {
-                let lengthData = getData.length
-                cy.log(lengthData)
-                //使用for 循环取消勾选显示字段
-                for (var i = 0, j = lengthData - 1; i < webData, j >= Math.abs(webData - lengthData); i++, j--) {
-                    cy.get('.print-tool__columns').find('li>label>span').find('.el-checkbox__inner').eq(i).click()
-                    //断言(每次取消勾选一个显示字段，.el-checkbox.is-checked长度就会减少一个)
-                    cy.get('.el-checkbox.is-checked').should('have.length', j)
-
-                }
-            })
-        })
-    })
-    it('007-实验室上报情况-切换质控主管单位(广东环境-切换至青浦医联体)', () => {
+    it('006-实验室上报情况-切换质控主管单位(广东环境-切换至青浦医联体)', () => {
         let boxIndex = 5
         let ShanghaiIndex = 1
         let choiceIndex = 5
@@ -236,20 +213,17 @@ context('实验室上报情况', () => {
         })
 
     })
-    it('008-实验室上报情况-使用地区进行查询(上海)', () => {
+    it('007-实验室上报情况-使用地区进行查询(上海)', () => {
         let areaIndex = 0
         let boxIndex = 5
         let ShanghaiProvinceIndex = 1
         let ShanghaiIndex = 1
         // let choiceIndex = 3
         //点击质控主管单位选择框
-        cy.loginCQB()
-        cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-effect/report-effect-appear')
         cy.get('[placeholder="请选择"]').click({
             force: true
         })
         //选择青浦医联体
-        cy.wait(3000)
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiIndex).click({
             force: true
         })
@@ -259,7 +233,6 @@ context('实验室上报情况', () => {
         cy.get('[placeholder="请选择省"]').click({
             force: true
         })
-        cy.wait(1000)
         //选择上海
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiProvinceIndex).click({
             force: true
@@ -277,6 +250,29 @@ context('实验室上报情况', () => {
                 //   cy.log(labName)
                 //断言
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
+            })
+        })
+    })
+    it('008-实验室上报情况-显示字段-取消勾选某个字段', () => {
+        //点击显示字段
+        cy.get('button').contains('显示字段').click({
+            force: true
+        })
+        //获取显示字段的长度
+        cy.get('.print-tool__columns').find('li').then((data) => {
+            let webData = data
+            webData = data.length
+            cy.log(webData)
+            cy.get('.el-checkbox.is-checked').then((getData) => {
+                let lengthData = getData.length
+                cy.log(lengthData)
+                //使用for 循环取消勾选显示字段
+                for (var i = 0, j = lengthData - 1; i < webData, j >= Math.abs(webData - lengthData); i++, j--) {
+                    cy.get('.print-tool__columns').find('li>label>span').find('.el-checkbox__inner').eq(i).click()
+                    //断言(每次取消勾选一个显示字段，.el-checkbox.is-checked长度就会减少一个)
+                    cy.get('.el-checkbox.is-checked').should('have.length', j)
+
+                }
             })
         })
     })
