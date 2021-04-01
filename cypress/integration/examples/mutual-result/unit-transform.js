@@ -21,8 +21,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(alreadySet).click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get("button").contains('搜索').click({
             force: true
         })
@@ -57,8 +56,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(notSet).click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get("button").contains('搜索').click({
             force: true
         })
@@ -87,8 +85,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, ({
             force: true
         }))
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -115,8 +112,7 @@ context('结果互认设置-单位转换设置', () => {
             }).type(labName, ({
                 force: true
             }))
-            cy.server()
-            cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+            cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
             cy.get('button').contains('搜索').click({
                 force: true
             })
@@ -153,8 +149,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(itemDownList).find('li').eq(choseK).click({
             force: true
         })
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -190,8 +185,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(itemDownList).find('li').eq(choseNa).click({
             force: true
         })
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -227,8 +221,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Beijing).click({
             force: true
         })
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -264,8 +257,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Shanghai).click({
             force: true
         })
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -301,8 +293,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Guangdong).click({
             force: true
         })
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -344,8 +335,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-select-group').eq(bussinessList).find('li').eq(publicTag).click({
             force: true
         })
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -387,8 +377,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-select-group').eq(bussinessList).find('li').eq(privateTag).click({
             force: true
         })
-        cy.server()
-        cy.route('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
         })

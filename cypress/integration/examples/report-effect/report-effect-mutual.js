@@ -74,9 +74,8 @@ context('互认合格情况', () => {
         cy.wait(1000)
         //选择青浦医联体
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(institutionsIndex).click()
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/itemRecogQualified?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/itemRecogQualified?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })

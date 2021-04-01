@@ -2,18 +2,9 @@
  * 告警原因和措施
  */
 context('信息互通设置-告警原因和措施', () => {
-    let cookieName
-    let cookieValue
     before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/message-setting/reason-step-dict')
-        cy.getCookies().should('exist').then((cookie) => {
-            cookieName = cookie[0]['name']
-            cookieValue = cookie[0]['value']
-        })
-    })
-    beforeEach(() => {
-        cy.setCookie(cookieName, cookieValue)
     })
     it('001-告警原因和措施(未上报)-未填写未上报原因不能保存', () => {
         cy.wait(500)

@@ -5,8 +5,7 @@ context('互认标准设置', () => {
     })
     it('cqb-001-互认标准设置-添加标准-添加定量项目标准', () => {
         let saveButton = 8
-        cy.server()
-        cy.route('**/service/mgr/std/yearrecog/list*').as('getList')
+        cy.intercept('**/service/mgr/std/yearrecog/list*').as('getList')
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-standard')
         cy.wait('@getList').then((xhr) => {
             //点击添加标准按钮

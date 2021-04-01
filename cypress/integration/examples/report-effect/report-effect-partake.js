@@ -4,7 +4,6 @@ context('参与实验室情况', () => {
   let joinLabData = []
   //储存实验室未标签未配置的数据
   let newData = []
-
   // let New_rate = []
   // let Join_lab_rate = []
   beforeEach(() => {
@@ -292,9 +291,8 @@ context('参与实验室情况', () => {
     cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(cityIndex).find('li').eq(foshanCityindex).click({
       force: true
     })
-    cy.server()
     // 拦截接口，使用通配符*拦截更灵活
-    cy.route('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
+    cy.intercept('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
     // 拦截请求必须写在visit之前
     cy.get('button').contains('搜索').click({
       force: true
@@ -353,9 +351,8 @@ context('参与实验室情况', () => {
     cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(cityIndex).click({
       force: true
     })
-    cy.server()
     // 拦截接口，使用通配符*拦截更灵活
-    cy.route('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
+    cy.intercept('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
     // 拦截请求必须写在visit之前
     cy.get('button').contains('搜索').click({
       force: true
@@ -427,8 +424,7 @@ context('参与实验室情况', () => {
     cy.get('.el-select-group').eq(boxIndex).find('li').eq(foshanTag).click({
       force: true
     })
-    cy.server()
-    cy.route('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
+    cy.intercept('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
     // 拦截请求必须写在visit之前
     cy.get('button').contains('搜索').click({
       force: true
@@ -579,8 +575,7 @@ context('参与实验室情况', () => {
     cy.get('.el-select-group').eq(boxIndex).find('li').eq(GuangxiTag).click({
       force: true
     })
-    cy.server()
-    cy.route('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
+    cy.intercept('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
     // 拦截请求必须写在visit之前
     cy.get('button').contains('搜索').click({
       force: true

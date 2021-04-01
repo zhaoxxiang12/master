@@ -1,16 +1,11 @@
 context('消息互通-公告板', () => {
-    let cookieName
-    let cookieValue
-    beforeEach(() => {
+    let cancel = 0
+    before(() => {
         let startDate = 0
         let endMonth = 3
         let endYear = 3
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/billboard')
-        cy.getCookies().should('exist').then((cookie) => {
-            cookieName = cookie[0]['name']
-            cookieValue = cookie[0]['value']
-        })
         cy.get('input[placeholder="开始时间"]').click({
             force: true
         })
@@ -218,21 +213,23 @@ context('消息互通-公告板', () => {
         cy.get('.el-icon-search').eq(searchButton).click({
             force: true
         })
-        cy.wait(1000)
         cy.get('.el-checkbox__inner').click({
             force: true
         })
         cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
+        cy.wait(1000)
         //点击确定
         cy.get('button').contains('确定').click({
             force: true
         })
         //断言
         cy.get('body').should('contain', '请输入公告标题')
-        //点击取消
-        // cy.get('.el-button.el-button--default.el-button--medium').eq(0).click()
+        // 点击取消
+        cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
+            force: true
+        })
     })
     it('002-公告板-未填写公告正文不能保存', () => {
         let timeBox = 6
@@ -248,10 +245,9 @@ context('消息互通-公告板', () => {
         let searchButton = 2
         let saveButton = 9
         let titleBox = 5
-          //输入公告正文
-          cy.get('.el-textarea__inner').clear({
+        cy.get('button').contains('添加公告').click({
             force: true
-        }) 
+        })
         //输入公告标题
         cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题", {
             force: true
@@ -368,6 +364,10 @@ context('消息互通-公告板', () => {
         })
         //断言
         cy.get('body').should('contain', '请输入公告内容')
+        // 点击取消
+        cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
+            force: true
+        })
     })
     it('003-公告板-未选择实验室不能保存', () => {
         let timeBox = 6
@@ -486,6 +486,11 @@ context('消息互通-公告板', () => {
         })
         //断言
         cy.get('body').should('contain', '请选择关联实验室')
+        // 点击取消
+        cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
+            force: true
+        })
+
     })
     it('004-公告板-数据填写完整正常保存', () => {
         cy.get('button').contains('搜索').click({
@@ -627,7 +632,6 @@ context('消息互通-公告板', () => {
             cy.get('button').contains('确定').click({
                 force: true
             })
-            cy.wait(1000)
             //断言
             cy.get('.el-table__body').find('tbody>tr').should('have.length', getLength + 1)
         })

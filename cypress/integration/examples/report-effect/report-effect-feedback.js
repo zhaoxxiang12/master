@@ -226,8 +226,7 @@ context('信息反馈情况', () => {
         })
         //点击搜索
         // cy.get('button').contains('搜索').click({force:true})
-        cy.server()
-        cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
         cy.get('.el-button.el-button--primary.el-button--medium').eq(0).click({
             force: true
@@ -260,8 +259,7 @@ context('信息反馈情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
         cy.get('button').contains('搜索').click({
             force: true
@@ -295,8 +293,7 @@ context('信息反馈情况', () => {
         cy.get('.el-select-group').eq(systemTag).find('li').eq(GuangxiTag).click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
         cy.get('button').contains('搜索').click({
             force: true
@@ -339,8 +336,7 @@ context('信息反馈情况', () => {
         cy.get('.el-select-group__wrap').eq(systemTag).find('li').eq(foshanTag).click({
             force: true
         })
-        cy.server()
-        cy.route('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
         // 拦截请求必须写在visit之前
         cy.get('button').contains('搜索').click({
             force: true

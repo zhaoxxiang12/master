@@ -1,18 +1,8 @@
 context('质控品管理', () => {
-    let cookieName
-    let cookieValue
     before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/iqcSet/qc-mgr')
-        cy.getCookies().should('exist').then((cookie) => {
-            cookieName = cookie[0]['name']
-            cookieValue = cookie[0]['value']
-        })
     })
-    beforeEach(() => {
-        cy.setCookie(cookieName, cookieValue)
-    })
-
     it('001-质控品管理-添加质控品', () => {
         // 给质控品信息添加随机数避免重复
         let num = Math.ceil(Math.random() * 10000)

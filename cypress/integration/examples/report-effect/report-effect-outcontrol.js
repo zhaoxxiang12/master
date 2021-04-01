@@ -75,9 +75,8 @@ context('失控处理情况', () => {
         })
     })
     it('001-失控处理情况-使用路由查询接口返回的数据有多少', () => {
-        cy.server()
         // 拦截失控处理情况情况查询的接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal?*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal?*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -109,9 +108,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -148,9 +146,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -187,9 +184,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -225,9 +221,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -263,9 +258,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -302,9 +296,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -341,9 +334,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -378,9 +370,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -416,9 +407,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -455,9 +445,8 @@ context('失控处理情况', () => {
         cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
             force: true
         })
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -595,9 +584,8 @@ context('失控处理情况', () => {
             force: true
         })
         // cy.get('button').contains('搜索').click({force:true})
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal?*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal?*').as('getLabdata')
         cy.wait(1000)
         cy.get('button').contains('搜索').click({
             force: true
@@ -622,9 +610,8 @@ context('失控处理情况', () => {
             force: true
         })
         // cy.get('button').contains('搜索').click({force:true})
-        cy.server()
         // 拦截接口，使用通配符*拦截更灵活
-        cy.route('**/service/mgr/evaReport/outControDeal?*').as('getLabdata')
+        cy.intercept('**/service/mgr/evaReport/outControDeal?*').as('getLabdata')
         cy.wait(1000)
         cy.get('button').contains('搜索').click({
             force: true
