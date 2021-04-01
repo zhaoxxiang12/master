@@ -3,8 +3,6 @@
 //     // 'text' so we can access it
 context('数据分析管理', () => {
     let reportedLabData, normalLabData, outLabData, totalLabData, notReportLabData
-    let cookieName
-    let cookieValue
     before(() => {
         cy.loginCQB()
         let timeIndex = 2
@@ -14,10 +12,6 @@ context('数据分析管理', () => {
         let provinceIndex = 0
         let province = '贵州省'
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-data/report-rate')
-        cy.getCookies().should('exist').then((cookie) => {
-            cookieName = cookie[0]['name']
-            cookieValue = cookie[0]['value']
-        })
         //获取页面上的数据(判断页面上是否存在贵州省)
         cy.wait(1000)
         //判断是广东环境还是上海环境；如果是广东环境就执行if语句；反之执行else语句
@@ -172,9 +166,6 @@ context('数据分析管理', () => {
                     totalLabData = totalLab
                 })
         })
-    })
-    beforeEach(() => {
-        cy.setCookie(cookieName, cookieValue)
     })
     it('001-数据分析管理-上报率-数据验证', () => {
         let shanghaiLabIndex = 0
