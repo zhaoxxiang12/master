@@ -7,7 +7,7 @@ context('质控品管理', () => {
         // 给质控品信息添加随机数避免重复
         let num = Math.ceil(Math.random() * 10000)
         //点击添加按钮
-        cy.get('.ql-search__tools-top button').contains('添加').click({
+        cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
             force: true
         })
         //输入质控品名称
@@ -40,7 +40,7 @@ context('质控品管理', () => {
     it('002-质控品管理-添加重复的质控品', () => {
         let num = Math.ceil(Math.random() * 10000)
         //点击添加按钮
-        cy.get('.ql-search__tools-top button').contains('添加').click({
+        cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
             force: true
         })
         //弹窗中填写质控品名称
