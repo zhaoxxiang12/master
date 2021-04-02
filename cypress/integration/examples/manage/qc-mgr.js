@@ -186,6 +186,7 @@ context('质控品管理', () => {
             cy.get('.ql-search__btns').find('button[type="submit"]').click({
                 force: true
             })
+            cy.wait(1000)
             //点击删除按钮    
             cy.get('.el-table__fixed-right tbody tr').first().find('button').contains('删除').click({
                 force: true
@@ -195,7 +196,7 @@ context('质控品管理', () => {
                 force: true
             })
             //删除后，对页面文案的断言
-            cy.get('.el-table__empty-text').should('contain', '暂无数据')
+            cy.get('body').should('contain', '暂无数据')
     
     })
     it('007-质控品管理-批号搜索', () => {
