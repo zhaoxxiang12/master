@@ -107,6 +107,7 @@ context('消息互通-公告板', () => {
         let typeBox = 0
         let searchButton = 2
         let saveButton = 9
+        cy.wait(1000)
         cy.get('button').contains('添加公告').click({
             force: true
         })
@@ -245,6 +246,7 @@ context('消息互通-公告板', () => {
         let searchButton = 2
         let saveButton = 9
         let titleBox = 5
+        cy.wait(1000)
         cy.get('button').contains('添加公告').click({
             force: true
         })
