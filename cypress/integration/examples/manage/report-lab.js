@@ -274,6 +274,7 @@ context('互认报告和证书管理', () => {
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         //点击全选复选框
         cy.get('.el-table__header-wrapper').find('.el-checkbox').click({
             force: true
@@ -300,6 +301,7 @@ context('互认报告和证书管理', () => {
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
+        cy.wait(1000)
         cy.get('.el-table__header-wrapper').find('.el-checkbox').click({
             force: true
         })
