@@ -89,7 +89,7 @@ context('失控处理情况', () => {
         })
     })
 
-    it.skip('002-失控处理情况-按原因查看-质控品原因', () => {
+    it('002-失控处理情况-按原因查看-质控品原因', () => {
         let totalDataIndex = 1
         let boxIndex = 1
         let optionsIndex = 8

@@ -93,6 +93,7 @@ context('信息反馈情况', () => {
         let outControlIndex = 3
         let outControlCVIndex = 4
         let labNameIndex = 0
+        cy.wait(5000)
         //获取总发消息数(佛山市顺德区中医院)
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(firstLabIndex).find('td').eq(totalMsgIndex).invoke('text')
             .then((text) => {

@@ -1,5 +1,5 @@
 context('月度工作日申请审核', () => {
-    beforeEach(() => {
+    before(() => {
         let startDate = 0
         let startMonth = 0
         let chooseStartMonth = 0
@@ -206,7 +206,7 @@ context('月度工作日申请审核', () => {
     })
     it('0005-工作日申请-使用项目进行搜索', () => {
         let auditStatus = 2
-        let dropList = 3
+        let dropList = 2
         let searchButton = 1
         let waitAudit = 0
         let notAudited = 1
@@ -256,12 +256,12 @@ context('月度工作日申请审核', () => {
                 cy.get('.el-pagination__total').should('have.text', '共 ' + totalData + ' 条')
             }
         })
-        //--------------------项目钠+审核状态(审核不通过)进行搜索----------------------
+        //--------------------项目钠+审核状态(审核通过)进行搜索----------------------
+
         cy.get('input[placeholder="请选择"]').eq(auditStatus).click({
             force: true
         })
-        cy.wait(1000)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList - 1).find('li').eq(notAudited).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(audited).click({
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/item/workDays/page?*').as('getData')
@@ -281,12 +281,12 @@ context('月度工作日申请审核', () => {
                 cy.get('.el-pagination__total').should('have.text', '共 ' + totalData + ' 条')
             }
         })
-        //--------------------项目钠+审核状态(审核通过)进行搜索----------------------
-
+        //--------------------项目钠+审核状态(审核不通过)进行搜索----------------------
         cy.get('input[placeholder="请选择"]').eq(auditStatus).click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList - 1).find('li').eq(audited).click({
+        cy.wait(1000)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(notAudited).click({
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/item/workDays/page?*').as('getData')
@@ -355,11 +355,17 @@ context('月度工作日申请审核', () => {
                 cy.get('.el-pagination__total').should('have.text', '共 ' + totalData + ' 条')
             }
         })
+        cy.get('input[placeholder="请输入实验室名称或编码"]').clear({
+            force: true
+        })
+        cy.get('input[placeholder="请输入项目名称"]').clear({
+            force: true
+        })
     })
     it('0007-工作日申请-切换质控主管单位(青浦医联体)', () => {
         let control = 0
         let QPYLT = 1
-        let dropList = 3
+        let dropList = 2
         cy.intercept('**/cqb-base-mgr/service/mgr/item/workDays/page?*').as('getData')
         cy.get('input[placeholder="请选择"]').eq(control).click({
             force: true

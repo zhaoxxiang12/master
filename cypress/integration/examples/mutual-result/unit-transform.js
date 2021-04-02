@@ -2,404 +2,12 @@
  * 单位转换设置
  */
 context('结果互认设置-单位转换设置', () => {
-    beforeEach(() => {
+    before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/unit-transform')
     })
-    it('001-单位转换设置-使用是否配置公式进行查询(已配置)', () => {
-        let selectBox = 0
-        let setFormula = 1
-        let formulaStatus = 7
-        let alreadySet = 2
-        cy.get('.el-button.el-button--text.el-button--medium').eq(selectBox).click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('input[placeholder="请选择"]').eq(setFormula).click({
-            force: true
-        })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(alreadySet).click({
-            force: true
-        })
-        cy.intercept('**/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get("button").contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let responseLength = xhr.response.body.data.total
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            //判断接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            if (responseLength == 0) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总的数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
-                cy.get('.el-table__body').eq(0).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('002-单位转换设置-使用是否配置公式进行查询(未配置)', () => {
-        let selectBox = 0
-        let setFormula = 1
-        let formulaStatus = 7
-        let notSet = 1
-        cy.get('.el-button.el-button--text.el-button--medium').eq(selectBox).click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('input[placeholder="请选择"]').eq(setFormula).click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(notSet).click({
-            force: true
-        })
-        cy.intercept('**/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get("button").contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let responseLength = xhr.response.body.data.total
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            //判断接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            if (responseLength == 0) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总的数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
-                cy.get('.el-table__body').eq(0).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('003-单位转换设置-关键字搜索功能', () => {
-        /**
-         * 实验室编码进行搜索
-         */
-        let inputBox = 0
-        let labCode = 'gd18020'
-        let labName = '佛山市南海区人民医院'
-        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, ({
-            force: true
-        }))
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let body = 0
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            let responseLength = xhr.response.body.data.total
-            //检查接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            //接口返回的数据总数与界面展示的数据是否一致
-            if (responseLength == 0 || responseLength == null) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else {
-                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-            }
-            /**
-             * 实验室名称进行搜索
-             */
-            cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
-                force: true
-            }).type(labName, ({
-                force: true
-            }))
-            cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-            cy.get('button').contains('搜索').click({
-                force: true
-            })
-            cy.wait('@getData').then((xhr) => {
-                let body = 0
-                let responseStatus = xhr.status
-                let expectStatus = 200
-                let responseLength = xhr.response.body.data.total
-                //检查接口是否正常
-                expect(responseStatus).to.equal(expectStatus)
-                //接口返回的数据总数与界面展示的数据是否一致
-                if (responseLength == 0 || responseLength == null) {
-                    cy.get('body').should('contain', '暂无数据')
-                } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                    cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-                } else {
-                    cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-                }
-            })
-        })
-    })
-    it('004-单位转换设置-互认项目搜索(项目钾)', () => {
-        let inputBox = 0
-        let itemDownList = 7
-        let choseK = 4
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
-            force: true
-        })
-        cy.get('input[placeholder="请选择互认项目"]').click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(itemDownList).find('li').eq(choseK).click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let body = 0
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            let responseLength = xhr.response.body.data.total
-            //检查接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            //接口返回的数据总数与界面展示的数据是否一致
-            if (responseLength == 0 || responseLength == null) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else {
-                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('005-单位转换设置-互认项目搜索(项目钠)', () => {
-        let inputBox = 0
-        let itemDownList = 7
-        let choseNa = 5
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
-            force: true
-        })
-        cy.get('input[placeholder="请选择互认项目"]').click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(itemDownList).find('li').eq(choseNa).click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let body = 0
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            let responseLength = xhr.response.body.data.total
-            //检查接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            //接口返回的数据总数与界面展示的数据是否一致
-            if (responseLength == 0 || responseLength == null) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else {
-                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('006-单位转换设置-地区搜索(北京市)', () => {
-        let inputBox = 0
-        let areaDownList = 7
-        let Beijing = 0
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
-            force: true
-        })
-        cy.get('input[placeholder="请选择省"]').click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Beijing).click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let body = 0
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            let responseLength = xhr.response.body.data.total
-            //检查接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            //接口返回的数据总数与界面展示的数据是否一致
-            if (responseLength == 0 || responseLength == null) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else {
-                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('007-单位转换设置-地区搜索(上海)', () => {
-        let inputBox = 0
-        let areaDownList = 7
-        let Shanghai = 1
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
-            force: true
-        })
-        cy.get('input[placeholder="请选择省"]').click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Shanghai).click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let body = 0
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            let responseLength = xhr.response.body.data.total
-            //检查接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            //接口返回的数据总数与界面展示的数据是否一致
-            if (responseLength == 0 || responseLength == null) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
-                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('008-单位转换设置-地区搜索(广东)', () => {
-        let inputBox = 0
-        let areaDownList = 7
-        let Guangdong = 2
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
-            force: true
-        })
-        cy.get('input[placeholder="请选择省"]').click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Guangdong).click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let body = 0
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            let responseLength = xhr.response.body.data.total
-            //检查接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            //接口返回的数据总数与界面展示的数据是否一致
-            if (responseLength == 0 || responseLength == null) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else {
-                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('009-单位转换设置-标签搜索(选择公立)', () => {
-        let inputBox = 0
-        let Tag = 1
-        let bussinessList = 0
-        let publicTag = 0
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
-            force: true
-        })
-        //选择实验室标签
-        cy.get('.el-radio__inner').eq(Tag).click({
-            force: true
-        })
-        //标签选择公立
-        cy.wait(500)
-        cy.get('.el-select__input.is-medium').click({
-            force: true
-        })
-        cy.get('.el-select-group').eq(bussinessList).find('li').eq(publicTag).click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let body = 0
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            let responseLength = xhr.response.body.data.total
-            //检查接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            //接口返回的数据总数与界面展示的数据是否一致
-            if (responseLength == 0 || responseLength == null) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
-                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('010-单位转换设置-标签搜索(选择私立)', () => {
-        let inputBox = 0
-        let Tag = 1
-        let bussinessList = 0
-        let privateTag = 1
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
-            force: true
-        })
-        //选择实验室标签
-        cy.get('.el-radio__inner').eq(Tag).click({
-            force: true
-        })
-        //标签选择公立
-        cy.wait(500)
-        cy.get('.el-select__input.is-medium').click({
-            force: true
-        })
-        cy.get('.el-select-group').eq(bussinessList).find('li').eq(privateTag).click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.wait('@getData').then((xhr) => {
-            let body = 0
-            let responseStatus = xhr.status
-            let expectStatus = 200
-            let responseLength = xhr.response.body.data.total
-            //检查接口是否正常
-            expect(responseStatus).to.equal(expectStatus)
-            //接口返回的数据总数与界面展示的数据是否一致
-            if (responseLength == 0 || responseLength == null) {
-                cy.get('body').should('contain', '暂无数据')
-            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
-                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
-            } else {
-                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
-            }
-        })
-    })
-    it('011-单位转换设置-编辑公式', () => {
-        let inputBox = 0
+    it('001-单位转换设置-编辑公式', () => {
+        let inputBox = 1
         let labCode = 'gd18020'
         let editFormula = 5
         let formulaBox = 1
@@ -448,8 +56,8 @@ context('结果互认设置-单位转换设置', () => {
         })
 
     })
-    it('012-单位转换设置-批量编辑公式', () => {
-        let inputBox = 0
+    it('002-单位转换设置-批量编辑公式', () => {
+        let inputBox = 1
         let labName = '南方医科大学顺德医院附属杏坛医院'
         let firstBox = 5
         let secondBox = 6
@@ -459,7 +67,9 @@ context('结果互认设置-单位转换设置', () => {
         let formulaBox2 = 10 // 第二条数据
         let typeInputBox = 12
         let typeNumber = parseInt(Math.random() * 1000)
-        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labName, ({
+        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
+            force: true
+        }).type(labName, ({
             force: true
         }))
         cy.get('button').contains('搜索').click({
@@ -530,19 +140,24 @@ context('结果互认设置-单位转换设置', () => {
             })
         })
     })
-    it('013-单位转换设置-重置公式功能', () => {
+    it('003-单位转换设置-重置公式功能', () => {
         let selectBox = 0
-        let setFormula = 1
         let formulaStatus = 7
-        let alreadySet = 2
         let chooseData = 0
         let editFormulaBox = 9
         let resetButton = 25
         let saveButton = 24
-        cy.get('.el-button.el-button--text.el-button--medium').eq(selectBox).click({
+        let setFormula = 1
+        let alreadySet = 2
+        let inputBox = 0
+        //清空输入框数据
+        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
             force: true
         })
-        cy.wait(500)
+        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
+            force: true
+        })
+        //配置公式状态选择已配置
         cy.get('input[placeholder="请选择"]').eq(setFormula).click({
             force: true
         })
@@ -552,7 +167,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
-        cy.wait(3000)
+        cy.wait(1000)
         cy.get('.el-table__body').eq(chooseData).find('.el-table__row').eq(chooseData).find('.unit-fn').invoke('text').then((formula) => {
             let oldFormula = formula
             cy.log(oldFormula)
@@ -587,6 +202,398 @@ context('结果互认设置-单位转换设置', () => {
                     expect(getNewFormula).to.eq(oldFormula)
                 })
             })
+        })
+    })
+    it('004-单位转换设置-使用是否配置公式进行查询(已配置)', () => {
+        let selectBox = 0
+        let setFormula = 1
+        let formulaStatus = 7
+        let alreadySet = 2
+        cy.get('.el-button.el-button--text.el-button--medium').eq(selectBox).click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('input[placeholder="请选择"]').eq(setFormula).click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(alreadySet).click({
+            force: true
+        })
+        cy.intercept('**/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get("button").contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let responseLength = xhr.response.body.data.total
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            //判断接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            if (responseLength == 0) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总的数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
+                cy.get('.el-table__body').eq(0).find('.el-table__row').should('have.length', responseLength)
+            }
+        })
+    })
+    it('005-单位转换设置-使用是否配置公式进行查询(未配置)', () => {
+        let selectBox = 0
+        let setFormula = 1
+        let formulaStatus = 7
+        let notSet = 1
+        let all = 0
+        cy.get('.el-button.el-button--text.el-button--medium').eq(selectBox).click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('input[placeholder="请选择"]').eq(setFormula).click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(notSet).click({
+            force: true
+        })
+        cy.intercept('**/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get("button").contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let responseLength = xhr.response.body.data.total
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            //判断接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            if (responseLength == 0) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总的数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
+                cy.get('.el-table__body').eq(0).find('.el-table__row').should('have.length', responseLength)
+            }
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(formulaStatus).find('li').eq(all).click({
+            force: true
+        })
+    })
+    it('006-单位转换设置-关键字搜索功能', () => {
+        /**
+         * 实验室编码进行搜索
+         */
+        let inputBox = 0
+        let labCode = 'gd18020'
+        let labName = '佛山市南海区人民医院'
+        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, ({
+            force: true
+        }))
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let body = 0
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            let responseLength = xhr.response.body.data.total
+            //检查接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            //接口返回的数据总数与界面展示的数据是否一致
+            if (responseLength == 0 || responseLength == null) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else {
+                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+            }
+            /**
+             * 实验室名称进行搜索
+             */
+            cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
+                force: true
+            }).type(labName, ({
+                force: true
+            }))
+            cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+            cy.get('button').contains('搜索').click({
+                force: true
+            })
+            cy.wait('@getData').then((xhr) => {
+                let body = 0
+                let responseStatus = xhr.response.statusCode
+                let expectStatus = 200
+                let responseLength = xhr.response.body.data.total
+                //检查接口是否正常
+                expect(responseStatus).to.equal(expectStatus)
+                //接口返回的数据总数与界面展示的数据是否一致
+                if (responseLength == 0 || responseLength == null) {
+                    cy.get('body').should('contain', '暂无数据')
+                } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                    cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+                } else {
+                    cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+                }
+            })
+        })
+        cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
+            force: true
+        })
+    })
+    it('007-单位转换设置-互认项目搜索(项目钾)', () => {
+        let itemDownList = 7
+        let choseK = 5
+        cy.get('input[placeholder="请选择互认项目"]').click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(itemDownList).find('li').eq(choseK).click({
+            force: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let body = 0
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            let responseLength = xhr.response.body.data.total
+            //检查接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            //接口返回的数据总数与界面展示的数据是否一致
+            if (responseLength == 0 || responseLength == null) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else {
+                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+            }
+        })
+    })
+    it('008-单位转换设置-互认项目搜索(项目钠)', () => {
+        let itemDownList = 7
+        let choseNa = 6
+        cy.get('input[placeholder="请选择互认项目"]').click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(itemDownList).find('li').eq(choseNa).click({
+            force: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let body = 0
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            let responseLength = xhr.response.body.data.total
+            //检查接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            //接口返回的数据总数与界面展示的数据是否一致
+            if (responseLength == 0 || responseLength == null) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else {
+                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+            }
+        })
+        cy.get('input[placeholder="请选择互认项目"]').click({
+            force: true
+        })
+        cy.get('.el-select__caret.el-input__icon.el-icon-circle-close').click({
+            force: true
+        })
+
+    })
+    it('009-单位转换设置-标签搜索(选择公立)', () => {
+        let Tag = 1
+        let bussinessList = 0
+        let publicTag = 0
+        //选择实验室标签
+        cy.get('.el-radio__inner').eq(Tag).click({
+            force: true
+        })
+        //标签选择公立
+        cy.get('.el-select__input.is-medium').click({
+            force: true
+        })
+        cy.get('.el-select-group').eq(bussinessList).find('li').eq(publicTag).click({
+            force: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let body = 0
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            let responseLength = xhr.response.body.data.total
+            //检查接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            //接口返回的数据总数与界面展示的数据是否一致
+            if (responseLength == 0 || responseLength == null) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
+                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+            }
+        })
+        cy.get('.el-tag__close.el-icon-close').click({
+            force: true
+          })
+    })
+    it('010-单位转换设置-标签搜索(选择私立)', () => {
+        let Tag = 1
+        let bussinessList = 0
+        let privateTag = 1
+        let area = 0
+        //选择实验室标签
+        cy.get('.el-radio__inner').eq(Tag).click({
+            force: true
+        })
+        //标签选择公立
+        cy.wait(500)
+        cy.get('.el-select__input.is-medium').click({
+            force: true
+        })
+        cy.get('.el-select-group').eq(bussinessList).find('li').eq(privateTag).click({
+            force: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let body = 0
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            let responseLength = xhr.response.body.data.total
+            //检查接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            //接口返回的数据总数与界面展示的数据是否一致
+            if (responseLength == 0 || responseLength == null) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else {
+                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+            }
+        })
+        cy.get('.el-radio__inner').eq(area).click({
+            force: true
+        })
+    })
+    it('011-单位转换设置-地区搜索(北京市)', () => {
+        let areaDownList = 7
+        let Beijing = 0
+        cy.get('input[placeholder="请选择省"]').click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Beijing).click({
+            force: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let body = 0
+            let responseStatus =xhr.response.statusCode
+            let expectStatus = 200
+            let responseLength = xhr.response.body.data.total
+            //检查接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            //接口返回的数据总数与界面展示的数据是否一致
+            if (responseLength == 0 || responseLength == null) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else {
+                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+            }
+        })
+        cy.get('.el-tag__close.el-icon-close').eq(0).click({
+            force: true
+          })
+    })
+    it('012-单位转换设置-地区搜索(上海)', () => {
+        let inputBox = 0
+        let areaDownList = 6
+        let Shanghai = 1
+        //点击展开
+        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
+            force: true
+        })
+        cy.get('input[placeholder="请选择省"]').click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Shanghai).click({
+            force: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let body = 0
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            let responseLength = xhr.response.body.data.total
+            //检查接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            //接口返回的数据总数与界面展示的数据是否一致
+            if (responseLength == 0 || responseLength == null) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else { //如果接口返回的数据小于或者等于20则判断类.el-table__row的长度
+                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+            }
+        })
+        cy.get('.el-tag__close.el-icon-close').eq(0).click({
+            force: true
+          })
+    })
+    it('013-单位转换设置-地区搜索(广东)', () => {
+        let inputBox = 0
+        let areaDownList = 6
+        let Guangdong = 2
+        //点击展开
+        cy.get('.el-button.el-button--text.el-button--medium').eq(inputBox).click({
+            force: true
+        })
+        cy.get('input[placeholder="请选择省"]').click({
+            force: true
+        })
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(areaDownList).find('li').eq(Guangdong).click({
+            force: true
+        })
+        cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getData').then((xhr) => {
+            let body = 0
+            let responseStatus = xhr.response.statusCode
+            let expectStatus = 200
+            let responseLength = xhr.response.body.data.total
+            //检查接口是否正常
+            expect(responseStatus).to.equal(expectStatus)
+            //接口返回的数据总数与界面展示的数据是否一致
+            if (responseLength == 0 || responseLength == null) {
+                cy.get('body').should('contain', '暂无数据')
+            } else if (responseLength > 20) { //如果接口返回的数据大于20则判断总数据条数
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseLength + ' 条')
+            } else {
+                cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', responseLength)
+            }
         })
     })
 })

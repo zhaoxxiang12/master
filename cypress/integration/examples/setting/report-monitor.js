@@ -1,6 +1,4 @@
 context('监控内容配置', () => {
-    let cookieName
-    let cookieValue
     //定义一个getIframeBody的方法--后面断言需要用到
     const getIframeBody = () => {
         //尝试获取 iframe > document > body 
@@ -15,13 +13,6 @@ context('监控内容配置', () => {
     before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/setting/report-monitor')
-        cy.getCookies().should('exist').then((cookie) => {
-            cookieName = cookie[0]['name']
-            cookieValue = cookie[0]['value']
-        })
-    })
-    beforeEach(() => {
-        cy.setCookie(cookieName, cookieValue)
     })
     it('001-监控内容配置-关键字搜索功能', () => {
         let labCode = 'gd18020'
@@ -79,6 +70,9 @@ context('监控内容配置', () => {
                     //断言 接口返回的数据总数与界面返回的数据总数是否相等,相等则通过
                     cy.get('.ql-card-list__list').find('.el-card__body').should('have.length', expectLength)
                 }
+            })
+            cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
+                force: true
             })
         })
 
@@ -155,19 +149,14 @@ context('监控内容配置', () => {
                 cy.get('.ql-card-list__list').find('.el-card__body').should('have.length', expectLength)
             }
         })
-    })
-    it('004-监控内容配置-状态搜索功能(已上报)', () => {
-        let expandButton = 0
-        let DropList = 3
-        let statusBox = 1
-        let reported = 2
         cy.get('.el-tag__close.el-icon-close').click({
             force: true
         })
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
-            force: true
-        })
+    })
+    it('004-监控内容配置-状态搜索功能(已上报)', () => {
+        let DropList = 3
+        let statusBox = 1
+        let reported = 2
         cy.get('.el-select__input.is-medium').click()
         //选择已上报
         cy.get('input[placeholder="请选择"]').eq(statusBox).click({
@@ -248,10 +237,6 @@ context('监控内容配置', () => {
         let expandButton = 0
         let Beijing = 0
         let areaBox = 20
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
-            force: true
-        })
         //点击所在地选择框
         cy.get('.multi-area__placeholder').click({
             force: true
@@ -285,10 +270,6 @@ context('监控内容配置', () => {
     it('007-监控内容配置-所在地进行搜索(广东)', () => {
         let Guangdong = 2
         let areaBox = 20
-        // //点击展开
-        // cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
-        //     force: true
-        // })
         cy.get('.el-tag__close.el-icon-close').click({
             force: true
         })
