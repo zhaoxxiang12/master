@@ -11,6 +11,7 @@ context('信息互通设置-推送设置', () => {
         let ChoiceIndex = 0
         let ChooseTime = 0
         let ButtonIndex = 2
+        cy.wait(1000)
         //点击添加
         cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
             force: true
