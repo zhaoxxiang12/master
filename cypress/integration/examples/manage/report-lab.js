@@ -221,7 +221,7 @@ context('互认报告和证书管理', () => {
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
-        cy.wait(500)
+        cy.wait(1000)
         //获取操作前的推送/取消推送文案
         cy.get('.el-table__body').find('.el-table__row').eq(first).find('.el-button.el-button--text.el-button--medium').eq(push).invoke('text').then((text) => {
             let oldText = text
@@ -258,7 +258,7 @@ context('互认报告和证书管理', () => {
                 })
                 cy.get('body').should('contain', '已取消推送')
             }
-            cy.wait(500)
+            cy.wait(1000)
             cy.get('.el-table__body').find('.el-table__row').eq(first).find('.el-button.el-button--text.el-button--medium').eq(push).invoke('text').then((text) => {
                 let newText = text
                 expect(oldText).not.to.eq(newText)
