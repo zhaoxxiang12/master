@@ -214,6 +214,7 @@ context('消息互通-公告板', () => {
         cy.get('.el-icon-search').eq(searchButton).click({
             force: true
         })
+        cy.wait(1000)
         cy.get('.el-checkbox__inner').click({
             force: true
         })
