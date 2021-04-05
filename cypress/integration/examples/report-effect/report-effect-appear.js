@@ -231,7 +231,6 @@ context('实验室上报情况', () => {
         cy.get('button').contains('搜索').click()
         // 获取标签未配置的实验室数量
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data.detail).then((data) => {
                 let labName = data[0]
                 labName = labName['labName']

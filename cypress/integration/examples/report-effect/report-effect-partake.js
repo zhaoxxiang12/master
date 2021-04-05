@@ -188,7 +188,6 @@ context('参与实验室情况', () => {
     let joinedRate = Math.round(parseInt(joinLabData[0]) / totalLab * 10000) / 100 + "%"
     //申请中百分比计算结果保留两位小数
     let applyRate = Math.round(parseInt(joinLabData[1]) / totalLab * 10000) / 100
-    cy.log(applyRate)
     let stringApplyRate = applyRate.toString().split('.')
     if (stringApplyRate.length == 1) {
       applyRate = applyRate.toString() + ".00"
@@ -267,7 +266,6 @@ context('参与实验室情况', () => {
     })
     //获取参与实验室的数量
     cy.wait('@getLabdata').then((xhr) => {
-      cy.log(xhr.response)
       cy.get(xhr.response.body.data.unTag).then((data) => {
         let labJoin = data[0]
         //结果转换成字符串
@@ -279,12 +277,10 @@ context('参与实验室情况', () => {
           force: true
         })
         cy.wait('@getLabdata').then((Result) => {
-          cy.log(Result.response)
           cy.get(Result.response.body.data.unTagRate).then((labRate) => {
             let joinRate = labRate[0]
             //结果转换为百分比并保留两位小数
             let percentData = Math.round(joinRate * 10000) / 100 + '%'
-            cy.log(percentData)
             //将结果labJoin的结果与percentData进行连接
             let resultData = labJoin + '(' + percentData + ')'
             // cy.log(resultData)
@@ -326,27 +322,21 @@ context('参与实验室情况', () => {
     })
     // 获取标签未配置的实验室数量
     cy.wait('@getLabdata').then((xhr) => {
-      cy.log(xhr.response)
       cy.get(xhr.response.body.data.unTag).then((data) => {
         let labJoin = data[0]
         //结果转换成字符串
         labJoin = labJoin.toString()
-        cy.log(labJoin)
         //获取标签未配置参与率
         cy.get('button').contains('搜索').click({
           force: true
         })
         cy.wait('@getLabdata').then((Result) => {
-          cy.log(Result.response)
           cy.get(Result.response.body.data.unTagRate).then((labRate) => {
             let joinRate = labRate[0]
             //结果转换为百分比并保留两位小数
             let percentData = Math.round(joinRate * 10000) / 100 + '%'
-            cy.log(percentData)
-            cy.log(typeof percentData)
             //将结果labJoin的结果与percentData进行连接
             let resultData = labJoin + '(' + percentData + ')'
-            cy.log(resultData)
             // 断言
             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(resultIndex)
               .should('have.text', resultData)
