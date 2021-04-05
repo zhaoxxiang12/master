@@ -81,7 +81,6 @@ context('互认合格情况', () => {
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
             // labName='贵阳华夏不孕不育医院'
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data).then((data) => {
                 let realJudgeData = data
                 let getData = realJudgeData[0].labName

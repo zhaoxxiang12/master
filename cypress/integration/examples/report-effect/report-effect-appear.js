@@ -62,18 +62,15 @@ context('实验室上报情况', () => {
             force: true
         })
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             //获取接口返回了多少条数据
             cy.get(xhr.response.body.data.detail.length).then((data) => {
                 judgeData = data[0]
-                cy.log(judgeData)
             })
         })
     })
     it('002-实验室上报情况-进行数据对比', () => {
         //接口返回的数据量与前端元素tr的长度进行对比
         cy.get('.table-line__fixed-header+.table-line').find('tbody').find('tr').should('have.length', judgeData)
-        cy.log(judgeData)
     })
     it('003-实验室上报情况-总上报天数为零工作日上报率就为零', () => {
         //实验室下标
@@ -91,10 +88,8 @@ context('实验室上报情况', () => {
         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td').eq(reportIndex).invoke('text')
             .then((data) => {
                 reporteData = data
-                cy.log(reporteData)
                 reporteData = parseInt(reporteData)
                 let reportedRate = Math.round(reporteData / 19 * 1000) / 10 + "%"
-                cy.log(reportedRate)
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportedRateIndex)
                     .should('have.text', reportedRate)
             })
@@ -116,9 +111,7 @@ context('实验室上报情况', () => {
             .then((data) => {
                 let reportedData = data
                 reportedData = parseInt(reportedData)
-                cy.log(reportedData)
                 let reportedRate = Math.round(reportedData / 19 * 1000) / 10 + "%"
-                cy.log(reportedRate)
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportedRateIndex)
                     .should('have.text', reportedRate)
             })
@@ -179,9 +172,6 @@ context('实验室上报情况', () => {
             let judgle = data
             let getData = judgle.length
             let shanghaiEnvironment = 1
-            cy.log(typeof getData)
-            console.log(getData)
-            console.log(2)
             if (getData == shanghaiEnvironment) {
                 cy.log('上海医联体系统，无其他管理机构选项')
             } else {
@@ -199,7 +189,6 @@ context('实验室上报情况', () => {
                 cy.get('button').contains('搜索').click({force:true})
                 // 获取标签未配置的实验室数量
                 cy.wait('@getLabdata').then((xhr) => {
-                    cy.log(xhr.response)
                     cy.get(xhr.response.body.data.detail).then((getLabData) => {
                         let labName = getLabData[0]
                         labName = labName['labName']
@@ -262,10 +251,8 @@ context('实验室上报情况', () => {
         cy.get('.print-tool__columns').find('li').then((data) => {
             let webData = data
             webData = data.length
-            cy.log(webData)
             cy.get('.el-checkbox.is-checked').then((getData) => {
                 let lengthData = getData.length
-                cy.log(lengthData)
                 //使用for 循环取消勾选显示字段
                 for (var i = 0, j = lengthData - 1; i < webData, j >= Math.abs(webData - lengthData); i++, j--) {
                     cy.get('.print-tool__columns').find('li>label>span').find('.el-checkbox__inner').eq(i).click()
