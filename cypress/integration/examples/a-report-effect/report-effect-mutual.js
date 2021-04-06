@@ -78,7 +78,6 @@ context('互认合格情况', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
-        cy.wait(1000)
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
             // labName='贵阳华夏不孕不育医院'
