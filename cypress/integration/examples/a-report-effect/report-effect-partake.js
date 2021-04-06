@@ -265,8 +265,8 @@ context('参与实验室情况', () => {
     cy.wait('@getLabdata').then((xhr) => {
       cy.get(xhr.response.body.data.unTag).then((data) => {
         let labJoin = data[0]
+        //结果转换成字符串
         labJoin = labJoin.toString()
-
         //获取参与率
         cy.get('button').contains('搜索').click({
           force: true
@@ -277,6 +277,7 @@ context('参与实验室情况', () => {
             //结果转换为百分比并保留两位小数
             let percentData = Math.round(joinRate * 10000) / 100 + '%'
             //将结果labJoin的结果与percentData进行连接
+            let resultData = labJoin + '(' + percentData + ')'
             //断言
             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(resultIndex).should('have.text', resultData)
           })
