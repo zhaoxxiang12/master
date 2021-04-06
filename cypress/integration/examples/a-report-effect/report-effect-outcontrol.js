@@ -381,7 +381,7 @@ context('失控处理情况', () => {
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
             cy.get(xhr.response.body.data.total).then((data) => {
-                judgeData = data[0] 
+                judgeData = data[0]
                 //断言(判断页面上的总数是否和接口返回的数量一致)
                 judgeData = judgeData.toString()
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
@@ -521,11 +521,11 @@ context('失控处理情况', () => {
         // 获取页面实验室名称并进行对比
         cy.get('.table-line.table-main').find('tbody>tr>td').eq(labIdex).should('have.text', labName)
         //   点击质控主管单位
-          cy.get('[placeholder="请选择"]').eq(choose).click({
+        cy.get('[placeholder="请选择"]').eq(choose).click({
             force: true
         })
         //选择佛山
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(institutionsIndex-1).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(institutionsIndex - 1).click({
             force: true
         })
     })

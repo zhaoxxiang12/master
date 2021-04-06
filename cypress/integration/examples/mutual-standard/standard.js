@@ -1260,7 +1260,7 @@ context('互认标准设置', () => {
         let dropList =36
         cy.wait(1000)
         cy.get('input[placeholder="请选择"]').click({
-            forece: true
+            force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/std/yearrecog/list?*').as('getData')
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(QPYLT).click({
