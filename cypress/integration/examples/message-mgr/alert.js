@@ -2,7 +2,7 @@
  * 告警查询
  */
 context('消息互通-告警查询', () => {
-    let alertList = 4
+    let alertList = 5
     before(() => {
         let ExpandButton = 0
         let ChooseButton = 0
@@ -310,7 +310,8 @@ context('消息互通-告警查询', () => {
         cy.get('input[placeholder="请选择"]').eq(MessageType).click({
             force: true
         })
-        cy.get('.el-select__caret.el-input__icon.el-icon-circle-close').eq(1).click({
+        cy.wait(500)
+        cy.get('.el-select__caret.el-input__icon.el-icon-circle-close').click({
             force: true
         })
     })
