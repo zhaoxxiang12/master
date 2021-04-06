@@ -81,10 +81,8 @@ context('失控处理情况', () => {
         })
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data.outControDeals.length).then((data) => {
                 judgeData = data[0]
-                cy.log(judgeData)
             })
         })
     })
@@ -113,13 +111,10 @@ context('失控处理情况', () => {
         })
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data.total).then((data) => {
                 judgeData = data[0]
-                // cy.log(Judge_data)
                 //断言(判断页面上的总数是否和接口返回的数量一致)
                 judgeData = judgeData.toString()
-                cy.log(judgeData)
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
                     .should('have.text', judgeData)
             })
@@ -150,13 +145,10 @@ context('失控处理情况', () => {
     //     })
     //     // 拦截请求必须写在visit之前
     //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.log(xhr.response)
     //         cy.get(xhr.response.body.data.total).then((data) => {
     //             judgeData = data[0]
-    //             // cy.log(JudgeData)
     //             //断言(判断页面上的总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -186,13 +178,10 @@ context('失控处理情况', () => {
     //         force: true
     //     })
     //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.log(xhr.response)
     //         cy.get(xhr.response.body.data.total).then((data) => {
     //             judgeData = data[0]
-    //             // cy.log(JudgeData)
     //             //断言(判断页面上的j总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -223,13 +212,10 @@ context('失控处理情况', () => {
     //     })
     //     // 拦截请求必须写在visit之前
     //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.log(xhr.response)
     //         cy.get(xhr.response.body.data.total).then((data) => {
     //             judgeData = data[0]
-    //             // cy.log(Judge_data)
     //             //断言(判断页面上的总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -260,13 +246,10 @@ context('失控处理情况', () => {
     //     })
     //     // 拦截请求必须写在visit之前
     //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.log(xhr.response)
     //         cy.get(xhr.response.body.data.total).then((data) => {
     //             judgeData = data[0]
-    //             // cy.log(JudgeData)
     //             //断言(判断页面上的总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -297,13 +280,10 @@ context('失控处理情况', () => {
     //     })
     //     // 拦截请求必须写在visit之
     //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.log(xhr.response)
     //         cy.get(xhr.response.body.data.total).then((data) => {
     //             judgeData = data[0]
-    //             // cy.log(Judge_data)
     //             //断言(判断页面上的总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -334,13 +314,10 @@ context('失控处理情况', () => {
     //     })
     //     // 拦截请求必须写在visit之前
     //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.log(xhr.response)
     //         cy.get(xhr.response.body.data.total).then((data) => {
     //             judgeData = data[0]
-    //             // cy.log(Judge_data)
     //             //断言(判断页面上的总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -370,13 +347,10 @@ context('失控处理情况', () => {
     //     })
     //     // 拦截请求必须写在visit之前
     //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.log(xhr.response)
     //         cy.get(xhr.response.body.data.total).then((data) => {
     //             judgeData = data[0]
-    //             // cy.log(Judge_data)
     //             //断言(判断页面上的总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -406,13 +380,10 @@ context('失控处理情况', () => {
     //     })
     //     // 拦截请求必须写在visit之前
     //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.log(xhr.response)
     //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             // cy.log(Judge_data)
+    //             judgeData = data[0] 
     //             //断言(判断页面上的总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -445,10 +416,8 @@ context('失控处理情况', () => {
     //     cy.wait('@getLabdata').then((xhr) => {
     //         cy.get(xhr.response.body.data.total).then((data) => {
     //             judgeData = data[0]
-    //             // cy.log(Judge_data)
     //             //断言(判断页面上的总数是否和接口返回的数量一致)
     //             judgeData = judgeData.toString()
-    //             cy.log(judgeData)
     //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
     //                 .should('have.text', judgeData)
     //         })
@@ -513,7 +482,6 @@ context('失控处理情况', () => {
     //     })
     //     // 处理方式之和
     //     var secondJudgeData = 0
-    //     cy.log(methodData)
     //     for (let i = 0; i < methodData.length; i++) {
     //         // sum=sum+methodData[i]
     //         secondJudgeData += parseInt(methodData[i])
@@ -521,11 +489,10 @@ context('失控处理情况', () => {
     //     }
     //     //整数转字符串
     //     secondJudgeData = secondJudgeData.toString()
-    //     // cy.log(JudgeData)
     //     //断言(获取原因总数并和judgeData进行对比)
     //     cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(0).find('td').eq(totalDataIndex).should('have.text', secondJudgeData)
     // })
-    it.skip('014-失控处理情况-切换质控主管单位进行搜索查询', () => {
+    it('014-失控处理情况-切换质控主管单位进行搜索查询', () => {
         let boxIndex = 5
         let labIdex = 0
         let labName = '复旦大学中山医院青浦分院'
@@ -562,7 +529,7 @@ context('失控处理情况', () => {
         //     force: true
         // })
     })
-    it.skip('015-失控处理情况-使用地区进行搜索查询', () => {
+    it('015-失控处理情况-使用地区进行搜索查询', () => {
         let pronvinceIndex = 2
         let chooseIndex = 5
         let cityIndex = 2
@@ -596,10 +563,8 @@ context('失控处理情况', () => {
         // cy.get('button').contains('搜索').click({force:true})
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data).then((value) => {
                 let Data = value["outControDeals"]
-                cy.log(Data)
                 cy.get('body').should('not.contain', '测试实验室')
             })
         })
@@ -619,11 +584,9 @@ context('失控处理情况', () => {
         })
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
-            cy.log(xhr.response)
             cy.get(xhr.response.body.data.outControDeals.length).then((data) => {
                 judgeData = data
                 // Judge_data=JSON.stringify(Judge_data)
-                // cy.log(typeof Judge_data)
                 judgeData = judgeData["0"]
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', judgeData)
             })
