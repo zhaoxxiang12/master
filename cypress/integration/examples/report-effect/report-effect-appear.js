@@ -1,8 +1,6 @@
 context('实验室上报情况', () => {
     let judgeData
     let reporteData
-    let cookieName
-    let cookieValue
     before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-effect/report-effect-appear')
@@ -17,10 +15,6 @@ context('实验室上报情况', () => {
         //结束时间
         let endDate = 2
         let chose = 1
-        cy.getCookies().should('exist').then((cookie) => {
-            cookieName = cookie[0]['name']
-            cookieValue = cookie[0]['value']
-        })
         //点击开始时间选择框
         cy.get('[placeholder="起始时间"]').eq(dateIndex).click()
         cy.get('.el-date-picker__header-label').eq(startDate).invoke('text').then((getData) => {
@@ -54,7 +48,102 @@ context('实验室上报情况', () => {
             })
         })
     })
-    it('001-实验室上报情况-使用路由查询接口返回的数据有多少', () => {
+    it('001-实验室上报情况-切换质控主管单位(广东环境-切换至青浦医联体)', () => {
+        let boxIndex = 5
+        let ShanghaiIndex = 1
+        let choiceIndex = 5
+        //点击质控主管单位
+        cy.get('[placeholder="请选择"]').click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(choiceIndex).find('li').then((data) => {
+            let judgle = data
+            let getData = judgle.length
+            let shanghaiEnvironment = 1
+            if (getData == shanghaiEnvironment) {
+                cy.log('上海医联体系统，无其他管理机构选项')
+            } else {
+                //点击质控主管单位选择框
+                cy.get('[placeholder="请选择"]').click({
+                    force: true
+                })
+                cy.wait(1000)
+                //选择青浦医联体
+                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiIndex).click({
+                    force: true
+                })
+                cy.intercept('**/service/mgr/evaReport/labReport?*').as('getLabdata')
+                // 拦截请求必须写在visit之前
+                cy.get('button').contains('搜索').click({
+                    force: true
+                })
+                // 获取标签未配置的实验室数量
+                cy.wait('@getLabdata').then((xhr) => {
+                    cy.get(xhr.response.body.data.detail).then((getLabData) => {
+                        let labName = getLabData[0]
+                        labName = labName['labName']
+                        let labNameIndex = 0
+                        //   cy.log(labName)
+                        //断言(判断界面是否有符合的实验室名字)
+                        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
+                    })
+                })
+            }
+        })
+
+    })
+    it('002-实验室上报情况-使用地区进行查询(上海)', () => {
+        let areaIndex = 0
+        let boxIndex = 5
+        let ShanghaiProvinceIndex = 1
+        let ShanghaiIndex = 1
+        //点击质控主管单位选择框
+        cy.get('[placeholder="请选择"]').click({
+            force: true
+        })
+        //选择青浦医联体
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiIndex).click({
+            force: true
+        })
+        //点击地区
+        cy.get('.el-radio__inner').eq(areaIndex).click()
+        //点击省选择框
+        cy.get('[placeholder="请选择省"]').click({
+            force: true
+        })
+        //选择上海
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiProvinceIndex).click({
+            force: true
+        })
+        cy.intercept('**/service/mgr/evaReport/labReport?*').as('getLabdata')
+        // 拦截请求必须写在visit之前
+        cy.get('button').contains('搜索').click()
+        // 获取标签未配置的实验室数量
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.detail).then((data) => {
+                let labName = data[0]
+                labName = labName['labName']
+                let labNameIndex = 0
+                //   cy.log(labName)
+                //断言
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
+            })
+        })
+    })
+    it('003-实验室上报情况-使用路由查询接口返回的数据有多少', () => {
+        let Foshan = 0
+        let checkInner = 1
+        let choiceIndex = 5
+        //点击质控主管单位
+        cy.get('[placeholder="请选择"]').click({
+            force: true
+        })
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(choiceIndex).find('li').eq(Foshan).click({
+            force: true
+        })
+        cy.get('.el-radio__inner').eq(checkInner ).click({
+            force: true
+        })
         // 拦截参与实验室情况查询的接口，使用通配符*拦截更灵活
         cy.intercept('**/service/mgr/evaReport/labReport?*').as('getLabdata')
         // 拦截请求必须写在visit之前
@@ -68,11 +157,11 @@ context('实验室上报情况', () => {
             })
         })
     })
-    it('002-实验室上报情况-进行数据对比', () => {
+    it('004-实验室上报情况-进行数据对比', () => {
         //接口返回的数据量与前端元素tr的长度进行对比
         cy.get('.table-line__fixed-header+.table-line').find('tbody').find('tr').should('have.length', judgeData)
     })
-    it('003-实验室上报情况-总上报天数为零工作日上报率就为零', () => {
+    it('005-实验室上报情况-总上报天数为零工作日上报率就为零', () => {
         //实验室下标
         let labIndex = 66
         //总上报天数下标
@@ -94,7 +183,7 @@ context('实验室上报情况', () => {
                     .should('have.text', reportedRate)
             })
     })
-    it('004-实验室上报情况-规定上报记录数为零工作日上报率就为零', () => {
+    it('006-实验室上报情况-规定上报记录数为零工作日上报率就为零', () => {
         //实验室下标
         let labIndex = 66
         //规定上报记录数下标
@@ -116,7 +205,7 @@ context('实验室上报情况', () => {
                     .should('have.text', reportedRate)
             })
     })
-    it('005-实验室上报情况-输入关键字进行模糊搜索查询', () => {
+    it('007-实验室上报情况-输入关键字进行模糊搜索查询', () => {
         let labCode = 'yl1250'
         let typeLabName = '青浦区重固镇社区卫生服务中心'
         let labName = '上海市测试专用实验室'
@@ -124,7 +213,7 @@ context('实验室上报情况', () => {
         let guangdongTypeLabName = '佛山市南海区第五人民医院'
         let guangdongLabName = '佛山市妇幼保健院'
         let labNameIndex = 0
-        let choiceIndex = 3
+        let choiceIndex = 5
         //点击质控主管单位
         cy.get('[placeholder="请选择"]').click({
             force: true
@@ -159,87 +248,6 @@ context('实验室上报情况', () => {
 
         })
         cy.get('[placeholder="实验室名称或编码"]').clear()
-    })
-    it('006-实验室上报情况-切换质控主管单位(广东环境-切换至青浦医联体)', () => {
-        let boxIndex = 5
-        let ShanghaiIndex = 1
-        let choiceIndex = 5
-        //点击质控主管单位
-        cy.get('[placeholder="请选择"]').click({
-            force: true
-        })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(choiceIndex).find('li').then((data) => {
-            let judgle = data
-            let getData = judgle.length
-            let shanghaiEnvironment = 1
-            if (getData == shanghaiEnvironment) {
-                cy.log('上海医联体系统，无其他管理机构选项')
-            } else {
-                //点击质控主管单位选择框
-                cy.get('[placeholder="请选择"]').click({
-                    force: true
-                })
-                cy.wait(1000)
-                //选择青浦医联体
-                cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiIndex).click({
-                    force: true
-                })
-                cy.intercept('**/service/mgr/evaReport/labReport?*').as('getLabdata')
-                // 拦截请求必须写在visit之前
-                cy.get('button').contains('搜索').click({force:true})
-                // 获取标签未配置的实验室数量
-                cy.wait('@getLabdata').then((xhr) => {
-                    cy.get(xhr.response.body.data.detail).then((getLabData) => {
-                        let labName = getLabData[0]
-                        labName = labName['labName']
-                        let labNameIndex = 0
-                        //   cy.log(labName)
-                        //断言(判断界面是否有符合的实验室名字)
-                        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
-                    })
-                })
-            }
-        })
-
-    })
-    it('007-实验室上报情况-使用地区进行查询(上海)', () => {
-        let areaIndex = 0
-        let boxIndex = 5
-        let ShanghaiProvinceIndex = 1
-        let ShanghaiIndex = 1
-        // let choiceIndex = 3
-        //点击质控主管单位选择框
-        cy.get('[placeholder="请选择"]').click({
-            force: true
-        })
-        //选择青浦医联体
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiIndex).click({
-            force: true
-        })
-        //点击地区
-        cy.get('.el-radio__inner').eq(areaIndex).click()
-        //点击省选择框
-        cy.get('[placeholder="请选择省"]').click({
-            force: true
-        })
-        //选择上海
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiProvinceIndex).click({
-            force: true
-        })
-        cy.intercept('**/service/mgr/evaReport/labReport?*').as('getLabdata')
-        // 拦截请求必须写在visit之前
-        cy.get('button').contains('搜索').click()
-        // 获取标签未配置的实验室数量
-        cy.wait('@getLabdata').then((xhr) => {
-            cy.get(xhr.response.body.data.detail).then((data) => {
-                let labName = data[0]
-                labName = labName['labName']
-                let labNameIndex = 0
-                //   cy.log(labName)
-                //断言
-                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
-            })
-        })
     })
     it('008-实验室上报情况-显示字段-取消勾选某个字段', () => {
         //点击显示字段
