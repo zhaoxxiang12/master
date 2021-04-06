@@ -121,377 +121,377 @@ context('失控处理情况', () => {
         })
 
     })
-    // it('003-失控处理情况-按原因查看-定标曲线漂移', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 8
-    //     let chooseIndex = 5
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择定标曲线漂移
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 拦截请求必须写在visit之前
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             //断言(判断页面上的总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
+    it('003-失控处理情况-按原因查看-定标曲线漂移', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 8
+        let chooseIndex = 5
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择定标曲线漂移
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 拦截请求必须写在visit之前
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0]
+                //断言(判断页面上的总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
 
-    // })
-    // it('004-失控处理情况-按原因查看-定标靶值改变', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 8
-    //     let chooseIndex = 6
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择定标靶值改变
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             //断言(判断页面上的j总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
+    })
+    it('004-失控处理情况-按原因查看-定标靶值改变', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 8
+        let chooseIndex = 6
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择定标靶值改变
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0]
+                //断言(判断页面上的j总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
 
-    // })
-    // it('005-失控处理情况-按原因查看-人为原因', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 8
-    //     let chooseIndex = 1
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择人为原因
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 拦截请求必须写在visit之前
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             //断言(判断页面上的总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
+    })
+    it('005-失控处理情况-按原因查看-人为原因', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 8
+        let chooseIndex = 1
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择人为原因
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 拦截请求必须写在visit之前
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0]
+                //断言(判断页面上的总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
 
-    // })
-    // it('006-失控处理情况-按原因查看(CV/符合率失控原因)-固定CV%/SD设置问题', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 9
-    //     let chooseIndex = 0
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择固定CV%/SD设置问题
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 拦截请求必须写在visit之前
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             //断言(判断页面上的总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
+    })
+    it('006-失控处理情况-按原因查看(CV/符合率失控原因)-固定CV%/SD设置问题', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 9
+        let chooseIndex = 0
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择固定CV%/SD设置问题
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 拦截请求必须写在visit之前
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0]
+                //断言(判断页面上的总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
 
-    // })
-    // it('007-失控处理情况-按原因查看(CV/符合率失控原因)-仪器原因', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 9
-    //     let chooseIndex = 2
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择仪器原因
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 拦截请求必须写在visit之
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             //断言(判断页面上的总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
+    })
+    it('007-失控处理情况-按原因查看(CV/符合率失控原因)-仪器原因', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 9
+        let chooseIndex = 2
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择仪器原因
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 拦截请求必须写在visit之
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0]
+                //断言(判断页面上的总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
 
-    // })
-    // it('008-失控处理情况-按原因查看(CV/符合率失控原因)-试剂原因', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 9
-    //     let chooseIndex = 3
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择试剂原因
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 拦截请求必须写在visit之前
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             //断言(判断页面上的总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
-    // })
-    // it('009-失控处理情况-按原因查看(CV/符合率失控原因)-质控品原因', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 9
-    //     let chooseIndex = 4
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择质控品原因
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 拦截请求必须写在visit之前
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             //断言(判断页面上的总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
-    // })
-    // it('010-失控处理情况-按原因查看(CV/符合率失控原因)-人员问题', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 9
-    //     let chooseIndex = 5
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择人员问题
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 拦截请求必须写在visit之前
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0] 
-    //             //断言(判断页面上的总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
+    })
+    it('008-失控处理情况-按原因查看(CV/符合率失控原因)-试剂原因', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 9
+        let chooseIndex = 3
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择试剂原因
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 拦截请求必须写在visit之前
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0]
+                //断言(判断页面上的总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
+    })
+    it('009-失控处理情况-按原因查看(CV/符合率失控原因)-质控品原因', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 9
+        let chooseIndex = 4
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择质控品原因
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 拦截请求必须写在visit之前
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0]
+                //断言(判断页面上的总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
+    })
+    it('010-失控处理情况-按原因查看(CV/符合率失控原因)-人员问题', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 9
+        let chooseIndex = 5
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择人员问题
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 拦截请求必须写在visit之前
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0] 
+                //断言(判断页面上的总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
 
-    // })
-    // it('011-失控处理情况-按原因查看(CV/符合率失控原因)-其他', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 9
-    //     let chooseIndex = 6
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择其他
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     // 拦截接口，使用通配符*拦截更灵活
-    //     cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 拦截请求必须写在visit之前
-    //     cy.wait('@getLabdata').then((xhr) => {
-    //         cy.get(xhr.response.body.data.total).then((data) => {
-    //             judgeData = data[0]
-    //             //断言(判断页面上的总数是否和接口返回的数量一致)
-    //             judgeData = judgeData.toString()
-    //             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
-    //                 .should('have.text', judgeData)
-    //         })
-    //     })
+    })
+    it('011-失控处理情况-按原因查看(CV/符合率失控原因)-其他', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 9
+        let chooseIndex = 6
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择其他
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        // 拦截接口，使用通配符*拦截更灵活
+        cy.intercept('**/service/mgr/evaReport/outControDeal/reason?startTime*').as('getLabdata')
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 拦截请求必须写在visit之前
+        cy.wait('@getLabdata').then((xhr) => {
+            cy.get(xhr.response.body.data.total).then((data) => {
+                judgeData = data[0]
+                //断言(判断页面上的总数是否和接口返回的数量一致)
+                judgeData = judgeData.toString()
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(totalDataIndex)
+                    .should('have.text', judgeData)
+            })
+        })
 
-    // })
-    // it('012-失控处理情况-按原因查看-获取页面上处理方式数据', () => {
-    //     let boxIndex = 1
-    //     let optionsIndex = 8
-    //     let chooseIndex = 9
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择随机误差
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     //点击搜索按键
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     //循环遍历获取失控原因的数据
-    //     for (let i = 4; i <= 15; i++) {
-    //         cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(0).find('td').eq(i).invoke('text')
-    //             .then((data) => {
-    //                 let webData = data
-    //                 if (webData != null) {
-    //                     methodData.push(webData)
-    //                 } else { //如果标签<td><td>中的数据为null就赋值为0
-    //                     webData = 0
-    //                     methodData.push(webData)
-    //                 }
-    //             })
-    //     }
+    })
+    it('012-失控处理情况-按原因查看-获取页面上处理方式数据', () => {
+        let boxIndex = 1
+        let optionsIndex = 8
+        let chooseIndex = 9
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择随机误差
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        //点击搜索按键
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        //循环遍历获取失控原因的数据
+        for (let i = 4; i <= 15; i++) {
+            cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(0).find('td').eq(i).invoke('text')
+                .then((data) => {
+                    let webData = data
+                    if (webData != null) {
+                        methodData.push(webData)
+                    } else { //如果标签<td><td>中的数据为null就赋值为0
+                        webData = 0
+                        methodData.push(webData)
+                    }
+                })
+        }
 
-    // })
-    // it('013-失控处理情况-按原因查看-判断处理方式之和是否等于总数', () => {
-    //     let totalDataIndex = 1
-    //     let boxIndex = 1
-    //     let optionsIndex = 8
-    //     let chooseIndex = 9
-    //     //点击按原因查看
-    //     cy.get('.effect__search').find('[role="radio"]').eq(2).click({
-    //         force: true
-    //     })
-    //     //点击原因选择框
-    //     cy.get('[placeholder="请选择"]').eq(boxIndex).click({
-    //         force: true
-    //     })
-    //     //选择随机误差
-    //     cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
-    //         force: true
-    //     })
-    //     //点击搜索按键
-    //     cy.get('button').contains('搜索').click({
-    //         force: true
-    //     })
-    //     // 处理方式之和
-    //     var secondJudgeData = 0
-    //     for (let i = 0; i < methodData.length; i++) {
-    //         // sum=sum+methodData[i]
-    //         secondJudgeData += parseInt(methodData[i])
+    })
+    it('013-失控处理情况-按原因查看-判断处理方式之和是否等于总数', () => {
+        let totalDataIndex = 1
+        let boxIndex = 1
+        let optionsIndex = 8
+        let chooseIndex = 9
+        //点击按原因查看
+        cy.get('.effect__search').find('[role="radio"]').eq(2).click({
+            force: true
+        })
+        //点击原因选择框
+        cy.get('[placeholder="请选择"]').eq(boxIndex).click({
+            force: true
+        })
+        //选择随机误差
+        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+            force: true
+        })
+        //点击搜索按键
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        // 处理方式之和
+        var secondJudgeData = 0
+        for (let i = 0; i < methodData.length; i++) {
+            // sum=sum+methodData[i]
+            secondJudgeData += parseInt(methodData[i])
 
-    //     }
-    //     //整数转字符串
-    //     secondJudgeData = secondJudgeData.toString()
-    //     //断言(获取原因总数并和judgeData进行对比)
-    //     cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(0).find('td').eq(totalDataIndex).should('have.text', secondJudgeData)
-    // })
+        }
+        //整数转字符串
+        secondJudgeData = secondJudgeData.toString()
+        //断言(获取原因总数并和judgeData进行对比)
+        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(0).find('td').eq(totalDataIndex).should('have.text', secondJudgeData)
+    })
     it('014-失控处理情况-切换质控主管单位进行搜索查询', () => {
         let boxIndex = 5
         let labIdex = 0
@@ -514,20 +514,20 @@ context('失控处理情况', () => {
         cy.get('.el-button.el-button--primary.el-button--medium').eq(0).click({
             force: true
         })
-        // cy.get('button').contains('搜索').click({
-        //     force: true
-        // })
-        // cy.wait(3000)
-        //获取页面实验室名称并进行对比
-        // cy.get('.table-line.table-main').find('tbody>tr').eq(labIdex).should('have.text', labName)
-        // //   点击质控主管单位
-        //   cy.get('[placeholder="请选择"]').eq(choose).click({
-        //     force: true
-        // })
-        // //选择佛山
-        // cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(institutionsIndex-1).click({
-        //     force: true
-        // })
+        cy.get('button').contains('搜索').click({
+            force: true
+        })
+        cy.wait(500)
+        // 获取页面实验室名称并进行对比
+        cy.get('.table-line.table-main').find('tbody>tr>td').eq(labIdex).should('have.text', labName)
+        //   点击质控主管单位
+          cy.get('[placeholder="请选择"]').eq(choose).click({
+            force: true
+        })
+        //选择佛山
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(institutionsIndex-1).click({
+            force: true
+        })
     })
     it('015-失控处理情况-使用地区进行搜索查询', () => {
         let pronvinceIndex = 2
@@ -592,5 +592,4 @@ context('失控处理情况', () => {
             })
         })
     })
-
 })
