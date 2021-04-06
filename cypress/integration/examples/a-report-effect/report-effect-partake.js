@@ -169,7 +169,6 @@ context('参与实验室情况', () => {
     cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(4).invoke('text').then((data) => {
       //切割字符串
       joinData = data.split('(')
-      cy.log(joinData)
       //转换成字符串
       joinData = joinData + ''
       //切割字符串
@@ -178,7 +177,6 @@ context('参与实验室情况', () => {
       joinData = joinData + ''
       //切割字符串
       joinData = joinData.split(',')
-      // cy.log(joinData)
       newData.push(joinData[0])
     })
   })
@@ -202,7 +200,6 @@ context('参与实验室情况', () => {
     }
     //未参与百分比计算结果保留两位小数
     let notjoinedRate = Math.round(parseInt(joinLabData[2]) / totalLab * 10000) / 100
-    // cy.log(notjoinedRate)
     let stringNotJoinedRate = notjoinedRate.toString().split('.')
     if (stringNotJoinedRate.length == 1) {
       notjoinedRate = notjoinedRate.toString() + ".00"
@@ -268,8 +265,6 @@ context('参与实验室情况', () => {
     cy.wait('@getLabdata').then((xhr) => {
       cy.get(xhr.response.body.data.unTag).then((data) => {
         let labJoin = data[0]
-        //结果转换成字符串
-        cy.log(labJoin)
         labJoin = labJoin.toString()
 
         //获取参与率
@@ -282,8 +277,6 @@ context('参与实验室情况', () => {
             //结果转换为百分比并保留两位小数
             let percentData = Math.round(joinRate * 10000) / 100 + '%'
             //将结果labJoin的结果与percentData进行连接
-            let resultData = labJoin + '(' + percentData + ')'
-            // cy.log(resultData)
             //断言
             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(resultIndex).should('have.text', resultData)
           })
@@ -411,7 +404,6 @@ context('参与实验室情况', () => {
 
           //参与
           joinRtate = Math.round(data[0]['joinRtate'] * 10000) / 100 + '%'
-          cy.log(joinRtate)
           joinNum = data[0]['joinNum']
           // 申请中
           applyRate = Math.round(data[0]['applyRate'] * 10000) / 100 + '%'
@@ -481,7 +473,6 @@ context('参与实验室情况', () => {
               force: true
             })
             for (let i = 0; i < notJoinLab.length; i++) {
-              cy.log(i)
               cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(1).find('td').eq(labNameIndex).should('have.text', notJoinLab[i])
             }
           }
@@ -562,7 +553,6 @@ context('参与实验室情况', () => {
 
           //参与
           joinRtate = Math.round(data[0]['joinRtate'] * 10000) / 100 + '%'
-          cy.log(joinRtate)
           joinNum = data[0]['joinNum']
           // 申请中
           applyRate = Math.round(data[0]['applyRate'] * 10000) / 100 + '%'
@@ -631,7 +621,6 @@ context('参与实验室情况', () => {
               force: true
             })
             for (let i = 0; i < notJoinLab.length; i++) {
-              cy.log(i)
               cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(1).find('td').eq(labNameIndex).should('have.text', notJoinLab[i])
             }
           }
@@ -659,10 +648,8 @@ context('参与实验室情况', () => {
     cy.get('.print-tool__columns').find('li').then((data) => {
       let webData = data
       webData = webData.length
-      // cy.log(webData)
       cy.get('.table-line__wrapper').find('.table-line').eq(0).find('thead>tr').find(" .is-clickable").then((getData) => {
         let dataLength = getData.length
-        // cy.log(dataLength)
         for (var i = 0, j = dataLength; i < webData, j >= 0; i++, j--) {
           //取消勾选字段
           cy.get('.print-tool__columns').find('[role="checkbox"]').eq(i).click({
