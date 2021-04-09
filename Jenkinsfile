@@ -3,12 +3,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                println "Build"
+                sh 'npm install'
             }
         }
         stage('Test') {
             steps {
-                println "Test"
+               sh 'npm run test'
             }
         }
         stage('Deploy') {
