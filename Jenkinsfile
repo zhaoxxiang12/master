@@ -17,9 +17,10 @@ pipeline{ //pipeline是声明式流水线的特定语法，它定义包含执行
 			steps{
 				sh 'make publish'
 			}
-		}
-		environment{
+				environment{
 			CHROME_BIN='/bin/google-chrome'
 		}
+		}
+	
 	}
 }
