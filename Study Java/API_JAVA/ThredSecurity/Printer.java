@@ -4,8 +4,10 @@ package ThredSecurity;
  * 打印机
  * 线程不安全现象(指令重排导致)
  * 【同步】:保留整体
+ * <p>
  *
- *锁:Java中的任意对象都会自带锁
+ * synchronized (唯一锁){}保证同一时刻有且只有一个线程可以获取到这个锁(排队随机抢)
+ * 锁:Java中的任意对象都会自带锁
  */
 public class Printer {
     public void printA() {
@@ -20,10 +22,12 @@ public class Printer {
     }
 
     public void printB() {
-        System.out.print("B");
-        System.out.print("B");
-        System.out.print("B");
-        System.out.print("B");
-        System.out.println("B");
+        synchronized (this) {
+            System.out.print("B");
+            System.out.print("B");
+            System.out.print("B");
+            System.out.print("B");
+            System.out.println("B");
+        }
     }
 }
