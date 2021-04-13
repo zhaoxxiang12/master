@@ -6,26 +6,27 @@ package ThreadWork;
  * 2.生产方法
  */
 public class Worker extends Thread {
-    private long number = 1L;
+    private static long number = 1L;
 
     public Worker(String name) {
         super(name);
-
     }
 
     @Override
     public void run() {
         while (true) {
-            if (number > 33) {
-                System.out.println("产品已制造完毕");
-                break;
-            }
-            Product product = new Product(number++);
-            System.out.println(getName() + "成功生产出" + product);
-            try {
-                Thread.sleep(100);//模拟每次生产商品的时间
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            synchronized (Worker.class) {
+                if (number > 33) {
+                    System.out.println("产品已制造完毕");
+                    break;
+                }
+                Product product = new Product(number++);
+                System.out.println(getName() + "成功生产出" + product);
+                try {
+                    Thread.sleep(100);//模拟每次生产商品的时间
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
