@@ -7,7 +7,7 @@ public class DB {
     private int number = 1;
 
     public void add() {
-        System.out.println("序号" + number);
+        System.out.println("序号:" + number);
         number++;
     }
 }
