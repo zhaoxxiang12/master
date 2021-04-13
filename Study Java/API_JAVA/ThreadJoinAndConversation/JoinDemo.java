@@ -25,6 +25,7 @@ public class JoinDemo {
                         t1.start(); //线程就绪(有资格但没有权力执行)
                         try {
                             t1.join(); //插入作用：自动调用wait(),让父线程t2停止等待,等待t1全部执行完成后才会让父线程t2继续执行
+                            //t1.join(10); //加入线程只会加入10ms时间，时间一到则又执行以前的线程
                         } catch (InterruptedException e) {//中断异常
                             e.printStackTrace();
                         }
