@@ -14,5 +14,8 @@ public class TestTrain {
         t3.start();
         t4.start();
         t5.start();
+        //能否设置优先级
+        t1.setPriority(10); //优先级是不能控制线程执行顺序的
+        t2.setPriority(2);
     }
 }
