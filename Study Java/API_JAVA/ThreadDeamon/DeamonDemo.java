@@ -3,6 +3,8 @@ package ThreadDeamon;
 /**
  * 守护线程
  * JVM的垃圾回收器GC就是一个守护线程
+ *
+ * 主线程结束时，守护线程也会随之结束
  */
 public class DeamonDemo {
     public static void main(String[] args) {
