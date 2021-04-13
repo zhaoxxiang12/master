@@ -9,5 +9,14 @@ public class Train extends Thread{
     @Override
     public void run() {
         //火车过山洞的方法
+        System.out.println(getName()+"正在过山洞");
+        try {
+            Thread.sleep(1000);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    public Train(String name){
+        super(name);
     }
 }
