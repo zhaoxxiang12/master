@@ -3,7 +3,7 @@ context('互认报告和证书管理', () => {
         cy.loginCQB()
     })
     it('001-月度汇总报告-月度汇总报告生成', () => {
-        let reportMonth = 2
+        let reportMonth = 0
         let foshan = 1
         let yearBox = 2
         let currentYear = 0
@@ -30,7 +30,7 @@ context('互认报告和证书管理', () => {
             })
             cy.get('.el-date-picker__header-label').eq(currentYear).invoke('text').then((text) => {
                 let getYear = parseInt(text.slice(0, 4))
-                let differenceYear = getYear - 2021
+                let differenceYear = getYear - 2020
                 if (differenceYear == 0) {
                     cy.get('.el-month-table').find('tbody>tr').eq(choose).find('td').eq(reportMonth).click({
                         force: true
@@ -368,7 +368,7 @@ context('互认报告和证书管理', () => {
     })
 
     it('010-月度汇总报告-预览月度汇总报告', () => {
-        let reportMonth = 2
+        let reportMonth = 0
         let currentYear = 0
         let choose = 0
         let year = 0
@@ -441,7 +441,7 @@ context('互认报告和证书管理', () => {
         cy.get('.ql-search__header').find('.el-date-editor').click({
             force: true
         })
-        //搜索栏时间选择，如一月
+        //搜索栏时间选择，如2021/3
         cy.get('.el-input__inner').eq(time).click({
             force: true
         })
@@ -467,6 +467,7 @@ context('互认报告和证书管理', () => {
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
+        cy.wait(500)
         cy.get('button').contains('删除').click({
             force: true
         })

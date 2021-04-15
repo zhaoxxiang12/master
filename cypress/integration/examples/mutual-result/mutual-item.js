@@ -729,7 +729,7 @@ context('结果互认设置-开展项目设置', () => {
     it('020-开展项目设置-停用所有项目', () => {
         let menu = 20
         let covid = 1
-        cy.wait(500)
+        cy.wait(1000)
         cy.get('.el-menu').eq(menu).find('li').eq(covid).click({
             force: true
         })

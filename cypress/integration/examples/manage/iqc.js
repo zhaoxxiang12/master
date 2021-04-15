@@ -442,7 +442,6 @@ context('月度IQC报告', () => {
         let searchButton = 1
         let Shanghai = 1
         let keywordBox = 1
-        let Guangdong = 2
         //清除实验室编码
         cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).clear({
             force: true
@@ -481,7 +480,7 @@ context('月度IQC报告', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList - 1).find('li').eq(Shanghai).click({
             force: true
         })
-        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?*').as('getWebData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?areaId=*').as('getWebData')
         cy.wait(1000)
         //点击搜索
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
@@ -501,14 +500,21 @@ context('月度IQC报告', () => {
                 cy.get('.el-pagination__total').should('have.text', '共 ' + total + ' 条')
             }
         })
+
+    })
+    it('report-008-月度IQC报告_所在地选择广东', () => {
+        let dropList = 4
+        let Guangdong = 2
+        let searchButton = 1
         //----------------选择广东-------------------------------
         cy.get('input[placeholder="请选择省"]').click({
             force: true
         })
         cy.wait(1000)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList - 1).find('li').eq(Guangdong).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(Guangdong).click({
             force: true
         })
+        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?areaId=440000*').as('getWebData')
         //点击搜索
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true

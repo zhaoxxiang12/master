@@ -140,13 +140,13 @@ context('互认标准设置', () => {
         })
         cy.wait(1000)
         //点击复选框（选择几个项目设置规则）
-        cy.get('.el-checkbox__inner').eq(4).click({
-            force: true
-        })
         cy.get('.el-checkbox__inner').eq(5).click({
             force: true
         })
         cy.get('.el-checkbox__inner').eq(6).click({
+            force: true
+        })
+        cy.get('.el-checkbox__inner').eq(7).click({
             force: true
         })
         //点击批量设置按钮
@@ -233,7 +233,7 @@ context('互认标准设置', () => {
         })
         cy.wait(1000)
         //点击复选框
-        cy.get('.el-checkbox__inner').eq(73).click({
+        cy.get('.el-checkbox__inner').eq(72).click({
             force: true
         })
         //点击‘保存’按钮
@@ -286,7 +286,7 @@ context('互认标准设置', () => {
             force: true
         })
         //下拉选择月份3
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(18).find('li').eq('2').click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq('2').click({
             force: true
         })
         //点击‘CV%判定规则’下拉框
@@ -294,7 +294,7 @@ context('互认标准设置', () => {
             force: true
         })
         //下拉选择CV判定规则，选第一个（选择不同规则，修改最后一个eq里面的参数）
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(18).find('li').eq(1).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(1).click({
             force: true
         })
         //点击选择部中复选框
@@ -370,7 +370,7 @@ context('互认标准设置', () => {
         let setRules = 2
         let cancel1 = 6
         let cancel2 = 0
-        let dropList = 27
+        let dropList = 36
         //点击添加标准按钮
         cy.get('.el-card__body').find('.el-icon-plus').click({
             force: true
@@ -440,7 +440,7 @@ context('互认标准设置', () => {
         let cancel1 = 6
         let cancel2 = 0
         let thresholdValue = 31
-        let dropList = 27
+        let dropList = 36
         //点击添加标准按钮
         cy.get('.el-card__body').find('.el-icon-plus').click({
             force: true
@@ -502,7 +502,7 @@ context('互认标准设置', () => {
         let cancel1 = 6
         let cancel2 = 0
         let thresholdValue = 31
-        let dropList = 27
+        let dropList = 36
         //点击添加标准按钮
         cy.get('.el-card__body').find('.el-icon-plus').click({
             force: true
@@ -567,7 +567,7 @@ context('互认标准设置', () => {
         let cancel1 = 6
         let cancel2 = 0
         let thresholdValue = 31
-        let dropList = 27
+        let dropList = 36
         //点击添加标准按钮
         cy.get('.el-card__body').find('.el-icon-plus').click({
             force: true

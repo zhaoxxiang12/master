@@ -1,7 +1,7 @@
 //声明这是一个测试用例
 describe('账户管理-实验室账户', function () {
-    let saveButton = 5
-    let closeButton = 7
+    let saveButton = 8
+    let closeButton = 6
     before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/account/lab-manage')
@@ -57,7 +57,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         // 点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"]').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         cy.get('body').should('contain', '请输入实验室名称')
@@ -120,7 +120,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         cy.get('body').should('contain', '请输入编码')
@@ -139,7 +139,6 @@ describe('账户管理-实验室账户', function () {
         cy.get('input[maxlength="64"').type('佛山市医院')
         //输入实验室编码
         var lab_Code = parseInt(Math.random() * 100000) //生成随机数 
-        //  console.log('gd'+lab_Code)
         cy.get('input[class=el-input__inner').eq(9).clear().type('gd18006', {
             force: true
         })
@@ -179,7 +178,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         cy.get('body').should('contain', '编码已存在，请重新输入')
@@ -215,7 +214,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         cy.get('body').should('contain', '请选择所在地')
@@ -272,7 +271,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         // 关闭窗口
@@ -328,7 +327,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
          // 关闭窗口
@@ -387,7 +386,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         cy.get('body').should('contain', '请输入联系电话', {
@@ -443,7 +442,7 @@ describe('账户管理-实验室账户', function () {
         // 输入实验密码
         cy.get('input[class=el-input__inner]').eq(17).type('gd' + lab_Code)
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         cy.get('body').should('contain', '实验室已添加')
@@ -484,7 +483,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         }).type(newlabName)
         // 点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         // 保存成功断言
@@ -520,7 +519,7 @@ describe('账户管理-实验室账户', function () {
         cy.get('input[maxlength="64"]').clear({
             force: true
         }).type("测试实验室1")
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(5).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         }) // 点击保存
 
@@ -546,7 +545,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         //断言
@@ -580,7 +579,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         //断言
@@ -618,7 +617,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
         //断言
@@ -665,9 +664,10 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         //点击保存
-        cy.get('button[class="el-button el-button--primary el-button--medium"').eq(saveButton).click({
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
             force: true
         })
+
         //断言
         cy.get('body').should('contain', '实验室已更新')
         //在搜索框输入数据
@@ -692,7 +692,7 @@ describe('账户管理-实验室账户', function () {
     })
     // --------------------------------------------启用/停用实验室------------------------------------------------
     it('014-启用/停用实验室实验室', () => {
-        let keyWord = 9
+        let keyWord = 13
         let status = 6
         //在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').clear({

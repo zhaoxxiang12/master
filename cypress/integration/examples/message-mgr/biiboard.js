@@ -31,21 +31,31 @@ context('消息互通-公告板', () => {
                 let differentMonth = getMonth - chooseMonth
                 if (differentMonth < 0) {
                     for (let i = 0; i < Math.abs(differentMonth); i++) {
+                        //选择年份
                         cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').click({
                             force: true
                         })
                     }
+                    //选择日期 2月14日
+                    cy.get('.el-date-table').find('tbody>tr').eq(3).find('td').eq(0).click()
                 } else if (differentMonth > 0) {
                     for (let i = 0; i < Math.abs(differentMonth); i++) {
                         cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').click({
                             force: true
                         })
                     }
+                    //选择日期 2月14日
+                    cy.get('.el-date-table').find('tbody>tr').eq(3).find('td').eq(0).click()
+
                 } else {
                     cy.get('.el-date-table').find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
                         force: true
                     })
                 }
+                //选择日期 2月14日
+                cy.get('.el-date-table').find('tbody>tr').eq(3).find('td').eq(0).click({
+                    force: true
+                })
             })
             //------------------选择结束时间--------------------
             cy.get('input[placeholder="结束时间"]').click({
@@ -66,8 +76,8 @@ context('消息互通-公告板', () => {
                 cy.get('.el-date-picker__header-label').eq(endMonth).invoke('text').then((getData) => {
                     let getMonth = parseInt(getData.slice(0))
                     let chooseMonth = 3
-                    let trIndex = 1
-                    let tdIndex = 4
+                    let trIndex = 2
+                    let tdIndex = 0
                     let nextMonth = 1
                     let differentMonth = getMonth - chooseMonth
                     if (differentMonth < 0) {
@@ -76,12 +86,18 @@ context('消息互通-公告板', () => {
                                 force: true
                             })
                         }
+                        cy.get('.el-date-table').eq(1).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
+                            force: true
+                        })
                     } else if (differentMonth > 0) {
                         for (let i = 0; i < Math.abs(differentMonth); i++) {
                             cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
                                 force: true
                             })
                         }
+                        cy.get('.el-date-table').eq(1).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
+                            force: true
+                        })
                     } else {
                         cy.get('.el-date-table').eq(1).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
                             force: true

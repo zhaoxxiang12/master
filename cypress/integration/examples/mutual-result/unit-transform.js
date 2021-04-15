@@ -10,10 +10,11 @@ context('结果互认设置-单位转换设置', () => {
         let inputBox = 1
         let labCode = 'gd18020'
         let editFormula = 5
-        let formulaBox = 1
+        let formulaBox = 0
         let editFormulaBox = 9
         let saveButton = 7
         let typeNumber = parseInt(Math.random() * 1000)
+        let oldNumber = 290
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, ({
             force: true
         }))
@@ -48,8 +49,8 @@ context('结果互认设置-单位转换设置', () => {
                 //录入新值
                 cy.get('.el-input__inner').eq(editFormulaBox).clear({
                     force: true
-                }).type(typeNumber)
-                cy.get('.el-button.el-button--text.el-button--medium').eq(7).click({
+                }).type(oldNumber)
+                cy.get('.el-button.el-button--text.el-button--medium').eq(saveButton).click({
                     force: true
                 })
             })
