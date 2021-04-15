@@ -7,9 +7,8 @@ public class Test {
             @Override
             public void run() {
                 for (int i = 0; i < 100; i++) {
-                    print.printA();
                     try {
-                        Thread.sleep(100);
+                        print.printA();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -20,9 +19,8 @@ public class Test {
             @Override
             public void run() {
                 for (int i = 0; i < 100; i++) {
-                    print.printContent();
                     try {
-                        Thread.sleep(100);
+                        print.printContent();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

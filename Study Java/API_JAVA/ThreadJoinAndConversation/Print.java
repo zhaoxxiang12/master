@@ -8,28 +8,35 @@ package ThreadJoinAndConversation;
  * 线程执行顺序需要通过第三方变量来控制 int flag
  */
 public class Print {
-    private static int flag = 2; //1：打印A 2：欢迎光临
+    private static int flag = 1; //1：打印A 2：欢迎光临
 
 
     public void printA() throws InterruptedException {
         synchronized (this) {
             if (flag != 1) {
-                this.wait();
+                this.wait(); //进入线程池(会释放锁)
             }
             System.out.print("A");
             System.out.print("A");
             System.out.print("A");
             System.out.print("A");
             System.out.println("A");
+            flag = 2;
+            Thread.sleep(1000);
         }
     }
 
-    public void printContent() {
+    public void printContent() throws InterruptedException {
         synchronized (this) {
+            if (flag != 2) {
+                this.wait();
+            }
             System.out.print("欢");
             System.out.print("迎");
             System.out.print("光");
             System.out.println("临");
+            flag = 1;
+            Thread.sleep(1000);
         }
     }
 }
