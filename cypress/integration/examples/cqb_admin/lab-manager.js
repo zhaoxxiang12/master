@@ -70,9 +70,6 @@ describe('账户管理-实验室账户', function () {
     it('002-添加实验室-实验室编码为空不能保存', () => {
         cy.wait(1000)
         //点击添加实验室
-        cy.getCookies().each((cookie) => {
-            cy.log(cookie.name, cookie.value)
-        })
         cy.get('button').contains('添加实验室').click({
             force: true
         })
@@ -472,6 +469,7 @@ describe('账户管理-实验室账户', function () {
         cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click({
             force: true
         })
+        cy.wait(500)
         // 清除实验室原来的名称
         cy.get('input[maxlength="64"]').clear({
             force: true
@@ -515,6 +513,7 @@ describe('账户管理-实验室账户', function () {
         cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click({
             force: true
         })
+        cy.wait(500)
         // 清除实验室原来的名称
         cy.get('input[maxlength="64"]').clear({
             force: true
@@ -592,7 +591,6 @@ describe('账户管理-实验室账户', function () {
         })
         cy.wait(1000)
         cy.get('body').should('contain', '共 1 条')
-
     })
     it('012-编辑实验室-修改联系人', () => {
         //在搜索框输入数据
@@ -607,6 +605,7 @@ describe('账户管理-实验室账户', function () {
         cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click({
             force: true
         })
+        cy.wait(500)
         //--------修改联系人--------
         var User_Name_Code = parseInt(Math.random() * 100) //生成随机数
         var New_User_Name = 'AAA' + User_Name_Code
@@ -636,8 +635,7 @@ describe('账户管理-实验室账户', function () {
         cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click({
             force: true
         })
-
-        //断言
+        // 断言
         cy.get('input[maxlength="16"').eq(1).should('have.value', New_User_Name)
     })
     it('013-编辑实验室-修改联系电话', () => {
@@ -655,12 +653,13 @@ describe('账户管理-实验室账户', function () {
         cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click({
             force: true
         })
+        cy.wait(500)
         //------------修改联系电话------------
-        cy.get('input[maxlength="16"').eq(2).clear() //清除以前的数据
+        cy.get('.el-input__inner').eq(15).clear() //清除以前的数据
         var Phone_Number = parseInt(Math.random() * 1000000) //生成随机数
         var New_Phone_Number = '188456' + Phone_Number
         //输入电话号码
-        cy.get('input[maxlength="16"').eq(2).type(New_Phone_Number, {
+        cy.get('.el-input__inner').eq(15).type(New_Phone_Number, {
             force: true
         })
         //点击保存
@@ -692,8 +691,9 @@ describe('账户管理-实验室账户', function () {
     })
     // --------------------------------------------启用/停用实验室------------------------------------------------
     it('014-启用/停用实验室实验室', () => {
-        let keyWord = 13
-        let status = 6
+        let keyWord = 1
+        let status = 0
+        let firstData = 0
         //在搜索框输入数据
         cy.get('input[placeholder="实验室名称或编码"').clear({
             force: true
@@ -705,7 +705,7 @@ describe('账户管理-实验室账户', function () {
             force: true
         })
         cy.wait(1000)
-        cy.get('.el-button.el-button--text.el-button--medium').eq(keyWord).invoke('text').then((data) => {
+        cy.get('.el-table__row').eq(firstData).find('.el-button.el-button--text.el-button--medium').eq(keyWord).invoke('text').then((data) => {
             let judge = data
             if (judge == '启用') {
                 cy.get('.el-button.el-button--text.el-button--medium').eq(keyWord).click({
@@ -716,7 +716,7 @@ describe('账户管理-实验室账户', function () {
                 })
                 cy.wait(1000)
                 // 断言
-                cy.get('.ql-badge-status__text').eq(status).should('have.text', '已启用')
+                cy.get('.el-table__row').eq(0).find('.ql-badge-status').eq(status).should('have.text', '已启用')
                 cy.get('body').should('contain', '已启用')
             } else {
                 cy.get('.el-button.el-button--text.el-button--medium').eq(keyWord).click({
@@ -725,9 +725,9 @@ describe('账户管理-实验室账户', function () {
                 cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
                     foece: true
                 })
-                cy.wait(500)
+                cy.wait(1000)
                 // 断言
-                cy.get('.ql-badge-status__text').eq(status).should('have.text', '已锁定')
+                cy.get('.el-table__row').eq(firstData).find('.ql-badge-status').eq(status).should('have.text', '已锁定')
                 cy.get('body').should('contain', '已锁定')
             }
         })

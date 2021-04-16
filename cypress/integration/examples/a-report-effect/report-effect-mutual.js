@@ -150,11 +150,8 @@ context('互认合格情况', () => {
         //断言
         cy.get('body').should('not.contain', judgeData)
         //输入实验室编码
-        cy.get('.el-input__inner').eq(searchBox).clear({
-            force: true
-        }).type(labCode, {
-            force: true
-        })
+        cy.get('.el-input__inner').eq(searchBox).clear()
+        cy.get('.el-input__inner').eq(searchBox).type(labCode)
         //断言
         cy.get('body').should('not.contain', judgeData)
     })

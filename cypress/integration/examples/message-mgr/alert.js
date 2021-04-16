@@ -415,8 +415,6 @@ context('消息互通-告警查询', () => {
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
-
         })
     })
-
 })

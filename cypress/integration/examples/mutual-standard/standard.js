@@ -132,13 +132,11 @@ context('互认标准设置', () => {
         })
     })
     it('cqb-004-互认标准设置-添加标准-批量设置规则', () => {
-        let submitButton = 5
         let dropList = 18
         //点击修改按钮
         cy.get('.el-icon-edit-outline').eq(1).click({
             force: true
         })
-        cy.wait(1000)
         //点击复选框（选择几个项目设置规则）
         cy.get('.el-checkbox__inner').eq(5).click({
             force: true
@@ -307,7 +305,7 @@ context('互认标准设置', () => {
         })
 
         //部级选择次数，2次
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(9).find('li').eq(1).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(27).find('li').eq(1).click({
             force: true
         })
         //设置工作日上报率
@@ -375,11 +373,9 @@ context('互认标准设置', () => {
         cy.get('.el-card__body').find('.el-icon-plus').click({
             force: true
         })
-        cy.wait(1000)
         cy.get('.el-input__inner').eq(1).type('测试标准', {
             force: true
         })
-        cy.wait(1000)
         //分类选择新冠病毒核酸检测
         cy.get('.el-button.spec-filter__item.el-button--small').eq(COV2).click({
             force: true
@@ -405,7 +401,7 @@ context('互认标准设置', () => {
             force: true
         })
         //点击选择部中复选框
-        cy.get('.el-checkbox__inner').eq(10).click({
+        cy.get('.el-checkbox__inner').eq(11).click({
             force: true
         })
         //点击部中心下拉框
@@ -471,7 +467,7 @@ context('互认标准设置', () => {
             force: true
         })
         //点击选择部中复选框
-        cy.get('.el-checkbox__inner').eq(10).click({
+        cy.get('.el-checkbox__inner').eq(11).click({
             force: true
         })
         //点击部中心下拉框
@@ -536,7 +532,7 @@ context('互认标准设置', () => {
             force: true
         })
         //点击选择部中复选框
-        cy.get('.el-checkbox__inner').eq(10).click({
+        cy.get('.el-checkbox__inner').eq(11).click({
             force: true
         })
         //点击部中心下拉框
@@ -609,7 +605,7 @@ context('互认标准设置', () => {
             force: true
         })
         //点击选择部中复选框
-        cy.get('.el-checkbox__inner').eq(10).click({
+        cy.get('.el-checkbox__inner').eq(11).click({
             force: true
         })
         //点击部中心下拉框

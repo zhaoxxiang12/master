@@ -437,7 +437,7 @@ context('月度IQC报告', () => {
         })
     })
     it('report-007-月度IQC报告_所在地进行搜索', () => {
-        let dropList = 5
+        let dropList = 4
         let Beijing = 0
         let searchButton = 1
         let Shanghai = 1
@@ -477,7 +477,7 @@ context('月度IQC报告', () => {
             force: true
         })
         cy.wait(1000)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList - 1).find('li').eq(Shanghai).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(Shanghai).click({
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?areaId=*').as('getWebData')
