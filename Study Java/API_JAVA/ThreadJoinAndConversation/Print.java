@@ -23,6 +23,7 @@ public class Print {
             System.out.println("A");
             flag = 2;
             Thread.sleep(1000);
+            this.notify();// 随机唤醒线程等待池中的任意线程(若线程没有线程，则会空唤醒)
         }
     }
 
@@ -37,6 +38,7 @@ public class Print {
             System.out.println("临");
             flag = 1;
             Thread.sleep(1000);
+            this.notify();
         }
     }
 }
