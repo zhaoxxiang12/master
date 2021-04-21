@@ -196,7 +196,7 @@ context('互认报告和证书管理', () => {
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
-        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport/*').as('mutualRecogReport')
+        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport/preview/%E4%BA%92%E8%AE%A4GD18001202104159%E5%B9%BF%E4%B8%9C%E7%9C%81%E4%BD%9B%E5%B1%B1%E5%B8%82%E4%B8%B4%E5%BA%8A%E6%A3%80%E9%AA%8C%E7%BB%93%E6%9E%9C%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A?url=http://cqb-gz-test-001.oss-cn-shenzhen.aliyuncs.com/cqb-produce/iqc/recog/1548657878624853640/1000000016-2-5-4-3-1-1000000015-6-14/202007/202007/6/2021-04-30/%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A.pdf*').as('mutualRecogReport')
         cy.get('.ql-search__body').contains('预览').click({
             force: true
         })
@@ -268,7 +268,7 @@ context('互认报告和证书管理', () => {
 
     it('007-月度汇总报告-互认报告和证书管理-批量推送互认报告', () => {
         //搜索出要推送的报告    
-        cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').clear({
+        cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').eq(0).clear({
             force: true
         }).eq(0).type('gd18003')
         cy.get('.ql-search__header').contains('搜索').click({
@@ -295,7 +295,7 @@ context('互认报告和证书管理', () => {
         })
     })
     it('008-月度汇总报告-互认报告和证书管理-批量取消推送', () => {
-        cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').clear({
+        cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').first().clear({
             force: true
         }).eq(0).type('gd18003')
         cy.get('.ql-search__header').contains('搜索').click({
@@ -351,7 +351,7 @@ context('互认报告和证书管理', () => {
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
-        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport/*').as('mutualRecogReport')
+        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport/preview/%E4%BA%92%E8%AE%A4GD18001202104159%E5%B9%BF%E4%B8%9C%E7%9C%81%E4%BD%9B%E5%B1%B1%E5%B8%82%E4%B8%B4%E5%BA%8A%E6%A3%80%E9%AA%8C%E7%BB%93%E6%9E%9C%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A?url=http://cqb-gz-test-001.oss-cn-shenzhen.aliyuncs.com/cqb-produce/iqc/recog/1548657878624853640/1000000016-2-5-4-3-1-1000000015-6-14/202007/202007/6/2021-04-30/%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A.pdf*').as('mutualRecogReport')
         //点击预览按钮 
         cy.get('.ql-search__body').contains('预览').click({
             force: true

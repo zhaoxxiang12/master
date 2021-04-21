@@ -68,16 +68,16 @@ context('互认标准设置', () => {
                 cy.get('.el-message-box__btns').find('button').contains('确定').click({
                     force: true
                 })
-                // cy.wait(1000)
-                // //点击删除
-                // cy.get('.el-button.delete.el-button--danger.el-button--medium.is-circle').eq(getLength).click({
-                //     force: true
-                // })
-                // //确认删除
-                // cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-                //     force: true
-                // })
-                // cy.get('body').should('contain', '删除成功！')
+            //     cy.wait(1000)
+            //     //点击删除
+            //     cy.get('.el-button.delete.el-button--danger.el-button--medium.is-circle').eq(getLength).click({
+            //         force: true
+            //     })
+            //     //确认删除
+            //     cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+            //         force: true
+            //     })
+            //     cy.get('body').should('contain', '删除成功！')
 
             })
         })
