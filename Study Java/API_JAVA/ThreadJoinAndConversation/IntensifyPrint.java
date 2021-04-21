@@ -19,7 +19,7 @@ public class IntensifyPrint {
             System.out.print("A");
             System.out.println("A");
             flag = 2;
-            Thread.sleep(1000);
+            Thread.sleep(200);
             this.notifyAll();// 随机唤醒线程等待池中的任意线程(若线程没有线程，则会空唤醒)
         }
     }
@@ -35,7 +35,7 @@ public class IntensifyPrint {
             System.out.print("B");
             System.out.println("B");
             flag = 3;
-            Thread.sleep(1000);
+            Thread.sleep(200);
             this.notifyAll();
         }
     }
@@ -50,7 +50,7 @@ public class IntensifyPrint {
             System.out.print("C");
             System.out.println("C");
             flag = 1;
-            Thread.sleep(1000);
+            Thread.sleep(200);
             this.notifyAll();
         }
     }
