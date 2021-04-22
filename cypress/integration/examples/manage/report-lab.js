@@ -185,9 +185,54 @@ context('互认报告和证书管理', () => {
 
     it('005-月度汇总报告-互认报告和证书管理-预览互认报告', () => {
         let keywordBox = 0
+        let startMonth = 3
+        let startDay = 4
+        let startTr = 3
+        let endMonth = 15
+        let endTr = 3
+        let endDay = 0
         cy.visit('http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html#/manage/cert/cert-year')
         cy.get('.el-message-box__btns button:first').click({
             force: true
+        })
+        cy.get('button').contains('展开').click()
+        //-----------------------选择创建开始时间---------------------------------
+        cy.get('[placeholder="开始时间"]').first().click()
+        cy.get('.el-date-picker__header-label').first().invoke('text').then((data) => {
+            let getYear = parseInt(data.slice(0, 4))
+            let difference = getYear - 2021
+            if (difference == 0) {
+                cy.get('.el-date-picker__header-label').last().click()
+                cy.get('.el-month-table').find('.cell').eq(startMonth).click()
+                cy.get('.el-date-table').find('.el-date-table__row').eq(startTr).find('.available').eq(startDay).click()
+
+            } else {
+                for (let i = 0; i < Math.abs(difference); i++) {
+                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click()
+                }
+                cy.get('.el-date-picker__header-label').last().click()
+                cy.get('.el-month-table').find('.cell').eq(startMonth).click()
+                cy.get('.el-date-table').find('.el-date-table__row').eq(startTr).find('.available').eq(startDay).click()
+            }
+        })
+        //-----------------------选择创建结束时间---------------------------------
+        cy.get('[placeholder="结束时间"]').first().click()
+        cy.get('.el-date-picker__header-label').first().invoke('text').then((data) => {
+            let getYear = parseInt(data.slice(0, 4))
+            let difference = getYear - 2021
+            if (difference == 0) {
+                cy.get('.el-date-picker__header-label').last().click()
+                cy.get('.el-month-table').find('.cell').eq(endMonth).click()
+                cy.get('.el-date-table').last().find('.el-date-table__row').eq(endTr).find('.available').eq(endDay).click()
+
+            } else {
+                for (let i = 0; i < Math.abs(difference); i++) {
+                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click()
+                }
+                cy.get('.el-date-picker__header-label').last().click()
+                cy.get('.el-month-table').find('.cell').eq(endMonth).click()
+                cy.get('.el-date-table').last().find('.el-date-table__row').eq(endTr).find('.available').eq(endDay).click()
+            }
         })
         //搜索出要预览的实验室  
         cy.get('input[placeholder="请输入实验室名称或编码"]').eq(keywordBox).type('gd18001', {
@@ -196,8 +241,8 @@ context('互认报告和证书管理', () => {
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
-        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport/preview/%E4%BA%92%E8%AE%A4GD18001202104159%E5%B9%BF%E4%B8%9C%E7%9C%81%E4%BD%9B%E5%B1%B1%E5%B8%82%E4%B8%B4%E5%BA%8A%E6%A3%80%E9%AA%8C%E7%BB%93%E6%9E%9C%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A?url=http://cqb-gz-test-001.oss-cn-shenzhen.aliyuncs.com/cqb-produce/iqc/recog/1548657878624853640/1000000016-2-5-4-3-1-1000000015-6-14/202007/202007/6/2021-04-30/%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A.pdf*').as('mutualRecogReport')
-        cy.get('.ql-search__body').contains('预览').click({
+        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport/preview/%E4%BA%92%E8%AE%A4GD180012021042212%E5%B9%BF%E4%B8%9C%E7%9C%81%E4%BD%9B%E5%B1%B1%E5%B8%82%E4%B8%B4%E5%BA%8A%E6%A3%80%E9%AA%8C%E7%BB%93%E6%9E%9C%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A?url=http://cqb-gz-test-001.oss-cn-shenzhen.aliyuncs.com/cqb-produce/iqc/recog/1548657878624853640/1000000016-2-5-4-3-1-1000000015-6-14/201910/202003/3/2021-04-30/%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A.pdf*').as('mutualRecogReport')
+        cy.get('.el-table__row').first().find('button').contains('预览').first().click({
             force: true
         })
         cy.wait('@mutualRecogReport').then((xhr) => {
@@ -207,15 +252,36 @@ context('互认报告和证书管理', () => {
             force: true
         })
     })
+    it('006-月度汇总报告-互认报告和证书管理-预览证书', () => {
+        let view = 2
+        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport/preview/%E4%BA%92%E8%AE%A4GD180012021042212%E5%B9%BF%E4%B8%9C%E7%9C%81%E4%BD%9B%E5%B1%B1%E5%B8%82%E4%B8%B4%E5%BA%8A%E6%A3%80%E9%AA%8C%E7%BB%93%E6%9E%9C%E4%BA%92%E8%AE%A4%E8%AF%81%E4%B9%A6?url=http://cqb-gz-test-001.oss-cn-shenzhen.aliyuncs.com/cqb-produce/iqc/recog/certificate/%E4%BA%92%E8%AE%A4GD180012021042212.pdf*').as('mutualRecogReport')
+        //点击预览按钮 
+        cy.get('.el-table__row').first().find('button').eq(view).click({
+            force: true
+        })
+        cy.wait('@mutualRecogReport').then((xhr) => {
+            expect(xhr.response.statusCode).to.eq(200)
+            //断言弹窗内容
+            cy.get('.ql-frame-viewer__header').contains('报告预览')
+            //关闭预览窗口
+            cy.get('.ql-frame-viewer__close').click({
+                force: true
+            })
+        })
+        cy.get('[placeholder="开始时间"]').first().click()
+        cy.get('.el-input__icon.el-icon-circle-close').click()
+        cy.get('[placeholder="结束时间"]').first().click()
+        cy.get('.el-input__icon.el-icon-circle-close').click()
+    })
 
-    it('006-月度汇总报告-互认报告和证书管理-推送或取消互认报告', () => {
+    it('007-月度汇总报告-互认报告和证书管理-推送或取消互认报告', () => {
         let keywordBox = 0
         let first = 0
-        let push = 5
+        let push = 3
         //搜索要取消推送的实验室报告   
         cy.get('input[placeholder="请输入实验室名称或编码"]').eq(keywordBox).clear({
             force: true
-        }).type('gd18003', {
+        }).type('gd18002', {
             force: true
         })
         cy.get('.ql-search__header').contains('搜索').click({
@@ -266,11 +332,11 @@ context('互认报告和证书管理', () => {
         })
     })
 
-    it('007-月度汇总报告-互认报告和证书管理-批量推送互认报告', () => {
+    it('008-月度汇总报告-互认报告和证书管理-批量推送互认报告', () => {
         //搜索出要推送的报告    
         cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').eq(0).clear({
             force: true
-        }).eq(0).type('gd18003')
+        }).eq(0).type('gd18009',{force:true})
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
@@ -294,10 +360,10 @@ context('互认报告和证书管理', () => {
             cy.get('.el-message--success').should('contain', '已批量推送')
         })
     })
-    it('008-月度汇总报告-互认报告和证书管理-批量取消推送', () => {
+    it('009-月度汇总报告-互认报告和证书管理-批量取消推送', () => {
         cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').first().clear({
             force: true
-        }).eq(0).type('gd18003')
+        }).eq(0).type('gd18001',{force:true})
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
@@ -340,30 +406,6 @@ context('互认报告和证书管理', () => {
             })
             //断言弹窗内容
             cy.get('.el-message--success').should('contain', '已删除成功')
-        })
-    })
-
-    it('009-月度汇总报告-互认报告和证书管理-预览证书', () => {
-        //搜索出要推送的报告     
-        cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').first().clear({
-            force: true
-        }).type('gd18001')
-        cy.get('.ql-search__header').contains('搜索').click({
-            force: true
-        })
-        cy.intercept('**/cqb-base-mgr/service/mgr/mutualRecogReport/preview/%E4%BA%92%E8%AE%A4GD18001202104159%E5%B9%BF%E4%B8%9C%E7%9C%81%E4%BD%9B%E5%B1%B1%E5%B8%82%E4%B8%B4%E5%BA%8A%E6%A3%80%E9%AA%8C%E7%BB%93%E6%9E%9C%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A?url=http://cqb-gz-test-001.oss-cn-shenzhen.aliyuncs.com/cqb-produce/iqc/recog/1548657878624853640/1000000016-2-5-4-3-1-1000000015-6-14/202007/202007/6/2021-04-30/%E4%BA%92%E8%AE%A4%E6%8A%A5%E5%91%8A.pdf*').as('mutualRecogReport')
-        //点击预览按钮 
-        cy.get('.ql-search__body').contains('预览').click({
-            force: true
-        })
-        cy.wait('@mutualRecogReport').then((xhr) => {
-            expect(xhr.response.statusCode).to.eq(200)
-            //断言弹窗内容
-            cy.get('.ql-frame-viewer__header').contains('报告预览')
-            //关闭预览窗口
-            cy.get('.ql-frame-viewer__close').click({
-                force: true
-            })
         })
     })
 

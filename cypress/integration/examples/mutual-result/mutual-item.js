@@ -121,7 +121,7 @@ context('结果互认设置-开展项目设置', () => {
         let AddItem = 1
         let ItemList = 2
         let DropDownList = 6
-        let ChooseFe = 63
+        let ChooseFe = 61
         let ChooseK = 1
         let Unit = 4
         let UnitDownList = 6
@@ -286,6 +286,9 @@ context('结果互认设置-开展项目设置', () => {
         })
         // 界面出现定性则通过
         cy.get('body').should('contain', '定性')
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+            force: true
+        })
 
     })
     it('008-开展项目设置-开展定量项目', () => {
@@ -319,6 +322,9 @@ context('结果互认设置-开展项目设置', () => {
         })
         // 界面出现定量则通过
         cy.get('body').should('contain', '定量')
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+            force: true
+        })
 
     })
     it('009-开展项目设置-开展不限项目', () => {
@@ -352,6 +358,9 @@ context('结果互认设置-开展项目设置', () => {
         })
         // 界面出现定性则通过
         cy.get('body').should('contain', '不限')
+        cy.get('.el-button.el-button--primary.el-button--medium').eq(ConfirmButton).click({
+            force: true
+        })
 
     })
     it('010-开展项目设置-删除项目', () => {

@@ -1,7 +1,7 @@
 //声明这是一个测试用例
 describe('账户管理-实验室账户', function () {
-    let saveButton = 8
-    let closeButton = 6
+    let saveButton = 9
+    let closeButton = 7
     before(() => {
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/account/lab-manage')

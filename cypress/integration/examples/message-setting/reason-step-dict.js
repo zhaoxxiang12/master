@@ -16,7 +16,7 @@ context('信息互通设置-告警原因和措施', () => {
     it('002-告警原因和措施(未上报)-新增相同的原因不能保存', () => {
         let Type = 1
         cy.wait(500)
-        cy.get('.el-input.el-input--medium').eq(Type).type('仪器故障')
+        cy.get('.el-input__inner').eq(Type).type('仪器故障')
         cy.intercept('**/cqb-base-mgr/service/mgr/messageDic?*').as('getData')
         //点击增加
         cy.get('button').contains('增加').click({
@@ -27,7 +27,7 @@ context('信息互通设置-告警原因和措施', () => {
     it('003-告警原因和措施(未上报)-新增未上报', () => {
         let Type = 1
         cy.wait(500)
-        cy.get('.el-input.el-input--medium').eq(Type).type('测试未上报')
+        cy.get('.el-input__inner').eq(Type).type('测试未上报')
         cy.intercept('**/cqb-base-mgr/service/mgr/messageDic?*').as('getData')
         //点击增加
         cy.get('button').contains('增加').click({
@@ -84,7 +84,7 @@ context('信息互通设置-告警原因和措施', () => {
         let Type = 2
         let MeasuresButton = 1
         cy.wait(500)
-        cy.get('.el-input.el-input--medium').eq(Type).type('已手工上报')
+        cy.get('.el-input__inner').eq(Type).type('已手工上报')
         //点击增加
         cy.get('.el-button.el-button--text.el-button--medium').eq(MeasuresButton).click({
             force: true
@@ -96,7 +96,7 @@ context('信息互通设置-告警原因和措施', () => {
         let Type = 2
         let MeasuresButton = 1
         cy.wait(500)
-        cy.get('.el-input.el-input--medium').eq(Type).type('新增措施')
+        cy.get('.el-input__inner').eq(Type).type('新增措施')
         //点击增加
         cy.get('.el-button.el-button--text.el-button--medium').eq(MeasuresButton).click({
             force: true
@@ -167,7 +167,7 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('button').contains('增加类别').click({
             force: true
         })
-        cy.get('.el-input.el-input--medium').eq(addType).type('仪器')
+        cy.get('.el-input__inner').eq(addType).type('仪器')
         cy.get('button').contains('保存').click({
             force: true
         })
@@ -186,7 +186,7 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('button').contains('增加类别').click({
                 force: true
             })
-            cy.get('.el-input.el-input--medium').eq(addType).type('自动化新增')
+            cy.get('.el-input__inner').eq(addType).type('自动化新增')
             cy.get('button').contains('保存').click({
                 force: true
             })
@@ -275,7 +275,7 @@ context('信息互通设置-告警原因和措施', () => {
     })
     it('017-告警原因和措施(失控)-新增相同的失控原因', () => {
         let reasonBox = 3
-        cy.get('.el-input.el-input--medium').eq(reasonBox).type('仪器原因')
+        cy.get('.el-input__inner').eq(reasonBox).type('仪器原因')
         cy.get('button').contains('保存').click({
             force: true
         })
@@ -294,7 +294,7 @@ context('信息互通设置-告警原因和措施', () => {
         })
         cy.wait(500)
         cy.get('.el-icon-plus').eq(addButton).click()
-        cy.get('.el-input.el-input--medium').eq(reasonBox).type('人为原因')
+        cy.get('.el-input__inner').eq(reasonBox).type('人为原因')
         cy.get('button').contains('保存').click({
             force: true
         })
