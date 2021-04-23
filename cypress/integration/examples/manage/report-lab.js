@@ -278,6 +278,28 @@ context('互认报告和证书管理', () => {
         let keywordBox = 0
         let first = 0
         let push = 3
+        let endMonth = 15
+        let endTr = 3
+        let endDay = 0
+        //-----------------------选择创建结束时间---------------------------------
+        cy.get('[placeholder="结束时间"]').first().click()
+        cy.get('.el-date-picker__header-label').first().invoke('text').then((data) => {
+            let getYear = parseInt(data.slice(0, 4))
+            let difference = getYear - 2021
+            if (difference == 0) {
+                cy.get('.el-date-picker__header-label').last().click()
+                cy.get('.el-month-table').find('.cell').eq(endMonth).click()
+                cy.get('.el-date-table').last().find('.el-date-table__row').eq(endTr).find('.available').eq(endDay).click()
+
+            } else {
+                for (let i = 0; i < Math.abs(difference); i++) {
+                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click()
+                }
+                cy.get('.el-date-picker__header-label').last().click()
+                cy.get('.el-month-table').find('.cell').eq(endMonth).click()
+                cy.get('.el-date-table').last().find('.el-date-table__row').eq(endTr).find('.available').eq(endDay).click()
+            }
+        })
         //搜索要取消推送的实验室报告   
         cy.get('input[placeholder="请输入实验室名称或编码"]').eq(keywordBox).clear({
             force: true
@@ -336,7 +358,9 @@ context('互认报告和证书管理', () => {
         //搜索出要推送的报告    
         cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').eq(0).clear({
             force: true
-        }).eq(0).type('gd18009',{force:true})
+        }).eq(0).type('gd18009', {
+            force: true
+        })
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })
@@ -363,7 +387,9 @@ context('互认报告和证书管理', () => {
     it('009-月度汇总报告-互认报告和证书管理-批量取消推送', () => {
         cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').first().clear({
             force: true
-        }).eq(0).type('gd18001',{force:true})
+        }).eq(0).type('gd18001', {
+            force: true
+        })
         cy.get('.ql-search__header').contains('搜索').click({
             force: true
         })

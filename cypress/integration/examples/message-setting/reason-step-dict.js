@@ -154,7 +154,7 @@ context('信息互通设置-告警原因和措施', () => {
         cy.get('button').contains('保存').click({
             force: true
         })
-        cy.get('body').should('contain', '请输入名称').should('not.contain', '保存成功')
+        cy.get('body').should('contain', '请输入名称')
 
     })
     it('012-告警原因和措施(失控)-失控类别重复不能保存', () => {

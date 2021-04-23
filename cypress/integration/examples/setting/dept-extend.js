@@ -216,6 +216,7 @@ context('管理单位扩展属性', () => {
                 return
             } else {
                 cy.get('.el-table__row').first().find('button').contains('编辑').click()
+                cy.wait(500)
                 cy.get('.el-textarea__inner').type(words, {
                     force: true
                 })

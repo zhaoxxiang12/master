@@ -316,17 +316,15 @@ context('参与实验室情况', () => {
     })
     // 获取标签未配置的实验室数量
     cy.wait('@getLabdata').then((xhr) => {
-      cy.get(xhr.response.body.data.unTag).then((data) => {
-        let labJoin = data[0]
+        let labJoin = xhr.response.body.data.unTag
         //结果转换成字符串
         labJoin = labJoin.toString()
         //获取标签未配置参与率
         cy.get('button').contains('搜索').click({
           force: true
         })
-        cy.wait('@getLabdata').then((Result) => {
-          cy.get(Result.response.body.data.unTagRate).then((labRate) => {
-            let joinRate = labRate[0]
+        cy.wait('@getLabdata').then((Result) => {    
+            let joinRate =  Result.response.body.data.unTagRate
             //结果转换为百分比并保留两位小数
             let percentData = Math.round(joinRate * 10000) / 100 + '%'
             //将结果labJoin的结果与percentData进行连接
@@ -334,8 +332,6 @@ context('参与实验室情况', () => {
             // 断言
             cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').find('td').eq(resultIndex)
               .should('have.text', resultData)
-          })
-        })
       })
     })
   })
@@ -663,9 +659,7 @@ context('参与实验室情况', () => {
             //断言(每取消一个字段名， .is-clickable这个class类的长度就减少一个)
             cy.get('.table-line__wrapper').find('.table-line').eq(0).find('thead>tr').find(" .is-clickable").should('have.length', j)
           }
-
         }
-
       })
     })
   })

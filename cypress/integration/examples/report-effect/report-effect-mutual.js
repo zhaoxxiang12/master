@@ -80,12 +80,8 @@ context('互认合格情况', () => {
         })
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
-            // labName='贵阳华夏不孕不育医院'
-            cy.get(xhr.response.body.data).then((data) => {
-                let realJudgeData = data
-                let getData = realJudgeData[0].labName
+                let getData  = xhr.response.body.data[0].labName
                 cy.get('body').should('contain', getData)
-            })
         })
     })
     it('002-互认合格情况-切换地区进行查询(切换到上海)', () => {
@@ -107,7 +103,6 @@ context('互认合格情况', () => {
             force: true
         })
         cy.wait(1000)
-        // cy.get('.table-line__fixed-header+.table-line').find('tbody')
         cy.get('.table-line__fixed-header+.table-line').find('tbody').should('contain', '')
     })
     it('003-互认合格情况-输入项目名称进行模糊查询', () => {

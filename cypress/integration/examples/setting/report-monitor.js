@@ -18,6 +18,24 @@ context('监控内容配置', () => {
         let labCode = 'gd18020'
         let inputBox = 0
         let labName = '佛山市三水区人民医院'
+        let expandButton = 0
+        let Guangdong = 2
+        let areaBox = 20
+        //点击展开
+        cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
+            force: true
+        })
+        //点击所在地选择框
+        cy.get('.multi-area__tags').click({
+            force: true
+        })
+        cy.get('.el-menu').eq(areaBox).find('li').eq(Guangdong).find('.el-checkbox__inner').click({
+            force: true
+        })
+        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
+        cy.get('.el-tag__close.el-icon-close').click({
+            force: true
+        })
         /**
          * 实验室编码搜索
          */
@@ -78,15 +96,10 @@ context('监控内容配置', () => {
 
     })
     it('002-监控内容配置-标签搜索功能(标签选择佛山)', () => {
-        let expandButton = 0
         let DropList = 7
         let foshanTag = 4
         let inputBox = 0
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
-            force: true
-        })
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
         })
         cy.get('.el-select__input.is-medium').click()
@@ -115,14 +128,9 @@ context('监控内容配置', () => {
         })
     })
     it('003-监控内容配置-标签搜索功能(标签选择广西)', () => {
-        let expandButton = 0
         let DropList = 7
         let guangXiTag = 5
         cy.get('.el-tag__close.el-icon-close').click({
-            force: true
-        })
-        //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
         })
         cy.get('.el-select__input.is-medium').click()
@@ -234,7 +242,6 @@ context('监控内容配置', () => {
         })
     })
     it('006-监控内容配置-所在地进行搜索(北京)', () => {
-        let expandButton = 0
         let Beijing = 0
         let areaBox = 20
         //点击所在地选择框
