@@ -18,22 +18,8 @@ context('监控内容配置', () => {
         let labCode = 'gd18020'
         let inputBox = 0
         let labName = '佛山市三水区人民医院'
-        let expandButton = 0
-        let Guangdong = 2
-        let areaBox = 20
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
-            force: true
-        })
-        //点击所在地选择框
-        cy.get('.multi-area__tags').click({
-            force: true
-        })
-        cy.get('.el-menu').eq(areaBox).find('li').eq(Guangdong).find('.el-checkbox__inner').click({
-            force: true
-        })
-        cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
-        cy.get('.el-tag__close.el-icon-close').click({
             force: true
         })
         /**
