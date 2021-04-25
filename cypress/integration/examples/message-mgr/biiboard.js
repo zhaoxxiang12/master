@@ -31,31 +31,21 @@ context('消息互通-公告板', () => {
                 let differentMonth = getMonth - chooseMonth
                 if (differentMonth < 0) {
                     for (let i = 0; i < Math.abs(differentMonth); i++) {
-                        //选择年份
                         cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').click({
                             force: true
                         })
                     }
-                    //选择日期 2月14日
-                    cy.get('.el-date-table').find('tbody>tr').eq(3).find('td').eq(0).click()
                 } else if (differentMonth > 0) {
                     for (let i = 0; i < Math.abs(differentMonth); i++) {
                         cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').click({
                             force: true
                         })
                     }
-                    //选择日期 2月14日
-                    cy.get('.el-date-table').find('tbody>tr').eq(3).find('td').eq(0).click()
-
                 } else {
                     cy.get('.el-date-table').find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
                         force: true
                     })
                 }
-                //选择日期 2月14日
-                cy.get('.el-date-table').find('tbody>tr').eq(3).find('td').eq(0).click({
-                    force: true
-                })
             })
             //------------------选择结束时间--------------------
             cy.get('input[placeholder="结束时间"]').click({
@@ -76,8 +66,8 @@ context('消息互通-公告板', () => {
                 cy.get('.el-date-picker__header-label').eq(endMonth).invoke('text').then((getData) => {
                     let getMonth = parseInt(getData.slice(0))
                     let chooseMonth = 3
-                    let trIndex = 2
-                    let tdIndex = 0
+                    let trIndex = 1
+                    let tdIndex = 4
                     let nextMonth = 1
                     let differentMonth = getMonth - chooseMonth
                     if (differentMonth < 0) {
@@ -86,18 +76,12 @@ context('消息互通-公告板', () => {
                                 force: true
                             })
                         }
-                        cy.get('.el-date-table').eq(1).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                            force: true
-                        })
                     } else if (differentMonth > 0) {
                         for (let i = 0; i < Math.abs(differentMonth); i++) {
                             cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
                                 force: true
                             })
                         }
-                        cy.get('.el-date-table').eq(1).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                            force: true
-                        })
                     } else {
                         cy.get('.el-date-table').eq(1).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
                             force: true
@@ -111,110 +95,12 @@ context('消息互通-公告板', () => {
         })
     })
     it('001-公告板-未填写公告标题不能保存', () => {
-        let timeBox = 6
-        let chooseMonth = 3
-        let trIndex = 1
-        let tdIndex = 4
-        let timerBox = 2
-        let nextMonth = 2
-        let chooseDate = 5
-        let choice = 2
-        let year = 4
         let typeBox = 0
         let searchButton = 2
         let saveButton = 9
         cy.wait(1000)
         cy.get('button').contains('添加公告').click({
             force: true
-        })
-        //选择公告时间 2021/3/11
-        cy.get('.el-input__inner').eq(timeBox).click({
-            force: true
-        })
-        cy.get('.el-date-picker__header-label').eq(year).invoke('text').then((getData) => {
-            let getYear = parseInt(getData.slice(0, 4))
-            let chooseYear = 2021
-            let differenceValue = chooseYear - getYear
-            if (differenceValue > 0) {
-                for (let i = 0; i < differenceValue; i++) {
-                    cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-d-arrow-right').eq(choice).click({
-                        force: true
-                    })
-                    //选择公告日期
-                    cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                        let getMonth = parseInt(getData.slice(0))
-
-                        let differentMonth = getMonth - chooseMonth
-                        if (differentMonth < 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else if (differentMonth > 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else {
-                            cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                force: true
-                            })
-                        }
-                    })
-                }
-            } else if (differenceValue < 0) {
-                for (let i = 0; i < differenceValue; i++) {
-                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').eq(choice).click({
-                        force: true
-                    })
-                    cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                        let getMonth = parseInt(getData.slice(0))
-                        let differentMonth = getMonth - chooseMonth
-                        if (differentMonth < 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else if (differentMonth > 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else {
-                            cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                force: true
-                            })
-                        }
-                    })
-                }
-            } else {
-                cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                    let getMonth = parseInt(getData.slice(0))
-
-                    let differentMonth = getMonth - chooseMonth
-                    if (differentMonth < 0) {
-                        for (let i = 0; i < Math.abs(differentMonth); i++) {
-                            cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                force: true
-                            })
-                        }
-                    } else if (differentMonth > 0) {
-                        for (let i = 0; i < Math.abs(differentMonth); i++) {
-                            cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                force: true
-                            })
-                        }
-                    } else {
-                        cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                            force: true
-                        })
-                    }
-                })
-            }
         })
         //输入公告正文
         cy.get('.el-textarea__inner').type('自动化测试填写', {
@@ -250,15 +136,6 @@ context('消息互通-公告板', () => {
         })
     })
     it('002-公告板-未填写公告正文不能保存', () => {
-        let timeBox = 6
-        let chooseMonth = 3
-        let trIndex = 1
-        let tdIndex = 4
-        let timerBox = 2
-        let nextMonth = 2
-        let chooseDate = 5
-        let choice = 2
-        let year = 4
         let typeBox = 0
         let searchButton = 2
         let saveButton = 9
@@ -268,97 +145,8 @@ context('消息互通-公告板', () => {
             force: true
         })
         //输入公告标题
-        cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题", {
+        cy.get('.el-input__inner').eq(titleBox).type('自动化填写公告标题', {
             force: true
-        })
-        //选择公告时间 2021/3/11
-        cy.get('.el-input__inner').eq(timeBox).click({
-            force: true
-        })
-        cy.get('.el-date-picker__header-label').eq(year).invoke('text').then((getData) => {
-            let getYear = parseInt(getData.slice(0, 4))
-            let chooseYear = 2021
-            let differenceValue = chooseYear - getYear
-            if (differenceValue > 0) {
-                for (let i = 0; i < differenceValue; i++) {
-                    cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-d-arrow-right').eq(choice).click({
-                        force: true
-                    })
-                    //选择公告日期
-                    cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                        let getMonth = parseInt(getData.slice(0))
-
-                        let differentMonth = getMonth - chooseMonth
-                        if (differentMonth < 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else if (differentMonth > 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else {
-                            cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                force: true
-                            })
-                        }
-                    })
-                }
-            } else if (differenceValue < 0) {
-                for (let i = 0; i < differenceValue; i++) {
-                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').eq(choice).click({
-                        force: true
-                    })
-                    cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                        let getMonth = parseInt(getData.slice(0))
-                        let differentMonth = getMonth - chooseMonth
-                        if (differentMonth < 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else if (differentMonth > 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else {
-                            cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                force: true
-                            })
-                        }
-                    })
-                }
-            } else {
-                cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                    let getMonth = parseInt(getData.slice(0))
-
-                    let differentMonth = getMonth - chooseMonth
-                    if (differentMonth < 0) {
-                        for (let i = 0; i < Math.abs(differentMonth); i++) {
-                            cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                force: true
-                            })
-                        }
-                    } else if (differentMonth > 0) {
-                        for (let i = 0; i < Math.abs(differentMonth); i++) {
-                            cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                force: true
-                            })
-                        }
-                    } else {
-                        cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                            force: true
-                        })
-                    }
-                })
-            }
         })
         cy.get('.el-button.ql-select-lab__new.el-button--text.el-button--mini').click({
             force: true
@@ -389,111 +177,13 @@ context('消息互通-公告板', () => {
         })
     })
     it('003-公告板-未选择实验室不能保存', () => {
-        let timeBox = 6
-        let chooseMonth = 3
-        let trIndex = 1
-        let tdIndex = 4
-        let timerBox = 2
-        let nextMonth = 2
-        let chooseDate = 5
-        let choice = 2
-        let year = 4
         let titleBox = 5
         cy.get('button').contains('添加公告').click({
             force: true
         })
         //输入公告标题
-        cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题", {
+        cy.get('.el-input__inner').eq(titleBox).type('自动化填写公告标题', {
             force: true
-        })
-        //选择公告时间 2021/3/11
-        cy.get('.el-input__inner').eq(timeBox).click({
-            force: true
-        })
-        cy.get('.el-date-picker__header-label').eq(year).invoke('text').then((getData) => {
-            let getYear = parseInt(getData.slice(0, 4))
-            let chooseYear = 2021
-            let differenceValue = chooseYear - getYear
-            if (differenceValue > 0) {
-                for (let i = 0; i < differenceValue; i++) {
-                    cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-d-arrow-right').eq(choice).click({
-                        force: true
-                    })
-                    //选择公告日期
-                    cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                        let getMonth = parseInt(getData.slice(0))
-
-                        let differentMonth = getMonth - chooseMonth
-                        if (differentMonth < 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else if (differentMonth > 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else {
-                            cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                force: true
-                            })
-                        }
-                    })
-                }
-            } else if (differenceValue < 0) {
-                for (let i = 0; i < differenceValue; i++) {
-                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').eq(choice).click({
-                        force: true
-                    })
-                    cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                        let getMonth = parseInt(getData.slice(0))
-                        let differentMonth = getMonth - chooseMonth
-                        if (differentMonth < 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else if (differentMonth > 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else {
-                            cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                force: true
-                            })
-                        }
-                    })
-                }
-            } else {
-                cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                    let getMonth = parseInt(getData.slice(0))
-
-                    let differentMonth = getMonth - chooseMonth
-                    if (differentMonth < 0) {
-                        for (let i = 0; i < Math.abs(differentMonth); i++) {
-                            cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                force: true
-                            })
-                        }
-                    } else if (differentMonth > 0) {
-                        for (let i = 0; i < Math.abs(differentMonth); i++) {
-                            cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                force: true
-                            })
-                        }
-                    } else {
-                        cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                            force: true
-                        })
-                    }
-                })
-            }
         })
         //输入公告正文
         cy.get('.el-textarea__inner').type('自动化测试填写', {
@@ -509,24 +199,13 @@ context('消息互通-公告板', () => {
         cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
             force: true
         })
-
     })
     it('004-公告板-数据填写完整正常保存', () => {
         cy.get('button').contains('搜索').click({
             force: true
         })
-        cy.get('.el-table__body').find('tbody>tr').then((Data) => {
-            let getLength = Data.length
-            let timeBox = 6
-            let chooseMonth = 3
-            let trIndex = 1
-            let tdIndex = 4
-            let timerBox = 2
-            let nextMonth = 2
-            let chooseDate = 5
-            let choice = 2
-            let year = 4
-            let titleBox = 5
+        cy.get('.el-table__body tbody').then((Data) => {
+            let getLength = Data.children().length
             let typeBox = 0
             let searchButton = 2
             let saveButton = 9
@@ -534,102 +213,9 @@ context('消息互通-公告板', () => {
                 force: true
             })
             //输入公告标题
-            cy.get('.el-input__inner').eq(titleBox).type("自动化填写公告标题", {
-                force: true
-            })
-            //选择公告时间 2021/3/11
-            cy.get('.el-input__inner').eq(timeBox).click({
-                force: true
-            })
-            cy.get('.el-date-picker__header-label').eq(year).invoke('text').then((getData) => {
-                let getYear = parseInt(getData.slice(0, 4))
-                let chooseYear = 2021
-                let differenceValue = chooseYear - getYear
-                if (differenceValue > 0) {
-                    for (let i = 0; i < differenceValue; i++) {
-                        cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-d-arrow-right').eq(choice).click({
-                            force: true
-                        })
-                        //选择公告日期
-                        cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                            let getMonth = parseInt(getData.slice(0))
-
-                            let differentMonth = getMonth - chooseMonth
-                            if (differentMonth < 0) {
-                                for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                    cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                        force: true
-                                    })
-                                }
-                            } else if (differentMonth > 0) {
-                                for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                        force: true
-                                    })
-                                }
-                            } else {
-                                cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                    force: true
-                                })
-                            }
-                        })
-                    }
-                } else if (differenceValue < 0) {
-                    for (let i = 0; i < differenceValue; i++) {
-                        cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').eq(choice).click({
-                            force: true
-                        })
-                        cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                            let getMonth = parseInt(getData.slice(0))
-                            let differentMonth = getMonth - chooseMonth
-                            if (differentMonth < 0) {
-                                for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                    cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                        force: true
-                                    })
-                                }
-                            } else if (differentMonth > 0) {
-                                for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                    cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                        force: true
-                                    })
-                                }
-                            } else {
-                                cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                    force: true
-                                })
-                            }
-                        })
-                    }
-                } else {
-                    cy.get('.el-date-picker__header-label').eq(chooseDate).invoke('text').then((getData) => {
-                        let getMonth = parseInt(getData.slice(0))
-
-                        let differentMonth = getMonth - chooseMonth
-                        if (differentMonth < 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__next-btn.el-icon-arrow-right').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else if (differentMonth > 0) {
-                            for (let i = 0; i < Math.abs(differentMonth); i++) {
-                                cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-arrow-left').eq(nextMonth).click({
-                                    force: true
-                                })
-                            }
-                        } else {
-                            cy.get('.el-date-table').eq(timerBox).find('.el-date-table__row').eq(trIndex).find('td').eq(tdIndex).click({
-                                force: true
-                            })
-                        }
-                    })
-                }
-            })
+            cy.get('label[for="bulletinTitle"]+div input').type('自动化填写公告标题')
             //输入公告正文
-            cy.get('.el-textarea__inner').type('自动化测试填写', {
-                force: true
-            })
+            cy.get('label[for="bulletinContent"]+div textarea').type('自动化填写公告正文')
             //添加实验室
             cy.get('.el-button.ql-select-lab__new.el-button--text.el-button--mini').click({
                 force: true
@@ -661,7 +247,7 @@ context('消息互通-公告板', () => {
             if (getLength != 0) {
                 cy.get('.el-button.el-button--text.el-button--medium').eq(0).invoke('text').then((getText) => {
                     let data = getText
-                    if (data == "推送") {
+                    if (data == '推送') {
                         cy.intercept('**/cqb-base-mgr/service/mgr/bulletin/push/*').as('push')
                         cy.get('.el-button.el-button--text.el-button--medium').eq(0).click({
                             force: true

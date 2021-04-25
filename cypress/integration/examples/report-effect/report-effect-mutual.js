@@ -80,8 +80,8 @@ context('互认合格情况', () => {
         })
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
-                let getData  = xhr.response.body.data[0].labName
-                cy.get('body').should('contain', getData)
+            let getData  = xhr.response.body.data[0].labName
+            cy.get('body').should('contain', getData)
         })
     })
     it('002-互认合格情况-切换地区进行查询(切换到上海)', () => {

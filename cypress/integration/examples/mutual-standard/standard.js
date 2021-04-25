@@ -68,22 +68,22 @@ context('互认标准设置', () => {
                 cy.get('.el-message-box__btns').find('button').contains('确定').click({
                     force: true
                 })
-            //     cy.wait(1000)
-            //     //点击删除
-            //     cy.get('.el-button.delete.el-button--danger.el-button--medium.is-circle').eq(getLength).click({
-            //         force: true
-            //     })
-            //     //确认删除
-            //     cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-            //         force: true
-            //     })
-            //     cy.get('body').should('contain', '删除成功！')
+                // cy.wait(1000)
+                // //点击删除
+                // cy.get('.el-button.delete.el-button--danger.el-button--medium.is-circle').eq(getLength).click({
+                //     force: true
+                // })
+                // //确认删除
+                // cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+                //     force: true
+                // })
+                // cy.get('body').should('contain', '删除成功！')
 
             })
         })
     })
     it('cqb-002-互认标准设置-添加标准-新增标准名称已存在失败', () => {
-        let typeName = "佛山标准"
+        let typeName = '佛山标准'
         let standardName = 1
         let cancel = 2
         cy.wait(1000)
@@ -137,6 +137,7 @@ context('互认标准设置', () => {
         cy.get('.el-icon-edit-outline').eq(1).click({
             force: true
         })
+        cy.wait(1000)
         //点击复选框（选择几个项目设置规则）
         cy.get('.el-checkbox__inner').eq(5).click({
             force: true
@@ -305,7 +306,7 @@ context('互认标准设置', () => {
         })
 
         //部级选择次数，2次
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(27).find('li').eq(1).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(1).click({
             force: true
         })
         //设置工作日上报率
@@ -455,7 +456,7 @@ context('互认标准设置', () => {
         })
         cy.wait(1000)
         //设置阈值标准
-        cy.get('.el-input__inner').eq(thresholdValue).type("99", {
+        cy.get('.el-input__inner').eq(thresholdValue).type('99', {
             force: true
         })
         //点击‘CV%判定规则’下拉框
@@ -516,7 +517,7 @@ context('互认标准设置', () => {
             force: true
         })
         //设置阈值标准
-        cy.get('.el-input__inner').eq(thresholdValue).type("99", {
+        cy.get('.el-input__inner').eq(thresholdValue).type('99', {
             force: true
         })
         //设置连续合格月数
@@ -581,11 +582,11 @@ context('互认标准设置', () => {
             force: true
         })
         //设置阈值标准
-        cy.get('.el-input__inner').eq(thresholdValue).type("99", {
+        cy.get('.el-input__inner').eq(thresholdValue).type('99', {
             force: true
         })
         //设置阈值标准
-        cy.get('.el-input__inner').eq(thresholdValue).type("0", {
+        cy.get('.el-input__inner').eq(thresholdValue).type('0', {
             force: true
         })
         //设置连续合格月数
@@ -619,7 +620,7 @@ context('互认标准设置', () => {
         cy.get('body').should('contain', '请填大于0，小于100的值')
         cy.get('.el-input__inner').eq(thresholdValue).clear({
             force: true
-        }).type("@", {
+        }).type('@', {
             force: true
         })
         cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
@@ -631,7 +632,7 @@ context('互认标准设置', () => {
         cy.get('body').should('contain', '请填大于0，小于100的值')
         cy.get('.el-input__inner').eq(thresholdValue).clear({
             force: true
-        }).type("0", {
+        }).type('0', {
             force: true
         })
         cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
@@ -643,7 +644,7 @@ context('互认标准设置', () => {
         cy.get('body').should('contain', '请填大于0，小于100的值')
         cy.get('.el-input__inner').eq(thresholdValue).clear({
             force: true
-        }).type("100", {
+        }).type('100', {
             force: true
         })
         cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
@@ -686,7 +687,7 @@ context('互认标准设置', () => {
         //设置阈值标准
         cy.get('.el-input__inner').eq(thresholdValue).clear({
             force: true
-        }).type("99", {
+        }).type('99', {
             force: true
         })
         //设置连续合格月数
@@ -730,7 +731,7 @@ context('互认标准设置', () => {
             cy.get('.el-button.el-button--primary.el-button--medium').eq(getLength + 7).click({
                 force: true
             })
-            cy.get('body').should("contain", "请配置模板名称")
+            cy.get('body').should('contain', '请配置模板名称')
             cy.get('.el-button.el-button--default.el-button--medium').eq(cancel1).click({
                 force: true
             })
@@ -770,7 +771,7 @@ context('互认标准设置', () => {
         //设置阈值标准
         cy.get('.el-input__inner').eq(thresholdValue).clear({
             force: true
-        }).type("99", {
+        }).type('99', {
             force: true
         })
         //设置连续合格月数
@@ -881,7 +882,7 @@ context('互认标准设置', () => {
         //设置阈值标准
         cy.get('.el-input__inner').eq(thresholdValue).clear({
             force: true
-        }).type("99", {
+        }).type('99', {
             force: true
         })
         //设置连续合格月数
@@ -1010,7 +1011,7 @@ context('互认标准设置', () => {
                 })
             })
             //     cy.wait(1000)
-            cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find(".cell").eq(demoName).should('have.text', typeName)
+            cy.get('.el-table__body').eq(miniList).find('.el-table__row').eq(getLength - 1).find('.cell').eq(demoName).should('have.text', typeName)
             cy.get('body').should('contain', '保存成功！')
             cy.get('.el-button.el-button--default.el-button--medium').eq(cancel1).click({
                 force: true
@@ -1172,7 +1173,7 @@ context('互认标准设置', () => {
             force: true
         })
         //点击搜索
-        cy.get('button').contains("搜索").click({
+        cy.get('button').contains('搜索').click({
             force: true
         })
         //断言复选框是否置灰
@@ -1182,7 +1183,7 @@ context('互认标准设置', () => {
             force: true
         })
         //点击搜索
-        cy.get('button').contains("搜索").click({
+        cy.get('button').contains('搜索').click({
             force: true
         })
         //断言复选框是否未置灰
@@ -1197,7 +1198,7 @@ context('互认标准设置', () => {
     it('cqb-018-互认标准设置-复制互认标准', () => {
         let copyBbutton = 1
         let standardName = 1
-        let typeName = '自动化复制标准' 
+        let typeName = '自动化复制标准'
         cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
             let getLength = getData.length
             cy.get('.el-button.copy.el-button--success.el-button--medium.is-circle').eq(copyBbutton).click({
@@ -1231,7 +1232,7 @@ context('互认标准设置', () => {
             cy.get('body').should('contain', '删除成功！')
         })
     })
-    it('cqb-019-互认标准设置-删除标准', () => { 
+    it('cqb-019-互认标准设置-删除标准', () => {
         cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow').then((getData) => {
             let getLength = getData.length
             if (getLength == 1) { //防止将默认规则删除
@@ -1253,7 +1254,7 @@ context('互认标准设置', () => {
     it('cqb-020-互认标准设置-切换质控主管单位(青浦医联体)', () => {
         let QPYLT = 1
         let QPStandard = 0
-        let dropList =36
+        let dropList = 36
         cy.wait(1000)
         cy.get('input[placeholder="请选择"]').click({
             force: true

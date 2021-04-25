@@ -273,7 +273,6 @@ context('互认报告和证书管理', () => {
         cy.get('[placeholder="结束时间"]').first().click()
         cy.get('.el-input__icon.el-icon-circle-close').click()
     })
-
     it('007-月度汇总报告-互认报告和证书管理-推送或取消互认报告', () => {
         let keywordBox = 0
         let first = 0
@@ -436,7 +435,7 @@ context('互认报告和证书管理', () => {
     })
 
     it('010-月度汇总报告-预览月度汇总报告', () => {
-        let reportMonth = 0
+        let reportMonth = 2
         let currentYear = 0
         let choose = 0
         let year = 0

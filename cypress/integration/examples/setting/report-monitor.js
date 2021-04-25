@@ -18,6 +18,7 @@ context('监控内容配置', () => {
         let labCode = 'gd18020'
         let inputBox = 0
         let labName = '佛山市三水区人民医院'
+        let expandButton = 0
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
@@ -79,7 +80,6 @@ context('监控内容配置', () => {
                 force: true
             })
         })
-
     })
     it('002-监控内容配置-标签搜索功能(标签选择佛山)', () => {
         let DropList = 7
@@ -110,7 +110,6 @@ context('监控内容配置', () => {
                 //断言 接口返回的数据总数与界面返回的数据总数是否相等,相等则通过
                 cy.get('.ql-card-list__list').find('.el-card__body').should('have.length', expectLength)
             }
-
         })
     })
     it('003-监控内容配置-标签搜索功能(标签选择广西)', () => {
@@ -229,14 +228,13 @@ context('监控内容配置', () => {
     })
     it('006-监控内容配置-所在地进行搜索(北京)', () => {
         let Beijing = 0
-        let areaBox = 20
         //点击所在地选择框
         cy.get('.multi-area__placeholder').click({
             force: true
         })
         //选择北京市
         cy.wait(500)
-        cy.get('.el-menu').eq(areaBox).find('li').eq(Beijing).find('.el-checkbox__inner').click({
+        cy.get('.el-menu').last().find('li').eq(Beijing).find('.el-checkbox__inner').click({
             force: true
         })
         cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
@@ -262,7 +260,6 @@ context('监控内容配置', () => {
     })
     it('007-监控内容配置-所在地进行搜索(广东)', () => {
         let Guangdong = 2
-        let areaBox = 20
         cy.get('.el-tag__close.el-icon-close').click({
             force: true
         })
@@ -272,7 +269,7 @@ context('监控内容配置', () => {
         })
         //选择广东
         cy.wait(500)
-        cy.get('.el-menu').eq(areaBox).find('li').eq(Guangdong).find('.el-checkbox__inner').click({
+        cy.get('.el-menu').last().find('li').eq(Guangdong).find('.el-checkbox__inner').click({
             force: true
         })
         cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
@@ -298,7 +295,6 @@ context('监控内容配置', () => {
     })
     it('008-监控内容配置-所在地进行搜索(广西)', () => {
         let guangXi = 3
-        let areaBox = 20
         cy.get('.el-tag__close.el-icon-close').click({
             force: true
         })
@@ -308,7 +304,7 @@ context('监控内容配置', () => {
         })
         //选择北京市
         cy.wait(500)
-        cy.get('.el-menu').eq(areaBox).find('li').eq(guangXi).find('.el-checkbox__inner').click({
+        cy.get('.el-menu').last().find('li').eq(guangXi).find('.el-checkbox__inner').click({
             force: true
         })
         cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
@@ -339,7 +335,7 @@ context('监控内容配置', () => {
         //大屏区域下标
         let screenArea = [0, 1, 2, 3, 4, 5, 6, 7, 8]
         cy.wait(500)
-        cy.get('button').contains("推送到大屏").click({
+        cy.get('button').contains('推送到大屏').click({
             force: true
         })
         cy.get('.el-input__inner').eq(titleInputBox).type(title, ({
@@ -353,129 +349,127 @@ context('监控内容配置', () => {
             let length = getLength.length
             // 使用switch  case 判断现有大屏区域有多个,每次推送默认推送最后一个区域
             switch (length) {
-                case 9:
-                    cy.get('.screen-area__item').eq(screenArea[8]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 9')
-                    break
-                case 8:
-                    cy.get('.screen-area__item').eq(screenArea[7]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 8')
-                    break
-                case 7:
-                    cy.get('.screen-area__item').eq(screenArea[6]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 7')
-                    break
-                case 6:
-                    cy.get('.screen-area__item').eq(screenArea[5]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 6')
-                    break
-                case 5:
-                    cy.get('.screen-area__item').eq(screenArea[4]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 5')
-                    break
-                case 4:
-                    cy.get('.screen-area__item').eq(screenArea[3]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 4')
-                    break
-                case 3:
-                    cy.get('.screen-area__item').eq(screenArea[2]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 3')
-                    break
-                case 2:
-                    cy.get('.screen-area__item').eq(screenArea[1]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 2')
-                    break
-                case 1:
-                    cy.get('.screen-area__item').eq(screenArea[0]).click({
-                        force: true
-                    })
-                    cy.get('button').contains('确定推送').click({
-                        force: true
-                    })
-                    cy.get('button').contains('覆盖').click({
-                        force: true
-                    })
-                    //断言 界面出现已推送到分屏 9则通过
-                    cy.get('body').should('contain', '已推送到分屏 1')
-                    break
-                default:
-                    cy.log("数据错误,用例执行失败")
+            case 9:
+                cy.get('.screen-area__item').eq(screenArea[8]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 9')
+                break
+            case 8:
+                cy.get('.screen-area__item').eq(screenArea[7]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 8')
+                break
+            case 7:
+                cy.get('.screen-area__item').eq(screenArea[6]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 7')
+                break
+            case 6:
+                cy.get('.screen-area__item').eq(screenArea[5]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 6')
+                break
+            case 5:
+                cy.get('.screen-area__item').eq(screenArea[4]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 5')
+                break
+            case 4:
+                cy.get('.screen-area__item').eq(screenArea[3]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 4')
+                break
+            case 3:
+                cy.get('.screen-area__item').eq(screenArea[2]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 3')
+                break
+            case 2:
+                cy.get('.screen-area__item').eq(screenArea[1]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 2')
+                break
+            case 1:
+                cy.get('.screen-area__item').eq(screenArea[0]).click({
+                    force: true
+                })
+                cy.get('button').contains('确定推送').click({
+                    force: true
+                })
+                cy.get('button').contains('覆盖').click({
+                    force: true
+                })
+                //断言 界面出现已推送到分屏 9则通过
+                cy.get('body').should('contain', '已推送到分屏 1')
+                break
+            default:
+                cy.log('数据错误,用例执行失败')
             }
-
         })
-
     })
     it('010-监控内容配置-推送到大屏(未设置分屏标题)', () => {
         let titleInputBox = 8
@@ -483,7 +477,7 @@ context('监控内容配置', () => {
         let screenArea = 8
         let cancel = 1
         cy.wait(500)
-        cy.get('button').contains("推送到大屏").click({
+        cy.get('button').contains('推送到大屏').click({
             force: true
         })
         cy.get('.el-checkbox__input').eq(messageType).click({
@@ -504,13 +498,12 @@ context('监控内容配置', () => {
         cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
             force: true
         })
-
     })
     it('011-监控内容配置-推送到大屏(未设置推送信息)', () => {
         let screenArea = 8
         let cancel = 1
         cy.wait(500)
-        cy.get('button').contains("推送到大屏").click({
+        cy.get('button').contains('推送到大屏').click({
             force: true
         })
         cy.wait(500)
@@ -525,8 +518,6 @@ context('监控内容配置', () => {
         cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
             force: true
         })
-
-
     })
     it('012-监控内容配置-实验室上报详情', () => {
         let labCode = 'gd18020'
@@ -586,7 +577,6 @@ context('监控内容配置', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let responseStatus = xhr.response.statusCode
-
             let expectStatus = 200
             //判断接口是否异常
             expect(responseStatus).to.equal(expectStatus)
@@ -626,7 +616,6 @@ context('监控内容配置', () => {
             cy.wait(2000)
             //判断界面是否有[质控数据维护]有则通过  
             getIframeBody().find('.ql-layout__title').should('have.text', '质控数据维护')
-
         })
     })
 })

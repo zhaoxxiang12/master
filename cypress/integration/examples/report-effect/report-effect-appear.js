@@ -72,21 +72,25 @@ context('实验室上报情况', () => {
                 cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(boxIndex).find('li').eq(ShanghaiIndex).click({
                     force: true
                 })
-                cy.intercept('**/cqb-base-mgr/service/mgr/evaReport/labReport?startTime=202005&endTime=202005&reportMonth=202005&cclCode=admin*').as('getLabdata')
+                cy.intercept('**/service/mgr/evaReport/labReport?*').as('getLabdata')
                 // 拦截请求必须写在visit之前
                 cy.get('button').contains('搜索').click({
                     force: true
                 })
                 // 获取标签未配置的实验室数量
                 cy.wait('@getLabdata').then((xhr) => {
-                    let labName = xhr.response.body.data.detail[0]
-                    let getLabName = labName['labName']
-                    let labNameIndex = 0
-                    //断言(判断界面是否有符合的实验室名字)
-                    cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', getLabName)
+                    cy.get(xhr.response.body.data.detail).then((getLabData) => {
+                        let labName = getLabData[0]
+                        labName = labName['labName']
+                        let labNameIndex = 0
+                        //   cy.log(labName)
+                        //断言(判断界面是否有符合的实验室名字)
+                        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
+                    })
                 })
             }
         })
+
     })
     it('002-实验室上报情况-使用地区进行查询(上海)', () => {
         let areaIndex = 0
@@ -116,10 +120,14 @@ context('实验室上报情况', () => {
         cy.get('button').contains('搜索').click()
         // 获取标签未配置的实验室数量
         cy.wait('@getLabdata').then((xhr) => {
-                let labName = xhr.response.body.data.detail[0].labName
+            cy.get(xhr.response.body.data.detail).then((data) => {
+                let labName = data[0]
+                labName = labName['labName']
                 let labNameIndex = 0
+                //   cy.log(labName)
                 //断言
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr>td').eq(labNameIndex).should('have.text', labName)
+            })
         })
     })
     it('003-实验室上报情况-使用路由查询接口返回的数据有多少', () => {
@@ -144,7 +152,9 @@ context('实验室上报情况', () => {
         })
         cy.wait('@getLabdata').then((xhr) => {
             //获取接口返回了多少条数据
-                judgeData = xhr.response.body.data.detail.length
+            cy.get(xhr.response.body.data.detail.length).then((data) => {
+                judgeData = data[0]
+            })
         })
     })
     it('004-实验室上报情况-进行数据对比', () => {
@@ -168,7 +178,7 @@ context('实验室上报情况', () => {
             .then((data) => {
                 reporteData = data
                 reporteData = parseInt(reporteData)
-                let reportedRate = Math.round(reporteData / 19 * 1000) / 10 + "%"
+                let reportedRate = Math.round(reporteData / 19 * 1000) / 10 + '%'
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportedRateIndex)
                     .should('have.text', reportedRate)
             })
@@ -190,7 +200,7 @@ context('实验室上报情况', () => {
             .then((data) => {
                 let reportedData = data
                 reportedData = parseInt(reportedData)
-                let reportedRate = Math.round(reportedData / 19 * 1000) / 10 + "%"
+                let reportedRate = Math.round(reportedData / 19 * 1000) / 10 + '%'
                 cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(labIndex).find('td[class]').eq(reportedRateIndex)
                     .should('have.text', reportedRate)
             })
@@ -255,6 +265,7 @@ context('实验室上报情况', () => {
                     cy.get('.print-tool__columns').find('li>label>span').find('.el-checkbox__inner').eq(i).click()
                     //断言(每次取消勾选一个显示字段，.el-checkbox.is-checked长度就会减少一个)
                     cy.get('.el-checkbox.is-checked').should('have.length', j)
+
                 }
             })
         })

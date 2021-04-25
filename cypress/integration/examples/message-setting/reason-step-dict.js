@@ -950,171 +950,171 @@ context('信息互通设置-告警原因和措施', () => {
             cy.get('.dict-panel-content').eq(measureType).find('.el-card__body').should('have.length', getLength - 1)
         })
     })
-    it('041-告警原因和措施(CV/符合率异常)-新增相同的异常原因不能保存', () => {
-        cy.wait(1000)
-        let CVAbnormal = 2
-        let ReasonAdd = 2
-        let Type = 6
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-input__inner').eq(Type).type('仪器原因', {
-            force: true
-        })
-        cy.get('.el-button.el-button--text.el-button--medium').eq(ReasonAdd).click({
-            force: true
-        })
-        //界面出现相同类型下不能存在重复值则通过
-        cy.get('body').should('contain', '相同类型下不能存在重复值')
-    })
-    it('042-告警原因和措施(CV/符合率异常)-新增成功的异常原因', () => {
-        let CVAbnormal = 2
-        let ReasonAdd = 2
-        let Type = 6
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-input__inner').eq(Type).clear().type('仪器原因2')
-        cy.get('.el-button.el-button--text.el-button--medium').eq(ReasonAdd).click({
-            force: true
-        })
-        //界面出现保存成功则通过
-        cy.get('body').should('contain', '保存成功！')
-    })
-    it('043-告警原因和措施(CV/符合率异常)-修改异常原因', () => {
-        let CVAbnormal = 2
-        let body = 2
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(1000)
-        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
-            let getLength = data.length
-            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-edit').click({
-                force: true
-            })
-            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-input__inner').clear({
-                force: true
-            }).type('123', {
-                force: true
-            })
-            cy.intercept('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
-            // 点击保存
-            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-check').click({
-                force: true
-            })
-            //界面出现保存成功则通过
-            cy.get('body').should('contain', '保存成功！')
-        })
-    })
-    it('044-告警原因和措施(CV/符合率异常)-删除异常原因', () => {
-        let CVAbnormal = 2
-        let body = 2
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(1000)
-        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
-            let getLength = data.length
-            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-delete').click({
-                force: true
-            })
-            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-                force: true
-            })
-            //界面出现删除成功则通过
-            cy.get('body').should('contain', '删除成功！')
-        })
-    })
-    it('045-告警原因和措施(CV/符合率异常)-新增异常措施为空不能保存', () => {
-        let CVAbnormal = 2
-        let MeasureAdd = 1
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-button.el-button--text.el-button--medium').eq(MeasureAdd).click({
-            force: true
-        })
-        //界面出现请填写名称！则通过
-        cy.get('body').should('contain', '请填写名称！')
-    })
-    it('046-告警原因和措施(CV/符合率异常)-新增相同的原处理措施不能保存', () => {
-        let CVAbnormal = 2
-        let MeasureAdd = 3
-        let Type = 7
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-input__inner').eq(Type).type('仪器维护')
-        cy.get('.el-button.el-button--text.el-button--medium').eq(MeasureAdd).click({
-            force: true
-        })
-        //界面出现相同类型下不能存在重复值则通过
-        cy.get('body').should('contain', '相同类型下不能存在重复值')
-    })
-    it('047-告警原因和措施(CV/符合率异常)-新增成功的处理措施', () => {
-        let CVAbnormal = 2
-        let MeasureAdd = 3
-        let Type = 7
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(500)
-        cy.get('.el-input__inner').eq(Type).clear().type('仪器原因2')
-        cy.get('.el-button.el-button--text.el-button--medium').eq(MeasureAdd).click({
-            force: true
-        })
-        //界面出现保存成功！则通过
-        cy.get('body').should('contain', '保存成功！')
-    })
-    it('048-告警原因和措施(CV/符合率异常)-修改处理措施', () => {
-        let CVAbnormal = 2
-        let body = 3
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(1000)
-        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
-            let getLength = data.length
-            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-edit').click({
-                force: true
-            })
-            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-input__inner').clear({
-                force: true
-            }).type('123', {
-                force: true
-            })
-            cy.intercept('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
-            // 点击保存
-            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-check').click({
-                force: true
-            })
-            //界面出现保存成功则通过
-            cy.get('body').should('contain', '保存成功！')
+    // it('041-告警原因和措施(CV/符合率异常)-新增相同的异常原因不能保存', () => {
+    //     cy.wait(1000)
+    //     let CVAbnormal = 2
+    //     let ReasonAdd = 2
+    //     let Type = 6
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(500)
+    //     cy.get('.el-input__inner').eq(Type).type('仪器原因', {
+    //         force: true
+    //     })
+    //     cy.get('.el-button.el-button--text.el-button--medium').eq(ReasonAdd).click({
+    //         force: true
+    //     })
+    //     //界面出现相同类型下不能存在重复值则通过
+    //     cy.get('body').should('contain', '相同类型下不能存在重复值')
+    // })
+    // it('042-告警原因和措施(CV/符合率异常)-新增成功的异常原因', () => {
+    //     let CVAbnormal = 2
+    //     let ReasonAdd = 2
+    //     let Type = 6
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(500)
+    //     cy.get('.el-input__inner').eq(Type).clear().type('仪器原因2')
+    //     cy.get('.el-button.el-button--text.el-button--medium').eq(ReasonAdd).click({
+    //         force: true
+    //     })
+    //     //界面出现保存成功则通过
+    //     cy.get('body').should('contain', '保存成功！')
+    // })
+    // it('043-告警原因和措施(CV/符合率异常)-修改异常原因', () => {
+    //     let CVAbnormal = 2
+    //     let body = 2
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(1000)
+    //     cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+    //         let getLength = data.length
+    //         cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-edit').click({
+    //             force: true
+    //         })
+    //         cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-input__inner').clear({
+    //             force: true
+    //         }).type('123', {
+    //             force: true
+    //         })
+    //         cy.intercept('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
+    //         // 点击保存
+    //         cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-check').click({
+    //             force: true
+    //         })
+    //         //界面出现保存成功则通过
+    //         cy.get('body').should('contain', '保存成功！')
+    //     })
+    // })
+    // it('044-告警原因和措施(CV/符合率异常)-删除异常原因', () => {
+    //     let CVAbnormal = 2
+    //     let body = 2
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(1000)
+    //     cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+    //         let getLength = data.length
+    //         cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-delete').click({
+    //             force: true
+    //         })
+    //         cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+    //             force: true
+    //         })
+    //         //界面出现删除成功则通过
+    //         cy.get('body').should('contain', '删除成功！')
+    //     })
+    // })
+    // it('045-告警原因和措施(CV/符合率异常)-新增异常措施为空不能保存', () => {
+    //     let CVAbnormal = 2
+    //     let MeasureAdd = 1
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(500)
+    //     cy.get('.el-button.el-button--text.el-button--medium').eq(MeasureAdd).click({
+    //         force: true
+    //     })
+    //     //界面出现请填写名称！则通过
+    //     cy.get('body').should('contain', '请填写名称！')
+    // })
+    // it('046-告警原因和措施(CV/符合率异常)-新增相同的原处理措施不能保存', () => {
+    //     let CVAbnormal = 2
+    //     let MeasureAdd = 3
+    //     let Type = 7
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(500)
+    //     cy.get('.el-input__inner').eq(Type).type('仪器维护')
+    //     cy.get('.el-button.el-button--text.el-button--medium').eq(MeasureAdd).click({
+    //         force: true
+    //     })
+    //     //界面出现相同类型下不能存在重复值则通过
+    //     cy.get('body').should('contain', '相同类型下不能存在重复值')
+    // })
+    // it('047-告警原因和措施(CV/符合率异常)-新增成功的处理措施', () => {
+    //     let CVAbnormal = 2
+    //     let MeasureAdd = 3
+    //     let Type = 7
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(500)
+    //     cy.get('.el-input__inner').eq(Type).clear().type('仪器原因2')
+    //     cy.get('.el-button.el-button--text.el-button--medium').eq(MeasureAdd).click({
+    //         force: true
+    //     })
+    //     //界面出现保存成功！则通过
+    //     cy.get('body').should('contain', '保存成功！')
+    // })
+    // it('048-告警原因和措施(CV/符合率异常)-修改处理措施', () => {
+    //     let CVAbnormal = 2
+    //     let body = 3
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(1000)
+    //     cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+    //         let getLength = data.length
+    //         cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-edit').click({
+    //             force: true
+    //         })
+    //         cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-input__inner').clear({
+    //             force: true
+    //         }).type('123', {
+    //             force: true
+    //         })
+    //         cy.intercept('**/cqb-base-mgr/service/mgr/messageDic?*').as('Data')
+    //         // 点击保存
+    //         cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-check').click({
+    //             force: true
+    //         })
+    //         //界面出现保存成功则通过
+    //         cy.get('body').should('contain', '保存成功！')
 
-        })
-    })
-    it('049-告警原因和措施(CV/符合率异常)-删除处理措施', () => {
-        let CVAbnormal = 2
-        let body = 3
-        cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
-            force: true
-        })
-        cy.wait(1000)
-        cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
-            let getLength = data.length
-            cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-delete').click({
-                force: true
-            })
-            cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-                force: true
-            })
-            //界面出现删除成功则通过
-            cy.get('body').should('contain', '删除成功！')
-        })
-    })
+    //     })
+    // })
+    // it('049-告警原因和措施(CV/符合率异常)-删除处理措施', () => {
+    //     let CVAbnormal = 2
+    //     let body = 3
+    //     cy.get('.el-tabs__nav.is-top').find('div').eq(CVAbnormal).click({
+    //         force: true
+    //     })
+    //     cy.wait(1000)
+    //     cy.get('.el-table__body').eq(body).find('tbody').find('.el-table__row').then((data) => {
+    //         let getLength = data.length
+    //         cy.get('.el-table__body').eq(body).find('.el-table__row').eq(getLength - 2).find('.el-icon-delete').click({
+    //             force: true
+    //         })
+    //         cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+    //             force: true
+    //         })
+    //         //界面出现删除成功则通过
+    //         cy.get('body').should('contain', '删除成功！')
+    //     })
+    // })
 })

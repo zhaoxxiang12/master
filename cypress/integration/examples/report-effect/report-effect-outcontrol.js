@@ -422,6 +422,7 @@ context('失控处理情况', () => {
                     .should('have.text', judgeData)
             })
         })
+
     })
     it('012-失控处理情况-按原因查看-获取页面上处理方式数据', () => {
         let boxIndex = 1
@@ -562,8 +563,8 @@ context('失控处理情况', () => {
         // cy.get('button').contains('搜索').click({force:true})
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
-                let Data =xhr.response.body.data.outControDeals
-                cy.get('body').should('not.contain', '测试实验室')
+            let Data = xhr.response.body.data.outControDeals
+            cy.get('body').should('not.contain', '测试实验室')
         })
         //清除之前的选择
         cy.get('.el-tag__close.el-icon-close').eq(clearIndex).click({
@@ -581,8 +582,8 @@ context('失控处理情况', () => {
         })
         // 拦截请求必须写在visit之前
         cy.wait('@getLabdata').then((xhr) => {
-                judgeData =xhr.response.body.data.outControDeals.length
-                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', judgeData)
+            judgeData = xhr.response.body.data.outControDeals.length
+            cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', judgeData)
         })
     })
 })

@@ -24,7 +24,7 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(ItemList).click({
             force: true
         })
-        cy.get('.el-input__inner').eq(Type).type("尿干化学", {
+        cy.get('.el-input__inner').eq(Type).type('尿干化学', {
             force: true
         })
         cy.get('button').contains('确定').click({
@@ -38,14 +38,14 @@ context('结果互认设置-开展项目设置', () => {
         let Type = 4
         cy.get('.el-input__inner').eq(Type).clear({
             force: true
-        }).type("自动化测试", {
+        }).type('自动化测试', {
             force: true
         })
         cy.get('button').contains('确定').click({
             force: true
         })
         //界面存在【自动化测试】这个分类则通过
-        cy.get('body').should('contain', "自动化测试")
+        cy.get('body').should('contain', '自动化测试')
     })
     it('003-开展项目设置-编辑项目分类', () => {
         let Edit = 0
@@ -61,7 +61,7 @@ context('结果互认设置-开展项目设置', () => {
              */
             cy.get('.el-input__inner').eq(InputBox).clear({
                 force: true
-            }).type("常规化学", {
+            }).type('常规化学', {
                 force: true
             })
             cy.get('body').should('contain', '分类名称已存在, 请重输')
@@ -70,7 +70,7 @@ context('结果互认设置-开展项目设置', () => {
              */
             cy.get('.el-input__inner').eq(InputBox).clear({
                 force: true
-            }).type("自定义名称AAA")
+            }).type('自定义名称AAA')
             cy.get('button').contains('确定').click({
                 force: true
             })
@@ -127,11 +127,10 @@ context('结果互认设置-开展项目设置', () => {
         let UnitDownList = 6
         let ChooseUnit = 0
         let ConfirmButton = 4
-        let menu = 20
         let conventionalChemical = 2
         cy.wait(1000)
         //项目分类选择常规化学
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.get('.el-button.el-button--primary.el-button--medium').eq(AddItem).click({
@@ -202,10 +201,9 @@ context('结果互认设置-开展项目设置', () => {
         let Classindex = 0
         let ChemicalType = 2
         let ClassIndex = 0
-        let menu = 20
         let conventionalChemical = 2
         //项目分类选择常规化学
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(1000)
@@ -234,7 +232,7 @@ context('结果互认设置-开展项目设置', () => {
             /**
              * 将项目铁返回到之前的项目分类
              */
-            cy.get('.el-menu').eq(menu).find('li').eq(BloodIndex).click({
+            cy.get('.el-menu').last().find('li').eq(BloodIndex).click({
                 force: true
             })
             cy.wait(1000)
@@ -261,11 +259,10 @@ context('结果互认设置-开展项目设置', () => {
         let DropList = 6
         let SelectQualitative = 3
         let ConfirmButton = 4
-        let menu = 20
         let conventionalChemical = 2
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(1000)
@@ -298,11 +295,10 @@ context('结果互认设置-开展项目设置', () => {
         let DropList = 6
         let SelectQuantitative = 1
         let ConfirmButton = 4
-        let menu = 20
         let conventionalChemical = 2
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
@@ -334,11 +330,10 @@ context('结果互认设置-开展项目设置', () => {
         let DropList = 6
         let SelectUnlimited = 0
         let ConfirmButton = 4
-        let menu = 20
         let conventionalChemical = 2
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
@@ -369,11 +364,10 @@ context('结果互认设置-开展项目设置', () => {
         let DeleteButton = 1
         let deleteK = 0
         let Classindex = 0
-        let menu = 20
         let conventionalChemical = 2
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(1000)
@@ -410,10 +404,9 @@ context('结果互认设置-开展项目设置', () => {
     })
     it('011-开展项目设置-项目搜索', () => {
         cy.wait(500)
-        let menu = 20
         let conventionalChemical = 2
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(1000)
@@ -436,7 +429,6 @@ context('结果互认设置-开展项目设置', () => {
     })
     it('012-开展项目设置-添加自定义项目(已存在)', () => {
         let addItem = 1
-        let menu = 20
         let conventionalChemical = 2
         let DropDownList = 6
         let custom = 0
@@ -446,7 +438,7 @@ context('结果互认设置-开展项目设置', () => {
         let cancel = 1
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(500)
@@ -483,7 +475,6 @@ context('结果互认设置-开展项目设置', () => {
     })
     it('013-开展项目设置-添加自定义项目(项目中文名称未填写不能保存)', () => {
         let addItem = 1
-        let menu = 20
         let conventionalChemical = 2
         let DropDownList = 6
         let custom = 0
@@ -493,7 +484,7 @@ context('结果互认设置-开展项目设置', () => {
         let cancel = 1
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(500)
@@ -529,7 +520,6 @@ context('结果互认设置-开展项目设置', () => {
     })
     it('014-开展项目设置-添加自定义项目(项目简称未填写不能保存)', () => {
         let addItem = 1
-        let menu = 20
         let conventionalChemical = 2
         let DropDownList = 6
         let custom = 0
@@ -539,7 +529,7 @@ context('结果互认设置-开展项目设置', () => {
         let cancel = 1
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(500)
@@ -573,7 +563,6 @@ context('结果互认设置-开展项目设置', () => {
     })
     it('015-开展项目设置-添加自定义项目(默认单位未填写不能保存)', () => {
         let addItem = 1
-        let menu = 20
         let conventionalChemical = 2
         let DropDownList = 6
         let custom = 0
@@ -582,7 +571,7 @@ context('结果互认设置-开展项目设置', () => {
         let cancel = 1
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(500)
@@ -613,7 +602,6 @@ context('结果互认设置-开展项目设置', () => {
     })
     it('016-开展项目设置-添加自定义项目(数据正确添加成功)', () => {
         let addItem = 1
-        let menu = 20
         let conventionalChemical = 2
         let DropDownList = 6
         let custom = 0
@@ -622,7 +610,7 @@ context('结果互认设置-开展项目设置', () => {
         let customItem = 2
         //项目分类选择常规化学
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(500)
@@ -671,11 +659,10 @@ context('结果互认设置-开展项目设置', () => {
         })
     })
     it('017-开展项目设置-添加自定义项目(新增的自定义未审核时不能开启)', () => {
-        let menu = 20
         let conventionalChemical = 2
         let customItem = 1
         cy.wait(500)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(1000)
@@ -689,11 +676,10 @@ context('结果互认设置-开展项目设置', () => {
         })
     })
     it('018-开展项目设置-删除自定义项目', () => {
-        let menu = 20
         let conventionalChemical = 2
         let customItem = 1
         cy.wait(500)
-        cy.get('.el-menu').eq(menu).find('li').eq(conventionalChemical).click({
+        cy.get('.el-menu').last().find('li').eq(conventionalChemical).click({
             force: true
         })
         cy.wait(1000)
@@ -715,7 +701,6 @@ context('结果互认设置-开展项目设置', () => {
     })
     it('019-开展项目设置-质控主管单位切换至青浦医联体', () => {
         let QPYLT = 1
-        let menu = 20
         let choose = 0
         let DropList = 6
         let Foshan = 0
@@ -726,7 +711,7 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(QPYLT).click({
             force: true
         })
-        cy.get('.el-menu').eq(menu).should('have.length', 1)
+        cy.get('.el-menu').last().should('have.length', 1)
         cy.get('.item-configNew__aside-label').should('contain', '全血细胞计数')
         cy.get('input[placeholder="请选择"]').eq(choose).click({
             force: true
@@ -736,10 +721,9 @@ context('结果互认设置-开展项目设置', () => {
         })
     })
     it('020-开展项目设置-停用所有项目', () => {
-        let menu = 20
         let covid = 1
         cy.wait(1000)
-        cy.get('.el-menu').eq(menu).find('li').eq(covid).click({
+        cy.get('.el-menu').last().find('li').eq(covid).click({
             force: true
         })
         cy.wait(2000)
@@ -765,10 +749,9 @@ context('结果互认设置-开展项目设置', () => {
         })
     })
     it('021-开展项目设置-启用所有项目', () => {
-        let menu = 20
         let covid = 1
         cy.wait(500)
-        cy.get('.el-menu').eq(menu).find('li').eq(covid).click({
+        cy.get('.el-menu').last().find('li').eq(covid).click({
             force: true
         })
         cy.wait(2000)

@@ -220,8 +220,8 @@ context('月度IQC报告', () => {
         cy.wait(500)
         cy.get('.el-table__body').find('.el-table__row').eq(0).find('.el-button.el-button--text.el-button--medium').eq(push).invoke('text').then((data) => {
             let getText = data
-            if (getText == "推送") {
-                cy.intercept("**/cqb-base-mgr/service/mgr/iqc/month/push?*").as('push')
+            if (getText == '推送') {
+                cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/push?*').as('push')
                 //点击推送
                 cy.get('.el-table__body').find('.el-table__row').eq(0).find('.el-button.el-button--text.el-button--medium').eq(push).click({
                     force: true
@@ -238,7 +238,7 @@ context('月度IQC报告', () => {
                     cy.get('.el-table__body').find('.el-table__row').eq(0).find('.el-button.el-button--text.el-button--medium').eq(push).should('have.text', '取消推送')
                 })
             } else {
-                cy.intercept("**/cqb-base-mgr/service/mgr/iqc/month/push?*").as('unPush')
+                cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/push?*').as('unPush')
                 //点击取消推送
                 cy.get('.el-table__body').find('.el-table__row').eq(0).find('.el-button.el-button--text.el-button--medium').eq(push).click({
                     force: true
@@ -280,7 +280,7 @@ context('月度IQC报告', () => {
         cy.get('.el-checkbox__inner').eq(chooseTwo).click({
             force: true
         })
-        cy.intercept("**/cqb-base-mgr/service/mgr/iqc/month/batchPush*").as('push')
+        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/batchPush*').as('push')
         //点击批量推送   
         cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
             force: true
@@ -318,7 +318,7 @@ context('月度IQC报告', () => {
         cy.get('.el-checkbox__inner').eq(chooseTwo).click({
             force: true
         })
-        cy.intercept("**/cqb-base-mgr/service/mgr/iqc/month/batchPush*").as('push')
+        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/batchPush*').as('push')
         //点击批量取消推送   
         cy.get('.el-button.el-button--danger.el-button--medium.is-plain').eq(unPush).click({
             force: true
@@ -369,6 +369,7 @@ context('月度IQC报告', () => {
         let keywordBox = 1
         let searchButton = 1
         let deleteButton = 3
+        let push = 2
         cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).clear({
             force: true
         }).type(labCode, {
@@ -437,10 +438,7 @@ context('月度IQC报告', () => {
         })
     })
     it('report-007-月度IQC报告_所在地进行搜索', () => {
-        let dropList = 4
-        let Beijing = 0
         let searchButton = 1
-        let Shanghai = 1
         let keywordBox = 1
         //清除实验室编码
         cy.get('input[placeholder="实验室名称或编码"]').eq(keywordBox).clear({
@@ -450,16 +448,16 @@ context('月度IQC报告', () => {
         cy.get('input[placeholder="请选择省"]').click({
             force: true
         })
-        cy.wait(1000)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(Beijing).click({
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list li').contains('北京市').click({
             force: true
         })
-        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?*').as('getWebData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?areaId=110000*').as('getBeijingData')
         //点击搜索
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true
         })
-        cy.wait('@getWebData').then((xhr) => {
+        cy.wait('@getBeijingData').then((xhr) => {
             let getStatus = xhr.response.statusCode
             let total = xhr.response.body.data.total
             let expectStatus = 200
@@ -476,19 +474,18 @@ context('月度IQC报告', () => {
         cy.get('input[placeholder="请选择省"]').click({
             force: true
         })
-        cy.wait(1000)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(Shanghai).click({
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list li').contains('上海市').click({
             force: true
         })
-        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?areaId=*').as('getWebData')
-        cy.wait(1000)
+        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?areaId=310000*').as('getShanghaiData')
         //点击搜索
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true
         })
-        cy.wait('@getWebData').then((xhr) => {
+        cy.wait('@getShanghaiData').then((xhr) => {
             let getStatus = xhr.response.statusCode
-            let total = xhr.response.body.data.length
+            let total = xhr.response.body.data.total
             let expectStatus = 200
             expect(expectStatus).to.eq(getStatus)
             if (total == 0) {
@@ -500,26 +497,20 @@ context('月度IQC报告', () => {
                 cy.get('.el-pagination__total').should('have.text', '共 ' + total + ' 条')
             }
         })
-
-    })
-    it('report-008-月度IQC报告_所在地选择广东', () => {
-        let dropList = 4
-        let Guangdong = 2
-        let searchButton = 1
         //----------------选择广东-------------------------------
         cy.get('input[placeholder="请选择省"]').click({
             force: true
         })
-        cy.wait(1000)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(Guangdong).click({
+        cy.wait(500)
+        cy.get('.el-scrollbar__view.el-select-dropdown__list li').contains('广东省').click({
             force: true
         })
-        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?areaId=440000*').as('getWebData')
+        cy.intercept('**/cqb-base-mgr/service/mgr/iqc/month/new-page?areaId=440000*').as('getGuangdongData')
         //点击搜索
         cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
             force: true
         })
-        cy.wait('@getWebData').then((xhr) => {
+        cy.wait('@getGuangdongData').then((xhr) => {
             let getStatus = xhr.response.statusCode
             let total = xhr.response.body.data.total
             let expectStatus = 200
@@ -527,7 +518,6 @@ context('月度IQC报告', () => {
             if (total == 0) {
                 cy.get('body').should('contain', '暂无数据')
             } else if (total <= 20) {
-                cy.log(toatl)
                 cy.get('.el-table__body').find('.el-table__row').should('have.length', total)
             } else {
                 cy.get('.el-pagination__total').should('have.text', '共 ' + total + ' 条')

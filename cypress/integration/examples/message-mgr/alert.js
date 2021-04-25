@@ -4,32 +4,27 @@
 context('消息互通-告警查询', () => {
     let alertList = 5
     before(() => {
-        let ExpandButton = 0
-        let ChooseButton = 0
-        let ListIndex = 2
         cy.loginCQB()
         cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/alert')
         cy.wait(1000)
         //点击展开
-        cy.get('.el-button.el-button--text.el-button--medium').eq(ExpandButton).click({
+        cy.get('button').contains('展开').click({
             force: true
         })
-        cy.get('input[placeholder="请选择"]').eq(ChooseButton).click({
+        cy.get('label[for="date"]+div').click({
             force: true
         })
         cy.wait(1000)
         // 选择指定日期
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(ListIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list li').contains('指定日期').click({
             force: true
         })
     })
     it('001-使用消息状态进行查询-已知晓', () => {
-        let StatusType = 2
-        let know = 2
-        cy.get('input[placeholder="请选择"]').eq(StatusType).click({
+        cy.get('label[for="status"]+div').click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(alertList).find('li').eq(know).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list li').contains('已知晓').click({
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/messages/mgrList?dateType*').as('getData')
@@ -39,14 +34,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -70,14 +63,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -99,14 +90,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -187,14 +176,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -207,14 +194,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -236,14 +221,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -265,14 +248,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -294,14 +275,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -333,14 +312,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -370,14 +347,12 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
@@ -404,17 +379,17 @@ context('消息互通-告警查询', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let Data = xhr.response.body.data.total
+            let ExpectStatus = 200
+            let ResponseStatus = xhr.response.statusCode
             if (Data == null) {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('body').should('contain', '暂无数据')
             } else {
-                let ExpectStatus = 200
-                let ResponseStatus = xhr.response.statusCode
                 expect(ResponseStatus).to.equal(ExpectStatus)
                 cy.get('.el-pagination__total').should('contain', Data)
             }
+
         })
     })
+
 })

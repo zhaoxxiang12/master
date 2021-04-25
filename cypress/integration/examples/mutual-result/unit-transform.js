@@ -221,7 +221,7 @@ context('结果互认设置-单位转换设置', () => {
             force: true
         })
         cy.intercept('**/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get("button").contains('搜索').click({
+        cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
@@ -257,7 +257,7 @@ context('结果互认设置-单位转换设置', () => {
             force: true
         })
         cy.intercept('**/service/mgr/itemUnitTransform/list?*').as('getData')
-        cy.get("button").contains('搜索').click({
+        cy.get('button').contains('搜索').click({
             force: true
         })
         cy.wait('@getData').then((xhr) => {
@@ -446,7 +446,7 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.get('.el-tag__close.el-icon-close').click({
             force: true
-          })
+        })
     })
     it('010-单位转换设置-标签搜索(选择私立)', () => {
         let Tag = 1
@@ -504,7 +504,7 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.wait('@getData').then((xhr) => {
             let body = 0
-            let responseStatus =xhr.response.statusCode
+            let responseStatus = xhr.response.statusCode
             let expectStatus = 200
             let responseLength = xhr.response.body.data.total
             //检查接口是否正常
@@ -520,7 +520,7 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.get('.el-tag__close.el-icon-close').eq(0).click({
             force: true
-          })
+        })
     })
     it('012-单位转换设置-地区搜索(上海)', () => {
         let inputBox = 0
@@ -559,7 +559,7 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.get('.el-tag__close.el-icon-close').eq(0).click({
             force: true
-          })
+        })
     })
     it('013-单位转换设置-地区搜索(广东)', () => {
         let inputBox = 0

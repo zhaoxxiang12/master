@@ -188,7 +188,7 @@ context('数据分析管理', () => {
                 //正常的实验室数加上失控的实验室数等于已上报的实验室数
                 let judgeReportedData = normalLabData + outLabData
                 //上报率
-                let judgeReportedRate = Math.round(reportedLabData / totalLabData * 1000) / 10 + "%"
+                let judgeReportedRate = Math.round(reportedLabData / totalLabData * 1000) / 10 + '%'
                 //将数字转换成字符串
                 judgeLabData = judgeLabData + ''
                 judgeReportedData = judgeReportedData + ''
@@ -214,7 +214,7 @@ context('数据分析管理', () => {
                 //正常的实验室数加上失控的实验室数等于已上报的实验室数
                 let judgeReportedData = normalLabData + outLabData
                 //上报率
-                let judgeReportedRate = Math.round(reportedLabData / totalLabData * 1000) / 10 + "%"
+                let judgeReportedRate = Math.round(reportedLabData / totalLabData * 1000) / 10 + '%'
                 //将数字转换成字符串
                 judgeLabData = judgeLabData + ''
                 judgeReportedData = judgeReportedData + ''
@@ -243,7 +243,7 @@ context('数据分析管理', () => {
             force: true
         })
         //输入分屏的标题
-        cy.get('.el-input__inner').eq(title).type("UI" + number)
+        cy.get('.el-input__inner').eq(title).type('UI' + number)
         //选择推送大屏的区域
         cy.get('.screen-area').find('tr>td>div').eq(screenIndex).click({
             force: true
@@ -373,21 +373,6 @@ context('数据分析管理', () => {
         //断言
         cy.get('[placeholder="所有市"]').should('not.have.css', 'disabled')
         cy.get('body').should('contain', '高明区').and('contain', '三水区').and('contain', '禅城区')
-           //----------------超管账户登录 防止后面的用例执行失败-----------
-               // 点击右上角的管理员
-        cy.get('span[aria-haspopup="list"]').eq(queryIndex).click({
-            force: true
-        })
-        //点击注销，切换用户登录
-        cy.get('.cqbicon.icon-logout').click({
-            force: true
-        })
-        // cy.wait(3000)
-        //关闭登录弹窗
-        cy.get('button').contains('关闭').click({
-            force: true
-        })
-        //gdfslj账户登录(调用函数)
-        cy.loginCQB()
+
     })
 })

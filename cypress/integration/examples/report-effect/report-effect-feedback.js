@@ -201,9 +201,12 @@ context('信息反馈情况', () => {
         })
         // 从接口获取实验室名称并进行断言
         cy.wait('@getLabdata').then((xhr) => {
-            let labName = xhr.response.body.data[0].labName
-            //断言
-            cy.get('body').should('contain', labName)
+            cy.get(xhr.response.body.data).then((data) => {
+                let labName = data[0]
+                labName = labName['labName']
+                //断言
+                cy.get('body').should('contain', labName)
+            })
         })
     })
     it('006-信息反馈情况-使用地区进行搜索(选择广东省)', () => {
@@ -231,9 +234,12 @@ context('信息反馈情况', () => {
         })
         // 从接口获取实验室名称并进行断言
         cy.wait('@getLabdata').then((xhr) => {
-            let labName = xhr.response.body.data[0].labName
-            //断言
-            cy.get('body').should('contain', labName)
+            cy.get(xhr.response.body.data).then((data) => {
+                let labName = data[0]
+                labName = labName['labName']
+                //断言
+                cy.get('body').should('contain', labName)
+            })
         })
     })
     it('007-信息反馈情况-使用标签进行搜索查询(标签选择广西)', () => {
@@ -260,18 +266,21 @@ context('信息反馈情况', () => {
         })
         // 从接口获取有多少条数据
         cy.wait('@getLabdata').then((xhr) => {
-            //定义数据的长度
-            let returnLength = xhr.response.body.data.length
-            //断言
-            cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', returnLength)
-            //从接口获取实验室名称
-            let labNameData = xhr.response.body.data
-            //使用for循环遍历从接口获取的实验室名称以便后续使用
-            for (var i = 0; i < returnLength; i++) {
-                let labName = labNameData[i]
-                let realLabName = labName['labName']
-                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(i).find('td').eq(labNameIndex).should('have.text', realLabName)
-            }
+            cy.get(xhr.response.body.data.length).then((data) => {
+                //定义数据的长度
+                let returnLength = data[0]
+                //断言
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', returnLength)
+                //从接口获取实验室名称
+                cy.get(xhr.response.body.data).then((labNameData) => {
+                    //使用for循环遍历从接口获取的实验室名称以便后续使用
+                    for (var i = 0; i < returnLength; i++) {
+                        let labName = labNameData[i]
+                        let realLabName = labName['labName']
+                        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(i).find('td').eq(labNameIndex).should('have.text', realLabName)
+                    }
+                })
+            })
         })
     })
     it('008-信息反馈情况-使用标签进行搜索查询(标签选择佛山)', () => {
@@ -297,19 +306,23 @@ context('信息反馈情况', () => {
         })
         // 从接口获取有多少条数据
         cy.wait('@getLabdata').then((xhr) => {
-            //定义数据的长度
-            let returnLength = xhr.response.body.data.length
-            //断言
-            cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', returnLength)
-            //从接口获取实验室名称
-            let labNameData = xhr.response.body.data
-            //使用for循环遍历从接口获取的实验室名称以便后续使用
-            for (var i = 0; i < returnLength; i++) {
-                let labName = labNameData[i]
-                let realLabName = labName['labName']
-                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(i).find('td').eq(labNameIndex).should('have.text', realLabName)
-            }
+            cy.get(xhr.response.body.data.length).then((data) => {
+                //定义数据的长度
+                let returnLength = data[0]
+                //断言
+                cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').should('have.length', returnLength)
+                //从接口获取实验室名称
+                cy.get(xhr.response.body.data).then((labNameData) => {
+                    //使用for循环遍历从接口获取的实验室名称以便后续使用
+                    for (var i = 0; i < returnLength; i++) {
+                        let labName = labNameData[i]
+                        let realLabName = labName['labName']
+                        cy.get('.table-line__fixed-header+.table-line').find('tbody>tr').eq(i).find('td').eq(labNameIndex).should('have.text', realLabName)
+                    }
+                })
+            })
         })
+
     })
     it('009-信息反馈情况-显示字段-取消勾选某个字段', () => {
         cy.get('button').contains('显示字段').click({
