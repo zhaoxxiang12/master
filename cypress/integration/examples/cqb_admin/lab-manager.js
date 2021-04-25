@@ -615,7 +615,7 @@ describe('账户管理-实验室账户', function () {
         cy.get('table[class=el-table__body]').eq(2).find('button').eq(1).click({
             force: true
         })
-
+        cy.wait(500)
         //断言
         cy.get('input[maxlength="16"').eq(1).should('have.value', New_User_Name)
     })
