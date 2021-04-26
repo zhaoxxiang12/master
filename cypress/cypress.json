@@ -1,9 +1,0 @@
-{
-  
-    "viewportWidth": 1920,
-    "viewportHeight": 1080,
-    "defaultCommandTimeout":10000,
-    "requestTimeout":100000,
-    "responseTimeout":100000,
-    }
-}

@@ -33,10 +33,14 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 	return false
 })
 
+Cypress.Cookies.defaults({
+	preserve: 'shiroCookie',
+})
+
 beforeEach(() => {
-	cy.restoreLocalStorage();
-});
+	cy.restoreLocalStorage()
+})
 
 afterEach(() => {
-	cy.saveLocalStorage();
-});
+	cy.saveLocalStorage()
+})

@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "cypress-downloadfile": "^1.2.0"
-  }
-}
-{"scripts": {
-    "cypress": "cypress run --headless",
-}
-}

@@ -1,29 +1,73 @@
-//Jenkinsfile(声明式流水线)
-pipeline{ //pipeline是声明式流水线的特定语法，它定义包含执行整个流水线的所有内容和指令
-	agent any //agent是声明式流水线的特定语法，它指示Jenkins在节点上为整个流水线分配一个执行器和工作区
-	stages{
-		stage('Build'){ //stage是一个描述stage of this pipeline的语法块
-			steps{ // steps是声明式流水线的一种特定语法，它描述了该stage中要运行的步骤
-				sh 'make' //sh是一个执行给定命令的流水线step
-			}
-		}
-		stage('Test'){
-			steps{
-				sh 'make check'
-				junit 'reports/**/*.xml' //junit是另一个聚合测试报告的流水线step
-			}
-		}
-		stage('Deploy'){
-			steps{
-				sh 'make publish'
-			}
-				environment{
-			CHROME_BIN='/bin/google-chrome'
-		}
-			tools{
-			Node.js 'Node.js 13'
-		
-		}
-	
-	}
+@Library('weiyi-pipeline-library@0.0.2') _
+
+pipeline {
+
+  agent {
+    // Setup:
+    //  before starting Jenkins, I have created several volumes to cache
+    //  NPM modules and Cypress binary
+    // docker volume create npm-cache
+    // docker volume create cypress-cache
+    // this image provides everything needed to run Cypress
+    // https://github.com/cypress-io/cypress-docker-images/tree/master/browsers
+    docker {
+      image 'cypress/browsers:node14.7.0-chrome84'
+      args '-v npm-cache:/root/.npm \
+            -v cypress-cache:/root/.cache'
+    }
+  }
+
+  environment {
+    // dingTalk API
+    DingTalkHook = "https://oapi.dingtalk.com/robot/send?access_token=0c5298bf74b9ab6aefed2c870f3e34a89d443587ba8fa28e61a4fbaf6eb385f8"
+  }
+
+  stages {
+    // first stage installs node dependencies and Cypress binary
+    stage('Prepare') {
+      steps {
+        script {
+            devops.sendDingTalk("测试环境准备中")
+        }
+        echo "Running build ${env.BUILD_ID} on ${env.JENKINS_URL}"
+        sh 'node -v'
+        sh 'npm -v'
+        sh 'npm config set registry https://registry.npm.taobao.org'
+        sh 'npm i'
+        sh 'npm run cy:verify'
+      }
+    }
+
+    // this stage runs end-to-end tests, and each agent uses the workspace
+    // from the previous stage
+    stage('Run cypress tests') {
+      steps {
+        script {
+            devops.sendDingTalk("测试开始 🎬")
+        }
+        echo "Running build ${env.BUILD_ID}"
+        sh "npm run test"
+      }
+    }
+  }
+
+  post {
+      always {
+        echo 'This will always run'
+        // Archive the artifacts
+        archiveArtifacts 'cypress/results/**/*.* , cypress/screenshots/**/*.* , cypress/videos/**/*.*'
+      }
+      success {
+        echo 'Test Passed.'
+        script{
+          devops.sendDingTalk("测试通过 ✅")
+        }
+      }
+      failure {
+        echo 'Test Failed.'
+        script{
+          devops.sendDingTalk("测试失败 ❌")
+        }
+      }
+  }
 }
