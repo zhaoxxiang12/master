@@ -14,12 +14,13 @@ def queryDetectionSystem(cookie):
     queryUrl = "http://covid19-qc-lab.pft.sh-weiyi.com/service/iqc/data/item-tree"
     r = requests.get(queryUrl,cookies=cookie)
     response = json.loads(r.text)
-    try:
-        qcId1 = response['data'][0]['children'][0]['children'][0]['id']
-        qcId2 = response['data'][1]['children'][0]['children'][0]['id']
-        return qcId1,qcId2
-    except Exception as e:
-        pass
+    # try:
+    #     qcId1 = response['data'][0]['children'][0]['children'][0]['id']
+    #     qcId2 = response['data'][1]['children'][0]['children'][0]['id']
+    #     return qcId1,qcId2
+    # except Exception as e:
+    #     pass
+    return response
 def reportData(labId,qcId1,bathNo1,qcId2,bathNo2,cookie):
     #质控数据上报
     reportUrl = "http://covid19-qc-lab.pft.sh-weiyi.com/service/iqc/data"

@@ -15,10 +15,12 @@ def start():
 # start()
 def startQuery():
     orgId = reportData.readCSV()
+    # labId = "15256"
     for labId in orgId:
         print(labId)
         cookie = reportData.skipCovid(labId)
-        qcId1,qcId2 = reportData.queryDetectionSystem(cookie)
+        qcId1 = reportData.queryDetectionSystem(cookie)
+        print(qcId1)
         response = reportData.queryData(qcId1,cookie)
         total = response["data"]["iqcDataPages"]["total"]
         if total<90:
