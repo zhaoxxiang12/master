@@ -25,6 +25,7 @@ def startQuery():
         total = response["data"]["iqcDataPages"]["total"]
         if total<90:
             reportData.writeLabId(labId)
+        break
 startQuery()
 # def start1():
 #     orgId = reportData.readCSV()
