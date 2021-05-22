@@ -39,7 +39,7 @@ def reportData(labId,qcId1,bathNo1,qcId2,bathNo2,cookie):
 ## 读取csv文件数据
 def readCSV():
     orgId = []
-    path = "E:\python file\covid19\查询实验室.csv"
+    path = "E:\PrivateFile\master\Python\covid19\查询实验室 - 5.csv"
     ## 读取某列的数据
     with open(path, 'r') as f:
         reader = csv.reader(f)
@@ -57,3 +57,14 @@ def queryBacthGroup(cookie):
     bacthNo1 = batchGroup[0:(batchGroup.index('|'))]
     bacthNo2 = batchGroup[(batchGroup.index('|') + 1):]
     return bacthNo1,bacthNo2
+
+def writeLabId(labId):
+    path = "E:\PrivateFile\master\Python\covid19\LabId.txt"
+    with open (path,'a') as f:
+        f.write(labId+"\n")
+
+def queryData(qcId,cookie):
+    url = "http://covid19-qc-lab.pft.sh-weiyi.com/service/iqc/data/page?qcItemId="+qcId+"&current=1&size=100"
+    r = requests.get(url,cookies = cookie)
+    response = json.loads(r.text)
+    return response

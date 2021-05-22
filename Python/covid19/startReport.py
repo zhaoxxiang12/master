@@ -12,9 +12,18 @@ def start():
             reportData.reportData(id,qcId1,batchNo1,qcId2,batchNo2,cookie)
 
 
-start()
-
-
+# start()
+def startQuery():
+    orgId = reportData.readCSV()
+    for labId in orgId:
+        print(labId)
+        cookie = reportData.skipCovid(labId)
+        qcId1,qcId2 = reportData.queryDetectionSystem(cookie)
+        response = reportData.queryData(qcId1,cookie)
+        total = response["data"]["iqcDataPages"]["total"]
+        if total<90:
+            reportData.writeLabId(labId)
+startQuery()
 # def start1():
 #     orgId = reportData.readCSV()
 #     Id = '481'
