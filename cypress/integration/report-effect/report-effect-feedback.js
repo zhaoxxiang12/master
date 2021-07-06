@@ -77,9 +77,14 @@ context('信息反馈情况', () => {
                 cy.get('.el-month-table').find('tr').eq(4).find('td').eq(MayIndex).click({
                     force: true
                 })
+                cy.intercept('**/cqb-base-mgr/service/mgr/evaReport/messFeedback?startTime=*').as('getLabdata')
                 //点击搜索
                 cy.get('button').contains('搜索').click({
                     force: true
+                })
+                cy.wait('@getLabdata').then((xhr)=>{
+                    let responseStatus = xhr.response.statusCode
+                    expect(responseStatus).to.eq(200)
                 })
             }
         })
@@ -191,10 +196,7 @@ context('信息反馈情况', () => {
         cy.get('.el-tree-node__children').find('.el-tree-node.is-focusable').find('[title="青浦医联体"]').click({
             force: true
         })
-        cy.get('button').contains('搜索').click({
-            force: true
-        })
-        cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
+        cy.intercept('**/cqb-base-mgr/service/mgr/evaReport/messFeedback?startTime=202005&endTime=202005&reportMonth=202005&cclCode=admin&ccls=CCL1587133417824768134*').as('getLabdata')
         // 拦截请求必须写在visit之前
         cy.get('button').contains('搜索').click({
             force: true

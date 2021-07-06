@@ -11,7 +11,7 @@ context('参与实验室情况', () => {
         cy.visit('/cqb-base-mgr-fe/app.html#/manage/report-effect/report-effect-partake')
     })
     it('001-参与实验室情况-未参与标签实验室数', () => {
-        let businessTag = 5
+        let businessTag = 8
         let notJoinTag = 1
         let tagIndex = 2
         let clickNotJoin = 3
@@ -45,7 +45,7 @@ context('参与实验室情况', () => {
         })
     })
     it('002-参与实验室情况-申请中标签实验室数', () => {
-        let businessTag = 5
+        let businessTag = 8
         let applyingTag = 0
         let tagIndex = 2
         let labName = '广东医科大学顺德妇女儿童医院（顺德区妇幼保健院）'
@@ -78,7 +78,7 @@ context('参与实验室情况', () => {
     it('003-参与实验室情况-点击参与显示数据', () => {
         let tagIndex = 2
         let buttonIndex = 1
-        let businessTag = 5
+        let businessTag = 8
         let joinTag = 2
         cy.get('.el-col.el-col-16').find('.el-form-item.el-form-item--medium').eq(tagIndex).find('div>label>span')
             .get('.el-radio__input').eq(tagIndex).click({
@@ -338,8 +338,7 @@ context('参与实验室情况', () => {
     })
     it('008-参与实验室情况-使用标签进行搜索(标签为佛山)', () => {
         let tagIndex = 2
-        let foshanTag = 4
-        let boxIndex = 7
+        let foshanTag = 3
         let joinIndex = 1
         let applyIndex = 2
         let notJoinIndex = 3
@@ -373,7 +372,7 @@ context('参与实验室情况', () => {
         cy.get('[placeholder="请选择实验室标签"]').click({
             force: true
         })
-        cy.get('.el-select-group').eq(boxIndex).find('li').eq(foshanTag).click({
+        cy.get('.el-select-group').last().find('li').eq(foshanTag).click({
             force: true
         })
         cy.intercept('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')
@@ -490,9 +489,7 @@ context('参与实验室情况', () => {
         })
     })
     it('009-参与实验室情况-使用标签进行搜索(标签为广西)', () => {
-        let tagIndex = 2
-        let GuangxiTag = 5
-        let boxIndex = 7
+        let GuangxiTag = 4
         let joinIndex = 1
         let applyIndex = 2
         let notJoinIndex = 3
@@ -522,7 +519,7 @@ context('参与实验室情况', () => {
         cy.get('[placeholder="请选择实验室标签"]').click({
             force: true
         })
-        cy.get('.el-select-group').eq(boxIndex).find('li').eq(GuangxiTag).click({
+        cy.get('.el-select-group').last().find('li').eq(GuangxiTag).click({
             force: true
         })
         cy.intercept('**/service/mgr/evaReport/joinLab?startTime*').as('getLabdata')

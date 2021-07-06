@@ -412,29 +412,33 @@ context('互认报告和证书管理', () => {
         })
     })
 
-    it.skip('互认报告和证书管理-批量删除互认报告', () => {
+    it('010-月度汇总报告-批量删除互认报告', () => {
+        cy.get('input[placeholder="请输入实验室名称或编码"]').last().clear()
+        cy.get('[placeholder="结束时间"]').first().click()
+        cy.get('.el-input__icon.el-icon-circle-close').click()
+        cy.get('.ql-search__header').contains('搜索').click({
+            force: true
+        })
+        cy.get('.el-table__row').first().find('.el-checkbox__inner').click()
+        //点击批量批量删除按钮 
+        cy.get('.ql-search__tools-top').contains('批量删除').click({
+            force: true
+        })
         cy.intercept('**/service/mgr/mutualRecogReport*').as('mutualRecogReport')
+        //点击确认弹窗按钮
+        cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
+            force: true
+        })
         cy.wait('@mutualRecogReport').then((xhr) => {
-            //搜索出要推送的报告     
-            cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').eq(0).type('gd18001')
-            cy.get('.ql-search__header').contains('搜索').click()
-            cy.get('.el-table__header-wrapper').find('.el-checkbox').click({
-                force: true
-            })
-            //点击批量批量删除按钮 
-            cy.get('.ql-search__tools-top').contains('批量删除').click({
-                force: true
-            })
-            //点击确认弹窗按钮
-            cy.get('.el-message-box__btns').contains('删除').click({
-                force: true
-            })
+            let expectStatus = 200
+            let responseStatus = xhr.response.statusCode
+            expect(responseStatus).to.eq(expectStatus)
             //断言弹窗内容
             cy.get('.el-message--success').should('contain', '已删除成功')
         })
     })
 
-    it('010-月度汇总报告-预览月度汇总报告', () => {
+    it('011-月度汇总报告-预览月度汇总报告', () => {
         let reportMonth = 2
         let currentYear = 0
         let choose = 0
@@ -495,7 +499,7 @@ context('互认报告和证书管理', () => {
         })
     })
 
-    it('011-月度汇总报告-删除月度汇总报告', () => {
+    it('012-月度汇总报告-删除月度汇总报告', () => {
         let time = 0
         let startDate = 0
         let startMonth = 0
