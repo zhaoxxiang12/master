@@ -12,7 +12,6 @@ context('通用功能', () => {
             let responseStatus = getData.response.statusCode
             let expectStatus = 200
             expect(responseStatus).to.eq(expectStatus)
-            cy.get('body').should('contain', '执行完成')
         })
         cy.get('.el-collapse-item__header').eq(differenceReport).click()
     })
@@ -27,7 +26,6 @@ context('通用功能', () => {
             let responseStatus = getData.response.statusCode
             let expectStatus = 200
             expect(responseStatus).to.eq(expectStatus)
-            cy.get('body').should('contain', '任务已经开始执行，请查看系统日志跟进执行进展')
         })
     })
     it('003-通用功能-广东EQA数据处理-更新对照数据', () => {

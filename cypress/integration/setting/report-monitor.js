@@ -82,15 +82,14 @@ context('监控内容配置', () => {
         })
     })
     it('002-监控内容配置-标签搜索功能(标签选择佛山)', () => {
-        let DropList = 7
-        let foshanTag = 4
+        let foshanTag = '佛山'
         let inputBox = 0
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
             force: true
         })
         cy.get('.el-select__input.is-medium').click()
         //选择标签佛山
-        cy.get('.el-select-group').eq(DropList).find('li').eq(foshanTag).click()
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(foshanTag).click()
         cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
         cy.get('button').contains('搜索').click({
             force: true
@@ -113,14 +112,13 @@ context('监控内容配置', () => {
         })
     })
     it('003-监控内容配置-标签搜索功能(标签选择广西)', () => {
-        let DropList = 7
-        let guangXiTag = 5
+        let guangXiTag = '广西'
         cy.get('.el-tag__close.el-icon-close').click({
             force: true
         })
         cy.get('.el-select__input.is-medium').click()
         //选择标签佛山
-        cy.get('.el-select-group').eq(DropList).find('li').eq(guangXiTag).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(guangXiTag).click({
             force: true
         })
         cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
@@ -147,16 +145,15 @@ context('监控内容配置', () => {
         })
     })
     it('004-监控内容配置-状态搜索功能(已上报)', () => {
-        let DropList = 3
         let statusBox = 1
-        let reported = 2
+        let reported ='已上报'
         cy.get('.el-select__input.is-medium').click()
         //选择已上报
         cy.get('input[placeholder="请选择"]').eq(statusBox).click({
             force: true
         })
         cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(reported).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(reported).click({
             force: true
         })
         cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')
@@ -185,7 +182,7 @@ context('监控内容配置', () => {
         let expandButton = 0
         let DropList = 2
         let statusBox = 1
-        let notReported = 1
+        let notReported = '未上报'
         //点击展开
         cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
             force: true
@@ -196,7 +193,7 @@ context('监控内容配置', () => {
             force: true
         })
         cy.wait(500)
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropList).find('li').eq(notReported).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(notReported).click({
             force: true
         })
         cy.intercept('**/service/mgr/new/reportmonitors/*').as('getData')

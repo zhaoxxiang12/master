@@ -90,8 +90,7 @@ context('失控处理情况', () => {
     it('002-失控处理情况-按原因查看-质控品原因', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 8
-        let chooseIndex = 4
+        let chooseIndex = '质控品原因'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -101,7 +100,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择质控品原因
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -124,8 +123,7 @@ context('失控处理情况', () => {
     it('003-失控处理情况-按原因查看-定标曲线漂移', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 8
-        let chooseIndex = 6
+        let chooseIndex = '定标曲线漂移'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -135,7 +133,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择定标曲线漂移
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -153,13 +151,11 @@ context('失控处理情况', () => {
                     .should('have.text', judgeData)
             })
         })
-
     })
     it('004-失控处理情况-按原因查看-定标靶值改变', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 8
-        let chooseIndex = 7
+        let chooseIndex = '定标靶值改变'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -169,7 +165,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择定标靶值改变
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -186,13 +182,11 @@ context('失控处理情况', () => {
                     .should('have.text', judgeData)
             })
         })
-
     })
     it('005-失控处理情况-按原因查看-人为原因', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 8
-        let chooseIndex = 2
+        let chooseIndex = '人为原因'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -202,7 +196,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择人为原因
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -220,13 +214,11 @@ context('失控处理情况', () => {
                     .should('have.text', judgeData)
             })
         })
-
     })
     it('006-失控处理情况-按原因查看(CV/符合率失控原因)-固定CV%/SD设置问题', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 9
-        let chooseIndex = 0
+        let chooseIndex = '固定CV%/SD设置问题'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -236,7 +228,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择固定CV%/SD设置问题
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -254,13 +246,11 @@ context('失控处理情况', () => {
                     .should('have.text', judgeData)
             })
         })
-
     })
     it('007-失控处理情况-按原因查看(CV/符合率失控原因)-仪器原因', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 9
-        let chooseIndex = 2
+        let chooseIndex = '仪器原因'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -270,7 +260,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择仪器原因
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -288,13 +278,11 @@ context('失控处理情况', () => {
                     .should('have.text', judgeData)
             })
         })
-
     })
     it('008-失控处理情况-按原因查看(CV/符合率失控原因)-试剂原因', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 9
-        let chooseIndex = 3
+        let chooseIndex = '试剂原因'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -304,7 +292,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择试剂原因
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -326,8 +314,7 @@ context('失控处理情况', () => {
     it('009-失控处理情况-按原因查看(CV/符合率失控原因)-质控品原因', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 9
-        let chooseIndex = 4
+        let chooseIndex = '质控品原因'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -337,7 +324,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择质控品原因
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -359,8 +346,7 @@ context('失控处理情况', () => {
     it('010-失控处理情况-按原因查看(CV/符合率失控原因)-人员问题', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 9
-        let chooseIndex = 5
+        let chooseIndex = '人员问题'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -370,7 +356,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择人员问题
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -388,13 +374,11 @@ context('失控处理情况', () => {
                     .should('have.text', judgeData)
             })
         })
-
     })
-    it('011-失控处理情况-按原因查看(CV/符合率失控原因)-其他', () => {
+    it('011-失控处理情况-按原因查看(CV/符合率失控原因)-其它', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 9
-        let chooseIndex = 6
+        let chooseIndex = '其它原因'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -404,7 +388,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择其他
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         // 拦截接口，使用通配符*拦截更灵活
@@ -422,12 +406,10 @@ context('失控处理情况', () => {
                     .should('have.text', judgeData)
             })
         })
-
     })
     it('012-失控处理情况-按原因查看-获取页面上处理方式数据', () => {
         let boxIndex = 1
-        let optionsIndex = 8
-        let chooseIndex = 10
+        let chooseIndex = '其它-随机误差'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -437,7 +419,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择随机误差
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         //点击搜索按键
@@ -457,13 +439,11 @@ context('失控处理情况', () => {
                     }
                 })
         }
-
     })
     it('013-失控处理情况-按原因查看-判断处理方式之和是否等于总数', () => {
         let totalDataIndex = 1
         let boxIndex = 1
-        let optionsIndex = 8
-        let chooseIndex = 10
+        let chooseIndex = '其它-随机误差'
         //点击按原因查看
         cy.get('.effect__search').find('[role="radio"]').eq(2).click({
             force: true
@@ -473,7 +453,7 @@ context('失控处理情况', () => {
             force: true
         })
         //选择随机误差
-        cy.get('.el-select-group').eq(optionsIndex).find('li').eq(chooseIndex).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(chooseIndex).click({
             force: true
         })
         //点击搜索按键
@@ -485,7 +465,6 @@ context('失控处理情况', () => {
         for (let i = 0; i < methodData.length; i++) {
             // sum=sum+methodData[i]
             secondJudgeData += parseInt(methodData[i])
-
         }
         //整数转字符串
         secondJudgeData = secondJudgeData.toString()
@@ -574,7 +553,6 @@ context('失控处理情况', () => {
         cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(chooseIndex).find('li').eq(foshanCityIndex).click({
             force: true
         })
-        // cy.get('button').contains('搜索').click({force:true})
         // 拦截接口，使用通配符*拦截更灵活
         cy.intercept('**/service/mgr/evaReport/outControDeal?*').as('getLabdata')
         cy.get('button').contains('搜索').click({

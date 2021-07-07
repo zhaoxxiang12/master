@@ -121,8 +121,6 @@ context('结果互认设置-开展项目设置', () => {
         let AddItem = 1
         let ItemList = 2
         let DropDownList = 6
-        let ChooseFe = 61
-        let ChooseK = 1
         let Unit = 4
         let UnitDownList = 6
         let ChooseUnit = 0
@@ -140,7 +138,7 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('input[placeholder="请选择"]').eq(ItemList).click({
             force: true
         })
-        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(ChooseK).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').contains('钾').click({
             force: true
         })
         //选择单位
@@ -166,7 +164,7 @@ context('结果互认设置-开展项目设置', () => {
             cy.get('input[placeholder="请选择"]').eq(ItemList).click({
                 force: true
             })
-            cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').eq(ChooseFe).click({
+            cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(DropDownList).find('li').contains('铁(测试)').click({
                 force: true
             })
             //选择单位

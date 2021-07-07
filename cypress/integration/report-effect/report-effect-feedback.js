@@ -240,8 +240,7 @@ context('信息反馈情况', () => {
     })
     it('007-信息反馈情况-使用标签进行搜索查询(标签选择广西)', () => {
         let tagIndex = 2 //实验室标签下标
-        let systemTag = 7
-        let GuangxiTag = 5
+        let GuangxiTag = '广西'
         let labNameIndex = 0
         //点击实验室标签
         cy.get('.el-radio__inner').eq(tagIndex).click({
@@ -252,7 +251,7 @@ context('信息反馈情况', () => {
             force: true
         })
         //标签选择广西
-        cy.get('.el-select-group').eq(systemTag).find('li').eq(GuangxiTag).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(GuangxiTag).click({
             force: true
         })
         cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')
@@ -277,8 +276,7 @@ context('信息反馈情况', () => {
         })
     })
     it('008-信息反馈情况-使用标签进行搜索查询(标签选择佛山)', () => {
-        let systemTag = 7
-        let foshanTag = 6
+        let foshanTag = '佛山'
         let labNameIndex = 0
         let clsoeTag = 2
         cy.get('.el-tag__close.el-icon-close').eq(clsoeTag).click({
@@ -289,7 +287,7 @@ context('信息反馈情况', () => {
             force: true
         })
         //标签选择佛山
-        cy.get('.el-select-group__wrap').eq(systemTag).find('li').eq(foshanTag).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(foshanTag).click({
             force: true
         })
         cy.intercept('**/service/mgr/evaReport/messFeedback?*').as('getLabdata')

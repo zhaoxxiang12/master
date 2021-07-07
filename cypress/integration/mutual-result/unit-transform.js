@@ -18,6 +18,9 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).type(labCode, ({
             force: true
         }))
+        cy.get('button').contains('展开').click()
+        cy.get('input[placeholder="请选择"]').eq(1).click()
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains('已配置').click()
         cy.get('button').contains('搜索').click({
             force: true
         })
@@ -37,7 +40,7 @@ context('结果互认设置-单位转换设置', () => {
             cy.get('.el-button.el-button--text.el-button--medium').eq(saveButton).click({
                 force: true
             })
-            cy.get('body').should('contain', '已设置')
+            cy.get('.el-message.el-message--success').should('contain', '已设置')
             cy.wait(500)
             cy.get('.unit-fn').eq(formulaBox).invoke('text').then((data) => {
                 let newFormula = data
@@ -55,7 +58,6 @@ context('结果互认设置-单位转换设置', () => {
                 })
             })
         })
-
     })
     it('002-单位转换设置-批量编辑公式', () => {
         let inputBox = 1
@@ -64,8 +66,8 @@ context('结果互认设置-单位转换设置', () => {
         let secondBox = 6
         let thirdBox = 4
         let forthBox = 5
-        let formulaBox1 = 9 // 第一条数据
-        let formulaBox2 = 10 // 第二条数据
+        let formulaBox1 = 0 // 第一条数据
+        let formulaBox2 = 1 // 第二条数据
         let typeInputBox = 12
         let typeNumber = parseInt(Math.random() * 1000)
         cy.get('input[placeholder="实验室名称或编码"]').eq(inputBox).clear({
@@ -83,7 +85,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-checkbox__inner').eq(firstBox).click({
             force: true
         })
-        cy.get('.el-checkbox__inner').eq(secondBox).click({
+        cy.get('.el-checkbox__inner').eq(thirdBox).click({
             force: true
         })
         cy.get('button').contains('批量编辑').click({
@@ -91,10 +93,7 @@ context('结果互认设置-单位转换设置', () => {
         })
         cy.get('body').should('contain', '所选实验室有存在单位不一致，请检查')
         // 将单位不一致的数据取消勾选
-        cy.get('.el-checkbox__inner').eq(firstBox).click({
-            force: true
-        })
-        cy.get('.el-checkbox__inner').eq(secondBox).click({
+        cy.get('.el-checkbox__inner').eq(thirdBox).click({
             force: true
         })
         /**
@@ -106,7 +105,7 @@ context('结果互认设置-单位转换设置', () => {
             cy.get('.unit-fn').eq(formulaBox2).invoke('text').then((data) => {
                 let secondOldFormula = data
                 cy.log(secondOldFormula)
-                cy.get('.el-checkbox__inner').eq(thirdBox).click({
+                cy.get('.el-checkbox__inner').eq(secondBox).click({
                     force: true
                 })
                 cy.get('.el-checkbox__inner').eq(forthBox).click({
@@ -407,12 +406,9 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-select__caret.el-input__icon.el-icon-circle-close').click({
             force: true
         })
-
     })
     it('009-单位转换设置-标签搜索(选择公立)', () => {
         let Tag = 1
-        let bussinessList = 0
-        let publicTag = 0
         //选择实验室标签
         cy.get('.el-radio__inner').eq(Tag).click({
             force: true
@@ -421,7 +417,7 @@ context('结果互认设置-单位转换设置', () => {
         cy.get('.el-select__input.is-medium').click({
             force: true
         })
-        cy.get('.el-select-group').eq(bussinessList).find('li').eq(publicTag).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains('公立').click({
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')
@@ -450,19 +446,17 @@ context('结果互认设置-单位转换设置', () => {
     })
     it('010-单位转换设置-标签搜索(选择私立)', () => {
         let Tag = 1
-        let bussinessList = 0
-        let privateTag = 1
         let area = 0
         //选择实验室标签
         cy.get('.el-radio__inner').eq(Tag).click({
             force: true
         })
-        //标签选择公立
+        //标签选择私立
         cy.wait(500)
         cy.get('.el-select__input.is-medium').click({
             force: true
         })
-        cy.get('.el-select-group').eq(bussinessList).find('li').eq(privateTag).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains('私立').click({
             force: true
         })
         cy.intercept('**/cqb-base-mgr/service/mgr/itemUnitTransform/list?*').as('getData')

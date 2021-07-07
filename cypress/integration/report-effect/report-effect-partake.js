@@ -12,7 +12,7 @@ context('参与实验室情况', () => {
     })
     it('001-参与实验室情况-未参与标签实验室数', () => {
         let businessTag = 8
-        let notJoinTag = 1
+        let notJoinTag = '未参与'
         let tagIndex = 2
         let clickNotJoin = 3
         cy.wait(1000)
@@ -26,7 +26,7 @@ context('参与实验室情况', () => {
             force: true
         })
         //选择标签未参与
-        cy.get('.el-select-group').eq(businessTag).find('li').eq(notJoinTag).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(notJoinTag).click({
             force: true
         })
         //点击搜索按键
@@ -46,7 +46,7 @@ context('参与实验室情况', () => {
     })
     it('002-参与实验室情况-申请中标签实验室数', () => {
         let businessTag = 8
-        let applyingTag = 0
+        let applyingTag = '申请中'
         let tagIndex = 2
         let labName = '广东医科大学顺德妇女儿童医院（顺德区妇幼保健院）'
         //点击实验室标签
@@ -59,7 +59,7 @@ context('参与实验室情况', () => {
             force: true
         })
         //选择标签申请中
-        cy.get('.el-select-group').eq(businessTag).find('li').eq(applyingTag).click({
+        cy.get('.el-scrollbar__view.el-select-dropdown__list').last().find('li').contains(applyingTag).click({
             force: true
         })
         //点击搜索按键

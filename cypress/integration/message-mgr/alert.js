@@ -332,7 +332,7 @@ context('消息互通-告警查询', () => {
 
     })
     it('010-使用标签进行查询-公立标签', () => {
-        let ListIndex = 0
+        let ListIndex = 3
         let PublicTag = 0
         cy.get('.el-select__input.is-medium').click({
             force: true
@@ -361,7 +361,7 @@ context('消息互通-告警查询', () => {
 
     })
     it('011-使用标签进行查询-私立标签', () => {
-        let ListIndex = 0
+        let ListIndex = 3
         let PrivateTag = 1
         cy.get('.el-tag__close.el-icon-close').click({
             force: true
