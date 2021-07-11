@@ -3,6 +3,7 @@ package GobangBoard;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -22,8 +23,10 @@ public class MyApplcation extends Application {
     private int margin = 20;//棋盘中边线距离棋盘边的距离
     private Pane pane = null;//定义画板对象n
     private boolean isBlack = true; //true为黑色,false为白色
-    private Chess[] chesses = new Chess[lineCount*lineCount]; //装棋子的容器
+    private Chess[] chesses = new Chess[lineCount * lineCount]; //装棋子的容器
     private int count = 0;//索引，棋子的个数
+    private int isWinCount = 1;//连续棋子计数器
+    private boolean isWin = false;//false未胜利,true胜利
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -36,6 +39,10 @@ public class MyApplcation extends Application {
             //鼠标点击滑板就会执行这个方法
             @Override
             public void handle(MouseEvent event) {
+                //胜利了不再向下执行
+                if (isWin){
+                    return;
+                }
                 //获取鼠标点击的那个位置x,y的坐标
                 double x = event.getX();
                 double y = event.getY();
@@ -58,18 +65,30 @@ public class MyApplcation extends Application {
                     //黑色
                     circle = new Circle(_x * padding + margin, _y * padding + margin, 10, Color.BLACK);
                     isBlack = false;
-                    chess = new Chess(_x,_y,Color.BLACK);
+                    chess = new Chess(_x, _y, Color.BLACK);
                 } else {
                     //白色
                     circle = new Circle(_x * padding + margin, _y * padding + margin, 10, Color.WHITE);
                     isBlack = true;
-                    chess = new Chess(_x,_y,Color.WHITE);
+                    chess = new Chess(_x, _y, Color.WHITE);
                 }
                 //将圆圈放在画板上
                 pane.getChildren().add(circle);
                 //向容器中存储一个棋子对象
                 chesses[count] = chess;
                 count++;
+                if (isWin(chess)) {
+                    System.out.println("Win");
+                    //弹框
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    //设置文字说明
+                    alert.setTitle("标题");
+                    alert.setHeaderText("胜利");
+                    alert.setContentText("Haha");
+                    //展示
+                    alert.showAndWait();
+                    isWin = true;
+                }
             }
         });
 //        Line line = new Line(0,0,50,50);
@@ -83,12 +102,63 @@ public class MyApplcation extends Application {
         primaryStage.show();
     }
 
+    //判断是否胜利
+    private boolean isWin(Chess chess) {
+        /**
+         * 当落完子之后，连续相同颜色的棋子个数等于5就说明胜利了
+         */
+        int x = chess.getX();
+        int y = chess.getY();
+        //水平方向判断(向右)
+        for (int i = x + 1; i <= x + 4 && i <= 13; i++) {//右边坐标
+            //判断这个(i,y)坐标是否有棋子,颜色是什么
+            Chess _chess = getChess(i, y);
+            if (_chess != null && chess.getColor().equals(_chess.getColor())) {
+                //颜色一样就自加
+                isWinCount++;
+            } else {
+                break;
+            }
+        }
+
+        //水平方向判断(向左)
+        for (int i = x - 1; i >= x - 4 && i >= 0; i--) {//左边坐标
+            //判断这个(i,y)坐标是否有棋子,颜色是什么
+            Chess _chess = getChess(i, y);
+            if (_chess!=null && chess.getColor().equals(_chess.getColor())) {
+                //颜色一样就自加
+                isWinCount++;
+            } else {
+                break;
+            }
+        }
+        //判断计数器的个数是否大于等于5
+        if (isWinCount>=5){
+            isWinCount = 1;
+            return true;
+        }
+        //判断垂直方向,斜着方向
+        isWinCount =1;
+        return false;
+    }
+
+    //获取指定坐标处的棋子对象
+    private Chess getChess(int x, int y) {
+        for (int i = 0; i < count; i++) {
+            Chess chess = chesses[i];
+            if (chess.getX() == x && chess.getY() == y) {
+                return chess;
+            }
+        }
+        return null;
+    }
+
     //判断是否有棋子
     private boolean isHaving(int _x, int _y) {
         //遍历容器
-        for (int i =0;i<count;i++){
+        for (int i = 0; i < count; i++) {
             Chess chess = chesses[i];
-            if (chess.getX()==_x&&chess.getY()==_y){
+            if (chess.getX() == _x && chess.getY() == _y) {
                 return true;
             }
         }
