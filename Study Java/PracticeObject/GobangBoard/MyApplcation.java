@@ -48,11 +48,13 @@ public class MyApplcation extends Application {
     private Stage stage = null;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage stage) throws Exception {
         //获取画板对象
 //        Pane pane = getPane();
         this.pane = getPane();
+        this.stage = stage;
         moveChess();
+        System.out.println(stage);
         //设置画板背景颜色
         pane.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
 //        Line line = new Line(0,0,50,50);
@@ -61,11 +63,11 @@ public class MyApplcation extends Application {
         //创建场景对象并且将画板对象放在场景中
         Scene scene = new Scene(pane, width, heigth);
         //将场景放在舞台上
-        primaryStage.setScene(scene);
+        stage.setScene(scene);
         //展示舞台
-        primaryStage.show();
+        stage.show();
         //给舞台对象绑定点击x事件
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
                 //创建弹出框对象
