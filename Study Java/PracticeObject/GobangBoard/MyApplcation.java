@@ -1,7 +1,9 @@
 package GobangBoard;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
@@ -12,16 +14,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
 
 import java.awt.*;
+import java.util.function.Predicate;
 
 public class MyApplcation extends Application {
     private int lineCount = 14;//棋盘中的水平线和垂直线的个数
     private int width = 560;//棋盘的宽度
-    private int heigth = 560;//棋盘的高度
+    private int heigth = 600;//棋盘的高度
     private int padding = 40;//棋盘中的线与线之间的距离
     private int margin = 20;//棋盘中边线距离棋盘边的距离
-    private Pane pane = null;//定义画板对象n
+    private Pane pane = null;//定义画板对象
     private boolean isBlack = true; //true为黑色,false为白色
     private Chess[] chesses = new Chess[lineCount * lineCount]; //装棋子的容器
     private int count = 0;//索引，棋子的个数
@@ -31,16 +35,31 @@ public class MyApplcation extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //获取画板对象
-        Pane pane = getPane();
+//        Pane pane = getPane();
+        this.pane = getPane();
+        moveChess();
         //设置画板背景颜色
         pane.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+//        Line line = new Line(0,0,50,50);
+//        pane.getChildren().add(line);
+
+        //创建场景对象并且将画板对象放在场景中
+        Scene scene = new Scene(pane, width, heigth);
+        //将场景放在舞台上
+        primaryStage.setScene(scene);
+        //展示舞台
+        primaryStage.show();
+    }
+
+    //落子功能
+    public void moveChess() {
         //给画板对象，绑定鼠标点击事件，一点击就会执行某些动作
         pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //鼠标点击滑板就会执行这个方法
             @Override
             public void handle(MouseEvent event) {
                 //胜利了不再向下执行
-                if (isWin){
+                if (isWin) {
                     return;
                 }
                 //获取鼠标点击的那个位置x,y的坐标
@@ -91,15 +110,6 @@ public class MyApplcation extends Application {
                 }
             }
         });
-//        Line line = new Line(0,0,50,50);
-//        pane.getChildren().add(line);
-
-        //创建场景对象并且将画板对象放在场景中
-        Scene scene = new Scene(pane, width, heigth);
-        //将场景放在舞台上
-        primaryStage.setScene(scene);
-        //展示舞台
-        primaryStage.show();
     }
 
     //判断是否胜利
@@ -125,7 +135,7 @@ public class MyApplcation extends Application {
         for (int i = x - 1; i >= x - 4 && i >= 0; i--) {//左边坐标
             //判断这个(i,y)坐标是否有棋子,颜色是什么
             Chess _chess = getChess(i, y);
-            if (_chess!=null && chess.getColor().equals(_chess.getColor())) {
+            if (_chess != null && chess.getColor().equals(_chess.getColor())) {
                 //颜色一样就自加
                 isWinCount++;
             } else {
@@ -133,12 +143,12 @@ public class MyApplcation extends Application {
             }
         }
         //判断计数器的个数是否大于等于5
-        if (isWinCount>=5){
+        if (isWinCount >= 5) {
             isWinCount = 1;
             return true;
         }
         //判断垂直方向,斜着方向
-        isWinCount =1;
+        isWinCount = 1;
         return false;
     }
 
@@ -179,7 +189,50 @@ public class MyApplcation extends Application {
             pane.getChildren().add(colLine);
             increment += padding;
         }
+        //获取再来一局按键对象
+        Button startButton = getStartButton();
+        pane.getChildren().add(startButton);
         return pane;
+    }
+
+    /**
+     * 再来一局
+     *
+     * @return
+     */
+    private Button getStartButton() {
+        Button startButton = new Button("再来一局");
+        ;
+        startButton.setPrefSize(80, 30);
+        //设置坐标
+        startButton.setLayoutX(20);
+        startButton.setLayoutY(550);
+        //给按键增加事件对象
+        startButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //再来一局代码实现
+                if (!isWin){
+                    return;
+                }
+                //清空画板上的Circle对象
+                pane.getChildren().removeIf(new Predicate<Node>() {
+                    @Override
+                    public boolean test(Node node) {
+                        return node instanceof Circle;
+                    }
+                });
+                //清空容器
+                chesses = new Chess[lineCount*lineCount];
+                //计数器归零
+                count = 0;
+                //胜负归为false
+                isWin = false;
+                //将黑白颜色标记归为黑色
+                isBlack = true;
+            }
+        });
+        return startButton;
     }
 
     //程序执行入口
