@@ -1,12 +1,14 @@
 package GobangBoard;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -24,7 +26,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Predicate;
 
 public class MyApplcation extends Application {
@@ -226,6 +232,34 @@ public class MyApplcation extends Application {
         //获取保存棋谱按键对象
         Button saveButton = getSaveButton();
         pane.getChildren().add(saveButton);
+        //创建标签文本对象
+        Label label = new Label();
+        //设置文本内容
+        label.setText("时间");
+        //设置坐标
+        label.setLayoutX(220);
+        label.setLayoutY(0);
+        pane.getChildren().add(label);
+        //设置定时器对象
+        Timer timer = new Timer();
+        //设置计时功能
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //获取当前日期时间
+                LocalDateTime localDateTime = LocalDateTime.now();
+                //时间格式化
+                DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String time = localDateTime.format(pattern);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        //将时间设置到文本标签中
+                        label.setText(time);
+                    }
+                });
+            }
+        }, 0, 1000);
         return pane;
     }
 
@@ -302,7 +336,7 @@ public class MyApplcation extends Application {
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (!isWin){
+                if (!isWin) {
                     return;
                 }
                 //创建保存对象
@@ -314,9 +348,9 @@ public class MyApplcation extends Application {
                     try {
                         bw = new BufferedWriter(new FileWriter(file));
                         //一次写一个字符串
-                        for (int i = 0;i<count;i++){
+                        for (int i = 0; i < count; i++) {
                             Chess chess = chesses[i];
-                            bw.write(chess.getX()+","+chess.getY()+","+chess.getColor());
+                            bw.write(chess.getX() + "," + chess.getY() + "," + chess.getColor());
                             bw.newLine();
                             bw.flush();
                         }
