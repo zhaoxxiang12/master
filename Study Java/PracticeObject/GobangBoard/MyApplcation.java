@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -13,10 +14,17 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.stage.WindowEvent;
 
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class MyApplcation extends Application {
@@ -31,6 +39,7 @@ public class MyApplcation extends Application {
     private int count = 0;//索引，棋子的个数
     private int isWinCount = 1;//连续棋子计数器
     private boolean isWin = false;//false未胜利,true胜利
+    private Stage stage = null;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -49,6 +58,25 @@ public class MyApplcation extends Application {
         primaryStage.setScene(scene);
         //展示舞台
         primaryStage.show();
+        //给舞台对象绑定点击x事件
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                //创建弹出框对象
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("退出");
+                alert.setHeaderText("你确定退出吗");
+                alert.setContentText("你真的退出吗");
+                //展示
+                Optional<ButtonType> optional = alert.showAndWait();
+                if (optional.get() == ButtonType.OK) {
+                    System.out.println("退出");
+                } else {
+                    System.out.println("不退出");
+                    event.consume();
+                }
+            }
+        });
     }
 
     //落子功能
@@ -192,6 +220,12 @@ public class MyApplcation extends Application {
         //获取再来一局按键对象
         Button startButton = getStartButton();
         pane.getChildren().add(startButton);
+        //获取悔棋按键对象
+        Button backButton = getBackButton();
+        pane.getChildren().add(backButton);
+        //获取保存棋谱按键对象
+        Button saveButton = getSaveButton();
+        pane.getChildren().add(saveButton);
         return pane;
     }
 
@@ -202,7 +236,6 @@ public class MyApplcation extends Application {
      */
     private Button getStartButton() {
         Button startButton = new Button("再来一局");
-        ;
         startButton.setPrefSize(80, 30);
         //设置坐标
         startButton.setLayoutX(20);
@@ -212,7 +245,7 @@ public class MyApplcation extends Application {
             @Override
             public void handle(ActionEvent event) {
                 //再来一局代码实现
-                if (!isWin){
+                if (!isWin) {
                     return;
                 }
                 //清空画板上的Circle对象
@@ -223,7 +256,7 @@ public class MyApplcation extends Application {
                     }
                 });
                 //清空容器
-                chesses = new Chess[lineCount*lineCount];
+                chesses = new Chess[lineCount * lineCount];
                 //计数器归零
                 count = 0;
                 //胜负归为false
@@ -233,6 +266,75 @@ public class MyApplcation extends Application {
             }
         });
         return startButton;
+    }
+
+    /**
+     * 悔棋
+     *
+     * @return
+     */
+    private Button getBackButton() {
+        Button backButton = new Button("悔棋");
+        backButton.setPrefSize(80, 30);
+        //设置坐标
+        backButton.setLayoutX(120);
+        backButton.setLayoutY(550);
+        backButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("1111");
+            }
+        });
+        return backButton;
+    }
+
+    /**
+     * 保存棋谱
+     *
+     * @return
+     */
+    private Button getSaveButton() {
+        Button saveButton = new Button("保存棋谱");
+        saveButton.setPrefSize(80, 30);
+        //设置坐标
+        saveButton.setLayoutX(210);
+        saveButton.setLayoutY(550);
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (!isWin){
+                    return;
+                }
+                //创建保存对象
+                FileChooser fileChooser = new FileChooser();
+                File file = fileChooser.showSaveDialog(stage);
+                if (file != null) {
+                    //创建高效字符输出流（父类没有抛异常子类也不能抛异常）
+                    BufferedWriter bw = null;
+                    try {
+                        bw = new BufferedWriter(new FileWriter(file));
+                        //一次写一个字符串
+                        for (int i = 0;i<count;i++){
+                            Chess chess = chesses[i];
+                            bw.write(chess.getX()+","+chess.getY()+","+chess.getColor());
+                            bw.newLine();
+                            bw.flush();
+                        }
+                    } catch (Exception e) {
+                        System.out.println("保存失败");
+                    } finally {
+                        if (bw != null) {
+                            try {
+                                bw.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        return saveButton;
     }
 
     //程序执行入口
