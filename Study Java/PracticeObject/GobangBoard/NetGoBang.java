@@ -7,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
-import java.awt.*;
 
 public class NetGoBang extends Application {
 
@@ -62,9 +60,9 @@ public class NetGoBang extends Application {
         singleButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                SingleUI singleUI = new SingleUI();
+                NetUI netUI = new NetUI();
                 //展示
-                singleUI.show();
+                netUI.show();
                 //关闭主界面
                 stage.close();
             }

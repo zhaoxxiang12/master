@@ -1,6 +1,6 @@
 package GobangBoard;
 
-import javafx.application.Application;
+import Message.ChessMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.stage.WindowEvent;
 
-import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -33,7 +32,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Predicate;
 
-public class SingleUI extends Stage {
+public class NetUI extends Stage {
     private int lineCount = 14;//棋盘中的水平线和垂直线的个数
     private int width = 560;//棋盘的宽度
     private int heigth = 600;//棋盘的高度
@@ -47,7 +46,7 @@ public class SingleUI extends Stage {
     private boolean isWin = false;//false未胜利,true胜利
     private Stage stage = null;
 
-    public SingleUI() {
+    public NetUI() {
         //获取画板对象
         this.pane = getPane();
         this.stage = this;
@@ -82,6 +81,7 @@ public class SingleUI extends Stage {
         //展示舞台
         stage.show();
     }
+
 
     //落子功能
     public void moveChess() {
@@ -369,9 +369,69 @@ public class SingleUI extends Stage {
         return saveButton;
     }
 
+    public void upDateUI(ChessMessage chessMessage) {
+        //给画板对象，绑定鼠标点击事件，一点击就会执行某些动作
+        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            //鼠标点击滑板就会执行这个方法
+            @Override
+            public void handle(MouseEvent event) {
+                //胜利了不再向下执行
+                if (isWin) {
+                    return;
+                }
+                //获取鼠标点击的那个位置x,y的坐标
+                double x = event.getX();
+                double y = event.getY();
+                if (!(x >= 20 && x <= 540 && y >= 20 && y <= 540)) {
+                    return;
+                }
+                //_x占x轴几个格子，_y占y轴几个格子,四舍五入
+                int _x = ((int) x - margin + padding / 2) / padding;
+                int _y = ((int) y - margin + padding / 2) / padding;
+                //判断_x和_y坐标的位置是否有棋子,有的话就不继续执行
+                if (isHaving(_x, _y)) {
+                    return;
+                }
+
+                //创建圆圈对象 并设置一些参数
+                Circle circle = null;
+                //创建棋子对象
+                Chess chess = null;
+                if (isBlack) {
+                    //黑色
+                    circle = new Circle(_x * padding + margin, _y * padding + margin, 10, Color.BLACK);
+                    isBlack = false;
+                    chess = new Chess(_x, _y, Color.BLACK);
+                } else {
+                    //白色
+                    circle = new Circle(_x * padding + margin, _y * padding + margin, 10, Color.WHITE);
+                    isBlack = true;
+                    chess = new Chess(_x, _y, Color.WHITE);
+                }
+                //将圆圈放在画板上
+                pane.getChildren().add(circle);
+                //向容器中存储一个棋子对象
+                chesses[count] = chess;
+                count++;
+                if (isWin(chess)) {
+                    System.out.println("Win");
+                    //弹框
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    //设置文字说明
+                    alert.setTitle("标题");
+                    alert.setHeaderText("胜利");
+                    alert.setContentText("Haha");
+                    //展示
+                    alert.showAndWait();
+                    isWin = true;
+                }
+            }
+        });
+    }
+}
 //    //程序执行入口
 //    public static void main(String[] args) {
 //       new SingleUI();//固定写法,相当于启动开关,底层调用start方法且创建了Stage对象
 //
 //    }
-}
+
