@@ -105,7 +105,7 @@ public class WebUI extends Stage {
                                 if (obj instanceof ChessMessage) {
                                     ChessMessage chessMessage = (ChessMessage) obj;
                                     //在自己管道添加一颗新的棋子
-                                    NetUI.upDateUI();
+                                   webUI.upDateUI(chessMessage);
                                 }
                             }
                         } catch (Exception e) {
