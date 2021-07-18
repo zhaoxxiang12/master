@@ -1,6 +1,8 @@
-package GobangBoard;
+package WebGoBang;
 
+import GobangBoard.Chess;
 import Message.ChessMessage;
+import WebGoBang.Global;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,10 +23,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.stage.WindowEvent;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -32,7 +32,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Predicate;
 
-public class NetUI extends Stage {
+public class WebUI extends Stage {
     private int lineCount = 14;//棋盘中的水平线和垂直线的个数
     private int width = 560;//棋盘的宽度
     private int heigth = 600;//棋盘的高度
@@ -45,8 +45,9 @@ public class NetUI extends Stage {
     private int isWinCount = 1;//连续棋子计数器
     private boolean isWin = false;//false未胜利,true胜利
     private Stage stage = null;
+    private boolean canPlay = true; //可以落子为true
 
-    public NetUI() {
+    public WebUI() {
         //获取画板对象
         this.pane = getPane();
         this.stage = this;
@@ -82,7 +83,6 @@ public class NetUI extends Stage {
         stage.show();
     }
 
-
     //落子功能
     public void moveChess() {
         //给画板对象，绑定鼠标点击事件，一点击就会执行某些动作
@@ -91,7 +91,7 @@ public class NetUI extends Stage {
             @Override
             public void handle(MouseEvent event) {
                 //胜利了不再向下执行
-                if (isWin) {
+                if (isWin || !canPlay) {
                     return;
                 }
                 //获取鼠标点击的那个位置x,y的坐标
@@ -128,6 +128,28 @@ public class NetUI extends Stage {
                 //向容器中存储一个棋子对象
                 chesses[count] = chess;
                 count++;
+
+                canPlay = false;
+                // 网络编程：发送端
+                //创建Socket对象
+                Socket socket = null;
+                try {
+                    socket = new Socket(Global.oip, Global.oPort);
+                    //获取管道输出流对象
+                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                    //向管道里写出对象
+                    oos.writeObject(new ChessMessage(_x, _y, !isBlack));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (socket != null) {
+                        try {
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 if (isWin(chess)) {
                     System.out.println("Win");
                     //弹框
@@ -368,36 +390,25 @@ public class NetUI extends Stage {
         });
         return saveButton;
     }
-
+    //增加一颗新棋子功能
     public void upDateUI(ChessMessage chessMessage) {
-        //给画板对象，绑定鼠标点击事件，一点击就会执行某些动作
-        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            //鼠标点击滑板就会执行这个方法
+        canPlay = true;
+        Platform.runLater(new Runnable() {
             @Override
-            public void handle(MouseEvent event) {
+            public void run() {
                 //胜利了不再向下执行
                 if (isWin) {
                     return;
                 }
-                //获取鼠标点击的那个位置x,y的坐标
-                double x = event.getX();
-                double y = event.getY();
-                if (!(x >= 20 && x <= 540 && y >= 20 && y <= 540)) {
-                    return;
-                }
                 //_x占x轴几个格子，_y占y轴几个格子,四舍五入
-                int _x = ((int) x - margin + padding / 2) / padding;
-                int _y = ((int) y - margin + padding / 2) / padding;
-                //判断_x和_y坐标的位置是否有棋子,有的话就不继续执行
-                if (isHaving(_x, _y)) {
-                    return;
-                }
+                int _x = chessMessage.getX();
+                int _y = chessMessage.getY();
 
                 //创建圆圈对象 并设置一些参数
                 Circle circle = null;
                 //创建棋子对象
                 Chess chess = null;
-                if (isBlack) {
+                if (chessMessage.isBlack()) {
                     //黑色
                     circle = new Circle(_x * padding + margin, _y * padding + margin, 10, Color.BLACK);
                     isBlack = false;
@@ -429,9 +440,5 @@ public class NetUI extends Stage {
         });
     }
 }
-//    //程序执行入口
-//    public static void main(String[] args) {
-//       new SingleUI();//固定写法,相当于启动开关,底层调用start方法且创建了Stage对象
-//
-//    }
+
 

@@ -1,6 +1,8 @@
 package Message;
 
-public class ChessMessage {
+import java.io.Serializable;
+
+public class ChessMessage implements Serializable {
     private int x;
     private int y;
     private boolean isBlack;

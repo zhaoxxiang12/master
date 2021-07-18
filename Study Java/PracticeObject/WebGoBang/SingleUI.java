@@ -1,13 +1,14 @@
-package GobangBoard;
+package WebGoBang;
 
+import GobangBoard.Chess;
 import Message.ChessMessage;
-import WebGoBang.Global;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -19,7 +20,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import javafx.stage.WindowEvent;
 
 import java.io.*;
@@ -31,7 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Predicate;
 
-public class SingleUI2 extends Stage {
+public class SingleUI extends Stage {
     private int lineCount = 14;//棋盘中的水平线和垂直线的个数
     private int width = 560;//棋盘的宽度
     private int heigth = 600;//棋盘的高度
@@ -45,7 +45,7 @@ public class SingleUI2 extends Stage {
     private boolean isWin = false;//false未胜利,true胜利
     private Stage stage = null;
 
-    public SingleUI2() {
+    public SingleUI() {
         //获取画板对象
         this.pane = getPane();
         this.stage = this;

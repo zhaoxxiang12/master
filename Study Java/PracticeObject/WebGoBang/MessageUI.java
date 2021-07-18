@@ -1,4 +1,4 @@
-package GobangBoard;
+package WebGoBang;
 
 import Message.ChessMessage;
 import javafx.event.ActionEvent;
@@ -10,13 +10,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class WebUI extends Stage {
-    public WebUI() {
-        //获取画板对象
+public class MessageUI extends Stage {
+    public MessageUI() {
+        //创建画板对象
         Pane pane = new Pane();
         //创建标签对象
         Label mipLabel = new Label("我的IP：");
@@ -83,11 +84,11 @@ public class WebUI extends Stage {
                 Global.oPort = oPort;
 
                 //创建网络版游戏界面
-                NetUI webUI = new NetUI();
+                WebUI webUI = new WebUI();
                 //展示
                 webUI.show();
                 //关闭配置信息窗口
-                WebUI.this.close();
+                MessageUI.this.close();
                 //编写网络编程:接收端
                 new Thread() {
                     @Override
@@ -100,12 +101,12 @@ public class WebUI extends Stage {
                                 Socket socket = serverSocket.accept();
                                 //获取管道输入流对象
                                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                                //读取管道对象
+                                //读取管道里的对象
                                 Object obj = ois.readObject();
                                 if (obj instanceof ChessMessage) {
-                                    ChessMessage chessMessage = (ChessMessage) obj;
-                                    //在自己管道添加一颗新的棋子
-                                   webUI.upDateUI(chessMessage);
+                                    ChessMessage chessMessage = (ChessMessage)obj;
+                                    //在自己的棋盘上修改添加棋子
+                                    webUI.upDateUI(chessMessage);
                                 }
                             }
                         } catch (Exception e) {
@@ -113,14 +114,13 @@ public class WebUI extends Stage {
                         }
                     }
                 }.start();
-
             }
         });
         Button cancelButton = getCancelButton();
         pane.getChildren().addAll(startButton, cancelButton);
         //创建场景对象
-        Scene scene = new Scene(pane, 500, 300);
-        //将场景放在舞台上
+        Scene scene = new Scene(pane, 300, 400);
+        //将场景放在画板上
         this.setScene(scene);
     }
 
@@ -135,11 +135,9 @@ public class WebUI extends Stage {
             @Override
             public void handle(ActionEvent event) {
                 //关闭配置窗口
-                WebUI.this.close();
+                MessageUI.this.close();
             }
         });
         return cancelButton;
     }
 }
-
-

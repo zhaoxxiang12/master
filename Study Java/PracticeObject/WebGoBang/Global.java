@@ -1,4 +1,4 @@
-package GobangBoard;
+package WebGoBang;
 
 public class Global {
     public static String mip;
