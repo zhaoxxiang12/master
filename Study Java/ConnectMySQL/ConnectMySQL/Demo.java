@@ -20,7 +20,7 @@ public class Demo {
         //3.获取执行sql语句对象
         Statement statement = connection.createStatement();
         //4.执行sql语句
-        ResultSet i = statement.executeQuery("select id,lab_name from report_lab_info where id = 1");
+        ResultSet i = statement.executeQuery("select id,lab_name from report_lab_info where id = '1'");
         System.out.println(i);
         //释放资源
         statement.close();
