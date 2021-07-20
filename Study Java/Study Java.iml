@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/API_JAVA" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/PracticeObject" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/JavaBased" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ConnectMySQL" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
