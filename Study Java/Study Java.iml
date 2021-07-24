@@ -15,5 +15,14 @@
     <orderEntry type="library" name="poi-5.0.0" level="project" />
     <orderEntry type="library" name="commons-compress-1.20" level="project" />
     <orderEntry type="library" name="commons-codec-1.15" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../mysql/lib/mysql-connector-java-8.0.16.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
