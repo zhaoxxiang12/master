@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/PracticeObject" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/JavaBased" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ConnectMySQL" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/resource" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
