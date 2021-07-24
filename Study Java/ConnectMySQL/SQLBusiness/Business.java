@@ -12,19 +12,23 @@ import java.sql.SQLException;
 public class Business {
     public static void main(String[] args) throws SQLException {
         Connection connection = jdbcUtil.getConnection();
-//        获取执行sql语句对象
+
+        //开启事务
+        connection.setAutoCommit(false);
+        //获取执行sql语句对象
         PreparedStatement ps = connection.prepareStatement("update human set " +
                 "money = money + ? where username = ?");
         //第一个人
-        ps.setInt(1,-100);
-        ps.setString(2,"吕布");
+        ps.setInt(1, -100);
+        ps.setString(2, "吕布");
         ps.executeUpdate();
         //第二个人
-        ps.setInt(1,+100);
-        ps.setString(2,"貂蝉");
+        ps.setInt(1, +100);
+        ps.setString(2, "貂蝉");
         ps.executeUpdate();
-
+        //提交事务
+        connection.commit();
         //释放资源
-        jdbcUtil.close(connection,ps);
+        jdbcUtil.close(connection, ps);
     }
 }
