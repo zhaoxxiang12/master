@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/标签类/Demo01.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/JavaWeb.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/列表标签.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/图片标签.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/块级标签.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/奥运五环.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/文本标签.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/特殊符号.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/语义化标签.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/标签类/超链接标签.html" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,9 +41,10 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.web.browsers" />
   </component>
-  <component name="RunManager" selected="JavaScript Debug.字体标签.html">
+  <component name="RunManager" selected="JavaScript Debug.Demo01.html">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -55,7 +67,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.字体标签.html" />
         <item itemvalue="JavaScript Debug.文本标签.html" />
         <item itemvalue="JavaScript Debug.Demo01.html" />
       </list>
@@ -70,6 +81,10 @@
       <option name="presentableId" value="Default" />
       <updated>1627122496094</updated>
       <workItem from="1627122497145" duration="4082000" />
+      <workItem from="1627914940645" duration="51000" />
+      <workItem from="1627915002532" duration="13000" />
+      <workItem from="1627915080858" duration="187000" />
+      <workItem from="1627915382901" duration="145000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -94,6 +109,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat:JavaWeb前端" />
