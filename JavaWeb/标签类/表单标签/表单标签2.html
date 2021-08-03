@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格标签</title>
+</head>
+<body>
+<!--
+checked 属性:
+checked = "checked"
+
+    1.
+
+    select 常见属性 selected = selected
+
+    placeholder 属性：placeholder = "请输入"
+
+    label标签:
+    <label></label>
+    常见属性: for 属性(for="其他标签的id属性值")  代表标签唯一标识
+
+    表单项通用的属性
+    id属性:唯一标识
+    name属性:
+    value属性:
+-->
+<form>
+   <label for="username"> 用户名:</label><input type="text" id="username" placeholder="请输入用户名"/><br>
+   <label for = "password"> 密码:</label><input type="password" id="password" placeholder="请输入密码"/><br>
+    性别:<input type="radio" checked="checked" name="man"/>男
+    <input type="radio" name="man"/>女<br>
+    爱好:<input type = "checkbox" checked ="checked">java
+    <input type = "checkbox">python<br>
+    生日:<input type="date"><br>
+    邮箱:<input type="email"><br>
+    文件:<input type="file"><br>
+    年龄:<input type="number"><br>
+    颜色:<input type="color"><br>
+    地址:<select>
+    <option>--请选择所在省份--</option>
+    <option selected = "selected">四川</option><br>
+    <option>湖南</option><br>
+    <option>湖北</option><br>
+</select>省
+    </form>
+</body>
+</html>
