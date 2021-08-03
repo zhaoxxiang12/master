@@ -7,43 +7,60 @@
 <body>
 
 </body>
-        <!--
-        常见属性：
-        1.border：设置表格边框
-        2.align：设置表格位置
-        3.cellspacing:外边线和内边线之间的距离
-        4.cellpadding：内边线和内容之间的距离
-        5.width：设置宽
-        6.height：设置高
-        7.bgcolor:设置背景颜色
+<!--
+常见属性：
+1.border：设置表格边框
+2.align：设置表格位置
+3.cellspacing:外边线和内边线之间的距离
+4.cellpadding：内边线和内容之间的距离
+5.width：设置宽
+6.height：设置高
+7.bgcolor:设置背景颜色
 
 
-        语义化标签
-        <thead></thead> 表格的头  用来放标题之类的东西
-        <tbody></tbody> 表格的身体   放数据本体
-        <tfoot></tfoot> 表格的脚      放表格的脚注之类
-        -->
+语义化标签
+<thead></thead> 表格的头  用来放标题之类的东西
+<tbody></tbody> 表格的身体   放数据本体
+<tfoot></tfoot> 表格的脚      放表格的脚注之类
+
+th是定义表格内的表头单元格。td是代表HTML表格中的一个单元格
+
+<th>    定义表格的表头
+
+<tr>    定义表格的行
+
+<td>    定义表格单元
+
+合并单元格
+rowspan 合并行
+colspan 合并列
+-->
 
 
-
-        <table border="1" align="center" cellspacing="0" cellpadding="10" width="500" height="500" bgcolor="red">
-            <caption>表格标题</caption>
-            <!--表格行标签-->
-            <tr bgcolor="#daa520">
-            <!--表格列标签-->
-            <td>第一行第一列</td>
-            <td>第一行第二列</td>
-            <td>第一行第三列</td>
-        </tr>
-            <tr bgcolor="aqua">
-                <td bgcolor="blue">第二行第一列</td>
-                <td>第二行第二列</td>
-                <td>第二行第三列</td>
-            </tr>
-            <tr bgcolor="green">
-                <td>第三行第一列</td>
-                <td>第三行第二列</td>
-                <td>第三行第三列</td>
-            </tr>
-        </table>
+<table border="1" align="center" cellspacing="0" cellpadding="10" width="500">
+    <caption>表格标题</caption>
+    <thead>
+    <!--表格行标签-->
+    <tr >
+        <!--表格列标签-->
+        <th>第一行第一列</th>
+        <th>第一行第二列</th>
+        <th>第一行第三列</th>
+    </tr>
+    </thead>
+    <tr >
+        <td >第二行第一列</td>
+        <td>第二行第二列</td>
+        <td>第二行第三列</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr >
+        <td>第三行第一列</td>
+        <td>第三行第二列</td>
+        <td>第三行第三列</td>
+    </tr>
+    </tfoot>
+    <tbody>
+</table>
 </html>
