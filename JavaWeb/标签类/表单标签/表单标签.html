@@ -5,6 +5,46 @@
     <title>表单标签</title>
 </head>
 <body>
+<!--
+表单是虚拟的
+表单作用：
+1.采集用户输入的各种信息，用于和服务器进行数据的交互
 
+常见的表单项
+<input/>
+    属性：1. type = "text" 普通文本型
+    2.type = "password" 密码输入框
+    3.type = "radio" 单选项
+    4.type = "checkbox"  复选框
+    5.type = "date" 日期框
+    6.type = "email" 邮箱
+    7.type = "file" 文件筐
+    8.type="number" 数字输入框
+    9.type="color" 颜色
+    10.type = "hidden" 隐藏框
+
+    11.按钮
+        type="submit" 自带提交功能
+        type ="button" 普通按键
+        type="reset"重置按键  自带重置功能
+-->
+    <form>
+       用户名:<input type="text"/><br>
+        密码:<input type="password"/><br>
+        性别:<input type="radio"/>男
+            <input type="radio"/>女<br>
+        爱好:<input type = "checkbox">java
+            <input type = "checkbox">python<br>
+        生日:<input type="date"><br>
+        邮箱:<input type="email"><br>
+        文件:<input type="file"><br>
+        年龄:<input type="number"><br>
+        颜色:<input type="color"><br>
+        秘密:<input type="hidden" value="ABC"><br>
+
+        <input type="submit" ><br>
+        <input type="button"><br>
+        <input type="reset"><br>
+    </form>
 </body>
 </html>
