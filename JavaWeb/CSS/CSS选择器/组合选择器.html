@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组合选择器</title>
+    <!-- 原始方法-->
+<!--    <style>-->
+<!--        div{-->
+<!--            font-size: 100px;-->
+<!--            color: red;-->
+<!--        }-->
+<!--        #aaa{-->
+<!--            font-size: 100px;-->
+<!--            color: red;-->
+<!--        }-->
+<!--        .bbb{-->
+<!--            font-size: 100px;-->
+<!--            color: red;-->
+<!--        }-->
+<!--    </style>-->
+    <style>
+        div,#aaa,.bbb{
+            font-size: 100px;
+                  color: red;
+        }
+    </style>
+</head>
+<body>
+    <div>在吗</div><br>
+<span id="aaa">约吗</span><br>
+<input type="text" class="bbb">
+</body>
+</html>
