@@ -26,13 +26,90 @@
 
     优先级：id选择器>类选择器>元素选择器
 
-    通配符选择器：
-    包含(后代)选择器：*{
+    4.通配符选择器：*{
     }
-    子元素选择器：
-    组合选择器：
-    属性选择器：
-    伪类选择器：
+   5. 包含(后代)选择器：父元素(标签名) 子元素(标签名){
+    属性名：属性值;
+    属性名：属性值
+    }
 
+    6.子元素选择器：
+    父元素(标签名) >子元素(标签名){
+    属性名：属性值;
+    属性名：属性值
+    }
+
+    7.组合选择器：选择器1,选择器2,...{
+    }
+   8. 属性选择器：
+        格式一:标签名[属性名]{
+    属性名：属性值;
+    属性名：属性值
+    }
+
+        格式二:标签名[属性名=‘属性值’]{
+    属性名：属性值;
+    属性名：属性值
+    }
+    9.伪类选择器：
+        标签名:伪类{
+    属性名：属性值;
+    属性名：属性值
+    主要针对超链接
+    :link
+        设置a对象在未被访问前的样式
+    :hover
+        设置元素在其鼠标悬停时的样式
+    :active
+        设置对象在被用户激活(在鼠标点击与释放之间发生的事件)时的样式
+    :visited
+        设置元素在其链接地址已被访问过时的样式
+    主要针对文本框
+    :focus{
+    选择获得焦点的输入字段
+    }
+
+    常见的属性：
+        字体属性：
+        font-family:设置文本字体
+        font-style:设置指定斜体文本
+        font-weight:设置字体的粗细
+        font-size:设置字体大小
+        font:复合属性
+        主要:font-family   font-style  font-weight font-size
+        主要: font-size  font-family 的值是必需的 缺一会使用其默认值
+
+        文本属性:
+            color
+            background-color
+            text-align 设置文本对齐方式
+            text-decoration:none 设置或删除文本装饰
+            text-indent   指定文本第一行的缩进
+            line-height  指定行之间的距离
+            background-image  默认情况下图片会重复
+            background-repeat:{repeat-x  设置图片方向上是否需要重复
+            no-repeat
+            repeat-x
+            repeat-y
+
+    }
+
+            边框属性:
+            border-style:显示边框类型
+            border-color：设置颜色
+            border-width:设置宽度
+            border-radius:设置圆角
+
+            盒子模型: div+css对页面进行布局
+            外边距属性:margin-top  margin-right  margin-left  margin-bottom
+            margin:auto 自动居中
+            内边距属性
+            padding:复合属性
+            padding-top
+            padding-right
+            padding-bottom
+            padding-left
+            注意:默认情况下,在设置内边距时会影响到盒子的大小,所以需要加上属性box-sizing
+            box-sizing: border-box;
 </body>
 </html>
