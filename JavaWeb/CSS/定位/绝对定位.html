@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绝对定位属性</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .aa{
+            border: 1px solid red;
+            width: 200px;
+            height: 200px;
+            /*position: absolute;*/
+            position:relative;
+        }
+        .bb{
+            border: 1px solid blue;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top:0px;
+        }
+        body{
+            border: 1px solid black;
+        }
+        html{
+            border: 1px solid deeppink;
+        }
+    </style>
+
+</head>
+<body>
+<div class="aa">
+    <div class="bb">
+
+    </div>
+</div>
+</body>
+</html>

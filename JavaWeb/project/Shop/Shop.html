@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商城</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        div{
+            border: 1px solid red;
+        }
+        .one{
+            width: 100%;
+            height: 100px;
+        }
+        .two{
+            width: 100%;
+            height: 50px;
+        }
+        .three{
+            width: 100%;
+            height:50px ;
+        }
+        .four{
+            width: 100%;
+            height: 1000px;
+        }
+        .five{
+            width: 100%;
+            height: 250px;
+        }
+        .one_left{
+            width: 400px;
+            height: 80px;
+            float: left;
+            margin-top: 10px;
+            margin-left: 200px;
+        }
+        .one_right{
+            width: 200px;
+            height: 80px;
+            float: right;
+            margin-right: 200px;
+            margin-top: 10px;
+        }
+        .user{
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 35px;
+            float: left;
+        }
+        .order{
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 35px;
+            float: right;
+        }
+        .login{
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 35px;
+            float: left;
+        }
+        .register{
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 35px;
+            float: right;
+        }
+        .two_left{
+            width: 410px;
+            height: 25px;
+            float: left;
+            margin-top: 5px;
+            margin-left: 200px;
+        }
+        .menu{
+            width:16.67%;
+            height:100%;
+            float:left;
+        }
+        .two_right{
+            width: 243px;
+            height: 25px;
+            float: right;
+            margin-top: 5px;
+            margin-right: 200px;
+        }
+        .shopCar{
+            width: 60%;
+            height: 100%;
+            float: left;
+            text-align: center;
+        }
+        .count{
+            width: 40%;
+            height: 100%;
+            float: left;
+            text-align: center;
+        }
+        .allGoodsType{
+            width: 200px;
+            height: 100%;
+            vertical-align: middle;
+            line-height: 40px;
+            float: left;
+            margin-left: 200px;
+        }
+        .goodsSearch{
+            width: 250px;
+            height: 100%;
+            vertical-align: middle;
+            line-height: 40px;
+            text-align: center;
+            float: left;
+        }
+        .searchButton{
+            width: 100px;
+            height: 100%;
+            vertical-align: middle;
+            line-height: 40px;
+            float: left;
+
+        }
+        #search{
+            background: orange;
+            border: none;
+        }
+        .hotSearch{
+            width: 120px;
+            height: 100%;
+            vertical-align: middle;
+            line-height: 40px;
+            float: left;
+        }
+        .four_left{
+            width: 45%;
+            height: 100%;
+            float: left;
+           margin-left: 200px ;
+        }
+        .four_right{
+            width: 30%;
+            height: 85%;
+            float: left;
+        }
+        .four_left_top{
+            width: 100%;
+            height: 10%;
+        }
+        .four_left_bottom{
+            width: 100%;
+            height: 90%;
+        }
+        .newGoods{
+            width: 25%;
+            height: 33%;
+            float: left;
+        }
+        .goods{
+            width: 100px;
+            height: 100%;
+            font-size: 23px;
+            vertical-align: middle;
+            line-height: 55px;
+            float: left;
+        }
+        .product{
+            width: 100px;
+            height: 100%;
+            font-size: 14px;
+            vertical-align: middle;
+            color: gray;
+            line-height: 70px;
+            float: left;
+        }
+        .moreGoods{
+            width: 100px;
+            height: 100%;
+            vertical-align: middle;
+            line-height: 70px;
+            float: right;
+        }
+        a:link{
+            color: chocolate;
+        }
+        .picture{
+            width: 100%;
+           height: 70%;
+        }
+        img{
+            display: block;
+            margin: 0 auto;
+        }
+        .surprisePrice{
+            width: 100%;
+            height: 10%;
+            color: darkred;
+        }
+        .bookName{
+            width: 100%;
+            height: 10%;
+        }
+        .price{
+            width: 100%;
+            height: 10%;
+        }
+        .image{
+            height: 135px;
+        }
+        .four_right_top{
+            width: 100%;
+            height: 12%;
+            font-size: 25px;
+            vertical-align: middle;
+            line-height: 60px;
+        }
+        .hotSale{
+            width: 50%;
+            height: 150px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="one">
+<!--           第一层 -->
+            <div class="one_left">
+                <img class="logo" src="./img/logo.png">
+            </div>
+            <div class="one_right">
+                <div class="user"> 个人中心</div>
+                <div class="order"> 我的订单</div>
+                <div class="login"> 登录</div>
+                <div class="register"> 免费注册</div>
+            </div>
+        </div>
+        <div  class="two">
+            <!--           第二层 -->
+            <div class="two_left">
+                <div class="menu" style="text-align: center">
+                    <span >首页</span>
+                </div>
+                <div class="menu" style="text-align: center">
+                    <span>IT技术</span>
+                </div>
+                <div class="menu">
+                    <span>小说文学</span>
+                </div>
+                <div class="menu">
+                    <span>历史传记</span>
+                </div>
+                <div  class="menu" style="text-align: center">
+                    <span >生活</span>
+                </div>
+                <div class="menu">
+                    <span>经营管理</span>
+                </div>
+            </div>
+            <div class="two_right">
+                <div class="shopCar">
+                    <span>购物车</span>
+                </div>
+                <div class="count">
+                    <span>去结算</span>
+                </div>
+            </div>
+        </div>
+        <div class="three">
+            <!--           第三层 -->
+            <div class="allGoodsType">
+                <span>全部商品分类</span>
+            </div>
+            <div class="goodsSearch">
+                <input type="text" placeholder="输入关键字···">
+            </div>
+            <div class="searchButton">
+                <button id="search" >
+                    <span>商品搜索</span>
+                </button>
+            </div>
+            <div class="hotSearch">
+                <span>热门搜索：Java</span>
+            </div>
+        </div>
+        <div class="four">
+            <!--           第四层 -->
+            <div class="four_left">
+                <div class="four_left_top">
+                    <div class="goods">
+                        <span>最新商品</span>
+                    </div>
+                    <div class="product">
+                        <span>NEW Products</span>
+                    </div>
+                    <div class="moreGoods">
+                        <a href="#">更多商品...</a>
+                    </div>
+                </div>
+                <div class="four_left_bottom">
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img class="image" src="img/1.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>IT' S A</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥41.9</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥59.5</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/鬼谷子.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>鬼谷子传奇(套餐全2册)</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥69.5</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥89.5</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/IT资源管理.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>IT资源管理</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥41.2</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥69.8</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/IT之火.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>IT之火</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥85.7</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥99.6</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/失眠症漫记.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>失眠症漫记</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥50.3</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥69.8</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/微信图片_20210807182332.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>IT狂人</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥26.8</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥34.8</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/互联网.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>互联网+</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥52.5</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥56.00</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/王阳明.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>王阳明转</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥38.2</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥59.00</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/四世同堂.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>四世同堂</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥69.4</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥88.6</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/IT资源管理.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>IT资源管理</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥35.7</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥38</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/IT资源管理.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>IT资源管理</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥51.9</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥69.8</del></span>
+                        </div>
+                    </div>
+                    <div class="newGoods">
+                        <div class="picture">
+                            <img    class="image" src="img/IT资源管理.png">
+                        </div>
+                        <div class="bookName" style="font-size: 13px">
+                            <span>T84</span>
+                        </div>
+                        <div class="surprisePrice">
+                            <span>惊喜价：￥39.2</span>
+                        </div>
+                        <div class="price">
+                            <span><del>市场价：￥49.8</del></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="four_right">
+                <div class="four_right_top">
+                    <span><strong>热卖商品</strong></span>
+                </div>
+                <div class="four_right_bottom">
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                    <div class="hotSale">ss</div>
+                </div>
+            </div>
+        </div>
+        <div class="five">
+            <!--           第五层 -->
+        </div>
+    </div>
+</body>
+</html>
