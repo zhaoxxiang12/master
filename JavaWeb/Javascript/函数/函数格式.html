@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数格式</title>
+    <script>
+        /**
+         * 定义格式
+         *  格式一:
+         *  function 方法名(形参){
+         *      方法体内容
+         *  }
+         *      function aa(){
+         *          alert()
+         *      }
+         *
+         *      格式二:
+         *      let 变量名 = function(){
+         *          方法体内容
+         *      }
+         *      let aa = function(){
+         *          alert(1)
+         *      }
+         *     1. 作为普通方法的使用: 注意:定义方法,如果有形参,数据类型不能写；方法的调用,实际参数和形式参数可以不一样
+         *     2.作为对象的使用  3.作为构造体使用
+         */
+        // function aa(){
+        //     alert("约吗")
+        // }
+        // aa()
+        // function bb(i,j) {
+        //     alert(i+j)
+        // }
+        // bb()
+        // 返回值
+        function cc(i,j) {
+            return i+j;
+        }
+        //调用方法
+        let sum = cc(1,2)
+        alert(sum)
+
+        //定义方法:
+        function ca(i) {
+            alert(i) //undefined
+        }
+        //调用方法
+        ca()
+
+        //定义方法
+        function ba() {
+            alert(1)
+            //隐藏了一个自带的数据 arguments
+            for (let i =0;i<arguments.length;i++){
+                alert(arguments[i])
+            }
+        }
+        //调用方法
+        ba(11,22,33)
+    </script>
+</head>
+<body>
+
+</body>
+</html>
