@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>方法</title>
+    <script>
+        function person(){
+
+        }
+        person.uname = "tom"; //给person对象动态绑定一个属性uname,值为tom
+        person.age = 18;//给person对象动态绑定一个属性age,值为18
+
+        person.setUname = function (uname){
+            this.uname = uname;
+        }
+        person.getUname = function (){
+            return this.uname;
+        }
+        person.setAge = function (age){
+            this.age = age;
+        }
+        person.getAge = function (){
+            return this.age ;
+        }
+        alert(person.uname +"....." +person.age); // tom .... 18
+        person.setUname("jack");
+        person.setAge(20);
+        alert(person.uname +"....." +person.age); // jack.....20
+    </script>
+</head>
+<body>
+
+</body>
+</html>
