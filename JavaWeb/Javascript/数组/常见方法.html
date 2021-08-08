@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>常见方法</title>
+    <script>
+        /**
+         * 常见方法
+         *  join 按照指定的格式对数组元素进行拼接,变成一个字符串
+         *  pop 删除数组中最后一个元素
+         *  push 在结尾处添加元素
+         */
+
+        let arr = [12,13,14]
+        for ( let i = 0;i<arr.length;i++){
+            document.writeln(arr[i]+"<br>")
+        }
+        // let s = arr.join("+")
+        // alert(s)
+        arr.push("15");
+        arr.push("abc");
+        for ( let i = 0;i<arr.length;i++){
+            document.writeln(arr[i])
+        }
+        document.writeln("--------------")
+        arr.pop()
+        for ( let i = 0;i<arr.length;i++){
+            document.writeln(arr[i])
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
