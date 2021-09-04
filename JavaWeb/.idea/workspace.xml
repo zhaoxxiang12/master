@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:正则表达式">
-      <change afterPath="$PROJECT_DIR$/Javascript/内置对象/Global/Component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/内置对象/Global/Global对象.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/内置对象/Global/eval.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/内置对象/Global/isNaN.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/内置对象/Global/parseInt.html" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:元素操作">
+      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/事件处理方式一.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/事件处理方式二.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/作业/九九乘法表.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,7 +112,7 @@
       <workItem from="1630728241465" duration="48000" />
       <workItem from="1630728298950" duration="225000" />
       <workItem from="1630728532703" duration="384000" />
-      <workItem from="1630728956649" duration="10013000" />
+      <workItem from="1630728956649" duration="12835000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -179,7 +177,21 @@
       <option name="project" value="LOCAL" />
       <updated>1630736951276</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add:内置对象GLobal">
+      <created>1630739079091</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1630739079091</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add:元素操作">
+      <created>1630740958522</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1630740958522</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,6 +221,8 @@
     <MESSAGE value="add:增加数学对象" />
     <MESSAGE value="feat:修改文件路径" />
     <MESSAGE value="add:正则表达式" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:正则表达式" />
+    <MESSAGE value="add:内置对象GLobal" />
+    <MESSAGE value="add:元素操作" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:元素操作" />
   </component>
 </project>
