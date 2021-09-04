@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:元素操作">
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/事件处理方式一.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/事件处理方式二.html" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:js事件处理">
+      <change afterPath="$PROJECT_DIR$/Javascript/作业/img/off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/作业/img/on.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Javascript/作业/九九乘法表.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/作业/灯泡开关.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/作业/灯泡开关触摸版.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +48,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Javascript/作业/img" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -57,7 +59,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\PravateFile\master\JavaWeb\Javascript\作业\img" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\PravateFile\master\JavaWeb\Javascript\作业\img" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\内置对象\常用对象" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\内置对象" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\正则表达式\正则表达式" />
@@ -112,7 +118,7 @@
       <workItem from="1630728241465" duration="48000" />
       <workItem from="1630728298950" duration="225000" />
       <workItem from="1630728532703" duration="384000" />
-      <workItem from="1630728956649" duration="12835000" />
+      <workItem from="1630728956649" duration="14780000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -191,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630740958522</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add:js事件处理">
+      <created>1630742151296</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1630742151296</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,6 +236,7 @@
     <MESSAGE value="add:正则表达式" />
     <MESSAGE value="add:内置对象GLobal" />
     <MESSAGE value="add:元素操作" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:元素操作" />
+    <MESSAGE value="add:js事件处理" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:js事件处理" />
   </component>
 </project>

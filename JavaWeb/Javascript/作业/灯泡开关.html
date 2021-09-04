@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>灯泡开关</title>
+    <script>
+        window.onload = function () {
+            let img = document.getElementById("img")
+            let turnOn = document.getElementById("On")
+            turnOn.onclick = function () {
+                img.src = "/Javascript/作业/img/On.png"
+            }
+            let turnOff = document.getElementById("Off")
+            turnOff.onclick = function () {
+                img.src = "/Javascript/作业/img/Off.png"
+            }
+        }
+
+    </script>
+</head>
+<body>
+<img src="/Javascript/作业/img/off.png" id="img"><br>
+<input type="button" value="打开" id="On">
+<input type="button" value="关闭" id="Off">
+</body>
+</html>

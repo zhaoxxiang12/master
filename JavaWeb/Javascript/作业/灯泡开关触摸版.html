@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>灯泡开关触摸版</title>
+    <script>
+        let flag = false; //false代码关，true代表开
+        window.onload = function () {
+            let img = document.getElementById("img");
+            img.onclick = function () {
+                if (flag) {
+                    img.src = "/Javascript/作业/img/Off.png";
+                    flag = false;
+                } else {
+                    img.src = "/Javascript/作业/img/On.png";
+                    flag = true;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<img src="/Javascript/作业/img/off.png" id="img"><br>
+</body>
+</html>
