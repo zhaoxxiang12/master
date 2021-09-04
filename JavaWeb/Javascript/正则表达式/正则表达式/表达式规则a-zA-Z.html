@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>a-zA-Z</title>
+  <script>
+    let str = "aZ";
+    let reg = new RegExp("^[a-zA-Z]$");
+    let d = reg.test(str);
+    alert(d)
+
+
+
+    let str2 = "a";
+    let reg2 = new RegExp("^[a-zA-Z]$");
+    let d2 = reg2.test(str2);
+    alert(d2)
+
+
+    let str3 = "aZ";
+    let reg3 = new RegExp("^[abc][a-zA-Z]$");//第一个字符必须满足[abc]中任意一个,第二个字符必须满足[a-zA-Z]中的任意一个
+    let d3 = reg3.test(str3);
+    alert(d3)
+
+
+    let str4 = "az";
+    let reg4 = new RegExp("^.$")
+    let d4= reg4.test(str4);
+    alert(d4)//false
+
+
+    let str5 = "a";
+    let reg5 = new RegExp("^.$") //任意一个单个数
+    let d5= reg5.test(str5);
+    alert(d5)  //true
+  </script>
+</head>
+<body>
+
+</body>
+</html>

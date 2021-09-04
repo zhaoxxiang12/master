@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式\d</title>
+  <script>
+      let str = "1";
+      let reg = new RegExp("^\\d$");//如果使用一个反斜杠表示字符串会false,需要使用两个反斜杠
+      let b = reg.test(str)
+      alert(b)
+
+      let reg2 = RegExp("^[0-9]");
+      let c= reg2.test(str)
+      alert(c)
+  </script>
+
+</head>
+<body>
+
+</body>
+</html>

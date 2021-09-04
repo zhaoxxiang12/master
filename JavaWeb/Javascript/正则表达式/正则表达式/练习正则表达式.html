@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手机号码校验</title>
+  <script>
+    let phone = "14777777777";
+    let phoneHead = "^[1][3456789]\\d{9}$"
+    let reg = RegExp(phoneHead);
+    let b = reg.test(phone);
+    alert(b)
+  </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式？</title>
+  <script>
+      let str = "A";
+      let reg = new RegExp("^1?$");
+      let b = reg.test(str)
+      alert(b) //false
+
+
+      let str2 = "";
+      let reg2 = new RegExp("^1?$");
+      let b2 = reg2.test(str2)
+      alert(b2) //true
+
+
+      let str3 = "1";
+      let reg3 = new RegExp("^1?$");
+      let b3 = reg3.test(str3)
+      alert(b3) //true
+
+
+      let str4 = "11";
+      let reg4 = new RegExp("^1*$");
+      let b4 = reg4.test(str4)
+      alert(b4) //true
+  </script>
+
+</head>
+<body>
+
+</body>
+</html>

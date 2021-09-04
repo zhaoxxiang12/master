@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式n</title>
+    <script>
+        let str = "1111";
+        let reg = new RegExp("^1{3}$");
+        let b = reg.test(str);
+        alert(b);
+
+
+
+        let str2 = "1111";
+        let reg2 = new RegExp("^1{5}$");
+        let b2 = reg2.test(str2);
+        alert(b2);
+
+
+        let str3 = "1111";
+        let reg3 = new RegExp("^1{3,}$");
+        let b3 = reg3.test(str3);
+        alert(b3);
+
+
+
+        let str4 = "1111";
+        let reg4 = new RegExp("^1{3,5}$");
+        let b4 = reg4.test(str4);
+        alert(b4);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

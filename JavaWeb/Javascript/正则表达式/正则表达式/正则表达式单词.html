@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式\w</title>
+  <script>
+      let str = "A";
+      let reg = new RegExp("^\\w$");
+      let b = reg.test(str);
+      alert(b);
+
+      let str2 = "#";
+      let reg2 = new RegExp("^[a-zA-A_0-9#]$");
+      let b2 = reg2.test(str2);
+      alert(b2);
+  </script>
+</head>
+<body>
+
+</body>
+</html>
