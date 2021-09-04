@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Global规则</title>
+  <script>
+      /**
+       * 该方法不需要new 直接可以调用
+       */
+      encodeURI(); //对字符串进行编码
+      decodeURI(); //对字符串进行解码
+      encodeURIComponent(); //对字符串进行编码(包含特殊字符)
+      decodeURIComponent(); //对字符串进行解码(包含特殊字符)
+      eval(); //将字符串作为脚本代码执行
+      isNaN();
+      parseInt(); // 将数字格式的字符串转换为数字  如果字符串中有非数字的字符，那么会将字符串前面出现的数字转换出来
+
+      let uri = "超级学院"
+      let str = encodeURI(uri)
+      let decode = decodeURI(str)
+      alert(str) //%E8%B6%85%E7%BA%A7%E5%AD%A6%E9%99%A2
+      alert(decode)
+  </script>
+</head>
+<body>
+
+</body>
+</html>
