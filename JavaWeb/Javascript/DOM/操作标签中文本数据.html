@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>操作标签中的文本数据</title>
+    <script>
+        /**
+         * a.获取标签文本数据
+         * b.修改标签文本数据
+         *  标签对象.innerHTML = "数据"
+         * c.追加标签文本数据
+         *  标签对象.innetHTML += "数据"
+         */
+        //当页面加载完之后，才会执行这个方法体的内容
+        window.onload = function (){
+            var div = document.getElementById("aa")
+            //获取标签文本数据
+            let text = div.innerText
+            let text2 = div.innerHTML
+            alert(text)
+            alert(text2)
+            //修改标签文本数据
+            div.innerHTML = "爬"
+            //追加数据
+            div.innerText += "HELLO"
+        }
+
+    </script>
+</head>
+<body>
+<div id = "aa">约吗</div>
+</body>
+</html>

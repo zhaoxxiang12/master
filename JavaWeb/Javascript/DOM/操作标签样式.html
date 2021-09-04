@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>操作标签样式</title>
+    <script>
+        /**
+         * 标签属性名.style = "属性值"
+         */
+        window.onload = function (){
+            let div = document.getElementById("a")
+
+            //给标签对象设置样式
+            //方式一
+            div.style.border = "1px solid red"
+            div.style.fontSize = "50px"
+            //方式二：
+            div.style = "border:1px solid red;font-size:50px"
+        }
+    </script>
+</head>
+<body>
+<div id='a'>约吗</div>
+</body>
+</html>

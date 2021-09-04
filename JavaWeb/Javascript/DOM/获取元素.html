@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM获取元素</title>
+<script>
+    // 方式二
+    /**
+     * 方式二:当页面加载完之后，才会执行这个方法体的内容
+     * 如果script标签卸载目前标签的上面
+     *  window.onload = function (){
+        let element = document.getElementById("a");
+        alert(element)
+    }
+     */
+    window.onload = function (){
+        let element = document.getElementById("a");
+        alert(element)
+    }
+</script>
+</head>
+<body>
+<div id='a'>约吗</div>
+</body>
+<script>
+    /**
+     * 方式一
+     * var 变量名 = document.getElementById("属性值")
+     * 在标签下面写script标签,在script标签里面写代码
+     * @type {HTMLElement}
+     *
+     *
+     */
+    let element = document.getElementById("a");
+    alert(element)
+</script>
+</html>
