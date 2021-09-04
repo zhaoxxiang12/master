@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="feat:JavaWeb前端">
-      <change afterPath="$PROJECT_DIR$/Javascript/内置对象/对象.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="feat：修改文件名">
+      <change afterPath="$PROJECT_DIR$/Javascript/内置对象/Math对象.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/正则表达式/正则表达式/正则表达式单词.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/正则表达式/正则表达式/正则表达式数字.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/正则表达式/正则表达式对象.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/正则表达式/正则表达式规则.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/正则表达式/表达式规则a-zA-Z.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +27,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1vl2k74KGt4nVyuL5i5ETwhIe7G" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -96,7 +108,7 @@
       <workItem from="1630728241465" duration="48000" />
       <workItem from="1630728298950" duration="225000" />
       <workItem from="1630728532703" duration="384000" />
-      <workItem from="1630728956649" duration="1647000" />
+      <workItem from="1630728956649" duration="5034000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -105,7 +117,28 @@
       <option name="project" value="LOCAL" />
       <updated>1627125973767</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat:配置文件">
+      <created>1630730875644</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1630730875644</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add:时间内置对象">
+      <created>1630730950311</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1630730950311</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat：修改文件名">
+      <created>1630731005826</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1630731005826</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -128,6 +161,9 @@
       <path value="$PROJECT_DIR$/../.." />
     </ignored-roots>
     <MESSAGE value="feat:JavaWeb前端" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:JavaWeb前端" />
+    <MESSAGE value="feat:配置文件" />
+    <MESSAGE value="add:时间内置对象" />
+    <MESSAGE value="feat：修改文件名" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat：修改文件名" />
   </component>
 </project>
