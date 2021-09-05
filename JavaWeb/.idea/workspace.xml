@@ -4,22 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:js练习题">
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/location对象/href设置路径.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/location对象/reload重新加载.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/location对象/常见方法.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/location对象/自动跳转功能.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/2.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/3.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/4.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/5.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/对话框.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/打开和关闭.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/计时器.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/计时器Timeout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/轮播图.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/BOM/概述/BOM.html" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:BOM中的location对象">
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/history/Welcome.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/history/history对象.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/history/history常见的方法和属性.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +120,7 @@
       <workItem from="1630728532703" duration="384000" />
       <workItem from="1630728956649" duration="16642000" />
       <workItem from="1630826224127" duration="3203000" />
-      <workItem from="1630837818512" duration="2432000" />
+      <workItem from="1630837818512" duration="3719000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -225,7 +213,21 @@
       <option name="project" value="LOCAL" />
       <updated>1630744058634</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add:BOM中的window对象">
+      <created>1630840566996</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1630840566996</updated>
+    </task>
+    <task id="LOCAL-00015" summary="add:BOM中的location对象">
+      <created>1630840591244</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1630840591244</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -259,6 +261,8 @@
     <MESSAGE value="add:元素操作" />
     <MESSAGE value="add:js事件处理" />
     <MESSAGE value="add:js练习题" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:js练习题" />
+    <MESSAGE value="add:BOM中的window对象" />
+    <MESSAGE value="add:BOM中的location对象" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:BOM中的location对象" />
   </component>
 </project>

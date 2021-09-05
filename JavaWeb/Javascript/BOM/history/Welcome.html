@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎</title>
+    <script>
+        window.onload = function (){
+            let bt = document.getElementById("back")
+            bt.onclick = function (){
+                // history.back();
+                history.go(-1)
+            }
+
+            let record = document.getElementById("historyRecord")
+            record.onclick = function (){
+                alert(history.length)
+            }
+        }
+    </script>
+</head>
+<body>
+欢迎！！！！！！！！！！！！！！！
+<input type="button" value="上一页" id="back"><br>
+<a href="Welcome.html">上一页</a><br>
+<input type="button" value="查看历史数据" id="historyRecord">
+</body>
+</html>
