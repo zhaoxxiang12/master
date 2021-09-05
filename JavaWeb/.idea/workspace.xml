@@ -4,12 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:js事件处理">
-      <change afterPath="$PROJECT_DIR$/Javascript/作业/img/off.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/作业/img/on.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/作业/九九乘法表.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/作业/灯泡开关.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/作业/灯泡开关触摸版.html" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:js练习题">
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/location对象/href设置路径.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/location对象/reload重新加载.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/location对象/常见方法.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/location对象/自动跳转功能.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/1.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/3.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/4.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/img/5.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/对话框.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/打开和关闭.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/计时器.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/计时器Timeout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/window对象/轮播图.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/BOM/概述/BOM.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -48,7 +58,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Javascript/作业/img" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Javascript/BOM/window对象/img" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -60,9 +70,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\PravateFile\master\JavaWeb\Javascript\BOM\window对象\img" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\作业\img" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\PravateFile\master\JavaWeb\Javascript\BOM\概述" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\作业\img" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\内置对象\常用对象" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\内置对象" />
@@ -118,7 +130,9 @@
       <workItem from="1630728241465" duration="48000" />
       <workItem from="1630728298950" duration="225000" />
       <workItem from="1630728532703" duration="384000" />
-      <workItem from="1630728956649" duration="14780000" />
+      <workItem from="1630728956649" duration="16642000" />
+      <workItem from="1630826224127" duration="3203000" />
+      <workItem from="1630837818512" duration="2432000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -204,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630742151296</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="add:js练习题">
+      <created>1630744058634</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1630744058634</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,6 +258,7 @@
     <MESSAGE value="add:内置对象GLobal" />
     <MESSAGE value="add:元素操作" />
     <MESSAGE value="add:js事件处理" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:js事件处理" />
+    <MESSAGE value="add:js练习题" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:js练习题" />
   </component>
 </project>

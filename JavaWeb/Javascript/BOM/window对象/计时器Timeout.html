@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计时器Timeout</title>
+    <script>
+        var id;
+        window.onload =function (){
+            let startButton = document.getElementById("startCount");
+            startButton.onclick = function (){
+                id = setTimeout("startCount()",3000)
+            }
+            let  closeButton = document.getElementById("closeCount");
+            closeButton.onclick = function (){
+                window.clearTimeout(id)
+            }
+        }
+        function startCount(){
+            alert("你好")
+        }
+    </script>
+</head>
+<body>
+<input type="button" value="开始计时" id="startCount">
+<input type="button" value="关闭计时" id="closeCount">
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计时器</title>
+  <script>
+      var id;
+        window.onload = function (){
+            let startButton  = document.getElementsByClassName("open")[0]
+            startButton.onclick =function (){
+                //开始计时(重复计时)
+               id = window.setInterval("event()",2000);
+            }
+            let closeButton = document.getElementsByClassName("tab-close-button")[0]
+            closeButton.onclick = function (){
+                //关闭计时器
+                window.clearInterval(id)
+            }
+        }
+        function event(){
+            alert("你好")
+        }
+  </script>
+</head>
+<body>
+<input type="button" value="开始计时" class="open" id="startCount">
+<input type="button" value="关闭计时" class="tab-close-button">
+</body>
+</html>

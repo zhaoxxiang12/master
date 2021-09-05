@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对话框</title>
+    <script>
+        window.onload = function (){
+            var bt = document.getElementById("bt");
+            bt.onclick = function (){
+                // alert("你好")
+                // let result =confirm("确定")
+                // if (result==false){
+                //     alert("已取消")
+                // }else{
+                //     alert("确认")
+                // }
+              var  result=  prompt("你是？")
+                alert(result)
+            }
+        }
+    </script>
+</head>
+<body>
+<input type="button" value="点我" id = "bt">
+</body>
+</html>
