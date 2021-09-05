@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>document对象</title>
+    <script>
+        window.onload = function (){
+            let  div = document.getElementById("div1");
+            alert(div);
+            let divName = document.getElementsByName("divName");
+            alert(divName)
+            //长度
+            alert(divName.length)
+            //遍历
+            for (let i = 0 ;i<divName.length;i++){
+                alert(divName[i].innerText)
+            }
+            let tagName = document.getElementsByTagName("div")
+            for (let i = 0;i<tagName.length;i++){
+                alert(tagName[i].innerText)
+            }
+            let className = document.getElementsByClassName("div1")
+            for (let i = 0;i<className.length;i++){
+                alert(className[i].innerText)
+            }
+        }
+    </script>
+</head>
+<body>
+<div id = "div1">在吗</div>
+<div name = "divName">在吗</div>
+<div name = "divName">约吗</div>
+<div class = "div1">北京</div>
+<div class= "div1">上海</div>
+<div class = "div1">深圳</div>
+</body>
+</html>
