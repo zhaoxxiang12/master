@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动跳转功能</title>
+    <style>
+        p {
+            text-align: center;
+            font-size: 25px;
+        }
+
+        span {
+            color: red;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            setInterval("change()", 1000)
+        }
+
+        function change() {
+            let span = document.getElementById("span");
+            let num = span.innerText;
+            if (num <= 1) {
+                location.href = "https://www.baidu.com"
+                return;
+            }
+            span.innerHTML = num - 1;
+        }
+    </script>
+</head>
+<body>
+<p>
+    <b>
+        <span id="span">5</span>秒后自动跳转到百度
+    </b>
+</p>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>重新加载</title>
+  <script>
+      window.onload = function (){
+          let reloadButton = document.getElementById("reload")
+          reloadButton.onclick = function (){
+              location.reload()
+          }
+          let changeButton = document.getElementById("change")
+           changeButton.onclick  = function (){
+              document.body.bgColor = "green"
+           }
+      }
+  </script>
+</head>
+<body>
+<input type="button" value="刷新" id="reload">
+<input type="button" value="变颜色" id="change">
+
+</body>
+</html>
