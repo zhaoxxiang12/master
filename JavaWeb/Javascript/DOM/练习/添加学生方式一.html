@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加删除学生</title>
+</head>
+<script>
+    function add() {
+        //创建一个tr对象
+        let tr_1 = document.createElement("tr");
+        //创建一个td对象
+        let td_1 = document.createElement("td");
+        //获取id值
+        let id_text = document.getElementById("number").value;
+        //创建第一个text对象
+        let text_1 = document.createTextNode(id_text);
+        //将第一个text添加到第一个td里面
+        td_1.appendChild(text_1);
+        //创建二个td对象
+        let td_2 = document.createElement("td");
+        //获取name的值
+        let textName = document.getElementById("userName").value;
+        //创建第二个文本对象
+        let text_2 = document.createTextNode(textName);
+        //将第一个name添加到第二个td里面
+        td_2.appendChild(text_2);
+        //创建三个td对象
+        let td_3 = document.createElement("td");
+        //创建a标签对象
+        let tagA = document.createElement("a");
+        //设置a标签属性
+        tagA.setAttribute("href", "#");
+        tagA.setAttribute("onclick", "del(this)");
+        //创建第三个文本对象
+        let text_3 = document.createTextNode("删除");
+        //将第三个文本对像添加到a对象里面
+        tagA.appendChild(text_3)
+        //将a对象添加到第三个td对象中
+        td_3.appendChild(tagA)
+        //将第一个td放在tr的里面
+        tr_1.appendChild(td_1)
+        //将第二个td放在tr的里面
+        tr_1.appendChild(td_2)
+        //将第三个td放在tr的里面
+        tr_1.appendChild(td_3)
+
+        //获取table对象
+        let tab = document.getElementById("tab")
+        //将tr对象放在table中
+        tab.appendChild(tr_1)
+    }
+    function del(obj){
+        let tr = obj.parentNode.parentNode;
+        let tbody = obj.parentNode.parentNode.parentNode
+        tbody.removeChild(tr)
+    }
+
+</script>
+<body>
+<center>
+    编号:<input type="text" id="number">
+    姓名:<input type="text" id="userName">
+    <input type=button value="添加" id="addStudent" onclick="add()">
+    <br>
+    <br>
+    <br>
+    <br>
+    <table border="1" cellpadding="30" cellspacing="0" id="tab">
+        <caption>学生表</caption>
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>操作</th>
+        </tr>
+        <tr>
+            <th>1</th>
+            <th>张三</th>
+            <th>
+                <a href="#" onclick="del(this)">删除</a>
+            </th>
+        </tr>
+        <tr>
+            <th>2</th>
+            <th>李四</th>
+            <th>
+                <a href="#" onclick="del(this)">删除</a>
+            </th>
+        </tr>
+    </table>
+</center>
+
+</body>
+</html>

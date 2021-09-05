@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加学生方式二</title>
+    <script>
+        function add() {
+           //获取table对象
+            let tab = document.getElementById("tab");
+            //获取编号文本框数据
+            let id = document.getElementById("number").value;
+            //获取姓名文本框数据
+            let name = document.getElementById("userName").value;
+            tab.innerHTML += '<tr>'+
+                '<td>'+id+'</td>'+
+                '<td>'+name+'</td>'+
+                '<td>'+
+                '<a href="#" onclick="del(this)">删除</a>'+
+                '</td>'+
+                '</tr>'
+        }
+        function del(obj){
+           //父节点对象.removeChild(子节点对象)
+            let tr = obj.parentNode.parentNode
+            let tbody = obj.parentNode.parentNode.parentNode
+            // alert(tr)
+            // alert(tbody)
+            tbody.removeChild(tr)
+            //[object HTMLTableCellElement]
+            //[object HTMLTableRowElement] 调用两次
+            //[object HTMLTableSectionElement] 调用三次
+            //[object HTMLTableElement]
+
+        }
+    </script>
+</head>
+<body>
+<center>
+    编号:<input type="text" id="number">
+    姓名:<input type="text" id="userName">
+    <input type=button value="添加" id="addStudent" onclick="add()">
+    <br>
+    <br>
+    <br>
+    <br>
+    <table border="1" cellpadding="30" cellspacing="0" id="tab">
+        <caption>学生表</caption>
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>操作</th>
+        </tr>
+        <tr>
+            <th>1</th>
+            <th>张三</th>
+            <th>
+                <a href="#" onclick="del(this)">删除</a>
+            </th>
+        </tr>
+        <tr>
+            <th>2</th>
+            <th>李四</th>
+            <th>
+                <a href="#" onclick="del(this)">删除</a>
+            </th>
+        </tr>
+    </table>
+</center>
+</body>
+</html>

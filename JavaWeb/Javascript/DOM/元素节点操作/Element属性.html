@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>element属性</title>
+    <script>
+        function add() {
+            let div = document.getElementById("div");
+            div.setAttribute("class", "aaa")
+        }
+
+        function delAttribute() {
+            let div = document.getElementById("div");
+            div.removeAttribute("class")
+        }
+
+        function getAttributeData() {
+            let div = document.getElementById("div");
+            let data = div.getAttribute("class")
+            alert(data)
+        }
+    </script>
+</head>
+<body>
+<div id="div">
+    约吗
+</div>
+<input type="button" value="添加属性" onclick="add()">
+<input type="button" value="删除属性" onclick="delAttribute()">
+<input type="button" value="获取属性" onclick="getAttributeData()">
+</body>
+</html>
