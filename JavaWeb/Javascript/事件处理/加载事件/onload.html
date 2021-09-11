@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加载事件</title>
+  <script>
+    window.onload = function () {
+        alert("aaa")
+    }
+    window.onload = function () { //会覆盖上一个onload
+        alert("abb")
+    }
+  </script>
+</head>
+<body>
+你好
+</body>
+</html>
