@@ -39,7 +39,14 @@
             //获取密码的span
             let passwordSpan = document.getElementById("passwordSpan");
             if (password) {
-                return true
+                if (password.length<=6){
+                    passwordSpan.innerHTML = "密码长度不能小于六位";
+                    passwordBox.style.border = "1px solid red";
+                    passwordSpan.style.color = "red";
+                    return false
+                } else {
+                    return true
+                }
             } else {
                 passwordSpan.innerHTML = "密码不能为空";
                 passwordBox.style.border = "1px solid red";
