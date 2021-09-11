@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>复选框</title>
+    <script>
+        window.onload = function () {
+            let checkAll = document.getElementById("all");
+            checkAll.onclick = function () {
+                //获取所有的复选框对象
+                let checkSingle = document.getElementsByName("check");
+                //遍历
+                for (let i = 0; i < checkSingle.length; i++) {
+                    //将第一个复选框的checked属性值赋值给每一个其他的复选框的checked属性
+                    checkSingle[i].checked = this.checked;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<table border="1" cellpadding="30" cellspacing="0" align="center">
+    <tr>
+        <th>
+            <label>
+                <input type="checkbox" id="all">
+            </label>
+        </th>
+        <th>编号</th>
+        <th>姓名</th>
+    </tr>
+    <tr>
+        <th>
+            <label>
+                <input type="checkbox" name="check">
+            </label>
+        </th>
+        <td>1</td>
+        <td>tom</td>
+    </tr>
+    <tr>
+        <th>
+            <label>
+                <input type="checkbox" name="check">
+            </label>
+        </th>
+        <td>2</td>
+        <td>jerry</td>
+    </tr>
+    <tr>
+        <th>
+            <label>
+                <input type="checkbox" name="check">
+            </label>
+        </th>
+        <td>3</td>
+        <td>jack</td>
+    </tr>
+    <tr>
+        <th>
+            <label>
+                <input type="checkbox" name="check">
+            </label>
+        </th>
+        <td>4</td>
+        <td>json</td>
+    </tr>
+</table>
+</body>
+</html>
