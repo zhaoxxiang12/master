@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>隔行换色</title>
+    <script>
+        window.onload = function () {
+            //获取所有的tr对象
+            let allTr = document.getElementsByTagName('tr')
+            //遍历
+            for (let i = 1; i < allTr.length; i++) {
+                let tr = allTr[i]
+                //给tr绑定鼠标over事件
+                tr.onmouseover = function () {
+                    // tr.style.backgroundColor = 'deeppink'
+                    //当前调用的那个tr对象
+                    this.style.backgroundColor = 'deeppink'
+                }
+                //设置样式 奇数为红色 偶数为绿色
+                if (i % 2 == 0) {
+                    tr.style.backgroundColor = 'green'
+                    //鼠标移出事件
+                    tr.onmouseout = function () {
+                        tr.style.backgroundColor = 'green'
+                    }
+                } else {
+                    tr.style.backgroundColor = 'red'
+                    //鼠标移出事件
+                    tr.onmouseout = function () {
+                        tr.style.backgroundColor = 'red'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<table border="1" cellspacing="0" cellpadding="30" align="center">
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>tom</td>
+        <td>18</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>jerry</td>
+        <td>17</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>jack</td>
+        <td>19</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>jhson</td>
+        <td>19</td>
+    </tr>
+</table>
+</body>
+</html>
