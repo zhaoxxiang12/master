@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:鼠标事件">
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/onchange.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/onselect.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/onsubmit.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/success.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/表单提交方式三.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/表单提交方式二.html" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:表单事件">
+      <change afterPath="$PROJECT_DIR$/Javascript/js样式设置/隔行换色.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/复选框/复选框全选和不选.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +33,9 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Javascript/事件处理/表单事件/onsubmit.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Javascript/js样式设置/隔行换色.html" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Javascript/事件处理/复选框/复选框全选和不选.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Javascript/事件处理/表单事件/表单提交方式一.html" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1vl2k74KGt4nVyuL5i5ETwhIe7G" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -128,7 +126,7 @@
       <workItem from="1630728956649" duration="16642000" />
       <workItem from="1630826224127" duration="3203000" />
       <workItem from="1630837818512" duration="12866000" />
-      <workItem from="1631355421565" duration="7740000" />
+      <workItem from="1631355421565" duration="10420000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -326,7 +324,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631361012170</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="add:表单事件">
+      <created>1631363410003</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1631363410003</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -348,7 +353,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../.." />
     </ignored-roots>
-    <MESSAGE value="feat:JavaWeb前端" />
     <MESSAGE value="feat:配置文件" />
     <MESSAGE value="add:时间内置对象" />
     <MESSAGE value="feat：修改文件名" />
@@ -373,6 +377,7 @@
     <MESSAGE value="feat:消除告警" />
     <MESSAGE value="add:键盘事件" />
     <MESSAGE value="add:鼠标事件" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:鼠标事件" />
+    <MESSAGE value="add:表单事件" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:表单事件" />
   </component>
 </project>
