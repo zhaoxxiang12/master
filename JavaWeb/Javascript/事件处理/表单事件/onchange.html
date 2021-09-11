@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单事件</title>
+    <script>
+        function changeArea() {
+            let city = document.getElementById("city")
+            alert(city.value)
+
+        }
+    </script>
+</head>
+<body>
+<label>
+    <select onchange="changeArea()" id="city">
+        <option value="">---请选择---</option>
+        <option value="chengdu">成都</option>
+        <option value="mianyang">绵阳</option>
+        <option value="nanchong">南充</option>
+
+    </select>
+</label>
+</body>
+</html>
