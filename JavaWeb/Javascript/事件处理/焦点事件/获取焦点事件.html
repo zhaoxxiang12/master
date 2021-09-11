@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>焦点事件</title>
+    <script>
+        function getFocus() {
+            let text = document.getElementById("text")
+            text.style.backgroundColor = "gray"
+            text.focus()
+        }
+
+        function loseFocus() {
+            let text = document.getElementById("text")
+            text.style.backgroundColor = "white"
+            text.blur()
+        }
+    </script>
+</head>
+<body>
+<input type="text" id="text"><br>
+<input type="button" value="获取焦点" onclick="getFocus()">
+<input type="button" value="失去焦点" onclick="loseFocus()"><br>
+</body>
+</html>

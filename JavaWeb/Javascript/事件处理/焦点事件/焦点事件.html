@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>焦点事件</title>
+    <script>
+        function focusEvent() {
+            // alert("获取焦点")
+            let input = document.getElementById("focus")
+            input.style.backgroundColor = "green"
+        }
+
+        function unFocus() {
+            let input = document.getElementById("focus")
+            input.style.backgroundColor = "white"
+        }
+    </script>
+</head>
+<body>
+<input type="text" onfocus="focusEvent()" onblur="unFocus()" id="focus">
+</body>
+</html>
