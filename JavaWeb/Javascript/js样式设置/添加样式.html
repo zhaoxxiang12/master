@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>样式设置</title>
+    <style>
+        .div {
+            border: 1px;
+            font-size: 60px;
+            color: deeppink;
+        }
+    </style>
+    <script>
+        // 方式一
+        window.onload = function () {
+            let bt = document.getElementById("aaa");
+            bt.onclick = function () {
+                let div = document.getElementById("div")
+                //div.style = "border:1px solid red;font-size:50px; color:red";
+                div.style.border = "1px solid red"
+                div.style.fontSize = "50px";
+                div.style.color = "green"
+            }
+        }
+
+        function add() {
+            let div = document.getElementById("div");
+            div.setAttribute("class", "div");
+        }
+
+        function addStyle() {
+            let div = document.getElementById("div");
+            div.className = "div"
+        }
+    </script>
+</head>
+<body>
+<div id="div">你好</div>
+<input type="button" value="添加样式方式一" id="aaa"><br>
+<input type="button" value="添加样式方式二" onclick="add()"><br>
+<input type="button" value="添加样式方式三" onclick="addStyle()"><br>
+</body>
+</html>
