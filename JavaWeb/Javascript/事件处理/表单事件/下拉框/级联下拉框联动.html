@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>级联下拉框联动</title>
+    <script>
+        const sichuan = ['成都', '绵阳', '南充', '德阳', '雅安', '攀枝花'];
+        const hebei = ['石家庄', '唐山', '保定', '沧州', '秦皇岛'];
+        const hubei = ['武汉', '荆州', '黄石', '宜昌', '荆门', '孝感'];
+
+        function selectProvince() {
+            //获取省的数据
+            let province = document.getElementById("province").value;
+            //获取市的select对象
+            let city = document.getElementById("city");
+            //清空市里的所有数据
+            city.innerHTML = "<option>-----请选择市-----</option>"
+            if (province === 'sichuan') {
+                for (let i = 0; i < sichuan.length; i++) {
+                    //创建option标签对象
+                    let option = document.createElement("option");
+                    //创建文本对象
+                    let text = document.createTextNode(sichuan[i]);
+                    //将文本放入到option中
+                    option.appendChild(text);
+                    //将option放入到city中
+                    city.appendChild(option);
+                }
+            }else if (province==='hebei') {
+                for (let i = 0; i < hebei.length; i++) {
+                    //创建option标签对象
+                    let option = document.createElement("option");
+                    //创建文本对象
+                    let text = document.createTextNode(hebei[i]);
+                    //将文本放入到option中
+                    option.appendChild(text);
+                    //将option放入到city中
+                    city.appendChild(option);
+                }
+            }else if (province==='hubei') {
+                for (let i = 0; i < hubei.length; i++) {
+                    //创建option标签对象
+                    let option = document.createElement("option");
+                    //创建文本对象
+                    let text = document.createTextNode(hubei[i]);
+                    //将文本放入到option中
+                    option.appendChild(text);
+                    //将option放入到city中
+                    city.appendChild(option);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<label>
+    <select onchange="selectProvince()" id="province">
+        <option value="">-----请选择省份-----</option>
+        <option value="sichuan">四川</option>
+        <option value="hebei">河北</option>
+        <option value="hubei">湖北</option>
+    </select>省
+    <select id="city">
+        <option>-----请选择市-----</option>
+    </select>市
+</label>
+</body>
+</html>
