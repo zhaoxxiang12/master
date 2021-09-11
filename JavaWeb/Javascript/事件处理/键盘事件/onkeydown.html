@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>键盘事件</title>
+    <script>
+        function aa(obj) {
+            alert(obj.keyCode+":"+String.fromCharCode(obj.keyCode));
+        }
+    </script>
+</head>
+<body>
+<label>
+    <input type="text" onkeydown="aa(event)">
+</label>
+</body>
+</html>
