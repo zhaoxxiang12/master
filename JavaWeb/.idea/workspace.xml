@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="feat:表单数据增加密码长度校验">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Javascript/事件处理/表单事件/表单数据校验/表单校验.html" beforeDir="false" afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/表单数据校验/表单校验.html" afterDir="false" />
-    </list>
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="style:代码格式化" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -126,7 +123,7 @@
       <workItem from="1630728956649" duration="16642000" />
       <workItem from="1630826224127" duration="3203000" />
       <workItem from="1630837818512" duration="12866000" />
-      <workItem from="1631355421565" duration="13810000" />
+      <workItem from="1631355421565" duration="14175000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -366,7 +363,28 @@
       <option name="project" value="LOCAL" />
       <updated>1631368777929</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="feat:表单数据增加密码长度校验">
+      <created>1631369378737</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1631369378737</updated>
+    </task>
+    <task id="LOCAL-00036" summary="style:代码规范">
+      <created>1631369513212</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1631369513212</updated>
+    </task>
+    <task id="LOCAL-00037" summary="style:代码格式化">
+      <created>1631369603168</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1631369603168</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -388,8 +406,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../.." />
     </ignored-roots>
-    <MESSAGE value="feat:修改文件路径" />
-    <MESSAGE value="add:正则表达式" />
     <MESSAGE value="add:内置对象GLobal" />
     <MESSAGE value="add:元素操作" />
     <MESSAGE value="add:js事件处理" />
@@ -413,6 +429,8 @@
     <MESSAGE value="add:复选框勾选" />
     <MESSAGE value="add:表单数据验证" />
     <MESSAGE value="feat:表单数据增加密码长度校验" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:表单数据增加密码长度校验" />
+    <MESSAGE value="style:代码规范" />
+    <MESSAGE value="style:代码格式化" />
+    <option name="LAST_COMMIT_MESSAGE" value="style:代码格式化" />
   </component>
 </project>
