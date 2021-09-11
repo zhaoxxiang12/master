@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标事件</title>
+    <script>
+        function  mousedown() {
+            alert("很酷炫的车")
+        }
+
+        function move() {
+            alert("移动")
+        }
+
+        function out() {
+            alert("出界")
+        }
+
+        function over() {
+            alert("鼠标移入")
+        }
+
+        function up() {
+            alert("鼠标松开")
+        }
+    </script>
+</head>
+<body>
+<img src="../../BOM/window对象/img/1.jpeg" alt="暂无图片"
+     onmousedown="mousedown()" onmousemove="move()" onmouseout="out()" onmouseover="over()" onmouseup="up()">
+</body>
+</html>
