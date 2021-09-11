@@ -39,13 +39,20 @@
             //获取密码的span
             let passwordSpan = document.getElementById("passwordSpan");
             if (password) {
-                if (password.length<=6){
+                if (password.length <= 6) {
                     passwordSpan.innerHTML = "密码长度不能小于六位";
                     passwordBox.style.border = "1px solid red";
                     passwordSpan.style.color = "red";
                     return false
+                } else if (password.length>16) {
+                    passwordSpan.innerHTML = "密码长度不能大于16位"
+                    passwordBox.style.border = "1px solid red";
+                    passwordSpan.style.color = "red";
                 } else {
-                    return true
+                    passwordSpan.innerHTML = "密码合法";
+                    passwordBox.style.border = "1px solid green";
+                    passwordSpan.style.color = "green";
+                    return true;
                 }
             } else {
                 passwordSpan.innerHTML = "密码不能为空";
@@ -54,6 +61,7 @@
                 return false;
             }
         }
+
         window.onload = function () {
             let username = document.getElementById("username");
             let password = document.getElementById("password");

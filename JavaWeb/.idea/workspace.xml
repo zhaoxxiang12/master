@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:复选框勾选">
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/表单数据校验/表单校验.html" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="feat:表单数据增加密码长度校验">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Javascript/事件处理/表单事件/表单数据校验/表单校验.html" beforeDir="false" afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/表单数据校验/表单校验.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +126,7 @@
       <workItem from="1630728956649" duration="16642000" />
       <workItem from="1630826224127" duration="3203000" />
       <workItem from="1630837818512" duration="12866000" />
-      <workItem from="1631355421565" duration="13082000" />
+      <workItem from="1631355421565" duration="13810000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -352,7 +352,21 @@
       <option name="project" value="LOCAL" />
       <updated>1631366088089</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="add:表单数据验证">
+      <created>1631368580174</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1631368580174</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat:表单数据增加密码长度校验">
+      <created>1631368777929</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1631368777929</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -374,8 +388,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../.." />
     </ignored-roots>
-    <MESSAGE value="feat：修改配置文件" />
-    <MESSAGE value="add:增加数学对象" />
     <MESSAGE value="feat:修改文件路径" />
     <MESSAGE value="add:正则表达式" />
     <MESSAGE value="add:内置对象GLobal" />
@@ -399,6 +411,8 @@
     <MESSAGE value="feat:切换路径" />
     <MESSAGE value="add:隔行换色" />
     <MESSAGE value="add:复选框勾选" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:复选框勾选" />
+    <MESSAGE value="add:表单数据验证" />
+    <MESSAGE value="feat:表单数据增加密码长度校验" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:表单数据增加密码长度校验" />
   </component>
 </project>
