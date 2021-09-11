@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:表单事件">
-      <change afterPath="$PROJECT_DIR$/Javascript/js样式设置/隔行换色.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/复选框/复选框全选和不选.html" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:复选框勾选">
+      <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/表单数据校验/表单校验.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +34,8 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Javascript/js样式设置/隔行换色.html" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Javascript/事件处理/复选框/复选框全选和不选.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/Javascript/事件处理/表单事件/表单提交方式一.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Javascript/事件处理/表单事件/表单数据校验/表单校验.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Javascript/事件处理/表单事件/表单提交方式/表单提交方式一.html" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1vl2k74KGt4nVyuL5i5ETwhIe7G" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -67,11 +67,11 @@
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\作业\img" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\PravateFile\master\JavaWeb\Javascript\事件处理\表单事件\表单提交方式" />
+      <recent name="E:\PravateFile\master\JavaWeb\Javascript\事件处理\表单事件\表单常见事件" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\事件处理\单机事件处理方式" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\DOM\DOM概述" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\DOM\DOM操作" />
-      <recent name="E:\PravateFile\master\JavaWeb\Javascript\DOM" />
-      <recent name="E:\PravateFile\master\JavaWeb\Javascript\DOM\元素节点操作" />
     </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.Demo01.html">
@@ -126,7 +126,7 @@
       <workItem from="1630728956649" duration="16642000" />
       <workItem from="1630826224127" duration="3203000" />
       <workItem from="1630837818512" duration="12866000" />
-      <workItem from="1631355421565" duration="10420000" />
+      <workItem from="1631355421565" duration="13082000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -331,7 +331,28 @@
       <option name="project" value="LOCAL" />
       <updated>1631363410003</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="feat:切换路径">
+      <created>1631366040825</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1631366040825</updated>
+    </task>
+    <task id="LOCAL-00031" summary="add:隔行换色">
+      <created>1631366072219</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1631366072219</updated>
+    </task>
+    <task id="LOCAL-00032" summary="add:复选框勾选">
+      <created>1631366088089</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1631366088089</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -353,9 +374,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../.." />
     </ignored-roots>
-    <MESSAGE value="feat:配置文件" />
-    <MESSAGE value="add:时间内置对象" />
-    <MESSAGE value="feat：修改文件名" />
     <MESSAGE value="feat：修改配置文件" />
     <MESSAGE value="add:增加数学对象" />
     <MESSAGE value="feat:修改文件路径" />
@@ -378,6 +396,9 @@
     <MESSAGE value="add:键盘事件" />
     <MESSAGE value="add:鼠标事件" />
     <MESSAGE value="add:表单事件" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:表单事件" />
+    <MESSAGE value="feat:切换路径" />
+    <MESSAGE value="add:隔行换色" />
+    <MESSAGE value="add:复选框勾选" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:复选框勾选" />
   </component>
 </project>

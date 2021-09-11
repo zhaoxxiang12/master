@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单校验</title>
+    <script>
+        function register() {
+            if (checkUsername() & checkPassword()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        //校验用户名
+        function checkUsername() {
+            //获取用户名的数据
+            let username = document.getElementById("username").value;
+            let userNameBox = document.getElementById("username");
+            //获取用户名的span
+            let userNameSpan = document.getElementById("userNameSpan");
+            if (username) {
+                userNameSpan.innerHTML = "用户名可用";
+                userNameSpan.style.color = "green";
+                return true
+            } else {
+                userNameSpan.innerHTML = "用户名不能为空";
+                userNameBox.style.border = "1px solid red";
+                userNameSpan.style.color = "red";
+                return false
+            }
+        }
+
+        //校验密码
+        function checkPassword() {
+            //获取密码
+            let password = document.getElementById("password").value;
+            let passwordBox = document.getElementById("password");
+            //获取密码的span
+            let passwordSpan = document.getElementById("passwordSpan");
+            if (password) {
+                return true
+            } else {
+                passwordSpan.innerHTML = "密码不能为空";
+                passwordBox.style.border = "1px solid red";
+                passwordSpan.style.color = "red";
+                return false;
+            }
+        }
+        window.onload = function () {
+            let username = document.getElementById("username");
+            let password = document.getElementById("password");
+            username.onblur = function () {
+                checkUsername();
+            }
+            password.onblur = function () {
+                checkPassword();
+            }
+        }
+    </script>
+</head>
+<body>
+<form action="../表单提交方式/success.html" method="get" onsubmit="return register()">
+    用户名:
+    <label>
+        <input type="text" name="username" id="username"><span id="userNameSpan"></span>
+    </label><br>
+    &ensp;
+    密码:
+    <label>
+        <input type="password" name="password" id="password"><span id="passwordSpan"></span>
+    </label><br>
+    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+    <input type="submit" value="注册">
+</form>
+</body>
+</html>
