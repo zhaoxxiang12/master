@@ -23,74 +23,118 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+import '@testing-library/cypress/add-commands'
+import { MGR_EQA_URL } from '../shared/constants'
+import { visitPage } from '../shared/route'
+import 'cypress-file-upload'
+import { activeSelect, closeClientAlert, loginLab, loginMgr } from '../shared/util'
+
+Cypress.Commands.add('loginCQB', () => {
+  loginMgr('admin')
+})
+
+Cypress.Commands.add('visitPage', (pathname) => {
+  loginMgr('admin', () => {
+    visitPage(pathname)
+  })
+})
+
+Cypress.Commands.add('QPYLT_user_login', () => {
+  loginMgr('QPYLT')
+})
+Cypress.Commands.add('gdfslj_user_login', () => {
+  loginMgr('gdfslj')
+})
+
+// 切换内嵌页面方法
+Cypress.Commands.add('getIframe', () => {
+  const getIframeBody = () => {
+    //尝试获取 iframe > document > body
+    // 直到body element 为空
+    return cy
+      .get('iframe').its('0.contentDocument.body').should('not.be.empty')
+      // 包装body DOM元素以允许链接更多Cypress 命令, 如 ".find(...)"
+      // warp命令使用文档地址 https://on.cypress.io/wrap
+      .then(cy.wrap)
+
+  }
+  getIframeBody()
+})
+
+// 访问EQA界面方法
+Cypress.Commands.add('visitEQA', () => {
+  const visit = () => {
+    cy.visit(MGR_EQA_URL)
+    cy.get('.el-button.el-button--default.el-button--small').first().click()
+  }
+  visit()
+})
+//比较接口返回响应状态码
+Cypress.Commands.add('compare', (xhr, expectCode) => {
+  let responseCode = xhr.response.statusCode
+  if (expectCode == null || expectCode == '') { // 默认200
+    let expectCode = 200
+    expect(responseCode).to.eq(expectCode)
+  } else {
+    expect(responseCode).to.eq(expectCode)
+  }
+})
+
+// EQA比对计划组织筛选条件返回数据
+Cypress.Commands.add('eqaSearch', (xhr) => {
+  let getData = xhr.response.body.data.total
+  if (getData == 0) {
+    cy.getIframe().find('body').should('contain', '暂无数据')
+  } else if (getData > 20) {
+    cy.getIframe().find('.el-pagination__total').should('have.text', '共 ' + getData + ' 条')
+  } else {
+    cy.getIframe().find('.el-table__body').first().find('.el-table__row').should('have.length', getData)
+  }
+})
+
+// 不建议用，直接用 activeSelect 即可
+Cypress.Commands.add('elSelectActive', (text) => {
+  activeSelect(text)
+})
+
+Cypress.Commands.add('setCssMedia', (media) => {
+  cy.log(`Setting CSS media to ${media}`)
+  Cypress.automation('remote:debugger:protocol', {
+    command: 'Emulation.setEmulatedMedia',
+    params: {
+      media
+    }
+  })
+})
+
+Cypress.Commands.add('readPdf', (filename) => {
+  cy.log(`read pdf ${filename}`)
+  return cy.task('readPdf', filename)
+})
+
+Cypress.Commands.add('readExcel', (filename) => {
+  cy.log(`read excel ${filename}`)
+  return cy.task('readExcel', filename)
+})
+
+Cypress.Commands.add('deleteFolder', (folder) => {
+  cy.log(`delete folder ${folder}`)
+  return cy.task('deleteFolder', folder)
+})
+
+//点击按钮
+Cypress.Commands.add('clickButton',(text)=>{
+  cy.get('button',{timeout:10000}).contains(text).click({
+    force:true
+  })
+})
 
 
-Cypress.Commands.add("loginCQB", () => {
-    cy.visit('http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html#/login')
-    // 使用fixtures里的账号文件配置作为登录用户信息
-    cy.fixture('admin').then((adminJSON) => {
-      let alertButton = 0
-      // 关闭登录界面弹窗提示
-      cy.get('.el-button.el-button--default.el-button--small').eq(alertButton).click({force:true})
-      // 使用fixtures里的账号文件配置作为登录用户信息
-      cy.get('[placeholder="用户名"]')
-        .type(adminJSON.username,{force:true}).should('have.value', adminJSON.username)
-      cy.get('[placeholder="密码"]')
-        .type(adminJSON.password,{force:true}).should('have.value', adminJSON.password)
-      cy.get('[placeholder="验证码"]')
-        .type(adminJSON.captcha,{force:true}).should('have.value', adminJSON.captcha)
-      // 点击登录按钮
-      cy.get('[type="submit"]').click({force:true})
-      // 由于监控大屏会有接口轮询，登录后需要关闭监控大屏，否则后续用例界面访问会等待超时
-      cy.get('.ql-splitview__top').trigger('mouseover',{force:true})
-      cy.get('.ql-splitview__close').click({force:true})
-    })
-  })
-  Cypress.Commands.add('QPYLT_user_login',()=>{
-    // cy.visit('http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html#/login')
-    cy.fixture('QPYLT').then((QPYLTJSON) => {
-      let alertButton = 0
-      // 关闭登录界面弹窗提示
-      cy.get('.el-button.el-button--default.el-button--small').eq(alertButton).click({force:true})
-      // 使用fixtures里的账号文件配置作为登录用户信息
-      cy.get('[placeholder="用户名"]')
-        .type(QPYLTJSON.username).should('have.value', QPYLTJSON.username)
-      cy.get('[placeholder="密码"]')
-        .type(QPYLTJSON.password).should('have.value', QPYLTJSON.password)
-      cy.get('[placeholder="验证码"]')
-        .type(QPYLTJSON.captcha).should('have.value', QPYLTJSON.captcha)
-      // 点击登录按钮
-      cy.get('[type="submit"]').click()
-      // 由于监控大屏会有接口轮询，登录后需要关闭监控大屏，否则后续用例界面访问会等待超时
-      cy.get('.ql-splitview__top').trigger('mouseover')
-      cy.get('.ql-splitview__close').click()
-    })
-  })
-  Cypress.Commands.add('gdfslj_user_login',()=>{
-    // cy.visit('http://cqb-mgr.gd.test.sh-weiyi.com/cqb-base-mgr-fe/app.html#/login')
-    cy.fixture('gdfslj').then((gdfsljJSON) => {
-      let alertButton = 0
-      // 关闭登录界面弹窗提示
-      cy.get('.el-button.el-button--default.el-button--small').eq(alertButton).click({force:true})
-      // 使用fixtures里的账号文件配置作为登录用户信息
-      cy.get('[placeholder="用户名"]')
-        .type(gdfsljJSON.username).should('have.value', gdfsljJSON.username)
-      cy.get('[placeholder="密码"]')
-        .type(gdfsljJSON.password).should('have.value', gdfsljJSON.password)
-      cy.get('[placeholder="验证码"]')
-        .type(gdfsljJSON.captcha).should('have.value', gdfsljJSON.captcha)
-      // 点击登录按钮
-      cy.get('[type="submit"]').click()
-      // 由于监控大屏会有接口轮询，登录后需要关闭监控大屏，否则后续用例界面访问会等待超时
-      cy.get('.ql-splitview__top').trigger('mouseover')
-      cy.get('.ql-splitview__close').click()
-    })
-  })
-  // // 下载文件
-  // require('cypress-downloadfile/lib/downloadFileCommand')
+// 下载文件
+// require('cypress-downloadfile/lib/downloadFileCommand')
 
-  // // 上传文件
-  // import 'cypress-file-upload';
+// // 上传文件
+// import 'cypress-file-upload';
 
 
 
@@ -106,16 +150,34 @@ Cypress.Commands.add("loginCQB", () => {
 //     })
 // })
 
+Cypress.Commands.add('loginLabCQB', () => {
+  loginLab('labCQB')
+})
 
-let LOCAL_STORAGE_MEMORY = {};
 
-Cypress.Commands.add("saveLocalStorage", () => {
+Cypress.Commands.add('loginLockLabCQB', () => {
+  loginLab('lockLabCQB')
+})
+
+
+Cypress.Commands.add('loginCQBDept', () => {
+  loginMgr('addCQB')
+})
+
+
+Cypress.Commands.add('loginEditCQB', () => {
+  loginMgr('editCQB')
+})
+
+let LOCAL_STORAGE_MEMORY = {}
+
+Cypress.Commands.add('saveLocalStorage', () => {
   Object.keys(localStorage).forEach(key => {
     LOCAL_STORAGE_MEMORY[key] = localStorage[key]
   })
 })
 
-Cypress.Commands.add("restoreLocalStorage", () => {
+Cypress.Commands.add('restoreLocalStorage', () => {
   Object.keys(LOCAL_STORAGE_MEMORY).forEach(key => {
     localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key])
   })
@@ -125,27 +187,27 @@ Cypress.Commands.add("restoreLocalStorage", () => {
 // If the type command calls the click command, then we have a problem with a promise
 // inside a promise. So instead, we'll prevent clicking by always calling focus first.
 // https://github.com/cypress-io/cypress/blob/e2e454262bf461f31e947da9f9fdc0a8fa23baf8/packages/driver/src/cy/commands/actions/type.coffee#L348
-Cypress.Commands.overwrite("type", (originalFn, subject, ...args) => {
-  cy.wrap(subject)
-    .focus()
-    .then(() => originalFn(subject, ...args))
-    .wrap(subject)
-})
+// Cypress.Commands.overwrite("type", (originalFn, subject, ...args) => {
+//   cy.wrap(subject)
+//     .focus()
+//     .then(() => originalFn(subject, ...args))
+//     .wrap(subject)
+// })
 
-// Clear calls type inside of and if we don't override it outself, we have another
-// promise in a promise issue. So we'll just manually clear it ourselves
-// https://github.com/cypress-io/cypress/blob/e2e454262bf461f31e947da9f9fdc0a8fa23baf8/packages/driver/src/cy/commands/actions/type.coffee#L414
-Cypress.Commands.overwrite("clear", (originalFn, subject, ...args) => {
-  cy.wrap(subject).type("{selectall}{del}", {
-    force: true
-  })
-})
+// // Clear calls type inside of and if we don't override it outself, we have another
+// // promise in a promise issue. So we'll just manually clear it ourselves
+// // https://github.com/cypress-io/cypress/blob/e2e454262bf461f31e947da9f9fdc0a8fa23baf8/packages/driver/src/cy/commands/actions/type.coffee#L414
+// Cypress.Commands.overwrite("clear", (originalFn, subject, ...args) => {
+//   cy.wrap(subject).type("{selectall}{del}", {
+//     force: true
+//   })
+// })
 
-// Wait for animations before and after clicking.
-// https://github.com/cypress-io/cypress/issues/3838
-Cypress.Commands.overwrite("click", (originalFn, subject, ...args) => {
-  cy.wait(200)
-    .then(() => originalFn(subject, ...args))
-    .wait(200)
-    .wrap(subject)
-})
+// // Wait for animations before and after clicking.
+// // https://github.com/cypress-io/cypress/issues/3838
+// Cypress.Commands.overwrite("click", (originalFn, subject, ...args) => {
+//   cy.wait(200)
+//     .then(() => originalFn(subject, ...args))
+//     .wait(200)
+//     .wrap(subject)
+// })
