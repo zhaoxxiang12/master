@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< Updated upstream
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
@@ -8,6 +9,28 @@
       <change afterPath="$PROJECT_DIR$/Javascript/事件处理/表单事件/下拉框/级联下拉框联动.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
+=======
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="feat：表单属性" />
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +39,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="HTML File" />
       </list>
     </option>
@@ -50,6 +74,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+<<<<<<< Updated upstream
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Javascript/事件处理/单机事件处理方式" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -72,20 +97,19 @@
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\事件处理\单机事件处理方式" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\DOM\DOM概述" />
       <recent name="E:\PravateFile\master\JavaWeb\Javascript\DOM\DOM操作" />
+=======
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Study Java" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\PrivateFile\master\JavaWeb\标签类\其他标签" />
+      <recent name="E:\PrivateFile\master\JavaWeb\标签类\表格标签" />
+>>>>>>> Stashed changes
     </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.Demo01.html">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Demo01.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/JavaWeb/Demo01.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -102,7 +126,10 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="" />
@@ -115,6 +142,7 @@
       <workItem from="1627915002532" duration="13000" />
       <workItem from="1627915080858" duration="187000" />
       <workItem from="1627915382901" duration="145000" />
+<<<<<<< Updated upstream
       <workItem from="1628916987673" duration="605000" />
       <workItem from="1630727801583" duration="22000" />
       <workItem from="1630727851413" duration="34000" />
@@ -127,6 +155,14 @@
       <workItem from="1630826224127" duration="3203000" />
       <workItem from="1630837818512" duration="12866000" />
       <workItem from="1631355421565" duration="16228000" />
+=======
+      <workItem from="1627973911594" duration="2833000" />
+      <workItem from="1627978958205" duration="10088000" />
+      <workItem from="1627993424232" duration="2727000" />
+      <workItem from="1628080764688" duration="1276000" />
+      <workItem from="1628082178505" duration="619000" />
+      <workItem from="1628822968153" duration="24000" />
+>>>>>>> Stashed changes
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -135,6 +171,7 @@
       <option name="project" value="LOCAL" />
       <updated>1627125973767</updated>
     </task>
+<<<<<<< Updated upstream
     <task id="LOCAL-00002" summary="feat:配置文件">
       <created>1630730875644</created>
       <option name="number" value="00002" />
@@ -395,10 +432,160 @@
       <updated>1631369617557</updated>
     </task>
     <option name="localTasksCounter" value="39" />
+=======
+    <task id="LOCAL-00002" summary="feat:超链接增加target">
+      <created>1627974081611</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1627974081611</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat:前端增加表格标签">
+      <created>1627974175889</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1627974175889</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat:表格标签增加常见属性">
+      <created>1627975932759</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1627975932759</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add:表格语义化标签">
+      <created>1627976098795</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1627976098795</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat:表格语义化标签增加注释">
+      <created>1627976743073</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1627976743073</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat:表格标签属性">
+      <created>1627979771771</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1627979771772</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add:表格标签合并单元格">
+      <created>1627979835632</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1627979835632</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat:表格标签合并单元格">
+      <created>1627980308549</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1627980308549</updated>
+    </task>
+    <task id="LOCAL-00010" summary="add:表格标签">
+      <created>1627980405525</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1627980405525</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add:表格标签嵌套">
+      <created>1627981323377</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1627981323377</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat:对标签进行分类">
+      <created>1627981519775</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1627981519775</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add:表单标签">
+      <created>1627982072002</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1627982072002</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat：表单type属性">
+      <created>1627983784663</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1627983784663</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat：区域文本框、下拉框">
+      <created>1627984439643</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1627984439643</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat：表单属性">
+      <created>1627991075042</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1627991075043</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat：注册成功界面">
+      <created>1627993513237</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1627993513237</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat：超链接增加返回顶部和中部操作">
+      <created>1627995320454</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1627995320454</updated>
+    </task>
+    <task id="LOCAL-00019" summary="add:注册表单">
+      <created>1627995401752</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1627995401752</updated>
+    </task>
+    <task id="LOCAL-00020" summary="add:CSS概述">
+      <created>1627996149470</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1627996149470</updated>
+    </task>
+    <task id="LOCAL-00021" summary="feat：CSS概述">
+      <created>1628081841019</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1628081841019</updated>
+    </task>
+    <task id="LOCAL-00022" summary="add:CSS文件引入方式">
+      <created>1628082781774</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1628082781774</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -413,6 +600,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+<<<<<<< Updated upstream
     <ignored-roots>
       <path value="$PROJECT_DIR$/../.." />
     </ignored-roots>
@@ -442,5 +630,53 @@
     <MESSAGE value="style:代码规范" />
     <MESSAGE value="style:代码格式化" />
     <option name="LAST_COMMIT_MESSAGE" value="style:代码格式化" />
+=======
+    <MESSAGE value="feat:JavaWeb前端" />
+    <MESSAGE value="feat:超链接增加target" />
+    <MESSAGE value="feat:前端增加表格标签" />
+    <MESSAGE value="feat:表格标签增加常见属性" />
+    <MESSAGE value="add:表格语义化标签" />
+    <MESSAGE value="feat:表格语义化标签增加注释" />
+    <MESSAGE value="feat:表格标签属性" />
+    <MESSAGE value="add:表格标签合并单元格" />
+    <MESSAGE value="feat:表格标签合并单元格" />
+    <MESSAGE value="add:表格标签" />
+    <MESSAGE value="add:表格标签嵌套" />
+    <MESSAGE value="feat:对标签进行分类" />
+    <MESSAGE value="add:表单标签" />
+    <MESSAGE value="feat：表单type属性" />
+    <MESSAGE value="feat：区域文本框、下拉框" />
+    <MESSAGE value="feat：表单属性" />
+    <MESSAGE value="feat：注册成功界面" />
+    <MESSAGE value="feat：超链接增加返回顶部和中部操作" />
+    <MESSAGE value="add:注册表单" />
+    <MESSAGE value="add:CSS概述" />
+    <MESSAGE value="feat：CSS概述" />
+    <MESSAGE value="add:CSS文件引入方式" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:CSS文件引入方式" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="746" y="407" key="#Notifications" timestamp="1627974114071">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="746" y="407" key="#Notifications/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1627974114071" />
+    <state x="-998" y="326" key="FileChooserDialogImpl" timestamp="1628822991150">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-998" y="326" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1628822991150" />
+    <state x="364" y="189" key="SettingsEditor" timestamp="1627974109501">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="364" y="189" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1627974109501" />
+    <state x="-1465" y="278" key="Vcs.Push.Dialog.v2" timestamp="1628082796149">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1465" y="278" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1628082796149" />
+    <state x="455" y="278" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1627993519716" />
+    <state x="526" y="284" width="672" height="678" key="search.everywhere.popup" timestamp="1627993498462">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="526" y="284" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1627993498462" />
+>>>>>>> Stashed changes
   </component>
 </project>
