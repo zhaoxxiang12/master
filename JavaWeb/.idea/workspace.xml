@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:bootstrap入门">
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:栅格系统">
+      <change afterPath="$PROJECT_DIR$/Bootstrap/栅格系统/RemoveGutter.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Bootstrap/栅格系统/demo.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Bootstrap/栅格系统/手机平板桌面.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bootstrap/栅格系统/移动设备和桌面.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -130,7 +132,7 @@
       <workItem from="1630837818512" duration="12866000" />
       <workItem from="1631355421565" duration="16348000" />
       <workItem from="1632549712524" duration="598000" />
-      <workItem from="1632550804503" duration="2543000" />
+      <workItem from="1632550804503" duration="2880000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -419,7 +421,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632551719304</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="add:栅格系统">
+      <created>1632553684310</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1632553684310</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -441,7 +450,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../.." />
     </ignored-roots>
-    <MESSAGE value="add:js事件处理" />
     <MESSAGE value="add:js练习题" />
     <MESSAGE value="add:BOM中的window对象" />
     <MESSAGE value="add:BOM中的location对象" />
@@ -466,6 +474,7 @@
     <MESSAGE value="style:代码格式化" />
     <MESSAGE value="add:级联下拉框" />
     <MESSAGE value="add:bootstrap入门" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:bootstrap入门" />
+    <MESSAGE value="add:栅格系统" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:栅格系统" />
   </component>
 </project>
