@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:响应式表单">
-      <change afterPath="$PROJECT_DIR$/Bootstrap/图片/图片形状.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/按键/按键.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/组件/分页.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/组件/导航条.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:响应式表单" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,7 +47,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Bootstrap/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Study Java" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -132,7 +126,7 @@
       <workItem from="1630837818512" duration="12866000" />
       <workItem from="1631355421565" duration="16348000" />
       <workItem from="1632549712524" duration="598000" />
-      <workItem from="1632550804503" duration="5170000" />
+      <workItem from="1632550804503" duration="5544000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -449,7 +443,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632554794837</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="add:响应式表单">
+      <created>1632556166039</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1632556166039</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
