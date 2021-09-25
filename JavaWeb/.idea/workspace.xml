@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:栅格系统">
-      <change afterPath="$PROJECT_DIR$/Bootstrap/栅格系统/RemoveGutter.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/栅格系统/demo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/栅格系统/手机平板桌面.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/栅格系统/移动设备和桌面.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bootstrap/表单/2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bootstrap/表格/带边框的表格.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bootstrap/表格/普通表格.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bootstrap/表格/条纹状表格.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +132,7 @@
       <workItem from="1630837818512" duration="12866000" />
       <workItem from="1631355421565" duration="16348000" />
       <workItem from="1632549712524" duration="598000" />
-      <workItem from="1632550804503" duration="2880000" />
+      <workItem from="1632550804503" duration="3712000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -428,7 +428,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632553684310</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="add:栅格系统">
+      <created>1632553706973</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1632553706973</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
