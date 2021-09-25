@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:栅格系统">
-      <change afterPath="$PROJECT_DIR$/Bootstrap/表单/2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/表格/带边框的表格.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/表格/普通表格.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bootstrap/表格/条纹状表格.html" afterDir="false" />
+    <list default="true" id="3934e600-f5a6-4b72-95f8-5b5941f70dbc" name="Default Changelist" comment="add:响应式表单">
+      <change afterPath="$PROJECT_DIR$/Bootstrap/图片/图片形状.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bootstrap/按键/按键.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bootstrap/组件/分页.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bootstrap/组件/导航条.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +132,7 @@
       <workItem from="1630837818512" duration="12866000" />
       <workItem from="1631355421565" duration="16348000" />
       <workItem from="1632549712524" duration="598000" />
-      <workItem from="1632550804503" duration="3712000" />
+      <workItem from="1632550804503" duration="5170000" />
     </task>
     <task id="LOCAL-00001" summary="feat:JavaWeb前端">
       <created>1627125973767</created>
@@ -435,7 +435,21 @@
       <option name="project" value="LOCAL" />
       <updated>1632553706973</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="add:表格样式">
+      <created>1632554743025</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1632554743025</updated>
+    </task>
+    <task id="LOCAL-00045" summary="add:响应式表单">
+      <created>1632554794837</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1632554794837</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -457,8 +471,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../.." />
     </ignored-roots>
-    <MESSAGE value="add:js练习题" />
-    <MESSAGE value="add:BOM中的window对象" />
     <MESSAGE value="add:BOM中的location对象" />
     <MESSAGE value="add:BOM中的history对象" />
     <MESSAGE value="feat:修改路径" />
@@ -482,6 +494,8 @@
     <MESSAGE value="add:级联下拉框" />
     <MESSAGE value="add:bootstrap入门" />
     <MESSAGE value="add:栅格系统" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:栅格系统" />
+    <MESSAGE value="add:表格样式" />
+    <MESSAGE value="add:响应式表单" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:响应式表单" />
   </component>
 </project>
