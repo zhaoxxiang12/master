@@ -28,19 +28,28 @@ import './commands'
 
 
 Cypress.on('uncaught:exception', (err, runnable) => {
-	//returning false here prevents Cypress from
-	// failing the test
-	return false
+  //returning false here prevents Cypress from
+  // failing the test
+  return false
 })
 
 Cypress.Cookies.defaults({
-	preserve: 'shiroCookie',
+  preserve: 'shiroCookie',
 })
 
-beforeEach(() => {
-	cy.restoreLocalStorage()
-})
+// 不清除 localStorage
+Cypress.LocalStorage.clear = function (keys, ls, rs) {
+  // do something with the keys here
+  console.log('clear localStorage:', keys, ls, rs)
+  if (keys) {
+    // return clear.apply(this, arguments)
+  }
+}
 
-afterEach(() => {
-	cy.saveLocalStorage()
-})
+// beforeEach(() => {
+// 	cy.restoreLocalStorage()
+// })
+
+// afterEach(() => {
+// 	cy.saveLocalStorage()
+// })
