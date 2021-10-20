@@ -25,40 +25,55 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 import '@testing-library/cypress/add-commands'
 import { MGR_EQA_URL } from '../shared/constants'
-import { visitPage } from '../shared/route'
+import { visitLabPage, visitPage } from '../shared/route'
 import 'cypress-file-upload'
-import { activeSelect, closeClientAlert, loginLab, loginMgr } from '../shared/util'
+import { loginLab, loginMgr, verifyMessageLab } from '../integration/common/login'
+import { activeSelect } from '../integration/common/select'
+import { closeClientAlert } from '../integration/common/message'
 
 Cypress.Commands.add('loginCQB', () => {
   loginMgr('admin')
 })
 
-Cypress.Commands.add('visitPage', (pathname) => {
-  loginMgr('admin', () => {
+Cypress.Commands.add('visitPage', (pathname, feature = 'admin') => {
+  loginMgr(feature, () => {
     visitPage(pathname)
+    // 可能存在刷新过页面
+    closeClientAlert()
   })
 })
+
+Cypress.Commands.add('visitLabPage',(pathName,feature) => {
+  loginLab(feature, () => {
+    cy.wait(5000)
+    visitLabPage(pathName)
+    closeClientAlert()
+  })
+})
+
 
 Cypress.Commands.add('QPYLT_user_login', () => {
   loginMgr('QPYLT')
 })
-Cypress.Commands.add('gdfslj_user_login', () => {
-  loginMgr('gdfslj')
+Cypress.Commands.add('gdfslj_user_login', (cb) => {
+  loginMgr('gdfslj', cb)
+})
+
+Cypress.Commands.add('edu_user_login', () => {
+  loginMgr('edu')
 })
 
 // 切换内嵌页面方法
 Cypress.Commands.add('getIframe', () => {
-  const getIframeBody = () => {
-    //尝试获取 iframe > document > body
-    // 直到body element 为空
-    return cy
-      .get('iframe').its('0.contentDocument.body').should('not.be.empty')
-      // 包装body DOM元素以允许链接更多Cypress 命令, 如 ".find(...)"
-      // warp命令使用文档地址 https://on.cypress.io/wrap
-      .then(cy.wrap)
-
-  }
-  getIframeBody()
+  //尝试获取 iframe > document > body
+  // 直到body element 为空
+  return cy
+    .get('iframe')
+    .its('0.contentDocument.body')
+    .should('not.be.empty')
+    // 包装body DOM元素以允许链接更多Cypress 命令, 如 ".find(...)"
+    // warp命令使用文档地址 https://on.cypress.io/wrap
+    .then(cy.wrap)
 })
 
 // 访问EQA界面方法
@@ -122,6 +137,16 @@ Cypress.Commands.add('deleteFolder', (folder) => {
   return cy.task('deleteFolder', folder)
 })
 
+Cypress.Commands.add('compressDir', (option) => {
+  cy.log(`compress folder ${option}`)
+  return cy.task('compressDir', option)
+})
+
+Cypress.Commands.add('uncompress', (option) => {
+  cy.log(`uncompress folder ${option}`)
+  return cy.task('uncompress', option)
+})
+
 //点击按钮
 Cypress.Commands.add('clickButton',(text)=>{
   cy.get('button',{timeout:10000}).contains(text).click({
@@ -152,6 +177,10 @@ Cypress.Commands.add('clickButton',(text)=>{
 
 Cypress.Commands.add('loginLabCQB', () => {
   loginLab('labCQB')
+})
+
+Cypress.Commands.add('loginVerifyMessageLab',()=>{
+  verifyMessageLab('verifyMessageLab')
 })
 
 

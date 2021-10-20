@@ -25,7 +25,7 @@ import './commands'
 // module.exports = (on, config) => {
 //   on('task', {downloadFile})
 // }
-
+import 'cypress-mochawesome-reporter/register'
 
 Cypress.on('uncaught:exception', (err, runnable) => {
   //returning false here prevents Cypress from
@@ -34,7 +34,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 })
 
 Cypress.Cookies.defaults({
-  preserve: 'shiroCookie',
+  preserve: ['shiroCookie', 'SESSION', 'UM_distinctid']
 })
 
 // 不清除 localStorage

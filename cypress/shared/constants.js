@@ -1,4 +1,6 @@
-export const MGR_APP_URL = 'http://mgr-cqb.test.sh-weiyi.com/cqb-base-mgr-fe/app.html'
+export const MGR_BASE_URL = 'http://mgr-cqb.test.sh-weiyi.com'
+
+export const MGR_APP_URL = `${MGR_BASE_URL}/cqb-base-mgr-fe/app.html`
 
 export const LAB_APP_URL = 'http://lab-cqb.test.sh-weiyi.com/cqb-base-gz-fe/app.html'
 
