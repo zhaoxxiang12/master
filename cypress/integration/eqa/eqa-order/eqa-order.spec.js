@@ -116,52 +116,58 @@ context('eqa订单信息', () => {
         // })
       })
     })
-  //   it('导出订单', () => {
-  //     // cy.wait(3000)
-  //     waitIntercept(interceptQueryData, () => {
-  //       expandSearchConditions()
-  //       searchPlan(returnData.planName)
-  //     }, () => {
-  //       waitRequest({
-  //         intercept: interceptViewOrder,
-  //         onBefore: () => {
-  //           findOrderButton('查看订单').should('exist').click({
-  //             force: true
-  //           })
-  //         },
-  //         onSuccess: () => {
-  //           clickListener(() => {
-  //             cy.get('[aria-label="查看订单信息"]').findByText('导出订单').should('exist').click({
-  //               force: true
-  //             })
-  //           }, 6000)
-  //         }
-  //       })
-  //     })
-  //   })
+    //   it('导出订单', () => {
+    //     // cy.wait(3000)
+    //     waitIntercept(interceptQueryData, () => {
+    //       expandSearchConditions()
+    //       searchPlan(returnData.planName)
+    //     }, () => {
+    //       waitRequest({
+    //         intercept: interceptViewOrder,
+    //         onBefore: () => {
+    //           findOrderButton('查看订单').should('exist').click({
+    //             force: true
+    //           })
+    //         },
+    //         onSuccess: () => {
+    //           clickListener(() => {
+    //             cy.get('[aria-label="查看订单信息"]').findByText('导出订单').should('exist').click({
+    //               force: true
+    //             })
+    //           }, 6000)
+    //         }
+    //       })
+    //     })
+    //   })
     
   })
-  context('实验室管理', () => {
-    it('重置上报', () => {
-      searchPlan('订单验证2')
-      findOrderButton('实验室管理').click({
-        force: true
-      })
-      cy.get('.el-table__body').eq(4).find('.el-table__row').first().findByText('重置上报').click({
-        force: true
-      })
-      waitRequest({
-        intercept: interceptResetReport,
-        onBefore: () => {
-          cy.get('.el-popconfirm__action').findByText('确定').click({
-            force: true
-          })
-        },
-        onSuccess: () => {
-          validSuccessMessage()
-          withinDialog(clickOkInDialog, '实验室管理')
-        }
-      })
+  // context('实验室管理', () => {
+  //   it('重置上报', () => {
+  //     searchPlan('订单验证2')
+  //     findOrderButton('实验室管理').click({
+  //       force: true
+  //     })
+  //     cy.get('.el-table__body').eq(4).find('.el-table__row').first().findByText('重置上报').click({
+  //       force: true
+  //     })
+  //     waitRequest({
+  //       intercept: interceptResetReport,
+  //       onBefore: () => {
+  //         cy.get('.el-popconfirm__action').findByText('确定').click({
+  //           force: true
+  //         })
+  //       },
+  //       onSuccess: () => {
+  //         validSuccessMessage()
+  //         withinDialog(clickOkInDialog, '实验室管理')
+  //       }
+  //     })
+  //   })
+  // })
+  context('删除测试数据', () => {
+    it('删除数据', () => {
+      const planName = '自动化订单'
+      cy.task('executeEqaSql',`delete from plan where name LIKE "%${planName}%"`)
     })
   })
 })

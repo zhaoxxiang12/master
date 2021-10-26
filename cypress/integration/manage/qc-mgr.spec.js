@@ -1,13 +1,13 @@
 import {
   visitPage
-} from "../../shared/route"
+} from '../../shared/route'
 import {
   closeTips
-} from "../common/dialog"
+} from '../common/dialog'
 import {
   interceptAll,
   waitRequest
-} from "../common/http"
+} from '../common/http'
 
 /**
  * 
@@ -31,7 +31,7 @@ const clickSave = (prop,text) => {
 }
 
 const checkPermissions = (prop) => {
- return findElement(prop).find('.tree-resource-node').contains('质控品管理').parents('.el-tree-node__content')
+  return findElement(prop).find('.tree-resource-node').contains('质控品管理').parents('.el-tree-node__content')
 }
 
 const openEditPage = () => {
@@ -53,9 +53,9 @@ const editUser = ()=>{
     cy.wait(3000)
   })
   cy.get('.el-table__body').first().find('.el-table__row').eq(1)
-  .findByText('编辑').click({
-    force:true
-  })
+    .findByText('编辑').click({
+      force:true
+    })
   cy.wait(3000)
 }
 
@@ -439,13 +439,13 @@ context('质控品管理', () => {
         force:true
       })
       checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').first()
-      .uncheck('',{
-        force:true
-      })
+        .uncheck('',{
+          force:true
+        })
       checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').last()
-      .uncheck('',{
-        force:true
-      })
+        .uncheck('',{
+          force:true
+        })
       waitRequest({
         intercept: interceptEditManage,
         onBefore: () => {
@@ -469,9 +469,9 @@ context('质控品管理', () => {
       })
       //勾选查看权限
       checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').first()
-      .check('',{
-        force:true
-      })
+        .check('',{
+          force:true
+        })
       waitRequest({
         intercept: interceptEditManage,
         onBefore: () => {
@@ -489,9 +489,9 @@ context('质控品管理', () => {
       cy.wait(1000)
       //勾选查看权限   
       checkPermissions('permissions').next('.el-tree-node__children').find('[type="checkbox"]').first()
-      .check('',{
-        force:true
-      })
+        .check('',{
+          force:true
+        })
       waitRequest({
         intercept:interceptEditUser,
         onBefore:()=>{
@@ -520,13 +520,13 @@ context('质控品管理', () => {
       })
       //勾选查看权限
       checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').first()
-      .uncheck('',{
-        force:true
-      })
+        .uncheck('',{
+          force:true
+        })
       checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').last()
-      .check('',{
-        force:true
-      })
+        .check('',{
+          force:true
+        })
       waitRequest({
         intercept: interceptEditManage,
         onBefore: () => {
@@ -544,14 +544,14 @@ context('质控品管理', () => {
       cy.wait(1000)
       //
       checkPermissions('permissions').next('.el-tree-node__children').find('[type="checkbox"]').first()
-      .uncheck('',{
-        force:true
-      })
+        .uncheck('',{
+          force:true
+        })
       //勾选维护权限   
       checkPermissions('permissions').next('.el-tree-node__children').find('[type="checkbox"]').last()
-      .check('',{
-        force:true
-      })
+        .check('',{
+          force:true
+        })
       waitRequest({
         intercept:interceptEditUser,
         onBefore:()=>{

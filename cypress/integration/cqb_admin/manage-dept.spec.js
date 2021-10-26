@@ -1,8 +1,8 @@
 import {
   interceptAll,
   waitIntercept
-} from "../common/http"
-import { loginMgrWithGdccl } from "../common/login"
+} from '../common/http'
+import { loginMgrWithGdccl } from '../common/login'
 
 context('分级管理机构', () => {
   let saveButton = 5

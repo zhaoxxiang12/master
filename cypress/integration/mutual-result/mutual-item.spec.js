@@ -4,18 +4,18 @@ import {
   closeTips,
   confirmDelete,
   withinDialog
-} from "../common/dialog"
+} from '../common/dialog'
 import {
   waitIntercept,
   waitRequest
-} from "../common/http"
+} from '../common/http'
 import {
   validErrorMsg,
   validSuccessMessage
-} from "../common/message"
+} from '../common/message'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 import {
   addItem,
   addItemType,
@@ -29,7 +29,7 @@ import {
   interceptDeleteItemSpec,
   interceptQueryItem,
   interceptSaveData
-} from "./mutual-item"
+} from './mutual-item'
 
 /**
  * 开展项目设置
@@ -139,7 +139,7 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
           force: true
         })
-        cy.wait(3000)
+        cy.wait(5000)
         editItem('全血细胞计数')
         waitIntercept(interceptAddItem, () => {
           withinDialog(clickOkInDialog, '编辑项目')
@@ -149,19 +149,20 @@ context('结果互认设置-开展项目设置', () => {
         cy.get('.el-menu').last().find('li').contains('全血细胞计数').click({
           force: true
         })
-        cy.wait(500)
+        cy.wait(5000)
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
           force: true
         })
-        cy.wait(3000)
+        cy.wait(5000)
         editItem('常规化学')
         waitIntercept(interceptAddItem, () => {
           withinDialog(clickOkInDialog, '编辑项目')
         }, () => {
+          cy.wait(5000)
           cy.get('.el-menu').last().find('li').contains('常规化学').click({
             force: true
           })
-          cy.wait(1000)
+          cy.wait(5000)
           getItemLength().should('have.length', itemLength)
         })
       })
@@ -170,17 +171,17 @@ context('结果互认设置-开展项目设置', () => {
       cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
         force: true
       })
-      cy.wait(3000)
+      cy.wait(5000)
       editItem(null, null, '定性')
       waitIntercept(interceptAddItem, () => {
         withinDialog(clickOkInDialog, '编辑项目')
       }, () => {
-        cy.wait(3000)
+        cy.wait(5000)
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
           force: true
         })
         cy.wait(5000)
-       elform('itemType').should('have.value','定性')
+        elform('itemType').should('have.value','定性')
         withinDialog(clickCancelInDialog, '编辑项目')
       })
     })
@@ -188,17 +189,17 @@ context('结果互认设置-开展项目设置', () => {
       cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
         force: true
       })
-      cy.wait(3000)
+      cy.wait(5000)
       editItem(null, null, '定量')
       waitIntercept(interceptAddItem, () => {
         withinDialog(clickOkInDialog, '编辑项目')
       }, () => {
-        cy.wait(3000)
+        cy.wait(5000)
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
           force: true
         })
         cy.wait(5000)
-       elform('itemType').should('have.value','定量')
+        elform('itemType').should('have.value','定量')
         withinDialog(clickCancelInDialog, '编辑项目')
       })
     })
@@ -206,17 +207,17 @@ context('结果互认设置-开展项目设置', () => {
       cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
         force: true
       })
-      cy.wait(3000)
+      cy.wait(5000)
       editItem(null, null, '不限')
       waitIntercept(interceptAddItem, () => {
         withinDialog(clickOkInDialog, '编辑项目')
       }, () => {
-        cy.wait(3000)
+        cy.wait(5000)
         cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
           force: true
         })
         cy.wait(5000)
-       elform('itemType').should('have.value','不限')
+        elform('itemType').should('have.value','不限')
         withinDialog(clickCancelInDialog, '编辑项目')
       })
     })
@@ -231,11 +232,12 @@ context('结果互认设置-开展项目设置', () => {
           onBefore: () => {
             confirmDelete()
           },
-          onError: () => {
-            validErrorMsg('该项目下存在检测体系,无法删除')
+          onError: (data) => {
+            validErrorMsg(data)
             getItemLength().should('have.length', itemLength)
           }
         })
+        cy.wait(5000)
         cy.get('.item-configNew__item-action').eq(1).find('.el-icon-delete').click({
           force: true
         })
@@ -328,6 +330,7 @@ context('结果互认设置-开展项目设置', () => {
         onBefore: () => {
           cy.get('.el-form.panel-dept__header.el-form--inline').findAllByPlaceholderText('请选择').click()
           activeSelect('青浦医联体')
+          cy.wait(5000)
         },
         onSuccess: (data) => {
           result = data
@@ -382,6 +385,7 @@ context('结果互认设置-开展项目设置', () => {
       }
     })
     it('启用所有项目', () => {
+      cy.wait(5000)
       waitRequest({
         intercept: interceptSaveData,
         onBefore: () => {
@@ -399,9 +403,9 @@ context('结果互认设置-开展项目设置', () => {
       })
     })
     it('项目搜索', () => {
-     cy.get('.item-configNew').within(() => {
-       cy.get('.el-input.el-input--medium.el-input--suffix').last().findByPlaceholderText('项目快速检索').type('白细胞计数')
-     })
+      cy.get('.item-configNew').within(() => {
+        cy.get('.el-input.el-input--medium.el-input--suffix').last().findByPlaceholderText('项目快速检索').type('白细胞计数')
+      })
       cy.wait(1000)
       getItemLength().should('have.length', 1)
     })
@@ -410,38 +414,39 @@ context('结果互认设置-开展项目设置', () => {
         .find('.el-icon-edit').click({
           force: true
         })
-        cy.wait(2000)
-        elform('sourceId').first().click()
-        cy.get('.el-scrollbar:visible').then(element => {
-          if (element.css('display')==='block') {
-            if (element.find('.el-select-dropdown__item').hasClass('selected')) {
-              cy.get('.el-select__caret.el-input__icon.el-icon-circle-close').click()
-              waitIntercept(interceptAddItem,() => {
-                withinDialog(clickOkInDialog,'编辑项目') 
-              },() => {
-                cy.wait(5000)
-                cy.get('.item-configNew__list').contains('白细胞计数').parents('.ql-itemCard__body')
+      cy.wait(2000)
+      elform('sourceId').first().click()
+      cy.get('.el-scrollbar:visible').then(element => {
+        if (element.css('display')==='block') {
+          if (element.find('.el-select-dropdown__item').hasClass('selected')) {
+            cy.get('.el-select__caret.el-input__icon.el-icon-circle-close').click()
+            waitIntercept(interceptAddItem,() => {
+              withinDialog(clickOkInDialog,'编辑项目') 
+            },() => {
+              cy.wait(5000)
+              cy.get('.item-configNew__list').contains('白细胞计数').parents('.ql-itemCard__body')
                 .find('.el-icon-edit').click({
                   force: true
                 })
-                cy.wait(2000)
-                elform('sourceId').first().click()
-                activeSelect('(中国)卫健委临检中心室间质评标准')
-                withinDialog(clickOkInDialog,'编辑项目')
-              })
-            } else {
+              cy.wait(2000)
+              elform('sourceId').first().click()
               activeSelect('(中国)卫健委临检中心室间质评标准')
               withinDialog(clickOkInDialog,'编辑项目')
-            }
+            })
           } else {
+            activeSelect('(中国)卫健委临检中心室间质评标准')
             withinDialog(clickOkInDialog,'编辑项目')
           }
-        })
+        } else {
+          withinDialog(clickOkInDialog,'编辑项目')
+        }
+      })
     })
   })
   context('删除测试数据',() => {
     it('删除测试数据',() => {
-      cy.exec('python cypress/integration/mutual-result/deleteSelfItem.py')
+      const selfItemName = '自定义项目'
+      cy.task('executeDictSql',`delete from spec_item_audit where itemCName like "%${selfItemName}%"`)
     })
   })
 })

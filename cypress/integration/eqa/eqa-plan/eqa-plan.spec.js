@@ -316,7 +316,7 @@ context('比对计划组织', () => {
       const majorName = '临床免疫学'
       const simpleNum = 3
       const times = 12
-      const planCompareCode = "planABC" + randomCode
+      const planCompareCode = 'planABC' + randomCode
       const planName = '自动测试计划' + randomCode
       addEqaPlan({
         planName,
@@ -478,6 +478,9 @@ context('比对计划组织', () => {
     const planName = '计划'
     const planCompareCode = 'plan' + randomCode
     const times = 6
+    before(() => {
+      cy.reload()
+    })
     it('021-计划编码未填写', () => {
       addEqaPlan({
         planName,
@@ -776,6 +779,9 @@ context('比对计划组织', () => {
                     onSuccess: () => {
                       iframeValidMessage('生成反馈报告任务已提交，可以在反馈报告页面查看报告')
                       cancelElform(prop)
+                    },
+                    onError: () => {
+                      cancelElform(prop)
                     }
                   })
                 }
@@ -790,6 +796,7 @@ context('比对计划组织', () => {
       cy.get('.el-table__body').eq(1).find('.el-table__row').first().findByText('样本下发').click({
         force: true
       })
+      cy.wait(2000)
       cy.get('[aria-label="样本下发"]').find('[type=checkbox]').check('', {
         force: true
       })
@@ -808,7 +815,11 @@ context('比对计划组织', () => {
   })
   context('删除数据库中的数据',() => {
     it('删除数据',() => {
-      cy.exec('python  cypress/integration/eqa/eqa-plan/deleteEQAPlan.py')
+      const planName = '自动测试计划'
+      const planName2 = '修改计划'
+      cy.task('executeEqaSql',`delete from plan where name LIKE "%${planName}%"`)
+      cy.wait(1000)
+      cy.task('executeEqaSql',`delete from plan where name LIKE "%${planName2}%"`)
     })
   })
 })

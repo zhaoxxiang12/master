@@ -1,4 +1,5 @@
 import 'cypress-iframe'
+import dayjs from 'dayjs'
 import {
   activeDateDay
 } from '../../common/date'
@@ -311,17 +312,10 @@ context('监控内容配置', () => {
       const message = '1'
       const sendObject = '1'
       const messageType = '1'
-      let time = new Date()
-      let month
-      let currentTime
-      // let currentTime = (time.toLocaleDateString()).replace(/\//g,'-')
-      let newTime = (time.toLocaleDateString()).split('/')
-      if (newTime[1] < 10) {
-        month = '0' + newTime[1]
-        currentTime = newTime[0] + '-' + month + '-' + newTime[2]
-      } else {
-        currentTime = newTime[0] + '-' + newTime[1] + '-' + newTime[2]
-      }
+      const year = dayjs().format('YYYY')
+      const month = dayjs().format('MM')
+      const day = dayjs().format('DD')
+      const currentTime = year + '-' + month + '-' + day
       cy.get('.ql-lab-list__status').find('div').eq(reportDetails).click({
         force: true
       })

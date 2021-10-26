@@ -1,20 +1,20 @@
 import {
   activeDateMonth
-} from "../../common/date"
-import { closeTips, confirmDelete } from "../../common/dialog"
+} from '../../common/date'
+import { closeTips, confirmDelete } from '../../common/dialog'
 import {
   interceptAll
-} from "../../common/http"
-import { validSuccessMessage } from "../../common/message"
+} from '../../common/http'
+import { validSuccessMessage } from '../../common/message'
 import {
   expandSearchConditions
-} from "../../eqa/eqa-order/eqa-order"
+} from '../../eqa/eqa-order/eqa-order'
 import {
   elform
-} from "../../mutual-result/mutual-item"
+} from '../../mutual-result/mutual-item'
 import {
   clickSearch
-} from "../../setting/report-monitor/report-monitor"
+} from '../../setting/report-monitor/report-monitor'
 
 export const interceptQueryItem = () => {
   return interceptAll('service/base/item?*', interceptQueryItem.name + new Date ().getTime(), '/cqb-base')
@@ -130,7 +130,7 @@ export const clickButton = (text) => {
 }
 
 export const checkData = (queryData) => {
- const workDayItem = queryData.map(item => {
+  const workDayItem = queryData.map(item => {
     if (item.workDays.length > 0) {
       return item
     }

@@ -3,7 +3,7 @@ import { findTableCell, validTable } from '../common/table'
 import { visitIframePage } from '../../shared/route'
 import { activeSelect } from '../common/select'
 import { confirmDelete, okOnPopConfirm } from '../common/dialog'
-import { interceptGet, interceptPost, waitIntercept } from '../common/http'
+import { interceptGet, interceptPost, waitIntercept, waitRequest } from '../common/http'
 import { validSuccessMessage } from '../common/message'
 
 describe('EQA公告推送设置', () => {

@@ -1,16 +1,16 @@
 import {
   confirmDelete
-} from "../common/dialog"
+} from '../common/dialog'
 import {
   waitIntercept,
   waitRequest
-} from "../common/http"
+} from '../common/http'
 import {
   validErrorMsg
-} from "../common/message"
+} from '../common/message'
 import {
   selectDropListValue
-} from "../eqa/eqa-report/eqa-report"
+} from '../eqa/eqa-report/eqa-report'
 import {
   clickConfigButton,
   clickPlaceHolder,
@@ -24,7 +24,7 @@ import {
   quitPreserveMode,
   selectMajor,
   validEnterPreserveMode
-} from "./ds-config"
+} from './ds-config'
 
 /**
  * 检测体系配置
@@ -43,16 +43,21 @@ context('检测体系配置', () => {
     const testMethod = '干化学'
     const nuReagent = '拜耳'
     const testReagent = '科方(广州)'
-    const testCalibration = '原装试剂'
+    const testCalibration = '希森美康'
     const unit = 'mmol/L'
     const CTValue = 25
     const resultType = '定量'
     const instrumentNo = '001'
+    const itemName = '病毒基因E区'
     it('添加仪器编号已存在的检测体系', () => {
-      cy.get('.data-table__body').find('tbody').first().find('.item-cell__text')
-        .invoke('text').then((ItemName) => {
-          getItemTestingLength(ItemName).then((getData) => {
+      cy.get('.data-table__body').contains(itemName).parents('.item-cell ').find('.item-cell__text')
+        .invoke('text').then((getItemName) => {
+          getItemTestingLength(getItemName).then((getData) => {
             enterPreserveMode()
+            cy.wait(1000)
+            cy.get('.data-table__body').contains(itemName).parents('.item-cell ').findByText('添加').click({
+              force: true
+            })
             createConfig({
               instrument,
               testMethod,
@@ -67,12 +72,12 @@ context('检测体系配置', () => {
             waitRequest({
               intercept: interceptItemTesting,
               onBefore: () => {
-                clickConfigButton(ItemName, '保存')
+                clickConfigButton(getItemName, '保存')
               },
               onError: () => {
                 cy.wait(1000)
-                validErrorMsg('[' + ItemName + ',' + instrument + '] ' + '仪器编号：' + instrumentNo + ' 已在‘红细胞计数’项目配置过，请重新配置')
-                clickConfigButton(ItemName, '取消')
+                validErrorMsg('[' + getItemName + ',' + instrument + '] ' + '仪器编号：' + instrumentNo + ' 已在‘红细胞计数’项目配置过，请重新配置')
+                clickConfigButton(getItemName, '取消')
                 quitPreserveMode()
               }
             })
@@ -82,9 +87,13 @@ context('检测体系配置', () => {
     it('检测体系创建成功', () => {
       cy.wait(3000)
       validEnterPreserveMode(() => {
-        cy.get('.data-table__body').find('tbody').first().find('.item-cell__text')
-          .invoke('text').then((ItemName) => {
-            getItemTestingLength(ItemName).then((getData) => {
+        cy.get('.data-table__body').contains(itemName).parents('.item-cell ').find('.item-cell__text')
+          .invoke('text').then((getItemName) => {
+            getItemTestingLength(getItemName).then((getData) => {
+              cy.wait(1000)
+              cy.get('.data-table__body').contains(itemName).parents('.item-cell ').findByText('添加').click({
+                force: true
+              })
               createConfig({
                 instrument,
                 testMethod,
@@ -96,10 +105,10 @@ context('检测体系配置', () => {
                 resultType
               })
               waitIntercept(interceptItemTesting, () => {
-                clickConfigButton(ItemName, '保存')
+                clickConfigButton(getItemName, '保存')
               }, () => {
                 cy.wait(3000)
-                getItemTestingLength(ItemName).should('have.length', getData.length + 1)
+                getItemTestingLength(getItemName).should('have.length', getData.length + 1)
                 quitPreserveMode()
               })
             })
@@ -205,13 +214,17 @@ context('检测体系配置', () => {
       const instrument = '自定义'
       const testMethod = '干化学'
       const testReagent = '科方(广州)'
-      const testCalibration = '原装试剂'
+      const testCalibration = '希森美康'
       const nuReagent = '拜耳'
       const unit = 'mmol/L'
       const CTValue = 25
       const resultType = '定量'
       const selfInstrument = '自定义仪器' + parseInt(Math.random() * 100)
       validEnterPreserveMode(() => {
+        cy.wait(1000)
+        cy.get('.data-table__body').contains(itemName).parents('.item-cell ').findByText('添加').click({
+          force: true
+        })
         createConfig({
           instrument,
           testMethod,
@@ -225,9 +238,9 @@ context('检测体系配置', () => {
           selfInstrument
         })
         waitRequest({
-          intercept:interceptItemTesting,
+          intercept: interceptItemTesting,
           onBefore: () => {
-            clickConfigButton(itemName,'保存')
+            clickConfigButton(itemName, '保存')
           },
           onSuccess: (data) => {
             expect(data.status).to.eq(false)
@@ -237,23 +250,23 @@ context('检测体系配置', () => {
     })
     it('自定义检测体系未审核状态不能开启', () => {
       validEnterPreserveMode(() => {
-        clickConfigButton(itemName,'编辑')
+        clickConfigButton(itemName, '编辑')
         enableItem(itemName)
         validErrorMsg('检测体系中有数据还未审核，待审核通过后才能开启')
-        clickConfigButton(itemName,'取消')
+        clickConfigButton(itemName, '取消')
       })
     })
-    it('删除自定义检测项目' ,() => {
+    it('删除自定义检测项目', () => {
       validEnterPreserveMode(() => {
         getItemTestingLength(itemName).then(getData => {
-          clickConfigButton(itemName,'删除')
-          waitIntercept(interceptDeleteItemTesting,() => {
+          clickConfigButton(itemName, '删除')
+          waitIntercept(interceptDeleteItemTesting, () => {
             confirmDelete()
           }, () => {
             cy.wait(1000)
             getItemTestingLength(itemName).should('have.length', getData.length - 1)
           })
-        })  
+        })
       })
     })
   })

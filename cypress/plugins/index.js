@@ -1,8 +1,9 @@
 const fse = require('fs-extra')
 const { readPdf, getPdfContent } = require('./read-pdf')
 const { readExcel } = require('./read-excel')
+const { compressDir, uncompress } = require('./compress')
+const { executeCqbSql, executeEqaSql,executeDictSql } = require('./mysql')
 const { beforeRunHook, afterRunHook } = require('cypress-mochawesome-reporter/lib');  
-const compressing = require('compressing')
 
 /**
  * @type {Cypress.PluginConfig}
@@ -31,26 +32,21 @@ module.exports = (on, config) => {
   })
 
   on('task', {
-    // async clearTmp () {
-    //   await fse.remove(path.join(__dirname, '..', 'tmp'))
-    //   return null
-    // }
     readPdf,
 
     readExcel,
 
     getPdfContent,
 
-    async compressDir({folderName, zipName}) { // 压缩文件夹
-      console.log('compressDir folder %s to %s', folderName, zipName)
-      return await compressing.zip.compressDir(folderName, zipName)
-    },
+    compressDir,
 
-    async uncompress({zipName, folderName}) { // 解压压缩包
-      console.log('uncompress folder %s to %s', zipName, folderName)
-      return await compressing.zip.uncompress(zipName, folderName)
-    },
+    uncompress,
 
+    executeCqbSql,
+
+    executeEqaSql,
+
+    executeDictSql,
 
     async deleteFolder (folderName) {
       console.log('deleting folder %s', folderName)

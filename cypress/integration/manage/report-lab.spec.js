@@ -37,9 +37,9 @@ context('互认报告和证书管理', () => {
     })
   }
 
-const findButton = (prop,text) => {
-  return cy.get(`[aria-label=${prop}]`).findByText(text)
-}
+  const findButton = (prop,text) => {
+    return cy.get(`[aria-label=${prop}]`).findByText(text)
+  }
 
   const visitCertPage = (alias) => { //访问年度互认证书页面
     let labCode = 'gdtest5'
@@ -601,6 +601,7 @@ const findButton = (prop,text) => {
     })
   })
   it('009-月度汇总报告-互认报告和证书管理-批量取消推送', () => {
+    cy.wait(300)
     cy.get('.ql-search__header').find('input[placeholder="请输入实验室名称或编码"]').first().clear({
       force: true
     }).eq(0).type('gd18001', {
@@ -755,9 +756,9 @@ const findButton = (prop,text) => {
       force: true
     })
     cy.wait(1000)
-   cy.get('.el-table__body .el-table__row').first().findByText('删除').click({
-     force:true
-   })
+    cy.get('.el-table__body .el-table__row').first().findByText('删除').click({
+      force:true
+    })
     cy.intercept('**/cqb-base-mgr/service/mgr/report/summary/*').as('deleteReport')
     confirmDelete()
     cy.wait('@deleteReport').then((xhr) => {

@@ -1,41 +1,48 @@
+import dayjs from 'dayjs'
 import {
   visitPage
-} from "../../../shared/route"
+} from '../../../shared/route'
 import {
   getMonthZh
-} from "../../common/date"
+} from '../../common/date'
 import {
   clickCancelInDialog,
   clickOkInDialog,
   closeTips,
   confirmDelete,
   withinDialog
-} from "../../common/dialog"
-import { clickListener } from "../../common/event"
-import { validatePdfFile } from "../../common/file"
+} from '../../common/dialog'
+import {
+  clickListener
+} from '../../common/event'
+import {
+  validatePdfFile
+} from '../../common/file'
 import {
   validFormItemError
-} from "../../common/form"
+} from '../../common/form'
 import {
   waitIntercept
-} from "../../common/http"
+} from '../../common/http'
 import {
   getTextarea,
   setTextarea
-} from "../../common/input"
+} from '../../common/input'
 import {
   closeClientAlert,
   validErrorMsg,
   validSuccessMessage
-} from "../../common/message"
-import { activeSelect } from "../../common/select"
+} from '../../common/message'
+import {
+  activeSelect
+} from '../../common/select'
 import {
   elform
-} from "../../mutual-result/mutual-item"
+} from '../../mutual-result/mutual-item'
 import {
   clickSearch,
   interceptQuery
-} from "../workdayUtil"
+} from '../workdayUtil'
 import {
   applyWorkDay,
   assertText,
@@ -50,7 +57,7 @@ import {
   loginMgrSearch,
   queryAduitWorkDay,
   selectMonth
-} from "./mutual-result"
+} from './mutual-result'
 
 /**
  * 工作日申请
@@ -59,9 +66,9 @@ context('工作日申请', () => {
   const planApply = '计划申请'
   const specialApply = '特殊申请'
   const labCode = 'gd18020'
-  const month = ((new Date().toLocaleDateString()).split('/'))[1]
+  const month = dayjs().format('MM')
   const monthZh = getMonthZh(month)
-  const monthString = (new Date().getFullYear()) + '年' + monthZh
+  const monthString = dayjs().format('YYYY') + '年' + monthZh
   const applyReason = '每支军队都有自己的灵魂，它在这支军队中永生。不管多少岁月过去了，这种灵魂，这样精神，将在这支队伍中永远流传下去！”我认为中国军队的灵魂就体现在一种“大无畏”精神上。八路军、志愿军都是不怕死的，他们视死如归'
   before(() => {
     cy.visitLabPage('mutual-result', 'labgd18020')
@@ -189,7 +196,7 @@ context('工作日申请', () => {
               const getValue = element.val()
               expect(getValue).not.to.eq(applyReason)
               expect(getValue).to.have.length(99)
-              withinDialog(clickCancelInDialog,'月度工作日申请')
+              withinDialog(clickCancelInDialog, '月度工作日申请')
             })
           })
         } else {
@@ -203,7 +210,7 @@ context('工作日申请', () => {
             const getValue = element.val()
             expect(getValue).not.to.eq(applyReason)
             expect(getValue).to.have.length(99)
-            withinDialog(clickCancelInDialog,'月度工作日申请')
+            withinDialog(clickCancelInDialog, '月度工作日申请')
           })
         }
       })
@@ -222,7 +229,7 @@ context('工作日申请', () => {
           result = data
           itemIndex = result.findIndex(item => item.status)
           cy.get('.item-configNew__list').find('.item-button__content').eq(itemIndex).invoke('text').then((getText) => {
-            text = getText.replace(/(^\s*)|(\s*$)/g, "")
+            text = getText.replace(/(^\s*)|(\s*$)/g, '')
           })
         })
       })
@@ -232,7 +239,7 @@ context('工作日申请', () => {
         })
         cy.wait(500)
         cy.get('.item-configNew__list').find('.item-button__content').eq(itemIndex).invoke('text').then((getText) => {
-          text = getText.replace(/(^\s*)|(\s*$)/g, "")
+          text = getText.replace(/(^\s*)|(\s*$)/g, '')
         })
         selectMonth(month)
         applyWorkDay(month, planApply, 15)
@@ -259,21 +266,21 @@ context('工作日申请', () => {
         clickButton('审核通过')
         closeTips('提示', '通过')
         cy.get('.el-form.panel-dept__header').findAllByPlaceholderText('请选择').click({
-          force:true
+          force: true
         })
         //其他质控主管单位看不见这条数据
         activeSelect('青浦医联体')
         waitIntercept(interceptQuery, () => {
           clickSearch()
-        },(data) => {
+        }, (data) => {
           expect(data.data.length).to.eq(0)
-          cy.get('body').should('contain','暂无数据')
+          cy.get('body').should('contain', '暂无数据')
         })
         cy.wait(1000)
         waitIntercept(interceptApplyMsg, () => {
           cy.visitLabPage('mutual-result', 'labgd18020')
         }, (data) => {
-          expect(data.data[0].createTime).to.contain(new Date().toLocaleDateString().replace(/\//g, '-'))
+          expect(data.data[0].createTime).to.contain(dayjs().format('YYYY') + '-' + dayjs().format('MM') + '-' + dayjs().format('DD'))
           cy.get('.el-menu').contains('常规化学').click({
             force: true
           })
@@ -294,7 +301,7 @@ context('工作日申请', () => {
         waitIntercept(interceptApplyMsg, () => {
           cy.visitLabPage('mutual-result', 'labgd18020')
         }, (data) => {
-          expect(data.data[0].createTime).to.contain(new Date().toLocaleDateString().replace(/\//g, '-'))
+          expect(data.data[0].createTime).to.contain(dayjs().format('YYYY') + '-' + dayjs().format('MM') + '-' + dayjs().format('DD'))
           // expect(data.data[0].status).to.eq(1)
           cy.get('.el-menu').contains('常规化学').click({
             force: true
@@ -343,6 +350,7 @@ context('工作日申请', () => {
         })
       })
       it('选择本专业所有项目', () => {
+        cy.wait(2000)
         cy.get('.el-footer').findByText('选择本专业所有项目').click({
           force: true
         })
@@ -362,7 +370,7 @@ context('工作日申请', () => {
           waitIntercept(interceptQuery, () => {
             clickSearch()
           }, data => {
-            console.log(data);
+            console.log(data)
             cy.get('.el-table__body').last().find('.el-table__row').should('have.length', data.data.length)
             for (let j = 0; j < data.data.length; j++) {
               if (data.data.length >= 1) {
@@ -376,14 +384,14 @@ context('工作日申请', () => {
       })
       it('选择本实验室所有项目', () => {
         cy.visitLabPage('mutual-result', 'labgd18020')
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('.el-footer').findByText('选择本实验室所有项目').click({
           force: true
         })
         cy.get('.el-footer').findByText('批量申请').click({
           force: true
         })
-        cy.wait(1000)
+        cy.wait(2000)
         selectMonth(month)
         applyWorkDay(month, planApply, 15)
         waitIntercept(interceptApplyWorkDay, () => {
@@ -459,7 +467,7 @@ context('工作日申请', () => {
         }
       })
       it('查看消息', () => {
-        console.log(MsgResult);
+        console.log(MsgResult)
         if (MsgResult.total >= 6) {
           for (let i = 1; i <= 5; i++) {
             cy.get('#pane-notice').find('.wy-list>.wy-list__item').first()

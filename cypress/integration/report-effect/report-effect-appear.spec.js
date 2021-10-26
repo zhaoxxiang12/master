@@ -197,7 +197,7 @@ describe('实验室上报情况', () => {
   context('导出PDF', () => {
     it('011-导出PDF', () => {
       waitIntercept(queryApear, clickSearch, tableData => {
-        clickListener(() => clickTool('导出PDF'))
+        clickListener(() => clickTool('导出PDF'), 10000)
         validatePdfFile(pdfFile, (data) => {
           expect(data.text, '表头文本').to.contains(headerTexts.join(''))
           if (tableData.detail.length) {

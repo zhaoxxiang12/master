@@ -22,12 +22,18 @@ import {
  */
 export function loginMgr(featureName, cb) {
   cy.visit(MGR_LOGIN_URL)
+  const userInfo = localStorage.getItem('cqbMgr__userInfo')
+  let sameAccount = false
+  if (userInfo) {
+    const data = JSON.parse(userInfo)
+    sameAccount = data.value.cclCode === featureName
+  }
   // 请求一个消息数接口判断是否登录
   cy.request({
     url: 'cqb-base-mgr/service/mgr/messages/mgrCount?status=1',
     failOnStatusCode: false
   }).then(result => {
-    if (result.status === 401 || result.body.status === -100) {
+    if (result.status === 401 || result.body.status === -100 || !sameAccount) {
       // 使用fixtures里的账号文件配置作为登录用户信息
       cy.fixture(featureName).then((adminJSON) => {
         closeClientAlert()

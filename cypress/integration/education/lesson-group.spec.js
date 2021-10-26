@@ -1,6 +1,7 @@
 /**
  * 课程组合管理
  */
+import { loginMgrWithGdccl } from '../common/login'
 import {
   logout,
   customizeLessonGroup,
@@ -148,6 +149,7 @@ describe('课程组合管理', () => {
     before(() => {
       cy.gdfslj_user_login()
       cy.visitPage('lesson-group')
+      loginMgrWithGdccl('lesson-group')
     })
     after(() => {
       //点击注销，切换用户登录
@@ -157,7 +159,7 @@ describe('课程组合管理', () => {
       cy.wait(1000)
       customizeLessonGroup()
       cy.wait(100)
-      setLessonGroupName('def')
+      setLessonGroupName(`def${Date.now()}`)
       cy.wait(100)
       for (let i = 0; i < 16; i++) {
         const checkbox = cy.get('[aria-label="创建课程组合"] [aria-label="checkbox-group"] .el-checkbox')
@@ -175,7 +177,7 @@ describe('课程组合管理', () => {
       cy.wait(1000)
       customizeLessonGroup()
       cy.wait(100)
-      setLessonGroupName('def')
+      setLessonGroupName(`def${Date.now()}`)
       cy.wait(100)
       const videoTag = cy.get('[aria-label="创建课程组合"] .el-checkbox__label .el-tag')
       videoTag.contains('视频').first().click({

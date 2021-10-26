@@ -1,17 +1,17 @@
 import {
   visitIframePage
-} from "../../../shared/route"
+} from '../../../shared/route'
 import {
   waitIntercept,
   waitRequest
-} from "../../common/http"
-import { validSuccessMessage } from "../../common/message"
+} from '../../common/http'
+import { validSuccessMessage } from '../../common/message'
 import {
   clickSearch
-} from "../../setting/report-monitor/report-monitor"
+} from '../../setting/report-monitor/report-monitor'
 import {
   reset
-} from "../eqa-plan/eqa-plan"
+} from '../eqa-plan/eqa-plan'
 import {
   assertReport,
   clickRegerate,
@@ -22,7 +22,7 @@ import {
   interceptQueryYear,
   interceptRegenerate,
   searchReportData
-} from "./eqa-report"
+} from './eqa-report'
 
 /**
  * eqa反馈报告
@@ -90,6 +90,7 @@ context('EQA反馈报告', () => {
       }
     })
     it('002-年度查询', () => {
+      cy.wait(1000)
       if (queryYear.length > 1) {
         searchReportData(null, queryYear[0])
         assertReport(null, queryYear[0])
@@ -99,19 +100,23 @@ context('EQA反馈报告', () => {
       }
     })
     it('003-比对计划名称查询', () => {
+      cy.wait(1000)
       searchReportData(null, null, planName)
       assertReport(null, null, planName)
     })
     it('004-次数查询', () => {
+      cy.wait(1000)
       searchReportData(null, null, null, times)
       assertReport(null, null, null, times)
     })
     it('005-实验室名称查询', () => {
+      cy.wait(1000)
       searchReportData(null, null, null, null, null, labName)
       assertReport(null, null, null, null, null, labName)
     })
     context('报告状态查询', () => {
       it('006-已推送', () => {
+        cy.wait(1000)
         searchReportData(null, null, null, null, pushStatus)
         assertReport(null, null, null, null, pushStatus)
       })
@@ -123,6 +128,7 @@ context('EQA反馈报告', () => {
   })
   context('报告操作', () => {
     it('008-查看报告', () => {
+      cy.wait(1000)
       const getTotal = queryResult.total
       if (getTotal > 0) {
         cy.get('.el-table__body').last().find('.el-table__row').findByText('查看报告').click({
@@ -134,10 +140,11 @@ context('EQA反馈报告', () => {
       }
     })
     it('009-重新生成', () => {
+      cy.wait(1000)
       const getTotal = queryResult.total
       if (getTotal) {
         const rowIndex = queryResult.records.findIndex(report => report.status === 2)
-        let queryReport = interceptQueryReport()
+        let queryReport 
         if (rowIndex === -1) {
           const selfIndex = 0
           cy.get('.el-table__body').last().find('.el-table__row').eq(selfIndex).find('.el-switch__core').click({
@@ -148,11 +155,12 @@ context('EQA反馈报告', () => {
             intercept: interceptRegenerate,
             onBefore: () => {
               clickRegerate(selfIndex)
+              queryReport =  interceptQueryReport()
             },
             onSuccess: () => {
               validSuccessMessage()
               waitIntercept(queryReport,responseData=>{
-               const responseStatus = responseData.records[selfIndex].status
+                const responseStatus = responseData.records[selfIndex].status
                 expect(responseStatus).to.eq(1)
               })
             }
@@ -160,12 +168,13 @@ context('EQA反馈报告', () => {
         } else {
           waitIntercept(interceptRegenerate,()=>{
             clickRegerate(rowIndex)
+            queryReport = interceptQueryReport()
           },()=>{
             validSuccessMessage()
             waitIntercept(queryReport,responseData=>{
               const responseStatus = responseData.records[rowIndex].status
-               expect(responseStatus).to.eq(1)
-             })
+              expect(responseStatus).to.eq(1)
+            })
           })
         }
       } else {
@@ -179,21 +188,18 @@ context('EQA反馈报告', () => {
       cy.get('.el-table__fixed-header-wrapper').last().find('[type=checkbox]').check({
         force:true
       })
+      cy.wait(2000)
+      let queryReport 
       waitIntercept(interceptPush,()=>{
         cy.get('.ql-search__tools-top.is-left').findByText('批量推送')
-        .click({
-          force:true
-        })
+          .click({
+            force:true
+          })
+          queryReport = interceptQueryReport()
       },()=>{
         validSuccessMessage()
         waitRequest({
-          intercept:interceptQueryReport,
-          onBefore:()=>{
-            cy.get('.ql-search__tools-top.is-left').findByText('批量推送')
-            .click({
-              force:true
-            })
-          },
+          intercept:queryReport,
           onSuccess:(data)=>{
             data.records.forEach((item=>expect(item.status).to.eq(2)))
           }
@@ -204,21 +210,18 @@ context('EQA反馈报告', () => {
       cy.get('.el-table__fixed-header-wrapper').last().find('[type=checkbox]').check({
         force:true
       })
+      cy.wait(2000)
+      let queryReport
       waitIntercept(interceptCancelPush,()=>{
         cy.get('.ql-search__tools-top.is-left').findByText('批量取消推送')
-        .click({
-          force:true
-        })
+          .click({
+            force:true
+          })
+          queryReport = interceptQueryReport()
       },()=>{
         validSuccessMessage()
         waitRequest({
-          intercept:interceptQueryReport,
-          onBefore:()=>{
-            cy.get('.ql-search__tools-top.is-left').findByText('批量取消推送')
-            .click({
-              force:true
-            })
-          },
+          intercept:queryReport,
           onSuccess:(data)=>{
             data.records.forEach((item=>expect(item.status).to.eq(1)))
           }

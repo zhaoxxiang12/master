@@ -1,11 +1,11 @@
 import {
   interceptAll,
   waitRequest
-} from "../../common/http"
+} from '../../common/http'
 import {
   clickSearch,
   searchConditions
-} from "../../setting/report-monitor/report-monitor"
+} from '../../setting/report-monitor/report-monitor'
 /**
  * 
  * @param {string} majorName 专业名
@@ -66,7 +66,7 @@ export const interceptRegenerate = () => {
 }
 
 export const interceptQueryReport = () => {
-  return interceptAll('service/feedback/search?*', interceptQueryReport.name, '')
+  return interceptAll('service/feedback/search?*', interceptQueryReport.name + new Date().getTime(), '')
 }
 
 export const interceptQueryMajor = () => {

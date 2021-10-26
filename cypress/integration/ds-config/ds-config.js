@@ -1,13 +1,13 @@
 import {
   interceptAll
-} from "../common/http"
+} from '../common/http'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 import {
   dropListSelect,
   elform
-} from "../mutual-result/mutual-item"
+} from '../mutual-result/mutual-item'
 
 const params = {
   instrument: {
@@ -72,13 +72,13 @@ export const checkParam = (param,value) => {
   if (param === '自定义') {
     for (const key in value) {
       clickPlaceHolder('请输入自定义名称','.el-popover.el-popper')
-      .type(value[key])
+        .type(value[key])
       clickPlaceHolder('请输入自定义名称','.el-popover.el-popper')
-      .parent()
-      .findByText('确认')
-      .click({
-        force:true
-      })
+        .parent()
+        .findByText('确认')
+        .click({
+          force:true
+        })
     }
   }
 }
@@ -121,10 +121,10 @@ export const clickConfigButton = (item, text) => {
 
 export const enableItem = (itemName) => {
   cy.get('.data-table__body').find('tbody').find('.item-cell__text').contains(itemName)
-  .parents('tbody').find('tr').last()
-  .find('.el-switch__core').click({
-    force:true
-  }) 
+    .parents('tbody').find('tr').last()
+    .find('.el-switch__core').click({
+      force:true
+    }) 
 }
 
 export const getItemTestingLength = (item) => {

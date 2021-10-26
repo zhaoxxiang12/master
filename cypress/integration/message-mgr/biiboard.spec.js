@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 const addBillboard = (titleBox) => {
   cy.get('.el-input__inner').eq(titleBox).type('自动化填写公告标题', {
     force: true
@@ -393,5 +395,12 @@ context('消息互通-公告板', () => {
         })
       }
     })
+  })
+  it('删除测试数据', () => {
+    const year = dayjs().format('YYYY')
+    const month = dayjs().format('MM')
+    const day = dayjs().format('DD')
+    const monthString = year +'-' + month + '-' + day
+    cy.task('executeCqbSql',`delete from base_bulletin_board where create_time like "%${monthString}%"`)
   })
 })

@@ -198,6 +198,7 @@ context('年度互认证书', () => {
         let responseStatus = xhr.response.statusCode
         let expectStatus = 200
         expect(responseStatus).to.eq(expectStatus)
+        cy.wait(2000)
         cy.get('.el-message.el-message--success').should('contain', '已批量推送')
         cy.wait(500)
         for (let i = 0; i < getLength; i++) {
@@ -220,6 +221,7 @@ context('年度互认证书', () => {
         let responseStatus = xhr.response.statusCode
         let expectStatus = 200
         expect(responseStatus).to.eq(expectStatus)
+        cy.wait(2000)
         cy.get('.el-message.el-message--success').should('contain', '已批量取消推送')
         cy.wait(500)
         for (let i = 0; i < getLength; i++) {

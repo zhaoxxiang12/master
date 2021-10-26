@@ -1,24 +1,24 @@
 import {
   visitLabPage
-} from "../../shared/route"
+} from '../../shared/route'
 import {
   confirmDelete
-} from "../common/dialog"
+} from '../common/dialog'
 import {
   waitIntercept,
   waitRequest
-} from "../common/http"
+} from '../common/http'
 import {
   closeClientAlert,
   validErrorMsg,
   validSuccessMessage
-} from "../common/message"
+} from '../common/message'
 import {
   clickConfigButton,
   createConfig,
   selectMajor,
   validEnterPreserveMode
-} from "../ds-config/ds-config"
+} from '../ds-config/ds-config'
 import {
   clickDeleteData,
   createGroup,
@@ -39,7 +39,7 @@ import {
   selectGroupValue,
   selectTitle,
   visitDsConfig
-} from "./qc-data"
+} from './qc-data'
 
 /**
  * 质控批号维护
@@ -409,7 +409,7 @@ context('质控批号维护', () => {
               return index
             }
           })
-          console.log(rowIndex);
+          console.log(rowIndex)
           groupId = data[rowIndex].groupId
           groupName = data[rowIndex].groupName
           notRelated = rowIndex = data.findIndex(item => item.related === false)
@@ -447,7 +447,7 @@ context('质控批号维护', () => {
     })
     it('批号更换成功', () => {
       const groupBatch = 'CHA20111Z'
-      console.log(rowIndex);
+      console.log(rowIndex)
       cy.get('.el-table__body').first().find('.el-table__row').eq(1)
         .findByText('批号更换')
         .click({
@@ -475,8 +475,8 @@ context('质控批号维护', () => {
             .filter(filterEmptyArray => filterEmptyArray.length !== 0)
           if (batchGroup.length) {
             const instrumentName = batchGroup[0].label
-            const itemName = (batchGroup[0].children[0].children[0].label);
-            cy.get('.el-menu:visible').find(`span`).contains(instrumentName).parents('.el-submenu')
+            const itemName = (batchGroup[0].children[0].children[0].label)
+            cy.get('.el-menu:visible').find('span').contains(instrumentName).parents('.el-submenu')
               .within(element => {
                 if (element.hasClass('is-opened')) {
                   cy.get('span').contains(groupBatch).parent().parent().within(childrenElement => {
@@ -500,8 +500,8 @@ context('质控批号维护', () => {
                     force: true
                   })
                   cy.wait(2000)
-                  cy.get('.el-menu:visible').last().find(`span`).contains(groupBatch).parents('.el-submenu').within(() => {
-                    cy.get('.el-menu:visible').last().find(`span`).contains(groupBatch).parent()
+                  cy.get('.el-menu:visible').last().find('span').contains(groupBatch).parents('.el-submenu').within(() => {
+                    cy.get('.el-menu:visible').last().find('span').contains(groupBatch).parent()
                       .find('.el-submenu__icon-arrow.el-icon-arrow-down:visible')
                       .click({
                         force: true
@@ -515,7 +515,7 @@ context('质控批号维护', () => {
               })
           }
           reportData(23)
-          cy.exec('python  cypress\\integration\\qc-data\\deleteBatchGroup.py')
+          cy.task('executeCqbSql',`delete from base_qc_batch_no_group where createTime LIKE '%${currentTime}%'`)
         }
       })
     })

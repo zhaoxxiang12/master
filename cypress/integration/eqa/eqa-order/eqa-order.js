@@ -1,15 +1,15 @@
 import {
   clickOkInDialog,
   withinDialog
-} from "../../common/dialog"
+} from '../../common/dialog'
 import {
   interceptAll
-} from "../../common/http"
+} from '../../common/http'
 import {
   addEqaPlan,
   subimtInformation,
   searchPlan
-} from "../eqa-plan/eqa-plan"
+} from '../eqa-plan/eqa-plan'
 
 export const expandSearchConditions = () => {
   cy.get('.ql-search--simple.is-right').first().within($el => {

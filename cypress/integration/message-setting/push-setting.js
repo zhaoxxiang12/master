@@ -1,13 +1,13 @@
-import { clickOkInDialog, withinDialog } from "../common/dialog"
+import { clickOkInDialog, withinDialog } from '../common/dialog'
 import {
   interceptAll
-} from "../common/http"
+} from '../common/http'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 import {
   elform
-} from "../mutual-result/mutual-item"
+} from '../mutual-result/mutual-item'
 
 /**
  * @param {string} triggerEvent 触发事件
@@ -25,25 +25,25 @@ export const createRules = (triggerEvent, message, sendTime, destinationType, pu
   })
   if (triggerEvent) {
     switch (triggerEvent) {
-      case '1':
-        elform('eventType', 'radio').check('1', {
-          force: true
-        })
-        break;
-      case '2':
-        elform('eventType', 'radio').check('2', {
-          force: true
-        })
-        break;
-      case '3':
-        elform('eventType', 'radio').check('3', {
-          force: true
-        })
-        break;
-      case '4':
-        elform('eventType', 'radio').check('4', {
-          force: true
-        })
+    case '1':
+      elform('eventType', 'radio').check('1', {
+        force: true
+      })
+      break
+    case '2':
+      elform('eventType', 'radio').check('2', {
+        force: true
+      })
+      break
+    case '3':
+      elform('eventType', 'radio').check('3', {
+        force: true
+      })
+      break
+    case '4':
+      elform('eventType', 'radio').check('4', {
+        force: true
+      })
     }
   }
   if (message) {
@@ -89,12 +89,12 @@ export const createRules = (triggerEvent, message, sendTime, destinationType, pu
       cy.get('[for=labName]').parent('.el-form-item.el-form-item--medium')
         .findAllByPlaceholderText('请输入实验室名称或编码')
         .type(keyword)
-        cy.get('.ql-search--simple.is-right').find('button').contains('搜索').click()
-        cy.wait(1000)
-        cy.get('.el-table__body').last().find('[type=checkbox]').check({
-          force:true
-        })
-        withinDialog(clickOkInDialog,'选择实验室')
+      cy.get('.ql-search--simple.is-right').find('button').contains('搜索').click()
+      cy.wait(1000)
+      cy.get('.el-table__body').last().find('[type=checkbox]').check({
+        force:true
+      })
+      withinDialog(clickOkInDialog,'选择实验室')
     }
   }
 }
@@ -157,12 +157,12 @@ export function createSDIRules (compareType,labTag,sdiThreshold,message,pushList
       cy.get('[for=labName]').parent('.el-form-item.el-form-item--medium')
         .findAllByPlaceholderText('请输入实验室名称或编码')
         .type(keyword)
-        cy.get('.ql-search--simple.is-right').find('button').contains('搜索').click()
-        cy.wait(1000)
-        cy.get('.el-table__body').last().find('[type=checkbox]').check({
-          force:true
-        })
-        withinDialog(clickOkInDialog,'选择实验室')
+      cy.get('.ql-search--simple.is-right').find('button').contains('搜索').click()
+      cy.wait(1000)
+      cy.get('.el-table__body').last().find('[type=checkbox]').check({
+        force:true
+      })
+      withinDialog(clickOkInDialog,'选择实验室')
     }
   }
 }

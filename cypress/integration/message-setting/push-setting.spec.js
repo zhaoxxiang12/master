@@ -1,30 +1,30 @@
 import {
   visitPage
-} from "../../shared/route"
+} from '../../shared/route'
 import {
   clickCancelInDialog,
   clickOkInDialog,
   closeTips,
   confirmDelete,
   withinDialog
-} from "../common/dialog"
+} from '../common/dialog'
 import {
   validFormItemError
-} from "../common/form"
+} from '../common/form'
 import {
   waitIntercept,
   waitRequest
-} from "../common/http"
+} from '../common/http'
 import {
   closeClientAlert,
   validSuccessMessage
-} from "../common/message"
+} from '../common/message'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 import {
   elform
-} from "../mutual-result/mutual-item"
+} from '../mutual-result/mutual-item'
 import {
   createRules,
   createSDIRules,
@@ -39,7 +39,7 @@ import {
   interceptPauseRules,
   interceptResumeRules,
   queryRules
-} from "./push-setting"
+} from './push-setting'
 
 context('信息互通设置-推送设置', () => {
   before(() => {
@@ -156,7 +156,7 @@ context('信息互通设置-推送设置', () => {
     })
     it('启用', () => {
       const rowIndex = result.data.findIndex(item => item.status === 1)
-      console.log(rowIndex);
+      console.log(rowIndex)
       if (rowIndex === -1) {
         const changeIndex = 0
         cy.get('.el-table__body').last().find('.el-table__row').eq(changeIndex)
@@ -224,7 +224,7 @@ context('信息互通设置-推送设置', () => {
         cy.wait(1000)
       })
       const rowIndex = result.data.findIndex(item => item.status === 0)
-      console.log(rowIndex);
+      console.log(rowIndex)
       if (rowIndex !== -1) {
         cy.get('.el-table__body').last().find('.el-table__row').eq(rowIndex)
           .findByText('停用')
@@ -404,6 +404,7 @@ context('信息互通设置-推送设置', () => {
           }, () => {
             validSuccessMessage()
             getDataLength().should('have.length', getData.length + 1)
+            cy.wait(2000)
           })
         })
       })
@@ -412,12 +413,14 @@ context('信息互通设置-推送设置', () => {
           getDataLength().last().findByText('编辑').click({
             force: true
           })
+          cy.wait(2000)
           elform('sdi.compareType', 'radio').check('1', {
             force: true
           })
           elform('sdi.compareType').click()
           activeSelect('仪器')
           elform('labTag').click()
+          cy.wait(3000)
           activeSelect('新冠仪器')
           waitIntercept(interceptEditRules, () => {
             withinDialog(clickOkInDialog, '自动推送规则')
@@ -429,6 +432,7 @@ context('信息互通设置-推送设置', () => {
             cy.wait(1000)
             elform('sdi.compareType', 'radio').last().parents('.el-radio').should('have.class', 'is-checked')
             withinDialog(clickCancelInDialog, '自动推送规则')
+            cy.wait(2000)
           })
         })
       })
@@ -530,8 +534,8 @@ context('信息互通设置-推送设置', () => {
           })
         })
         elform('tag')
-        .clear()
-        .type(editTagName)
+          .clear()
+          .type(editTagName)
         waitIntercept(interceptEditTag,() => {
           withinDialog(clickOkInDialog,'编辑标签')
         },() => {
@@ -540,10 +544,10 @@ context('信息互通设置-推送设置', () => {
           createSDIRules()
           elform('labTag').click()
           cy.get('.el-scrollbar__view.el-select-dropdown__list')
-          .last()
-          .contains(editTagName)
-          .should('exist')
-        withinDialog(clickCancelInDialog, '自动推送规则')
+            .last()
+            .contains(editTagName)
+            .should('exist')
+          withinDialog(clickCancelInDialog, '自动推送规则')
         })
       })
       it('删除标签SDI告警页面也会同步删除', () => {

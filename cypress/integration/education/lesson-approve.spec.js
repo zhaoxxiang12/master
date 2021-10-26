@@ -23,6 +23,7 @@ import {
   waitIntercept
 } from '../common/http'
 import { clickButton } from '../common/button'
+import { loginMgrWithGdccl } from '../common/login'
 const queryPlanApplyReq = () => {
   return interceptGet('service/edu/plan-apply/page?*', 'planApply')
 }
@@ -116,6 +117,7 @@ context('在线教育人员授权管理页面', () => {
   before(() => {
     cy.gdfslj_user_login()
     cy.visitPage('lesson-approve')
+    loginMgrWithGdccl('lesson-approve')
   })
   it('001-列表页包含字段', () => {
     findTableCell(0, 4)

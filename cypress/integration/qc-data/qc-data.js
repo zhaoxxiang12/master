@@ -1,20 +1,20 @@
 import {
   visitLabPage
-} from "../../shared/route"
+} from '../../shared/route'
 import {
   interceptAll,
   waitIntercept
-} from "../common/http"
+} from '../common/http'
 import {
   closeClientAlert,
   validSuccessMessage
-} from "../common/message"
+} from '../common/message'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 import {
   selectMajor
-} from "../ds-config/ds-config"
+} from '../ds-config/ds-config'
 
 export const interceptQueryGroup = () => {
   return interceptAll('service/base/qc/group', interceptQueryGroup.name, '/cqb-base')

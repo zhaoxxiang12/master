@@ -196,6 +196,7 @@ describe('账户管理-实验室账户', function () {
     }, data => {
       result = data.data
       console.log(result)
+      cy.wait(5000)
       expect(result[rowIndex].labStatus).to.be.equal('2')
       cy.get('.el-table__body').last().find('.el-table__row').eq(rowIndex).findByText('启用').should('exist')
     })
@@ -209,6 +210,7 @@ describe('账户管理-实验室账户', function () {
       confirmPushReport()
     }, data => {
       result = data.data
+      cy.wait(5000)
       expect(result[rowIndex].labStatus).to.be.equal('1')
       cy.get('.el-table__body').last().find('.el-table__row').eq(rowIndex).findByText('锁定').should('exist')
     })
@@ -374,7 +376,9 @@ describe('账户管理-实验室账户', function () {
     it('014-启用实验室', () => {
       waitIntercept(queryLab, () => {
         cy.get('input[placeholder="实验室名称或编码"').clear().type(labName)
+        filterLab(null,'广东省')
         cy.get('button').findByText('搜索').click()
+        cy.wait(2000)
       }, data => {
         result = data.data
         const rowIndex = result.findIndex(lab => lab.labStatus == 1)
@@ -389,9 +393,12 @@ describe('账户管理-实验室账户', function () {
       })
     })
     it('015-停用实验室', () => {
+      cy.wait(3000)
       waitIntercept(queryLab, () => {
         cy.get('input[placeholder="实验室名称或编码"').clear().type(labName)
+        filterLab(null,'广东省')
         cy.get('button').findByText('搜索').click()
+        cy.wait(2000)
       }, data => {
         result = data.data
         const rowIndex = result.findIndex(lab => lab.labStatus == 2)
@@ -591,7 +598,7 @@ describe('账户管理-实验室账户', function () {
         cy.get('.el-table__body').eq(1).find('tr').eq(i).find('button').contains('编辑').click({
           force: true
         })
-        cy.wait(2000)
+        cy.wait(5000)
         //联系人
         cy.get('.el-form').last().find('.el-input__inner').eq(editName).should('have.value', userName)
         //联系电话
@@ -635,7 +642,7 @@ describe('账户管理-实验室账户', function () {
   })
   context('删除测试数据',() => {
     it('删除测试数据', () => {
-      cy.exec('python cypress/integration/cqb_admin/deleteTestLab.py')
+      cy.task('executeCqbSql', 'delete from base_lab_info where labName = "佛山市医院" ')
     })
   })
 })

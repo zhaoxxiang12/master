@@ -1,10 +1,10 @@
 import {
   interceptAll,
   waitRequest
-} from "../common/http"
+} from '../common/http'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 
 /**
  * @param {string} item 互认项目
@@ -46,7 +46,7 @@ export const clickSearch = () => {
  * @returns 
  */
 export const getInputBox = (prop) => {
-  return cy.get(`.el-form`).last().find(`[for=${prop}]`).next('.el-form-item__content').find('.el-input__inner')
+  return cy.get('.el-form').last().find(`[for=${prop}]`).next('.el-form-item__content').find('.el-input__inner')
 }
 
 export const interceptQuery = () => {

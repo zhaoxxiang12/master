@@ -1,10 +1,11 @@
 
+import dayjs from 'dayjs'
 import { getMonthZh } from '../../common/date'
 import { clickOkInDialog, withinDialog } from '../../common/dialog'
 import { interceptAll,waitIntercept,waitRequest } from '../../common/http'
 import {
   activeSelect
-} from "../../common/select"
+} from '../../common/select'
 
 /**
  * 
@@ -111,7 +112,7 @@ export function searchPlan(keyword) {
       .click({
         force: true
       })
-      cy.wait(2000)
+    cy.wait(2000)
   })
   // cy.get('[placeholder="请输入比对计划名称关键字"]').first().clear({
   //   force: true
@@ -132,12 +133,9 @@ export function cancelPush() {
  * 上报截止时间
  */
 export function submitExpireDate() {
-  let newTime = new Date()
-  let year = newTime.getFullYear()
-  let localTime = newTime.toLocaleDateString() //2021/9/17
-  let dateStrs = localTime.split('/')
-  let month = dateStrs[1]
-  let day = dateStrs[2]
+  const year = dayjs().format('YYYY')
+  const month = dayjs().format('MM')
+  const day = dayjs().format('DD')
   cy.get('.el-picker-panel.el-date-picker.el-popper:visible')
     .should('exist')
     .within(() => {
@@ -180,7 +178,7 @@ export function queryPlanData(majorName, year, keyword, times, status, organizat
     activeSelect(organization)
     waitIntercept(queryData, clickSearch, data => {
       const length = data.total
-      console.log(data);
+      console.log(data)
       if (length) {
         validData(length)
       }
@@ -317,7 +315,7 @@ export function addEqaPlan(paramsMap) {
   // 点击添加计划
   cy.get('.el-button.el-button--primary.el-button--medium.is-plain').first().click()
   //上报截止时间
-  selectDate("submitExpireDate")
+  selectDate('submitExpireDate')
   submitExpireDate()
   const compareMap = {}
   for (const key in params) {
@@ -327,20 +325,20 @@ export function addEqaPlan(paramsMap) {
     } else if (context.type < 5) {
       if (paramsMap[key]) {
         switch (context.type) {
-          case 1:
-            getIframeElement(context.value).type(paramsMap[key])
-            break
-          case 2:
-            getIframeElement(context.value).click()
-            cy.get('.el-scrollbar__view.el-select-dropdown__list').last().contains(paramsMap[key]).click()
-            break;
-          case 3:
-            iframeDropList('请选择').eq(context.index).click()
-            activeSelect(paramsMap[key])
-            break;
-          case 4:
-            cy.get('.el-form.eqa-plan-info [role="spinbutton"]').clear().type(paramsMap[key])
-            break;
+        case 1:
+          getIframeElement(context.value).type(paramsMap[key])
+          break
+        case 2:
+          getIframeElement(context.value).click()
+          cy.get('.el-scrollbar__view.el-select-dropdown__list').last().contains(paramsMap[key]).click()
+          break
+        case 3:
+          iframeDropList('请选择').eq(context.index).click()
+          activeSelect(paramsMap[key])
+          break
+        case 4:
+          cy.get('.el-form.eqa-plan-info [role="spinbutton"]').clear().type(paramsMap[key])
+          break
         }
       }
     } else {

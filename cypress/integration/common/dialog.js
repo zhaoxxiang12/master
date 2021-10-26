@@ -20,7 +20,7 @@ export const withinDialog = (cb, title = '') => {
   if (title) {
     cy.document()
       .its('body')
-      .find(`.el-dialog[aria-label="${title}"]`)
+      .find(`.el-dialog[aria-label="${title}"]:visible`)
       .within(cb)
   } else {
     cy.get('.el-dialog__wrapper:visible')

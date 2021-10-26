@@ -1,17 +1,17 @@
 import {
   visitPage
-} from "../../shared/route"
+} from '../../shared/route'
 import {
   interceptAll,
   waitIntercept
-} from "../common/http"
+} from '../common/http'
 import {
   closeClientAlert,
   validSuccessMessage
-} from "../common/message"
+} from '../common/message'
 import {
   dropListSelect
-} from "../mutual-result/mutual-item"
+} from '../mutual-result/mutual-item'
 
 /**
  * 可选区域设置

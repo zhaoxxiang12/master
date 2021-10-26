@@ -1,5 +1,5 @@
 import { confirmPushReport } from '../common/button'
-import { confirmDelete } from '../common/dialog'
+import { closeTips, confirmDelete } from '../common/dialog'
 import { interceptAll, waitIntercept } from '../common/http'
 import { validSuccessMessage } from '../common/message'
 /**
@@ -31,7 +31,11 @@ context('差异性分析报告', () => {
   }
 
   const waitQueryData = (cb) => {
-    waitIntercept(queryData, data => {
+    waitIntercept(queryData,()=>{
+      cy.reload()
+      cy.wait(3000)
+      closeTips('提示','确定')
+    }, data => {
       result = data.data
     })
   }
@@ -224,7 +228,9 @@ context('差异性分析报告', () => {
   context('筛选条件', () => {
     it('009-地区查询', () => {
       selectDate()
-      cy.get('.el-form').last().findByPlaceholderText('请选择省').click()
+      cy.get('.el-form').last().findByPlaceholderText('请选择省').click({
+        force:true
+      })
       //地区选择上海
       cy.get('.el-scrollbar__view.el-select-dropdown__list').last().contains('上海市').click()
       waitIntercept(queryData, clickSearchButton, data => {

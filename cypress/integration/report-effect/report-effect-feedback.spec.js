@@ -116,7 +116,7 @@ context('信息反馈情况', () => {
       validTableColumnSort(1, 'ascending')
     })
     it('012-导出PDF', () => {
-      clickListener(() => clickTool(BUTTON_PDF))
+      clickListener(() => clickTool(BUTTON_PDF), 10000)
       validatePdfFile('信息反馈情况报表.pdf', data => {
         if (result.length) {
           expect(data.numpages).to.gt(0)

@@ -1,20 +1,20 @@
 import {
   resolve
-} from "bluebird"
+} from 'bluebird'
 import {
   clickCancelInDialog,
   clickDialogBtn,
   clickOkInDialog,
   closeTips,
   withinDialog
-} from "../../common/dialog"
+} from '../../common/dialog'
 import {
   interceptAll,
   waitRequest
-} from "../../common/http"
+} from '../../common/http'
 import {
   activeSelect
-} from "../../common/select"
+} from '../../common/select'
 
 /**
  * 
@@ -33,7 +33,7 @@ export const searchData = (keyword, tag, area, status, message) => {
   }
   if (area) {
     searchConditions('areaId').find('.multi-area__placeholder').click()
-    console.log(area);
+    console.log(area)
     for (let key in area) {
       cy.get('.el-menu').last().contains(area[key]).find('[type="checkbox"]').check({
         force: true
@@ -66,15 +66,9 @@ export const searchConditions = (prop, judge) => {
  * 点击搜索
  */
 export const clickSearch = (judge) => {
-  if (judge) {
-    cy.get('.el-form').eq(1).findByText('搜索').click({
+    cy.get('.el-form:visible').last().findByText('搜索').click({
       force: true
     })
-  } else {
-    cy.get('.el-form').last().findByText('搜索').click({
-      force: true
-    })
-  }
 }
 
 /**
@@ -131,7 +125,7 @@ export const reportMonitorAssert = (labCode, tag, area, status) => {
               if (pageNo > 1) {
                 for (let i = 2; i <= pageNo; i++) {
                   assetPagingData(searchDate, i).then(result => {
-                    console.log(result);
+                    console.log(result)
                     for (let key in area) {
                       areaArray.push(area[key])
                     }
@@ -222,50 +216,50 @@ export const monitorPushScreen = (title, pushInformationType, pushArea) => {
   if (pushArea) {
     // 使用switch  case 判断现有大屏区域有多个,每次推送默认推送最后一个区域
     switch (pushArea) {
-      case 9:
-        cy.get('.screen-area__item').eq(screenArea[8]).click({
-          force: true
-        })
-        break
-      case 8:
-        cy.get('.screen-area__item').eq(screenArea[7]).click({
-          force: true
-        })
-        break
-      case 7:
-        cy.get('.screen-area__item').eq(screenArea[6]).click({
-          force: true
-        })
-        break
-      case 6:
-        cy.get('.screen-area__item').eq(screenArea[5]).click({
-          force: true
-        })
-        break
-      case 5:
-        cy.get('.screen-area__item').eq(screenArea[4]).click({
-          force: true
-        })
-        break
-      case 4:
-        cy.get('.screen-area__item').eq(screenArea[3]).click({
-          force: true
-        })
-        break
-      case 3:
-        cy.get('.screen-area__item').eq(screenArea[2]).click({
-          force: true
-        })
-        break
-      case 2:
-        break
-      case 1:
-        cy.get('.screen-area__item').eq(screenArea[0]).click({
-          force: true
-        })
-        break
-      default:
-        cy.log('数据错误,用例执行失败')
+    case 9:
+      cy.get('.screen-area__item').eq(screenArea[8]).click({
+        force: true
+      })
+      break
+    case 8:
+      cy.get('.screen-area__item').eq(screenArea[7]).click({
+        force: true
+      })
+      break
+    case 7:
+      cy.get('.screen-area__item').eq(screenArea[6]).click({
+        force: true
+      })
+      break
+    case 6:
+      cy.get('.screen-area__item').eq(screenArea[5]).click({
+        force: true
+      })
+      break
+    case 5:
+      cy.get('.screen-area__item').eq(screenArea[4]).click({
+        force: true
+      })
+      break
+    case 4:
+      cy.get('.screen-area__item').eq(screenArea[3]).click({
+        force: true
+      })
+      break
+    case 3:
+      cy.get('.screen-area__item').eq(screenArea[2]).click({
+        force: true
+      })
+      break
+    case 2:
+      break
+    case 1:
+      cy.get('.screen-area__item').eq(screenArea[0]).click({
+        force: true
+      })
+      break
+    default:
+      cy.log('数据错误,用例执行失败')
     }
   }
   if ((title === 'clear') && pushInformationType && pushArea) {
