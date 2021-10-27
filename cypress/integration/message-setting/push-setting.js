@@ -210,3 +210,15 @@ export const interceptDeleteTag = () => {
 export const interceptEditTag = () => {
   return interceptAll('service/mgr/tags/service/check?*',interceptEditTag.name)
 }
+
+export const clickSaveButton = (title) => {
+  cy.get(`[aria-label=${title}]`).within(() => {
+    cy.get('.el-dialog__footer')
+    .last()
+    .find('.el-button')
+    .last()
+    .click({
+      force: true
+    })
+  })
+} 

@@ -95,16 +95,16 @@ context('字典维护', () => {
   it('008-编辑职称的字典-编辑课程管理-选择新添加的字典', () => {
     cy.loginCQB()
     cy.visitPage('lesson-dict')
-    cy.wait(1000)
+    cy.wait(4000)
     tabsItem('职称字典')
-    cy.wait(1000)
+    cy.wait(4000)
     searchTrs('测试职称字典11111', () => {
       setDictName('测试职称字典11111')
       saveBtn()
-      cy.wait(1000)
+      cy.wait(4000)
       cy.loginCQB()
       cy.visitPage('lesson')
-      cy.wait(1000)
+      cy.wait(4000)
       cy.get('input').first().clear({
         force: true
       }).type('test新添加的字典', {
@@ -114,7 +114,7 @@ context('字典维护', () => {
       openEditDialog()
       selectLessonType('测试课程类型字典222')
       saveBtn()
-      cy.wait(2000)
+      cy.wait(4000)
       // 删除‘007-编辑职称的字典-添加课程管理-选择新添加的字典’
       const deleteBtn = cy.get('.el-table .el-table__fixed-right .el-table__fixed-body-wrapper tbody tr button').contains('删除')
       deleteBtn.click({

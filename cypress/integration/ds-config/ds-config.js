@@ -135,7 +135,7 @@ export const getItemTestingLength = (item) => {
 }
 
 export const enterPreserveMode = () => {
-  cy.get('.detection-sys__tool').last().findByText('进入维护模式').click({
+  cy.get('.detection-sys__tool').find('.cqbicon').click({
     force: true
   })
   cy.fixture('labgd18020').then((labJson) => {

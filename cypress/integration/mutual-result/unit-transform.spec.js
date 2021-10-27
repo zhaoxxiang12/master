@@ -17,7 +17,7 @@ import {
 } from "../setting/report-monitor/report-monitor"
 
 const getOption = () => {
-  return cy.get('.el-table__body').last().find('.el-table__row')
+  return cy.get('.el-table__body:visible').last().find('.el-table__row')
 }
 
 const selectElform = (prop) => {
@@ -165,31 +165,35 @@ context('结果互认设置-单位转换设置', () => {
       let formulaBox = 0
       const oldData = 290
       selectElform('labName').type(labCode)
-      clickSearch()
-      cy.wait(2000)
-      cy.get('.unit-fn').eq(formulaBox).invoke('text').then((data) => {
-        let oldFormula = data
-        findButtonClick('编辑')
+      waitIntercept(interceptSearchData, () => {
+        clickSearch()
+      }, data => {
+        getOption().should('have.length', data.data.length)
         cy.wait(2000)
-        //录入新值
-        inputNumber(typeNumber)
-        getOption().first().findByText('保存').click({
-          force: true
-        })
-        //保存数据
-        waitIntercept(interceptUpdateData, () => {
-          findButtonClick('保存')
-        }, () => {
-          validSuccessMessage()
-          cy.wait(5000)
-        })
         cy.get('.unit-fn').eq(formulaBox).invoke('text').then((data) => {
-          let newFormula = data
-          expect(oldFormula).not.to.equal(newFormula)
-          //将公式还原成初始状态
+          let oldFormula = data
           findButtonClick('编辑')
-          inputNumber(oldData)
-          findButtonClick('保存')
+          cy.wait(2000)
+          //录入新值
+          inputNumber(typeNumber)
+          getOption().first().findByText('保存').click({
+            force: true
+          })
+          //保存数据
+          waitIntercept(interceptUpdateData, () => {
+            findButtonClick('保存')
+          }, () => {
+            validSuccessMessage()
+            cy.wait(5000)
+          })
+          cy.get('.unit-fn').eq(formulaBox).invoke('text').then((data) => {
+            let newFormula = data
+            expect(oldFormula).not.to.equal(newFormula)
+            //将公式还原成初始状态
+            findButtonClick('编辑')
+            inputNumber(oldData)
+            findButtonClick('保存')
+          })
         })
       })
     })

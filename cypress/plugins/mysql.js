@@ -1,14 +1,6 @@
 const mysql = require('mysql2')
 const HOST = '120.76.137.188'
 const PORT = 23306
-const DEFAULT_CONFIG = {
-  host: '120.76.137.188',
-  user: 'cqb_test',
-  port: 23306,
-  password : 'test_vS1oHpYKIC',
-  database : 'cqb_base_sh_test'
-}
-
 const cqbPool = mysql.createPool({
   host: HOST,
   port: PORT,
@@ -33,46 +25,29 @@ const dictPool = mysql.createPool({
   database : 'cqb_dict_test'
 })
 
-function executeCqbSql (sql) {
+function executeSql (pool, sql) {
   return new Promise((resolve, reject) => {
-    cqbPool.query(sql, function (error, results, fields) {
+    pool.query(sql, function (error, results, fields) {
       if (error) {
         console.log('mysql error:', error)
         reject(error)
         return false
       }
-      console.log('The solution is: ', results)
       resolve(results)
     })
   })
+}
+
+function executeCqbSql (sql) {
+  return executeSql(cqbPool, sql)
 }
 
 function executeEqaSql (sql) {
-  return new Promise((resolve, reject) => {
-    eqaPool.query(sql, function (error, results, fields) {
-      if (error) {
-        console.log('mysql error:', error)
-        reject(error)
-        return false
-      }
-      console.log('The solution is: ', results)
-      resolve(results)
-    })
-  })
+  return executeSql(eqaPool, sql)
 }
 
 function executeDictSql (sql) {
-  return new Promise((resolve, reject) => {
-    dictPool.query(sql, function (error, results, fields) {
-      if (error) {
-        console.log("mysql error:", error);
-        reject (error)
-        return false
-      }
-      console.log("The solution is:",results);
-      resolve (results)
-    })
-  })
+  return executeSql(dictPool, sql)
 }
 
 module.exports = {

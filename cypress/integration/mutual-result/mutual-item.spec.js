@@ -23,6 +23,7 @@ import {
   editItem,
   elform,
   getItemLength,
+  getItemOption,
   interceptAddItem,
   interceptAddItemSpec,
   interceptDeleteItem,
@@ -35,6 +36,8 @@ import {
  * 开展项目设置
  */
 context('结果互认设置-开展项目设置', () => {
+  const newItem = '铁(测试)'
+  const addedItem = '钾'
   before(() => {
     cy.loginCQB()
     cy.intercept('GET', '**/specList*').as('getData')
@@ -74,11 +77,11 @@ context('结果互认设置-开展项目设置', () => {
       //编辑新的名称可以保存
       elform('tagName').clear().type('自定义名称AAA')
       withinDialog(clickOkInDialog, '编辑项目分类')
-      waitIntercept(interceptAddItemSpec, () => {
-        withinDialog(clickOkInDialog, '编辑项目分类')
-      }, () => {
-        cy.get('.item-configNew__aside-body').should('contain', '自定义名称AAA')
-      })
+      // waitIntercept(interceptAddItemSpec, () => {
+      withinDialog(clickOkInDialog, '编辑项目分类')
+      // }, () => {
+      cy.get('.item-configNew__aside-body').should('contain', '自定义名称AAA')
+      // })
     })
     it('删除项目分类', () => {
       cy.get('.item-configNew__aside-body').contains('自定义名称AAA').parent('.el-menu-item').find('.el-icon-delete').click({
@@ -103,7 +106,7 @@ context('结果互认设置-开展项目设置', () => {
     })
     it('添加已存在的项目', () => {
       cy.wait(500)
-      addItem('钾', '不限', 'mmol/L')
+      addItem(addedItem, '不限', 'mmol/L')
       waitRequest({
         intercept: interceptAddItem,
         onBefore: () => {
@@ -122,7 +125,7 @@ context('结果互认设置-开展项目设置', () => {
       })
       getItemLength().then((getLength) => {
         itemData = getLength.length
-        addItem('铁(测试)', '不限', 'mmol/L')
+        addItem(newItem, '不限', 'mmol/L')
         waitIntercept(interceptAddItem, () => {
           withinDialog(clickOkInDialog, '添加项目')
         }, () => {
@@ -136,9 +139,7 @@ context('结果互认设置-开展项目设置', () => {
       })
       getItemLength().then((getLength) => {
         let itemLength = getLength.length
-        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
-          force: true
-        })
+       getItemOption(newItem,'edit')
         cy.wait(5000)
         editItem('全血细胞计数')
         waitIntercept(interceptAddItem, () => {
@@ -150,9 +151,7 @@ context('结果互认设置-开展项目设置', () => {
           force: true
         })
         cy.wait(5000)
-        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
-          force: true
-        })
+      getItemOption(newItem,'edit')
         cy.wait(5000)
         editItem('常规化学')
         waitIntercept(interceptAddItem, () => {
@@ -168,65 +167,51 @@ context('结果互认设置-开展项目设置', () => {
       })
     })
     it('开展定性项目', () => {
-      cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
-        force: true
-      })
+      getItemOption(newItem,'edit')
       cy.wait(5000)
       editItem(null, null, '定性')
       waitIntercept(interceptAddItem, () => {
         withinDialog(clickOkInDialog, '编辑项目')
       }, () => {
         cy.wait(5000)
-        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
-          force: true
-        })
+        getItemOption(newItem,'edit')
         cy.wait(5000)
-        elform('itemType').should('have.value','定性')
+        elform('itemType').should('have.value', '定性')
         withinDialog(clickCancelInDialog, '编辑项目')
       })
     })
     it('开展定量项目', () => {
-      cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
-        force: true
-      })
+      getItemOption(newItem,'edit')
       cy.wait(5000)
       editItem(null, null, '定量')
       waitIntercept(interceptAddItem, () => {
         withinDialog(clickOkInDialog, '编辑项目')
       }, () => {
         cy.wait(5000)
-        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
-          force: true
-        })
+        getItemOption(newItem,'edit')
         cy.wait(5000)
-        elform('itemType').should('have.value','定量')
+        elform('itemType').should('have.value', '定量')
         withinDialog(clickCancelInDialog, '编辑项目')
       })
     })
     it('开展不限项目', () => {
-      cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
-        force: true
-      })
+      getItemOption(newItem,'edit')
       cy.wait(5000)
       editItem(null, null, '不限')
       waitIntercept(interceptAddItem, () => {
         withinDialog(clickOkInDialog, '编辑项目')
       }, () => {
         cy.wait(5000)
-        cy.get('.item-configNew__item-action').eq(EditButton).find('i').eq(EditIndex).click({
-          force: true
-        })
+        getItemOption(newItem,'edit')
         cy.wait(5000)
-        elform('itemType').should('have.value','不限')
+        elform('itemType').should('have.value', '不限')
         withinDialog(clickCancelInDialog, '编辑项目')
       })
     })
     it('删除项目', () => {
       getItemLength().then((getLength) => {
         let itemLength = getLength.length
-        cy.get('.item-configNew__item-action').eq(0).find('.el-icon-delete').click({
-          force: true
-        })
+        getItemOption(addedItem, 'delete')
         waitRequest({
           intercept: interceptDeleteItem,
           onBefore: () => {
@@ -238,9 +223,7 @@ context('结果互认设置-开展项目设置', () => {
           }
         })
         cy.wait(5000)
-        cy.get('.item-configNew__item-action').eq(1).find('.el-icon-delete').click({
-          force: true
-        })
+        getItemOption(newItem, 'delete')
         waitRequest({
           intercept: interceptDeleteItem,
           onBefore: () => {
@@ -292,17 +275,14 @@ context('结果互认设置-开展项目设置', () => {
           onSuccess: (data) => {
             expect(data.status).to.eq(false)
             getItemLength().should('have.length', itemLength + 1)
-            cy.get('.item-configNew__list').contains(selfItem)
-              .parents('.ql-itemCard__body')
-              .find('.el-switch')
-              .should('not.have.class', 'is-checked')
+            getItemOption(selfItem, 'open').should('not.have.class', 'is-checked')
           }
         })
       })
     })
     it('自定义项目未审核不能开启', () => {
-      cy.get('.item-configNew__list').contains(selfItem).parents('.ql-itemCard__body').find('.el-switch__core').click({
-        force: true
+      getItemOption(selfItem, 'open').click({
+        force:true
       })
       cy.get('.el-message-box').find('.el-message-box__message').should('have.text', '该项目未审核通过，请等待该项目审核通过后再启用!')
       closeTips('提示', '确定')
@@ -310,9 +290,7 @@ context('结果互认设置-开展项目设置', () => {
     it('删除自定义项目', () => {
       getItemLength().then((getData) => {
         let itemLength = getData.length
-        cy.get('.item-configNew__list').contains(selfItem).parents('.ql-itemCard__body').find('.el-icon-delete').click({
-          force: true
-        })
+        getItemOption(selfItem, 'delete')
         waitIntercept(interceptDeleteItem, () => {
           confirmDelete()
         }, () => {
@@ -417,12 +395,12 @@ context('结果互认设置-开展项目设置', () => {
       cy.wait(2000)
       elform('sourceId').first().click()
       cy.get('.el-scrollbar:visible').then(element => {
-        if (element.css('display')==='block') {
+        if (element.css('display') === 'block') {
           if (element.find('.el-select-dropdown__item').hasClass('selected')) {
             cy.get('.el-select__caret.el-input__icon.el-icon-circle-close').click()
-            waitIntercept(interceptAddItem,() => {
-              withinDialog(clickOkInDialog,'编辑项目') 
-            },() => {
+            waitIntercept(interceptAddItem, () => {
+              withinDialog(clickOkInDialog, '编辑项目')
+            }, () => {
               cy.wait(5000)
               cy.get('.item-configNew__list').contains('白细胞计数').parents('.ql-itemCard__body')
                 .find('.el-icon-edit').click({
@@ -431,22 +409,22 @@ context('结果互认设置-开展项目设置', () => {
               cy.wait(2000)
               elform('sourceId').first().click()
               activeSelect('(中国)卫健委临检中心室间质评标准')
-              withinDialog(clickOkInDialog,'编辑项目')
+              withinDialog(clickOkInDialog, '编辑项目')
             })
           } else {
             activeSelect('(中国)卫健委临检中心室间质评标准')
-            withinDialog(clickOkInDialog,'编辑项目')
+            withinDialog(clickOkInDialog, '编辑项目')
           }
         } else {
-          withinDialog(clickOkInDialog,'编辑项目')
+          withinDialog(clickOkInDialog, '编辑项目')
         }
       })
     })
   })
-  context('删除测试数据',() => {
-    it('删除测试数据',() => {
+  context('删除测试数据', () => {
+    it('删除测试数据', () => {
       const selfItemName = '自定义项目'
-      cy.task('executeDictSql',`delete from spec_item_audit where itemCName like "%${selfItemName}%"`)
+      cy.task('executeDictSql', `delete from spec_item_audit where itemCName like "%${selfItemName}%"`)
     })
   })
 })

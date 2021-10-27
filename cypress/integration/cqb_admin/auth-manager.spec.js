@@ -228,7 +228,7 @@ describe('权限管理', () => {
       cy.wait(3000)
       clickButton('自定义课程计划')
       withinDialog(() => {
-        setInput('课程计划名称', 'C计划')
+        setInput('课程计划名称', 'D计划')
         cy.get('.el-range-editor').click({
           force: true
         })
@@ -261,7 +261,7 @@ describe('权限管理', () => {
         .first()
         .clear({
           force: true
-        }).type('C计划', {
+        }).type('D计划', {
           force: true
         })
       clickButton('搜索')
@@ -327,7 +327,7 @@ describe('权限管理', () => {
         })
       clickButton('搜索')
       cy.wait(1000)
-      findTableCell(0, 3)
+      findTableCell(0, 5)
         .find('button')
         .contains('修改')
         .click({
@@ -339,7 +339,7 @@ describe('权限管理', () => {
         clickButton('确定')
       }, '修改课程组合')
       cy.wait(1000)
-      findTableCell(0, 3)
+      findTableCell(0, 5)
         .find('button')
         .contains('删除')
         .click({

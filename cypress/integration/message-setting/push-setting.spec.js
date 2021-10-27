@@ -26,6 +26,7 @@ import {
   elform
 } from '../mutual-result/mutual-item'
 import {
+  clickSaveButton,
   createRules,
   createSDIRules,
   getDataLength,
@@ -64,7 +65,7 @@ context('信息互通设置-推送设置', () => {
     })
     it('未选择发送对象不能保存', () => {
       createRules(null, '232', '00:30')
-      withinDialog(clickOkInDialog, '自动推送规则')
+      clickSaveButton('自动推送规则')
       validFormItemError('请选择发送对象')
       withinDialog(clickCancelInDialog, '自动推送规则')
     })
@@ -299,7 +300,7 @@ context('信息互通设置-推送设置', () => {
               withinDialog(clickOkInDialog, '自动推送规则')
             }, () => {
               validSuccessMessage()
-              getDataLength().should('have.length',data.length)
+              getDataLength().should('have.length', data.length)
               cy.get('.el-table__body').last().find('.el-table__row').last()
                 .findByText('编辑')
                 .should('exist')
@@ -319,7 +320,7 @@ context('信息互通设置-推送设置', () => {
               withinDialog(clickOkInDialog, '自动推送规则')
             }, () => {
               validSuccessMessage()
-              getDataLength().should('have.length',data.length)
+              getDataLength().should('have.length', data.length)
               cy.get('.el-table__body').last().find('.el-table__row').last()
                 .findByText('编辑')
                 .should('exist')
@@ -522,7 +523,7 @@ context('信息互通设置-推送设置', () => {
           withinDialog(clickCancelInDialog, '自动推送规则')
         })
       })
-      it('修改标签SDI告警页面也会同步修改',() => {
+      it('修改标签SDI告警页面也会同步修改', () => {
         visitPage('tags-service')
         closeClientAlert()
         cy.get('.el-collapse.ql-category.cqb-collapse').findByText('其他').click({
@@ -530,15 +531,15 @@ context('信息互通设置-推送设置', () => {
         })
         cy.get('.el-collapse-item__content').last().within(() => {
           cy.get('.ql-tag.el-tag.el-tag--medium').contains(tagName).click({
-            force:true
+            force: true
           })
         })
         elform('tag')
           .clear()
           .type(editTagName)
-        waitIntercept(interceptEditTag,() => {
-          withinDialog(clickOkInDialog,'编辑标签')
-        },() => {
+        waitIntercept(interceptEditTag, () => {
+          withinDialog(clickOkInDialog, '编辑标签')
+        }, () => {
           validSuccessMessage()
           visitPage('push-setting')
           createSDIRules()

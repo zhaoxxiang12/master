@@ -153,7 +153,7 @@ export function waitRequest (options) {
 
   cy.wait(aliasName, options.waitOptions || {}).then(data => {
     if (data.response.statusCode === 200 && (data.response.body.status === 0 || data.response.body.code === 'SUCCESS')) {
-      options.onSuccess(data.response.body.data, data.request)
+      options.onSuccess && options.onSuccess(data.response.body.data, data.request)
     } else {
       if (data.response.statusCode === 500) {
         throw new Error(data.response.body)

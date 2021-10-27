@@ -29,6 +29,20 @@ export const elform = (prop,boxType) => {
   
 }
 
+export const getItemOption = (itemName,option) => {
+  if (option === 'delete') {
+    return cy.get('.item-configNew__list').contains(itemName).parents('.ql-itemCard__body').find('.el-icon-delete').click({
+      force:true
+    })
+  } else if (option === 'edit') {
+    return cy.get('.item-configNew__list').contains(itemName).parents('.ql-itemCard__body').find('.el-icon-edit').click({
+      force:true
+    })
+  } else {
+    return cy.get('.item-configNew__list').contains(itemName).parents('.ql-itemCard__body').find('.el-switch__core')
+  }
+}
+
 export const assertError = (text) => {
   cy.get('.el-form-item__error').should('contain', text)
 }

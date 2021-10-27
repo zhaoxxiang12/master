@@ -176,8 +176,7 @@ describe('账户管理-实验室账户', function () {
   }
   let result
   const queryLab = () => {
-    const index =  parseInt(Math.random() * 100000)
-    return interceptAll('service/mgr/lab/page?*', queryLab.name + index)
+    return interceptAll('service/mgr/lab/page?*', queryLab.name + new Date().getTime())
 
   }
 
@@ -618,6 +617,7 @@ describe('账户管理-实验室账户', function () {
       cy.get('input[placeholder="实验室名称或编码"').clear().type(labCode)
       waitIntercept(queryLab, () => {
         cy.get('button').findByText('搜索').click()
+        cy.wait(3000)
       }, data => {
         result = data.data
         const rowIndex = result.findIndex(lab => lab.labStatus == 2)
