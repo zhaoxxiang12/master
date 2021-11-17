@@ -1,11 +1,11 @@
-package GetConstructorInformation;
+ package GetConstructorInformation;
 
 import java.lang.reflect.Constructor;
 
-public class GetConstructorMethod {
+public class GetConstructorMethods {
     public static void main(String[] args) throws Exception {
         //获取字节码文件对象
-        Class clazz = Class.forName("GetConstructorInformation.Student");
+        Class clazz = Class.forName("GetConstructorInformation.Students");
         //获取空参构造方法对象(空参需要为公共方法)
 //        Constructor constructor = clazz.getConstructor();
         //通过构造方法的对象来创建学生类对象
@@ -34,14 +34,14 @@ public class GetConstructorMethod {
     }
 }
 
-class Student {
+class Students {
     private String name;
     private int age;
 
-    public Student() {
+    public Students() {
     }
 
-    public Student(String name) {
+    public Students(String name) {
         this.name = name;
     }
 
@@ -53,11 +53,11 @@ class Student {
                 '}';
     }
 
-    public Student(int age) {
+    public Students(int age) {
         this.age = age;
     }
 
-    public Student(String name, int age) {
+    public Students(String name, int age) {
         this.age = age;
         this.name = name;
     }
