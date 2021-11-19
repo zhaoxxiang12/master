@@ -42,6 +42,12 @@ public class getClassMethod {
         privateMethod.setAccessible(true);
         Integer privateMethodValue = (Integer) privateMethod.invoke(obj, "12");
         System.out.println(privateMethodValue);
+
+        //获取所有的私有方法对象
+        Method [] allMethods = clazz.getDeclaredMethods();
+        for (Method method:allMethods) {
+            System.out.println(method);
+        }
     }
 }
 
