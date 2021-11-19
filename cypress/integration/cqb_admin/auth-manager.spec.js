@@ -1,15 +1,75 @@
-import { interceptGet, interceptPost, waitIntercept, waitRequest } from '../common/http'
-import { okOnPopConfirm, withinDialog, closeTips } from '../common/dialog'
-import { setInput, focusInput, setTextarea } from '../common/input'
-import { activeSelect } from '../common/select'
-import { validErrorMsg } from '../common/message'
-import { customizeLessonGroup, setLessonGroupName, selectCheckbox, clickCreateGroupBtn, searchGroupName, delLessonGroup } from '../education/lesson-group'
-import { findTableCell } from '../common/table'
-import { expandChildTree, findTreeNode } from '../common/tree'
-import { clickButton, uploadImage } from '../common/button'
-import { setRangeDate, exportLessonReport, importLessonReport, authManage, exportLessonInfo, importCSV, batchDelete, exportLessonSum, importLessonSum } from './auth-manager'
-import { logout } from '../common/logout'
-import { loginMgrWithGdccl } from '../common/login'
+import {
+  interceptAll,
+  interceptGet,
+  interceptPost,
+  waitIntercept,
+  waitRequest
+} from '../common/http'
+import {
+  okOnPopConfirm,
+  withinDialog,
+  closeTips,
+  clickOkInDialog
+} from '../common/dialog'
+import {
+  setInput,
+  focusInput,
+  setTextarea
+} from '../common/input'
+import {
+  activeSelect
+} from '../common/select'
+import {
+  validErrorMsg
+} from '../common/message'
+import {
+  customizeLessonGroup,
+  setLessonGroupName,
+  selectCheckbox,
+  clickCreateGroupBtn,
+  searchGroupName,
+  delLessonGroup
+} from '../education/lesson-group'
+import {
+  findTableCell
+} from '../common/table'
+import {
+  expandChildTree,
+  findTreeNode
+} from '../common/tree'
+import {
+  clickButton,
+  uploadImage
+} from '../common/button'
+import {
+  setRangeDate,
+  exportLessonReport,
+  importLessonReport,
+  authManage,
+  exportLessonInfo,
+  importCSV,
+  batchDelete,
+  exportLessonSum,
+  importLessonSum
+} from './auth-manager'
+import {
+  logout
+} from '../common/logout'
+import {
+  loginMgrWithGdccl
+} from '../common/login'
+import {
+  getLabForm
+} from '../user-info/lab-info'
+import {
+  getDialog
+} from '../message/message'
+import {
+  selectDropListValue
+} from '../eqa/eqa-report/eqa-report'
+import {
+  clickSearch
+} from '../setting/report-monitor/report-monitor'
 const syncLessonReq = () => {
   return interceptPost('service/edu/lesson/sync', syncLessonReq.name)
 }
@@ -18,6 +78,43 @@ const queryLabReq = () => {
 }
 const waitOptions = {
   timeout: 90000
+}
+
+const usePlan = () => {
+  cy.wait(3000)
+  cy.get('.el-input__inner')
+    .first()
+    .clear({
+      force: true
+    }).type('D计划', {
+      force: true
+    })
+  clickButton('搜索')
+  cy.wait(3000)
+  findTableCell(0, 6)
+    .find('button')
+    .contains('应用')
+    .should('exist')
+    .click({
+      force: true
+    })
+  withinDialog(() => {
+    setInput('关键字', '广东人民医院11')
+    waitRequest({
+      intercept: queryLabReq,
+      onBefore: () => {
+        clickButton('搜索')
+      },
+      onSuccess: () => {
+        clickButton('添加所有符合条件的实验室')
+        clickButton('保存')
+      }
+    })
+  }, '选择实验室')
+}
+
+const interceptQueryEduPlan = () => {
+  return interceptAll('service/edu/plan/ccl/page?*', interceptQueryEduPlan.name)
 }
 
 describe('权限管理', () => {
@@ -256,36 +353,15 @@ describe('权限管理', () => {
     })
     it('003-应用计划', () => {
       loginMgrWithGdccl('lesson-plan')
-      cy.wait(3000)
-      cy.get('.el-input__inner')
-        .first()
-        .clear({
-          force: true
-        }).type('D计划', {
-          force: true
-        })
-      clickButton('搜索')
-      cy.wait(3000)
-      findTableCell(0, 6)
-        .find('button')
-        .contains('应用')
-        .should('exist')
-        .click({
-          force: true
-        })
-      withinDialog(() => {
-        setInput('关键字', '广东人民医院11')
-        waitRequest({
-          intercept: queryLabReq,
-          onBefore: () => {
-            clickButton('搜索')
-          },
-          onSuccess: () => {
-            clickButton('添加所有符合条件的实验室')
-            clickButton('保存')
-          }
-        })
-      }, '选择实验室')
+      cy.wait(interceptQueryEduPlan('interceptQueryEduPlan')).then((xhr) => {
+        if (xhr.response.statusCode === 500) {
+          const labId = ((xhr.response.body.msg).split(':'))[1]
+          cy.task('executeEduSql', `delete from edu_lesson_plan_lab where lab_id = ${labId}`)
+          usePlan()
+        } else {
+          usePlan()
+        }
+      })
     })
     it('004-学员学习信息维护-每月用户学习统计表-导出Excel表', () => {
       cy.visitPage('lesson-report')
@@ -316,17 +392,40 @@ describe('权限管理', () => {
       importLessonSum()
     })
     it('011-不可以修改和删除管理员推送的信息', () => {
+      const lessonGroupName = 'abc123'
+      const editLessonGroupName = 'editLesson'
       cy.visitPage('lesson-group')
       cy.wait(1000)
+      //创建一个组合
+      customizeLessonGroup()
+      setLessonGroupName(lessonGroupName)
+      cy.wait(50)
+      selectCheckbox('0000')
+      selectCheckbox('[0101001]从BCG检测白蛋白开始')
+      clickCreateGroupBtn('添加')
+      clickCreateGroupBtn('确定')
       cy.get('.el-input__inner')
         .first()
         .clear({
           force: true
-        }).type('abc', {
+        }).type(lessonGroupName, {
           force: true
         })
       clickButton('搜索')
       cy.wait(1000)
+      getLabForm()
+        .contains(lessonGroupName)
+        .parents('.el-table__row')
+        .findByText('推送')
+        .click({
+          force: true
+        })
+      getDialog('推送课程组合').within(() => {
+        cy.findAllByPlaceholderText('请选择管理机构').click()
+        cy.wait(3000)
+      })
+      selectDropListValue('佛山市临床检验质量控制中心')
+      withinDialog(clickOkInDialog, '推送课程组合')
       findTableCell(0, 5)
         .find('button')
         .contains('修改')
@@ -335,10 +434,15 @@ describe('权限管理', () => {
         })
       cy.wait(1000)
       withinDialog(() => {
-        setInput('课程组合名称', 'abcd')
+        setInput('课程组合名称', editLessonGroupName)
         clickButton('确定')
       }, '修改课程组合')
       cy.wait(1000)
+      cy.findAllByPlaceholderText('请输入课程组合名称')
+        .clear()
+        .type(editLessonGroupName)
+      clickSearch()
+      cy.wait(2000)
       findTableCell(0, 5)
         .find('button')
         .contains('删除')
@@ -348,13 +452,31 @@ describe('权限管理', () => {
       closeTips('删除提示', '删除')
       cy.wait(100)
       validErrorMsg('该课程组合已经被推送给管理单位，不允许删除')
+      cy.wait(100)
+      findTableCell(0, 5)
+        .find('button')
+        .contains('取消推送')
+        .click({
+          force: true
+        })
+
+      closeTips('提示', '确定')
+      cy.wait(1000)
+      findTableCell(0, 5)
+        .find('button')
+        .contains('删除')
+        .click({
+          force: true
+        })
+      closeTips('删除提示', '删除')
+      cy.wait(100)
     })
   })
   context('特殊账号权限', () => {
     it('001-用超管新建一个教育账号', () => {
       loginMgrWithGdccl('manage-dept', 'admin')
-      cy.wait(1000)-
-      clickButton('添加用户')
+      cy.wait(1000) -
+        clickButton('添加用户')
       withinDialog(() => {
         setInput('用户名', 'edu')
         setInput('姓名', 'edu')

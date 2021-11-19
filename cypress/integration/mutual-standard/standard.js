@@ -1,9 +1,9 @@
 import {
   interceptAll
-} from "../common/http"
+} from '../common/http'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 
 const precisionStandard = {
   cvThreshold: {
@@ -57,7 +57,7 @@ export const selectSpec = (specName) => {
 }
 
 export const checkBox = (prop) => {
-  return cy.get('.el-form:visible').last().find(`[for="${prop}"]`).find(`[type="checkbox"]`)
+  return cy.get('.el-form:visible').last().find(`[for="${prop}"]`).find('[type="checkbox"]')
 }
 export const fillStandard = (fillPrecision, fillEvaluation, fillQuality, setMany = false) => {
   for (const key in fillPrecision) {
@@ -213,6 +213,7 @@ export const createStandard = (stdName) => {
   cy.get('.el-table__body').first().contains('钾').parents('.el-table__row').findByText('规则设置').click({
     force: true
   })
+  cy.wait(2000)
 }
 
 export const clickCreate = () => {
@@ -224,7 +225,7 @@ export const clickCreate = () => {
 
 export const fillElform = (title, prop) => {
   return cy.get(`[aria-label="${title}"]`)
-    .find(`.el-form [for="${prop}"]:visible`)
+    .find(`[for="${prop}"]:visible`)
     .next('.el-form-item__content')
     .find('.el-input__inner')
 }
@@ -341,7 +342,7 @@ export const interceptStandardModel = () => {
 }
 
 export const selectModel = () => {
-  return cy.get(`[aria-label="互认规则设置"]`)
+  return cy.get('[aria-label="互认规则设置"]')
     .find('.el-dialog__footer:visible')
     .first()
     .find('.el-button.el-button--success.el-button--medium.is-plain.el-popover__reference')
@@ -374,5 +375,5 @@ export const getStandard = () => {
 }
 
 export const interceptChangeOrg = () => {
-return interceptAll('service/mgr/std/yearrecog/list?*',interceptChangeOrg.name)
+  return interceptAll('service/mgr/std/yearrecog/list?*',interceptChangeOrg.name)
 }

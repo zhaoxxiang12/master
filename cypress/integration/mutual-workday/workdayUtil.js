@@ -50,7 +50,7 @@ export const getInputBox = (prop) => {
 }
 
 export const interceptQuery = () => {
-  return interceptAll('service/mgr/item/workDays/page?*', interceptQuery.name + new Date().getTime())
+  return interceptAll('service/mgr/item/workDays/page?*', interceptQuery.name)
 }
 
 export const clickReset = () => {

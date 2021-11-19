@@ -12,7 +12,7 @@ import {
 } from '../eqa-plan/eqa-plan'
 
 export const expandSearchConditions = () => {
-  cy.get('.ql-search--simple.is-right').first().within($el => {
+  cy.get('.ql-search--simple.is-right:visible').first().within($el => {
     if ($el.css('display') === 'block') {
       cy.get('.el-form.el-form--inline').last().findByText('展开').click({
         force: true

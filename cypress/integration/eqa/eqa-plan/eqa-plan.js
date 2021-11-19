@@ -38,10 +38,6 @@ export function interceptAddPlan() {
  * 点击确定保存表单
  */
 export function subimtInformation(title='新增比对计划') {
-  // const confire = 15
-  // cy.get('#app').find('.el-button.el-button--primary.el-button--medium').eq(confire).click({
-  //   force: true
-  // })
   withinDialog(clickOkInDialog,title)
 }
 
@@ -135,7 +131,7 @@ export function cancelPush() {
 export function submitExpireDate() {
   const year = dayjs().format('YYYY')
   const month = dayjs().format('MM')
-  const day = dayjs().format('DD')
+  const day = dayjs().format('D')
   cy.get('.el-picker-panel.el-date-picker.el-popper:visible')
     .should('exist')
     .within(() => {
@@ -178,7 +174,6 @@ export function queryPlanData(majorName, year, keyword, times, status, organizat
     activeSelect(organization)
     waitIntercept(queryData, clickSearch, data => {
       const length = data.total
-      console.log(data)
       if (length) {
         validData(length)
       }
@@ -306,14 +301,9 @@ const params = {
 }
 
 export function addEqaPlan(paramsMap) {
-  //   let issueTime = 1
-  //   let issueEndTime = 2
-  //   let testStartTime = 3
-  //   let testEndTime = 4
-  //   let feedBackStartTime = 5
-  //   let feedBackEndTime = 6
   // 点击添加计划
   cy.get('.el-button.el-button--primary.el-button--medium.is-plain').first().click()
+  cy.wait(3000)
   //上报截止时间
   selectDate('submitExpireDate')
   submitExpireDate()
@@ -330,10 +320,14 @@ export function addEqaPlan(paramsMap) {
           break
         case 2:
           getIframeElement(context.value).click()
-          cy.get('.el-scrollbar__view.el-select-dropdown__list').last().contains(paramsMap[key]).click()
+          cy.get('.el-scrollbar__view.el-select-dropdown__list').last().contains(paramsMap[key]).click({
+            force:true
+          })
           break
         case 3:
-          iframeDropList('请选择').eq(context.index).click()
+          iframeDropList('请选择').eq(context.index).click({
+            force:true
+          })
           activeSelect(paramsMap[key])
           break
         case 4:

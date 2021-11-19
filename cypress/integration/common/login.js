@@ -1,4 +1,5 @@
 import {
+  Indep_LOGIN_URL,
   LAB_LOGIN_URL,
   MGR_APP_URL,
   MGR_BASE_URL,
@@ -106,6 +107,37 @@ export function loginLab(fixture, cb) {
     // 点击登录按钮
     cy.get('[type="submit"]').click({
       force: true
+    })
+    cb && cb()
+  })
+}
+
+export function LoginIndep (fixture,cb)  {
+  cy.visit(Indep_LOGIN_URL)
+  cy.fixture(fixture).then((adminJSON) => {
+    cy.get('[placeholder="用户名"]')
+      .type(adminJSON.username, {
+        force:true
+      }).should('have.value', adminJSON.username)
+    cy.get('[placeholder="密码"]')
+      .type(adminJSON.password, {
+        force:true
+      }).should('have.value', adminJSON.password)
+    cy.get('[placeholder="验证码"]')
+      .type(adminJSON.captcha, {
+        force: true
+      }).should('have.value', adminJSON.captcha)
+    cy.intercept({
+      method: 'POST',
+      url: 'http://mgr-cqb.test.sh-weiyi.com/biz-support-be/service/system/base/login'
+    }).as('login')
+    // 点击登录按钮
+    cy.get('[type="submit"]').click({
+      force: true
+    })
+    cy.wait('@login').then(data => {
+      console.log(data)
+      expect(data.response.statusCode).to.eq(200)
     })
     cb && cb()
   })

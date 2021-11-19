@@ -7,11 +7,13 @@ export function activeSelect (text) {
     .its('body')
     .find('.el-select-dropdown:visible', { timeout: 6000 })
     .find('.el-select-dropdown__item')
-    .not('.selected')
+    // .not('.selected')
     // .find('span')
     .contains(text)
     .should('exist')
     .click({
       force: true
     })
+  // 关闭 popper 时，有动画，
+  cy.wait(500)  
 }

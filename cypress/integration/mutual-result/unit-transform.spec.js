@@ -1,27 +1,27 @@
 import {
   interceptAll,
   waitIntercept
-} from "../common/http"
+} from '../common/http'
 import {
   validErrorMsg,
   validSuccessMessage
-} from "../common/message"
+} from '../common/message'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 import {
   expandSearchConditions
-} from "../eqa/eqa-order/eqa-order"
+} from '../eqa/eqa-order/eqa-order'
 import {
   clickSearch
-} from "../setting/report-monitor/report-monitor"
+} from '../setting/report-monitor/report-monitor'
 
 const getOption = () => {
-  return cy.get('.el-table__body:visible').last().find('.el-table__row')
+  return cy.get('.el-table__fixed-right .el-table__body:visible').last().find('.el-table__row')
 }
 
 const selectElform = (prop) => {
- return cy.get('.el-form:visible').last().find(`[for="${prop}"]`).next('.el-form-item__content').find('.el-input__inner')
+  return cy.get('.el-form:visible').last().find(`[for="${prop}"]`).next('.el-form-item__content').find('.el-input__inner')
 }
 
 const interceptUpdateData = () => {
@@ -58,7 +58,7 @@ const searchConditions = (itemName, keyword, isFormula, area, tag) => {
   if (itemName) {
     selectElform('acceptItems').click()
     activeSelect(itemName)
-  
+
   }
   if (keyword) {
     selectElform('labName').type(keyword)
@@ -72,7 +72,7 @@ const searchConditions = (itemName, keyword, isFormula, area, tag) => {
       force: true
     })
     selectOption().findAllByPlaceholderText('请选择省').click({
-      force:true
+      force: true
     })
     activeSelect(area)
   }
@@ -82,19 +82,23 @@ const searchConditions = (itemName, keyword, isFormula, area, tag) => {
     })
     cy.wait(2000)
     selectOption().findAllByPlaceholderText('请选择实验室标签').click({
-      force:true
+      force: true
     })
     activeSelect(tag)
   }
 }
 
-const resetSearchCondition = () => {
+const resetSearchCondition = (text = '0') => {
   selectOption().findByText('重置').click({
-    force:true
+    force: true
   })
-  cy.get('.el-tag__close.el-icon-close:visible').click({
-    force:true
-  })
+  cy.get('.el-select__tags-text')
+    .contains(text)
+    .parent()
+    .find('.el-tag__close.el-icon-close:visible')
+    .click({
+      force: true
+    })
 }
 
 const paramMap = {
@@ -119,7 +123,7 @@ const validData = (checkData) => {
   waitIntercept(interceptSearchData, () => {
     clickSearch()
   }, data => {
-    console.log(data);
+    console.log(data)
     if (data.data.length !== 0) {
       for (const key in checkData) {
         const context = paramMap[key]
@@ -155,7 +159,7 @@ context('结果互认设置-单位转换设置', () => {
   })
   context('编辑重置', () => {
     before(() => {
-      expandSearchConditions()
+      cy.wait(3000)
       selectElform('isFormula').click()
       activeSelect('已配置')
     })
@@ -287,7 +291,7 @@ context('结果互认设置-单位转换设置', () => {
     })
   })
   context('筛选条件', () => {
-    const itemName = '钾'
+    const itemName = '钠'
     const labName = '佛山市南海区人民医院'
     before(() => {
       resetSearchCondition()
@@ -295,41 +299,53 @@ context('结果互认设置-单位转换设置', () => {
     it('互认项目查询', () => {
       cy.wait(2000)
       searchConditions(itemName)
-      validData({itemName})
+      validData({
+        itemName
+      })
       resetSearchCondition()
       cy.wait(2000)
     })
     it('实验室名称查询', () => {
-      searchConditions(null,labName)
-      validData({labName})
+      searchConditions(null, labName)
+      validData({
+        labName
+      })
       resetSearchCondition()
       cy.wait(2000)
     })
     it('配置公式(已配置)', () => {
       const isFormula = '已配置'
-      searchConditions(null,null,isFormula)
-      validData({isFormula})
+      searchConditions(null, null, isFormula)
+      validData({
+        isFormula
+      })
       resetSearchCondition()
       cy.wait(2000)
     })
     it('配置公式(未配置)', () => {
       const isFormula = '未配置'
-      searchConditions(null,null,isFormula)
-      validData({isFormula})
+      searchConditions(null, null, isFormula)
+      validData({
+        isFormula
+      })
       resetSearchCondition()
       cy.wait(2000)
     })
     it('地区查询', () => {
       const area = '北京市'
-      searchConditions(null,null,null,area)
-      validData({area})
+      searchConditions(null, null, null, area)
+      validData({
+        area
+      })
       resetSearchCondition()
       cy.wait(2000)
     })
     it('标签查询', () => {
       const tag = '公立'
-      searchConditions(null,null,null,null,tag)
-      validData({tag})
+      searchConditions(null, null, null, null, tag)
+      validData({
+        tag
+      })
       resetSearchCondition()
     })
   })

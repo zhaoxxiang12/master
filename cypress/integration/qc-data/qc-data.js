@@ -1,6 +1,7 @@
 import {
   visitLabPage
 } from '../../shared/route'
+import { confirmDelete } from '../common/dialog'
 import {
   interceptAll,
   waitIntercept
@@ -13,8 +14,12 @@ import {
   activeSelect
 } from '../common/select'
 import {
-  selectMajor
+  clickConfigButton,
+  selectMajor, validEnterPreserveMode
 } from '../ds-config/ds-config'
+import {
+  getRelateOption, interceptBatchImport
+} from '../single-import/single-import'
 
 export const interceptQueryGroup = () => {
   return interceptAll('service/base/qc/group', interceptQueryGroup.name, '/cqb-base')
@@ -73,7 +78,7 @@ export const interceptReportData = () => {
 }
 
 export const interceptDeleteReportData = () => {
-  return interceptAll('service/base/qc/data/*',interceptDeleteReportData.name,'/cqb-bse')
+  return interceptAll('service/base/qc/data/*', interceptDeleteReportData.name, '/cqb-bse')
 }
 
 export const createGroup = (batchNo) => {
@@ -105,6 +110,7 @@ export const getQcData = () => {
 export const visitDsConfig = () => {
   const majorName = '新冠病毒核酸检测'
   visitLabPage('ds-config')
+  cy.reload()
   cy.wait(3000)
   selectMajor(majorName)
   cy.wait(3000)
@@ -166,16 +172,84 @@ export const selectGroupMap = (groupMapData, groupName, dropListValue) => {
   }
 }
 
-export const reportData = (data) => {
+export const clickSaveData = () => {
+  cy.get('.el-table__body').last().find('[title=保存]').last().click({
+    force: true
+  })
+}
+
+export const reportData = (data,batchReport = false) => {
   cy.wait(2000)
-  cy.get('.el-table__body')
-    .find('.el-input__inner:visible')
-    .last().type(data)
-  waitIntercept(interceptReportData, () => {
-    cy.get('.el-table__body').findByText('保存').click({
+  if (batchReport === true) {
+    cy.get('.el-table__body')
+      .find('.el-input__inner:visible')
+      .last().type(data)
+    cy.get('.page-title')
+      .parent()
+      .find('.el-form-item__content')
+      .last()
+      .within(() => {
+        waitIntercept(interceptBatchImport, () => {
+          cy.get('button').findByText('保存所有结果').click({
+            force:true
+          })
+        }, () => {
+        })
+      })
+  } else {
+    cy.get('.el-table__body')
+      .find('.el-input__inner:visible')
+      .last().type(data)
+    waitIntercept(interceptReportData, () => {
+      clickSaveData()
+    }, () => {
+      validSuccessMessage()
+    })
+  }
+}
+
+/**
+ * 
+ * @param {string} instrument 仪器
+ * @param {string} batchGroupName 质控批号
+ */
+export const relateConfig = (instrument, batchGroupName) => {
+  selectMajor('新冠病毒核酸检测')
+  cy.wait(2000)
+  getRelateOption(instrument, '编辑').click({
+    force: true
+  })
+  cy.wait(1000)
+  createGroup(batchGroupName)
+  relatedGroupButton('选择质控批号', '确定')
+  waitIntercept(interceptRelate, () => {
+    getRelateOption(instrument, '保存').click({
       force: true
     })
   }, () => {
     validSuccessMessage()
+    getQcData().last().find('.tag-select__title').should('contain', batchGroupName)
+  })
+}
+
+export const removeBatchGroup = (itemName) => {
+  getQcData().last().findByText('编辑').click({
+    force: true
+  })
+  clickDeleteData()
+  confirmDelete()
+  waitIntercept(interceptRelate, () => {
+    getQcData().last().findByText('保存').click({
+      force: true
+    })
+  }, () => {
+    cy.wait(1000)
+    getQcData().last().should('not.have.class', '.tag-select__title')
+    visitDsConfig()
+    validEnterPreserveMode(() => {
+      cy.wait(1000)
+      clickConfigButton(itemName, '删除')
+      confirmDelete()
+    })
   })
 }

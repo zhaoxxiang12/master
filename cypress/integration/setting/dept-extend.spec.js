@@ -1,22 +1,62 @@
+import {
+  clickCancelInDialog,
+  clickOkInDialog,
+  withinDialog
+} from "../common/dialog"
+import {
+  getDialog
+} from "../message/message"
+import {
+  elform
+} from "../mutual-result/mutual-item"
+
 context('管理单位扩展属性', () => {
   const getData = (alias) => {
     cy.intercept('**/cqb-base-mgr/service/mgr/ccl/ext*').as(alias)
   }
 
+  const validRequiredFields = (org, extModule, extCode, extValue) => {
+    cy.get('button').contains('添加').click()
+    cy.wait(1000)
+    getDialog('添加管理单位扩展属性').within(() => {
+      if (org) {
+        cy.findAllByPlaceholderText('请选择').click()
+        cy.wait(1000)
+        cy.document()
+        .its('body')
+        .find('.el-tree-node.is-expanded.is-focusable:visible').contains(org).click({
+          force:true
+        })
+      }
+      if (extModule) {
+        elform('extModule').type('IQC')
+      }
+      if (extCode) {
+        elform('extCode').type('IQC')
+      }
+      if (extValue) {
+        elform('extValue').type(1)
+      }
+    })
+  }
+
   const addDept_extend = () => {
-    let model = 5
-    let paramCode = 6
-    let param = 7
     let randomCode = parseInt(Math.random() * 100000)
     cy.get('button').contains('添加').click()
     cy.get('button').contains('确定').should('be.exist')
-    cy.get('.el-form').last().find('[placeholder="请选择"]').last().click()
-    cy.get('.el-tree-node.is-expanded.is-focusable').last().contains('佛山市临床检验质量控制中心').click()
-    cy.get('.el-input__inner').eq(model).type('IQC' + randomCode)
-    cy.get('.el-input__inner').eq(paramCode).type('IQC')
-    cy.get('.el-input__inner').eq(param).type('1')
-    getData('getData')
-    cy.get('button').contains('确定').click()
+    getDialog('添加管理单位扩展属性').within(() => {
+      cy.findAllByPlaceholderText('请选择').click()
+      cy.wait(1000)
+      cy.document()
+      .its('body')
+      .find('.el-tree-node.is-expanded.is-focusable:visible').contains('佛山市临床检验质量控制中心').click({
+        force:true
+      })
+      elform('extModule').type('IQC'+ randomCode)
+      elform('extCode').type('IQC')
+      elform('extValue').type(1)
+    })
+    withinDialog(clickOkInDialog,'添加管理单位扩展属性')
     cy.wait('@getData').then((xhr) => {
       cy.compare(xhr)
       cy.get('body').should('contain', '添加成功')
@@ -113,7 +153,7 @@ context('管理单位扩展属性', () => {
             //断言
             cy.get('.el-pagination__total').should('have.text', '共 ' + (total + 1) + ' 条')
           })
-        }else{
+        } else {
           addDept_extend()
           cy.get('.el-table__row').should('have.length', getLength + 1)
         }
@@ -121,73 +161,49 @@ context('管理单位扩展属性', () => {
     })
   })
   it('005-管理单位扩展属性-添加功能(未选择质控主管单位不能保存)', () => {
-    let model = 5
-    let paramCode = 6
-    let param = 7
     cy.get('.el-table__row').then((data) => {
       let getLength = data.length
       cy.get('button').contains('搜索').click()
-      cy.get('button').contains('添加').click()
-      cy.get('.el-input__inner').eq(model).type('IQC')
-      cy.get('.el-input__inner').eq(paramCode).type('IQC')
-      cy.get('.el-input__inner').eq(param).type('1')
-      cy.get('button').contains('确定').click()
+      validRequiredFields(null,'IQC','IQC',1)
+      withinDialog(clickOkInDialog, '添加管理单位扩展属性')
       cy.get('body').should('contain', '请选择管理单位')
       cy.get('.el-table__row').should('have.length', getLength)
+      withinDialog(clickCancelInDialog, '添加管理单位扩展属性')
     })
-    cy.get('button').contains('取消').click()
   })
   it('006-管理单位扩展属性-添加功能(模块名称未填写不能保存)', () => {
-    let paramCode = 6
-    let param = 7
     cy.get('.el-table__row').then((data) => {
       let getLength = data.length
       cy.get('button').contains('搜索').click()
-      cy.get('button').contains('添加').click()
-      cy.get('[placeholder="请选择"]').last().click()
-      cy.get('.el-tree-node.is-expanded.is-focusable').last().contains('佛山市临床检验质量控制中心').click()
-      cy.get('.el-input__inner').eq(paramCode).type('IQC')
-      cy.get('.el-input__inner').eq(param).type('1')
-      cy.get('button').contains('确定').click()
+      validRequiredFields('佛山市临床检验质量控制中心',null,'IQC',1)
+      withinDialog(clickOkInDialog,'添加管理单位扩展属性')
       cy.get('body').should('contain', '请输入模块名称')
       cy.get('.el-table__row').should('have.length', getLength)
     })
-    cy.get('button').contains('取消').click()
+    withinDialog(clickCancelInDialog,'添加管理单位扩展属性')
   })
   it('007-管理单位扩展属性-添加功能(参数编码未填写不能保存)', () => {
-    let param = 7
-    let model = 5
     cy.get('.el-table__row').then((data) => {
       let getLength = data.length
       cy.get('button').contains('搜索').click()
-      cy.get('button').contains('添加').click()
-      cy.get('[placeholder="请选择"]').last().click()
-      cy.get('.el-tree-node.is-expanded.is-focusable').last().contains('佛山市临床检验质量控制中心').click()
-      cy.get('.el-input__inner').eq(model).type('IQC')
-      cy.get('.el-input__inner').eq(param).type('1')
-      cy.get('button').contains('确定').click()
+      validRequiredFields('佛山市临床检验质量控制中心','IQC',null,1)
+      withinDialog(clickOkInDialog,'添加管理单位扩展属性')
       cy.get('body').should('contain', '请输入参数编码')
       cy.get('.el-table__row').should('have.length', getLength)
+      withinDialog(clickCancelInDialog,'添加管理单位扩展属性')
     })
-    cy.get('button').contains('取消').click()
   })
   it('008-管理单位扩展属性-添加功能(参数值未填写不能保存)', () => {
-    let paramCode = 6
-    let model = 5
     cy.get('.el-table__row').then((data) => {
       let getLength = data.length
       cy.get('button').contains('搜索').click()
-      cy.get('button').contains('添加').click()
-      cy.get('[placeholder="请选择"]').last().click()
-      cy.get('.el-tree-node.is-expanded.is-focusable').last().contains('佛山市临床检验质量控制中心').click()
-      cy.get('.el-input__inner').eq(model).type('IQC')
-      cy.get('.el-input__inner').eq(paramCode).type('IQC')
+      validRequiredFields('佛山市临床检验质量控制中心','IQC','IQC')
       getData('getData')
-      cy.get('button').contains('确定').click()
+      withinDialog(clickOkInDialog,'添加管理单位扩展属性')
       cy.get('body').should('contain', '请输入参数值')
       cy.get('.el-table__row').should('have.length', getLength)
     })
-    cy.get('button').contains('取消').click()
+    withinDialog(clickCancelInDialog,'添加管理单位扩展属性')
   })
   it('009-管理单位扩展属性-编辑功能', () => {
     let words = '自动化参数'

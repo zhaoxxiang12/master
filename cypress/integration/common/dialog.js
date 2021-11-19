@@ -58,7 +58,7 @@ export const clickCancelInDialog = () => {
  * @param {string} text 文本
  */
 export function closeTips(prop,text) {
-  cy.get(`[aria-label="${prop}"] .el-message-box__btns button`)
+  cy.get(`[aria-label="${prop}"]:visible .el-message-box__btns button`)
     .contains(text)
     .should('exist')
     .click({

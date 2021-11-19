@@ -12,11 +12,13 @@ const defaultOptions = {
  */
 export function interceptHttp (options) {
   options = Object.assign({}, defaultOptions, options)
+  const alias = options.alias + Date.now()
+  cy.log(`[intercept] ${alias}`)
   cy.intercept({
     method: options.method.toUpperCase(),
     url: `${options.baseUrl}/${options.url}`
-  }).as(options.alias)
-  return `@${options.alias}`
+  }).as(alias)
+  return `@${alias}`
 }
 
 /**

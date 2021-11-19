@@ -1,3 +1,4 @@
+import { activeDateMonth } from '../common/date'
 import {
   closeTips,
   confirmDelete
@@ -5,6 +6,8 @@ import {
 import {
   waitRequest
 } from '../common/http'
+import { expandSearchConditions } from '../eqa/eqa-order/eqa-order'
+import { reportElformClickDay } from '../report/report-iqc'
 import {
   assertions,
   clickReset,
@@ -14,61 +17,18 @@ import {
 } from './workdayUtil'
 context('月度工作日申请审核', () => {
   before(() => {
-    let startDate = 0
-    let startMonth = 0
-    let chooseStartMonth = 0
-    let endMonth = 2
-    let expandButton = 0
-    let endDate = 1
-    let endDay = 2
-    let chooseEndMonth = 3
-    let searchButton = 1
     cy.loginCQB()
     cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-workday')
-    cy.get('.el-button.el-button--text.el-button--medium').eq(expandButton).click({
-      force: true
-    })
+    expandSearchConditions()
     //选择开始时间2020/1
-    cy.get('input[placeholder="开始时间"]').click({
-      force: true
-    })
-    cy.get('.el-date-picker__header-label').eq(startDate).invoke('text').then((getData) => {
-      let getYear = parseInt(getData.slice(0, 4))
-      let differenceYear = getYear - 2020
-      for (let i = 0; i < differenceYear; i++) {
-        cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').click({
-          force: true
-        })
-      }
-      cy.get('.el-month-table').find('tbody>tr').eq(startMonth).find('td').eq(chooseStartMonth).click({
-        force: true
-      })
-    })
+    reportElformClickDay('开始时间','开始时间')
+    cy.wait(1000)
+    activeDateMonth('2020-01')
     //选择结束时间2020/12
-    cy.get('input[placeholder="结束时间"]').click({
-      force: true
-    })
-    cy.get('.el-date-picker__header-label').eq(endMonth).invoke('text').then((getData) => {
-      let endYear = parseInt(getData.slice(0, 4))
-      let differenceYear = endYear - 2021
-      if (differenceYear == 0) {
-        cy.get('.el-month-table').eq(endDate).find('tbody>tr').eq(endDay).find('td').eq(chooseEndMonth).click({
-          force: true
-        })
-      } else {
-        for (let i = 0; i < differenceYear; i++) {
-          cy.get('.el-picker-panel__icon-btn.el-date-picker__prev-btn.el-icon-d-arrow-left').eq(endDate).click({
-            force: true
-          })
-        }
-        cy.get('.el-month-table').eq(endDate).find('tbody>tr').eq(endDay).find('td').eq(chooseEndMonth).click({
-          force: true
-        })
-      }
-    })
-    cy.get('.el-button.el-button--primary.el-button--medium').eq(searchButton).click({
-      force: true
-    })
+    reportElformClickDay('结束时间','结束时间')
+    cy.wait(1000)
+    activeDateMonth('2020-12')
+    clickSearch()
   })
 
   context('审核通过/审核不通过', () => {
@@ -87,6 +47,7 @@ context('月度工作日申请审核', () => {
       waitRequest({
         intercept: interceptQuery,
         onBefore: () => {
+          cy.wait(3000)
           clickSearch()
         },
         onSuccess: (data) => {
@@ -109,6 +70,7 @@ context('月度工作日申请审核', () => {
                     force: true
                   })
                   confirmDelete()
+                  cy.wait(2000)
                 },
                 onSuccess: (data) => {
                   if (pageTotal <= 20) {
@@ -150,6 +112,7 @@ context('月度工作日申请审核', () => {
                     force: true
                   })
                   closeTips('提示','通过')
+                  cy.wait(2000)
                 },
                 onSuccess: (data) => {
                   if (pageTotal <= 20) {

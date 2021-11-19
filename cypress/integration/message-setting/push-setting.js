@@ -5,9 +5,11 @@ import {
 import {
   activeSelect
 } from '../common/select'
+import { getDialog } from '../message/message'
 import {
   elform
 } from '../mutual-result/mutual-item'
+import { relateLab } from '../user-info/lab-info'
 
 /**
  * @param {string} triggerEvent 触发事件
@@ -113,58 +115,50 @@ export function createSDIRules (compareType,labTag,sdiThreshold,message,pushList
   cy.get('.ql-search').findByText('添加自动推送规则').click({
     force: true
   })
-  elform('eventType', 'radio').check('4', {
-    force: true
-  })
-  if (compareType === '1') {
-    elform('sdi.compareType','radio').check('1',{
-      force:true
-    })
-  }
-  if (labTag) {
-    elform('labTag').click()
-    activeSelect(labTag)
-  }
-  if (sdiThreshold) {
-    elform('sdi.sdiThreshold').type(sdiThreshold)
-  }
-  if (message) {
-    elform('message').click()
-    activeSelect(message)
-  }
-  if (pushList) {
-    elform('pushList','checkbox').check('live',{
-      force:true
-    })
-  }
-  if (destinationType === '1') {
-    elform('destinationType', 'checkbox').check('1', {
+  getDialog('自动推送规则').within(() => {
+    elform('eventType', 'radio').check('4', {
       force: true
     })
-  } else if (destinationType === '2') {
-    elform('destinationType', 'checkbox').check('2', {
-      force: true
-    })
-  }
-  if (testTarget === 'some') {
-    elform('eventObject', 'radio').check('some', {
-      force: true
-    })
-    if (keyword) {
-      cy.get('.ql-select-lab__assign').find('button').contains('添加').click({
-        force: true
-      })
-      cy.get('[for=labName]').parent('.el-form-item.el-form-item--medium')
-        .findAllByPlaceholderText('请输入实验室名称或编码')
-        .type(keyword)
-      cy.get('.ql-search--simple.is-right').find('button').contains('搜索').click()
-      cy.wait(1000)
-      cy.get('.el-table__body').last().find('[type=checkbox]').check({
+    if (compareType === '1') {
+      elform('sdi.compareType','radio').check('1',{
         force:true
       })
-      withinDialog(clickOkInDialog,'选择实验室')
     }
-  }
+    if (labTag) {
+      elform('labTag').click()
+      activeSelect(labTag)
+    }
+    if (sdiThreshold) {
+      elform('sdi.sdiThreshold').type(sdiThreshold)
+    }
+    if (message) {
+      elform('message').click()
+      activeSelect(message)
+    }
+    if (pushList) {
+      elform('pushList','checkbox').check('live',{
+        force:true
+      })
+    }
+    if (destinationType === '1') {
+      elform('destinationType', 'checkbox').check('1', {
+        force: true
+      })
+    } else if (destinationType === '2') {
+      elform('destinationType', 'checkbox').check('2', {
+        force: true
+      })
+    }
+    if (testTarget === 'some') {
+      elform('eventObject', 'radio').check('some', {
+        force: true
+      })
+      if (keyword) {
+        relateLab('自动推送规则',keyword,'检测目标')
+        withinDialog(clickOkInDialog,'选择实验室')
+      }
+    }
+  })
 }
 
 export const getDataLength = () => {
@@ -214,11 +208,11 @@ export const interceptEditTag = () => {
 export const clickSaveButton = (title) => {
   cy.get(`[aria-label=${title}]`).within(() => {
     cy.get('.el-dialog__footer')
-    .last()
-    .find('.el-button')
-    .last()
-    .click({
-      force: true
-    })
+      .last()
+      .find('.el-button')
+      .last()
+      .click({
+        force: true
+      })
   })
 } 

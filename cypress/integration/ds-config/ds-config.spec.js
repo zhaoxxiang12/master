@@ -17,10 +17,13 @@ import {
   createConfig,
   enableItem,
   enterPreserveMode,
+  getConfigOption,
   getItemTestingLength,
   getPageData,
   interceptDeleteItemTesting,
   interceptItemTesting,
+  interceptQueryInstr,
+  interceptQueryItemTesting,
   quitPreserveMode,
   selectMajor,
   validEnterPreserveMode
@@ -30,16 +33,34 @@ import {
  * 检测体系配置
  */
 context('检测体系配置', () => {
+  let instruArray
+  let itemTestinginstru = []
   before(() => {
-    cy.visitLabPage('ds-config', 'labgd18020')
+    waitIntercept(interceptQueryInstr, () => {
+      cy.visitLabPage('ds-config', 'labgd18030')
+    }, data => {
+      instruArray = data.map(item => {
+        return item.instrCName
+      })
+
+    })
     cy.wait(3000)
   })
   context('新增检测体系', () => {
     before(() => {
-      selectMajor('新冠病毒核酸检测')
+      waitIntercept(interceptQueryItemTesting, () => {
+        selectMajor('新冠病毒核酸检测')
+      }, data => {
+        data.forEach(itemTesting => {
+          if (itemTesting.itemName === '病毒基因E区') {
+            itemTesting.itemTestingList.forEach(configList => {
+              itemTestinginstru.push(configList.instrName)
+            })
+          }
+        })
+      })
       cy.wait(1000)
     })
-    const instrument = '贝克曼 AU 5800 全自动生化分析系统'
     const testMethod = '干化学'
     const nuReagent = '拜耳'
     const testReagent = '科方(广州)'
@@ -50,6 +71,7 @@ context('检测体系配置', () => {
     const instrumentNo = '001'
     const itemName = '病毒基因E区'
     it('添加仪器编号已存在的检测体系', () => {
+      const instrument = '贝克曼 AU 5800 全自动生化分析系统'
       cy.get('.data-table__body').contains(itemName).parents('.item-cell ').find('.item-cell__text')
         .invoke('text').then((getItemName) => {
           getItemTestingLength(getItemName).then((getData) => {
@@ -74,9 +96,9 @@ context('检测体系配置', () => {
               onBefore: () => {
                 clickConfigButton(getItemName, '保存')
               },
-              onError: () => {
+              onError: (data) => {
                 cy.wait(1000)
-                validErrorMsg('[' + getItemName + ',' + instrument + '] ' + '仪器编号：' + instrumentNo + ' 已在‘红细胞计数’项目配置过，请重新配置')
+                validErrorMsg(data)
                 clickConfigButton(getItemName, '取消')
                 quitPreserveMode()
               }
@@ -85,13 +107,19 @@ context('检测体系配置', () => {
         })
     })
     it('检测体系创建成功', () => {
+      const newArray = instruArray.filter(item => {
+        if (itemTestinginstru.indexOf(item) === -1) {
+          return item
+        }
+      })
+      const instrument = newArray[3]
       cy.wait(3000)
       validEnterPreserveMode(() => {
-        cy.get('.data-table__body').contains(itemName).parents('.item-cell ').find('.item-cell__text')
+        getConfigOption(itemName).find('.item-cell__text')
           .invoke('text').then((getItemName) => {
             getItemTestingLength(getItemName).then((getData) => {
               cy.wait(1000)
-              cy.get('.data-table__body').contains(itemName).parents('.item-cell ').findByText('添加').click({
+              getConfigOption(itemName).findByText('添加').click({
                 force: true
               })
               createConfig({
@@ -157,7 +185,6 @@ context('检测体系配置', () => {
         },
         onError: () => {
           validErrorMsg(itemName + '已存在质控数据，检测体系不可更改')
-          quitPreserveMode('直接退出')
         }
       })
     })

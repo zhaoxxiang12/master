@@ -23,7 +23,7 @@ export function closeClientAlert () {
     .its('body', {
       timeout: 5000
     }).then($el => {
-      if ($el.find('.el-message-box__wrapper').length > 0) {
+      if ($el.find('.el-message-box__wrapper:visible').length > 0) {
         cy.get('.el-message-box__wrapper')
           .within($el => {
             if ($el.length) {

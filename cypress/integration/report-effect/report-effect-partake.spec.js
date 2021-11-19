@@ -85,7 +85,8 @@ context('参与实验室情况', () => {
 
           cy.get(tbodySelector)
             .within($body => {
-              expect($body.find('tr').length).to.equal(checkCount + 1)
+              // expect($body.find('tr').length).to.equal(checkCount + 1)
+              cy.get('tr').should('have.length', checkCount + 1)
               cy.get('tr')
                 .eq(1)
                 .find('td')

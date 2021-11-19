@@ -58,7 +58,7 @@ context('失控处理情况', () => {
   const initQuery = () => {
     const intercept0 = queryMessageDict()
     const intercept1 = queryRunaway()
-    cy.wait([intercept0, intercept1]).spread((dictData, runawayData) => {
+    cy.wait([intercept0, intercept1], { timeout: 10000 }).spread((dictData, runawayData) => {
       messageDict = dictData.response.body.data
       result = runawayData.response.body.data
     })

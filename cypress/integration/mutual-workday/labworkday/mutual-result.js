@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import {
   activeDateMonth
 } from '../../common/date'
@@ -118,7 +119,7 @@ export const loginMgrSearch = (labCode, itemName, monthString) => {
   cy.wait(500)
   activeDateMonth(monthString)
   clickSearch()
-  cy.wait(1000)
+  cy.wait(5000)
 }
 
 export const clickButton = (text) => {
@@ -130,6 +131,7 @@ export const clickButton = (text) => {
 }
 
 export const checkData = (queryData) => {
+  const workDayMonth = dayjs().format('YYYYMM')
   const workDayItem = queryData.map(item => {
     if (item.workDays.length > 0) {
       return item
@@ -137,7 +139,7 @@ export const checkData = (queryData) => {
   }).filter(empty => empty)
   const filterItem = []
   workDayItem.forEach(work => {
-    work.workDays = work.workDays.filter(item => item.month === 202110 && item.audit === 1)
+    work.workDays.filter(item => item.month === workDayMonth && item.audit === 1)
     if (work.workDays.length) {
       filterItem.push(work)
     }

@@ -31,3 +31,14 @@ export function openEdit() {
       force: true
     })
 }
+
+export const dialogButton = (prop) => {
+  return elformOperation(prop).find('button')
+}
+
+export const elformOperation = (prop) => {
+  return cy.get('.el-form')
+  .last()
+  .find(`[for="${prop}"]`)
+  .next('.el-form-item__content')
+}

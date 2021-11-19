@@ -65,10 +65,16 @@ export const searchConditions = (prop, judge) => {
 /**
  * 点击搜索
  */
-export const clickSearch = (judge) => {
+export const clickSearch = (judge = true) => {
+  if (judge === false) {
+    cy.get('.el-form:visible').last().findByText('查询').click({
+      force: true
+    })
+  } else {
     cy.get('.el-form:visible').last().findByText('搜索').click({
       force: true
     })
+  }
 }
 
 /**

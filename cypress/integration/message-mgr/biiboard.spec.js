@@ -1,25 +1,8 @@
 import dayjs from 'dayjs'
+import { clickCancelInDialog, clickOkInDialog, withinDialog } from '../common/dialog'
+import { elform } from '../mutual-result/mutual-item'
+import { relateLab } from '../user-info/lab-info'
 
-const addBillboard = (titleBox) => {
-  cy.get('.el-input__inner').eq(titleBox).type('自动化填写公告标题', {
-    force: true
-  })
-}
-const clickSelectBillboard = () => {
-  cy.get('.el-button.ql-select-lab__new.el-button--text.el-button--mini').click({
-    force: true
-  })
-}
-const selectLab = (typeBox) => {
-  cy.get('input[placeholder="请输入实验室名称或编码"]').eq(typeBox).type('gd18020', {
-    force: true
-  })
-}
-const saveBtn = (saveButton) => {
-  cy.get('.el-button.el-button--primary.el-button--medium').eq(saveButton).click({
-    force: true
-  })
-}
 const trs = () => {
   return cy.get('.el-table__body').find('tbody>tr')
 }
@@ -28,39 +11,43 @@ const btnText = () => {
 }
 
 const creatBiiboard = () => {
-  let typeBox = 0
-  let searchButton = 2
-  let saveButton = 9
   cy.get('button').contains('添加公告').click({
     force: true
   })
   //输入公告标题
-  cy.get('label[for="bulletinTitle"]+div input').type('自动化填写公告标题')
+  elform('bulletinTitle').type('自动化填写公告标题')
   //输入公告正文
   cy.get('label[for="bulletinContent"]+div textarea').type('自动化填写公告正文')
-  //添加实验室
-  clickSelectBillboard()
-  selectLab(typeBox)
-  cy.get('.el-icon-search').eq(searchButton).click({
-    force: true
-  })
-  cy.wait(500)
-  cy.get('.el-checkbox__inner').click({
-    force: true
-  })
-  saveBtn(saveButton)
+  relateLab('添加公告板','gd18020')
+  withinDialog(clickOkInDialog,'选择实验室')
   cy.intercept('**/cqb-base-mgr/service/mgr/bulletin*').as('add')
   //点击确定
-  cy.get('button').contains('确定').click({
-    force: true
-  })
+  withinDialog(clickOkInDialog,'添加公告板')
   cy.wait('@add').then((xhr) => {
     cy.compare(xhr)
   })
   cy.wait(1000)
 }
+
+const validBulletinRequiredFields = (bulletinTitle,bulletinContent,labCode) => {
+  cy.get('button').contains('添加公告').click({
+    force: true
+  })
+  cy.wait(1000)
+  if (bulletinTitle) {
+    elform('bulletinTitle').type(bulletinTitle)
+  }
+  if (bulletinContent) {
+    cy.get('label[for="bulletinContent"]+div textarea').type(bulletinContent)
+  }
+  if (labCode) {
+    relateLab('添加公告板',labCode)
+    withinDialog(clickOkInDialog,'选择实验室')
+  }
+}
+
 context('消息互通-公告板', () => {
-  let cancel = 0
+  const dialogName = '添加公告板'
   before(() => {
     let startDate = 0
     let endMonth = 3
@@ -156,94 +143,31 @@ context('消息互通-公告板', () => {
     })
   })
   it('001-公告板-未填写公告标题不能保存', () => {
-    let typeBox = 0
-    let searchButton = 2
-    let saveButton = 9
     cy.wait(1000)
-    cy.get('button').contains('添加公告').click({
-      force: true
-    })
-    //输入公告正文
-    cy.get('.el-textarea__inner').type('自动化测试填写', {
-      force: true
-    })
-    clickSelectBillboard()
-    //选择实验室
-    selectLab(typeBox)
-    cy.get('.el-icon-search').eq(searchButton).click({
-      force: true
-    })
-    cy.wait(1000)
-    cy.get('.el-checkbox__inner').click({
-      force: true
-    })
-    saveBtn(saveButton)
-    cy.wait(1000)
-    //点击确定
-    cy.get('button').contains('确定').click({
-      force: true
-    })
+    validBulletinRequiredFields(null,'自动化正文','gd18020')
+    withinDialog(clickOkInDialog,dialogName)
     //断言
     cy.get('body').should('contain', '请输入公告标题')
     // 点击取消
-    cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
-      force: true
-    })
+   withinDialog(clickCancelInDialog,dialogName)
   })
   it('002-公告板-未填写公告正文不能保存', () => {
-    let typeBox = 0
-    let searchButton = 2
-    let saveButton = 9
-    let titleBox = 5
     cy.wait(1000)
-    cy.get('button').contains('添加公告').click({
-      force: true
-    })
-    //输入公告标题
-    addBillboard(titleBox)
-    clickSelectBillboard()
-    //选择实验室
-    selectLab(typeBox)
-    cy.get('.el-icon-search').eq(searchButton).click({
-      force: true
-    })
-    cy.wait(1000)
-    cy.get('.el-checkbox__inner').click({
-      force: true
-    })
-    saveBtn(saveButton)
-    //点击确定
-    cy.get('button').contains('确定').click({
-      force: true
-    })
+    validBulletinRequiredFields('自动化填写公告标题',null,'gd18020')
+    withinDialog(clickOkInDialog,dialogName)
     //断言
     cy.get('body').should('contain', '请输入公告内容')
     // 点击取消
-    cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
-      force: true
-    })
+    withinDialog(clickCancelInDialog,dialogName)
   })
   it('003-公告板-未选择实验室不能保存', () => {
-    let titleBox = 5
-    cy.get('button').contains('添加公告').click({
-      force: true
-    })
-    //输入公告标题
-    addBillboard(titleBox)
-    //输入公告正文
-    cy.get('.el-textarea__inner').type('自动化测试填写', {
-      force: true
-    })
-    //点击确定
-    cy.get('button').contains('确定').click({
-      force: true
-    })
+    cy.wait(1000)
+    validBulletinRequiredFields('自动化填写公告标题','自动化填写公告正文')
+    withinDialog(clickOkInDialog,dialogName)
     //断言
     cy.get('body').should('contain', '请选择关联实验室')
     // 点击取消
-    cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
-      force: true
-    })
+    withinDialog(clickCancelInDialog,dialogName)
   })
   it('004-公告板-数据填写完整正常保存', () => {
     cy.get('button').contains('搜索').click({
@@ -338,40 +262,9 @@ context('消息互通-公告板', () => {
     })
   })
   it('008-公告板-添加推送公告板', () => {
-    let typeBox = 0
-    let searchButton = 2
-    let saveButton = 9
-    let titleBox = 5
-    cy.get('button').contains('添加公告').click({
-      force: true
-    })
-    //输入公告标题
-    addBillboard(titleBox)
-    //输入公告正文
-    const title = cy.get('.el-textarea__inner')
-    title.type('自动化测试添加推送公告板', {
-      force: true
-    })
-    clickSelectBillboard()
-    //选择实验室
-    selectLab(typeBox)
-    cy.get('.el-icon-search').eq(searchButton).click({
-      force: true
-    })
-    cy.wait(1000)
-    cy.get('.el-checkbox__inner').click({
-      force: true
-    })
-    saveBtn(saveButton)
-    cy.wait(1000)
-    //点击确定
-    cy.get('button').contains('确定').click({
-      force: true
-    })
-    // 点击取消
-    // cy.get('.el-button.el-button--default.el-button--medium').eq(cancel).click({
-    //   force: true
-    // })
+    validBulletinRequiredFields('自动化填写公告标题','自动化测试添加推送公告板','gd18020')
+    withinDialog(clickOkInDialog,'选择实验室')
+    withinDialog(clickOkInDialog,dialogName)
     cy.wait(1000)
     trs().then((Data) => {
       let getLength = Data.length

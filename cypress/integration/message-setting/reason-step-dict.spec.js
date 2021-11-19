@@ -3,22 +3,22 @@ import {
   clickOkInDialog,
   confirmDelete,
   withinDialog
-} from "../common/dialog"
+} from '../common/dialog'
 import {
   validFormItemError
-} from "../common/form"
+} from '../common/form'
 import {
   interceptAll,
   waitIntercept,
   waitRequest
-} from "../common/http"
+} from '../common/http'
 import {
   validErrorMsg,
   validSuccessMessage
-} from "../common/message"
+} from '../common/message'
 import {
   elform
-} from "../mutual-result/mutual-item"
+} from '../mutual-result/mutual-item'
 
 /**
  * 告警原因和措施
@@ -588,7 +588,7 @@ context('信息互通设置-告警原因和措施', () => {
   })
   context('CV/符合率异常', () => {
     before(() => {
-     selectType('CV/符合率异常')
+      selectType('CV/符合率异常')
     })
     context('CV/符合率异常原因', () => {
       const newReason = '自动化新增'

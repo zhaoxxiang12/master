@@ -22,6 +22,7 @@ import {
 import {
   elform
 } from '../mutual-result/mutual-item'
+import { getLabForm } from '../user-info/lab-info'
 
 
 
@@ -49,7 +50,7 @@ const interceptUpdateUser = () => {
 }
 
 const getUserLength = (text) => {
- return cy.get('.el-table__body:visible').last().contains(text).parents('.el-table__row')
+  return cy.get('.el-table__body:visible').last().contains(text).parents('.el-table__row')
 }
 
 const getDataLength = () => {
@@ -72,8 +73,12 @@ const interceptDeleteUser = () => {
   return  interceptAll('service/system/user/*',interceptDeleteUser .name) 
 }
 
-const interceCreateUser = () => {
-  return interceptAll('service/system/user/add', interceCreateUser.name)
+const interceptCreateUser = () => {
+  return interceptAll('service/system/user/add', interceptCreateUser.name)
+}
+
+const interceptCheckUser = () => {
+  return interceptAll('service/system/user/checkUserCode?*',interceptCheckUser.name)
 }
 
 const clickCreate = (param = '添加下一级管理单位') => {
@@ -104,12 +109,21 @@ const createUser = (userCode, userName, userPwd, permissions) => {
   }
 }
 
+const waitPage = (alias) => {
+  return interceptAll('service/mgr/ccl/users/admin', waitPage.name)
+}
+
+const loginMgrWithNewUser = (path) => {
+  loginMgrWithGdccl('lab-manager', 'addCQB')
+  cy.wait(3000)
+  loginMgrWithGdccl('lab-manager', 'admin')
+  cy.visit(path)
+  cy.wait(waitPage('waitPage')).its('response.statusCode').should('eq', 200)
+}
+
 context('分级管理机构', () => {
   const cclName = '测试' + new Date().getTime()
   const path = '/cqb-base-mgr-fe/app.html#/manage/account/manage-dept'
-  const waitPage = (alias) => {
-    return interceptAll('service/mgr/ccl/users/admin', waitPage.name)
-  }
   before(() => {
     cy.loginCQB()
     waitIntercept(waitPage, () => {
@@ -220,7 +234,7 @@ context('分级管理机构', () => {
       cy.wait(3000)
       clickCreate('添加用户')
       createUser(userCode, userName, password, permissions)
-      waitIntercept(interceCreateUser, () => {
+      waitIntercept(interceptCreateUser, () => {
         withinDialog(clickOkInDialog, userTitle)
       }, () => {
         validSuccessMessage()
@@ -318,47 +332,52 @@ context('分级管理机构', () => {
     })
     it('015-系统顶级管理员-添加用户', () => {
       let name = 'addCQB'
+      let checkUser
       cy.get('.tree-dept .tree-dept-node .tree-dept-node-txt.tree-dept-node-l1').contains('系统顶级管理单位').click()
       cy.get('button').contains('添加用户').click({
         force: true
       })
       cy.wait(1000)
-      cy.get('.el-input__inner').eq(2).clear().type(name)
-      cy.get('[autocomplete="new-password"]').first().clear().type(name)
-      cy.get('[autocomplete="new-password"]').last().clear().type(name)
-      cy.get('.tree-resource.tree-resource__border').find('span').contains('所有权限').click({
-        force: true
-      })
-      cy.intercept('**/cqb-base-mgr/service/system/user/checkUserCode?*').as('checkUser')
-      cy.intercept('**/cqb-base-mgr/service/system/user/add*').as('add')
-      cy.get('.el-button.el-button--primary.el-button--medium').last().click({
-        force: true
-      })
-      cy.wait('@checkUser').then((xhr) => { // 判断新增的用户是否存在
-        cy.compare(xhr)
-        let judge = xhr.response.body.data
-        if (judge == true) {
+      createUser(name,name,name,'permissions')
+      waitIntercept(interceptCheckUser, () => {
+        checkUser = interceptCreateUser()
+        withinDialog(clickOkInDialog,'添加用户信息')
+      }, data => {
+        if (data=== true) {
           cy.get('.el-form-item__error').should('contain', '用户名已被使用')
-          //新增用户能正常登录
-          loginMgrWithGdccl('lab-manager', 'addCQB')
-          cy.wait(3000)
-          loginMgrWithGdccl('lab-manager', 'admin')
-          cy.visit(path)
-          waitPage('waitPage')
-          cy.wait('@waitPage').its('response.statusCode').should('eq', 200)
-        } else {
-          cy.wait('@add').then((xhr) => {
-            cy.compare(xhr)
+          cy.wait(1000)
+          withinDialog(clickCancelInDialog,'添加用户信息')
+          cy.wait(1000)
+          getLabForm().contains(name).parents('.el-table__row').findByText('删除').click({
+            force:true
+          })
+          //删除用户
+          waitIntercept(interceptDeleteUser, () => {
+            confirmDelete()
+          }, () => {
+            validSuccessMessage()
+          })
+          cy.wait(1000)
+          cy.get('button').contains('添加用户').click({
+            force: true
+          })
+          cy.wait(1000)
+          createUser(name,name,name,'permissions')
+          waitIntercept(interceptCreateUser, () => {
+            withinDialog(clickOkInDialog,'添加用户信息')
+          }, () => {
             cy.get('.el-message__content').should('contain', '用户已添加')
-            cy.wait(1000)
-            loginMgrWithGdccl('lab-manager', 'addCQB')
-            loginMgrWithGdccl('lab-manager', 'admin')
-            cy.visit(path)
-            waitPage('waitPage')
-            cy.wait('@waitPage').its('response.statusCode').should('eq', 200)
+            cy.wait(2000)
+            loginMgrWithNewUser(path)
+          })
+        } else {
+          waitIntercept(checkUser, () => {
+            cy.get('.el-message__content').should('contain', '用户已添加')
+            loginMgrWithNewUser(path)
           })
         }
       })
+
     })
     it('016-系统顶级管理员-修改用户密码', () => {
       cy.fixture('editCQB').then(json => {
@@ -371,7 +390,7 @@ context('分级管理机构', () => {
           .closest('tr')
           .findByText('编辑')
           .click()
-  
+        cy.wait(3000)
         cy.get('[autocomplete="new-password"]').last().clear().type(json.password)
         cy.intercept('**/cqb-base-mgr/service/system/user/update*').as('edit')
         cy.get('.el-button.el-button--primary.el-button--medium').last().click({
@@ -386,8 +405,7 @@ context('分级管理机构', () => {
           cy.wait(1000)
           cy.get('button').contains('推送到大屏').should('be.exist')
           cy.visit(path)
-          waitPage('waitPage')
-          cy.wait('@waitPage').its('response.statusCode').should('eq', 200)
+          cy.wait(waitPage('waitPage')).its('response.statusCode').should('eq', 200)
           cy.wait(2000)
           cy.get('.el-table__body')
             .last()

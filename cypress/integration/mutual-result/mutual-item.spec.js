@@ -95,8 +95,6 @@ context('结果互认设置-开展项目设置', () => {
     })
   })
   context('项目操作', () => {
-    let EditIndex = 0
-    let EditButton = 1
     before(() => {
       cy.wait(1000)
       cy.get('.el-menu').last().find('li').contains('常规化学').click({
@@ -139,7 +137,7 @@ context('结果互认设置-开展项目设置', () => {
       })
       getItemLength().then((getLength) => {
         let itemLength = getLength.length
-       getItemOption(newItem,'edit')
+        getItemOption(newItem,'edit')
         cy.wait(5000)
         editItem('全血细胞计数')
         waitIntercept(interceptAddItem, () => {
@@ -151,7 +149,7 @@ context('结果互认设置-开展项目设置', () => {
           force: true
         })
         cy.wait(5000)
-      getItemOption(newItem,'edit')
+        getItemOption(newItem,'edit')
         cy.wait(5000)
         editItem('常规化学')
         waitIntercept(interceptAddItem, () => {
@@ -246,7 +244,7 @@ context('结果互认设置-开展项目设置', () => {
       cy.wait(1000)
     })
     it('添加已存在的项目', () => {
-      addItem('自定义', null, 'mmol/L', null, 'ad', '钾')
+      addItem('自定义', null, 'mmol/L', null, 'ad', '钠')
       withinDialog(clickOkInDialog, '添加项目')
       assertError('该项目已存在')
       withinDialog(clickCancelInDialog, '添加项目')

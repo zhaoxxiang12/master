@@ -117,6 +117,7 @@ context('可选区域设置', () => {
       }, () => {
         validSuccessMessage()
         visitPage('lab-manager')
+        cy.wait(3000)
         closeClientAlert()
         cy.wait(500)
         clickDropList('请选择省')
@@ -129,6 +130,7 @@ context('可选区域设置', () => {
     })
     it('004-设置某个区域为不可选,在其它界面会得到反馈', () => {
       visitPage('area-set')
+      cy.wait(3000)
       closeClientAlert()
       cy.wait(2000)
       cy.get('.area-item').contains('四川省').parents('.area-item')

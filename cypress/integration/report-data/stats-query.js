@@ -1,8 +1,22 @@
-import { visitPage } from '../../shared/route'
-import { interceptAll, interceptPost, waitIntercept } from '../common/http'
-import { closeDailyScreen } from '../common/screen'
+import {
+  visitPage
+} from '../../shared/route'
+import { clickOkInDialog, withinDialog } from '../common/dialog'
+import {
+  interceptAll,
+  interceptPost,
+  waitIntercept
+} from '../common/http'
+import {
+  closeDailyScreen
+} from '../common/screen'
 
-import { activeSelect } from '../common/select'
+import {
+  activeSelect
+} from '../common/select'
+import {
+  getDialog
+} from '../message/message'
 
 export const specText = [
   '认可专业',
@@ -55,7 +69,7 @@ export const activeSomeSpec = (text) => {
       }
     }).then(() => {
       if (!existText) {
-        activeSelect(text)  
+        activeSelect(text)
       }
     })
 }
@@ -105,7 +119,7 @@ export const waitQueryIntercept = (intercept, cb) => {
  * 质控主管单位下拉列表请求
  * @param {string} alias 
  */
-export function interceptCcl () {
+export function interceptCcl() {
   return interceptAll('service/mgr/ccl/allowedIqcAdminCcl', 'queryCcl')
 }
 
@@ -113,7 +127,7 @@ export function interceptCcl () {
  * 认可专业下拉列表请求
  * @param {string} alias 
  */
-export function interceptSpec () {
+export function interceptSpec() {
   return interceptAll('service/mgr/itemCategory/iqcCcl?*', 'querySpec')
 }
 
@@ -122,9 +136,10 @@ export function interceptSpec () {
  * @param {Function(title, screenData, request)} cb 
  * @param {Function} beforeWait 提交推送前
  */
-export function pushToScreen (cb, beforeWait) {
+export function pushToScreen(cb, beforeWait) {
   let date = new Date().toLocaleString()
   const title = `自动化测试推送的标题 ${date}`
+
   cy.get('button')
     .contains(buttonPushScreen)
     .click({
@@ -139,11 +154,13 @@ export function pushToScreen (cb, beforeWait) {
     beforeWait()
   }
   waitIntercept(interceptPost('service/mgr/screen/details', 'submitPush'), () => {
-    cy.get('button').contains('确定推送').click({
-      force: true
-    })
-    cy.get('button').contains('覆盖').click({
-      force: true
+    withinDialog(clickOkInDialog, '推送到大屏')
+    cy.get('body').within(($el) => {
+      if ($el.find('.el-message-box__wrapper')) {
+        cy.get('.el-message-box__btns button').contains('覆盖').click({
+          force: true
+        })
+      }
     })
   }, (data, request) => {
     waitIntercept(interceptAll('service/mgr/screen/details', 'queryScreenDetails'), () => {

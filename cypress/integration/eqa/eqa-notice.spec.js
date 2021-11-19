@@ -169,10 +169,10 @@ describe('EQA公告推送设置', () => {
     waitRequest({
       intercept: addRuleReq,
       onBefore: () => {
+        queryReq = queryNoticeReq()
         withinDialog(() => {
           clickButton('确定')
         })
-        queryReq = queryNoticeReq()
       },
       onSuccess: () => {
         waitIntercept(queryReq, data => {
@@ -191,7 +191,7 @@ describe('EQA公告推送设置', () => {
     })
   })
 
-  it('001-列表查询', () => {
+  it('001-列表查询', () => {
     validQuery()
   })
 
@@ -348,11 +348,11 @@ describe('EQA公告推送设置', () => {
         let queryReq
         disableRule(id).then(() => {
           waitIntercept(deleteRuleReq, () => {
+            queryReq = queryNoticeReq()
             findTableCell(rowIndex, -1).within(() => {
               clickButton('删除')
             })
             okOnPopConfirm()
-            queryReq = queryNoticeReq()
           }, () => {
             waitIntercept(queryReq, (data) => {
               const exist = data.some(item => item.msgContent === text)

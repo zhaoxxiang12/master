@@ -148,6 +148,7 @@ context('信息互通设置-推送设置', () => {
         intercept: queryRules,
         onBefore: () => {
           cy.reload()
+          cy.wait(3000)
         },
         onSuccess: (data) => {
           result = data
@@ -157,7 +158,6 @@ context('信息互通设置-推送设置', () => {
     })
     it('启用', () => {
       const rowIndex = result.data.findIndex(item => item.status === 1)
-      console.log(rowIndex)
       if (rowIndex === -1) {
         const changeIndex = 0
         cy.get('.el-table__body').last().find('.el-table__row').eq(changeIndex)
@@ -186,6 +186,7 @@ context('信息互通设置-推送设置', () => {
         }, () => {
           waitIntercept(queryRules, () => {
             cy.reload()
+            cy.wait(3000)
             closeClientAlert()
           }, data => {
             expect(data.data[changeIndex].status).to.eq(0)
@@ -206,6 +207,7 @@ context('信息互通设置-推送设置', () => {
         }, () => {
           waitIntercept(queryRules, () => {
             cy.reload()
+            cy.wait(3000)
             closeClientAlert()
           }, responseData => {
             expect(responseData.data[rowIndex].status).to.eq(0)
@@ -219,13 +221,13 @@ context('信息互通设置-推送设置', () => {
     it('停用', () => {
       waitIntercept(queryRules, () => {
         cy.reload()
+        cy.wait(3000)
       }, data => {
         result = data
         closeClientAlert()
         cy.wait(1000)
       })
       const rowIndex = result.data.findIndex(item => item.status === 0)
-      console.log(rowIndex)
       if (rowIndex !== -1) {
         cy.get('.el-table__body').last().find('.el-table__row').eq(rowIndex)
           .findByText('停用')
@@ -238,6 +240,7 @@ context('信息互通设置-推送设置', () => {
         }, () => {
           waitIntercept(queryRules, () => {
             cy.reload()
+            cy.wait(3000)
             closeClientAlert()
           }, data => {
             expect(data.data[rowIndex].status).to.eq(1)
@@ -267,6 +270,7 @@ context('信息互通设置-推送设置', () => {
         }, () => {
           waitIntercept(queryRules, () => {
             cy.reload()
+            cy.wait(3000)
             closeClientAlert()
           }, data => {
             expect(data.data[changeIndex].status).to.eq(1)
@@ -338,6 +342,9 @@ context('信息互通设置-推送设置', () => {
     })
   })
   context('室内质控室间比对实时告警', () => {
+    before(() => {
+      cy.wait(3000)
+    })
     context('必填项验证', () => {
       it('标签未选择', () => {
         createSDIRules(null, null, 26, '232', 'live', '1')
@@ -500,7 +507,9 @@ context('信息互通设置-推送设置', () => {
       const editTagName = '修改标签' + new Date().getTime()
       it('新增业务标签会同步至SDI告警页面', () => {
         visitPage('tags-service')
+        cy.wait(3000)
         closeClientAlert()
+        cy.wait(3000)
         cy.get('.el-collapse.ql-category.cqb-collapse').findByText('其他').click({
           force: true
         })
@@ -516,8 +525,10 @@ context('信息互通设置-推送设置', () => {
           createSDIRules()
           elform('labTag').click()
           cy.wait(1000)
-          cy.get('.el-scrollbar__view.el-select-dropdown__list')
-            .last()
+          cy.document()
+          .its('body')
+          .find('.el-select-dropdown:visible', { timeout: 6000 })
+          .find('.el-select-dropdown__item')
             .contains(tagName)
             .should('exist')
           withinDialog(clickCancelInDialog, '自动推送规则')
@@ -525,7 +536,8 @@ context('信息互通设置-推送设置', () => {
       })
       it('修改标签SDI告警页面也会同步修改', () => {
         visitPage('tags-service')
-        closeClientAlert()
+        cy.wait(3000)
+        closeClientAlert() 
         cy.get('.el-collapse.ql-category.cqb-collapse').findByText('其他').click({
           force: true
         })
@@ -539,13 +551,17 @@ context('信息互通设置-推送设置', () => {
           .type(editTagName)
         waitIntercept(interceptEditTag, () => {
           withinDialog(clickOkInDialog, '编辑标签')
+          cy.wait(3000)
         }, () => {
           validSuccessMessage()
           visitPage('push-setting')
           createSDIRules()
           elform('labTag').click()
-          cy.get('.el-scrollbar__view.el-select-dropdown__list')
-            .last()
+          cy.wait(1000)
+          cy.document()
+          .its('body')
+          .find('.el-select-dropdown:visible', { timeout: 6000 })
+          .find('.el-select-dropdown__item')
             .contains(editTagName)
             .should('exist')
           withinDialog(clickCancelInDialog, '自动推送规则')
@@ -553,6 +569,7 @@ context('信息互通设置-推送设置', () => {
       })
       it('删除标签SDI告警页面也会同步删除', () => {
         visitPage('tags-service')
+        cy.wait(3000)
         closeClientAlert()
         cy.get('.el-collapse.ql-category.cqb-collapse').findByText('其他').click({
           force: true
@@ -570,8 +587,10 @@ context('信息互通设置-推送设置', () => {
         })
         createSDIRules()
         elform('labTag').click()
-        cy.get('.el-scrollbar__view.el-select-dropdown__list')
-          .last()
+        cy.document()
+        .its('body')
+        .find('.el-select-dropdown:visible', { timeout: 6000 })
+        .find('.el-select-dropdown__item')
           .contains(editTagName)
           .should('not.exist')
         withinDialog(clickCancelInDialog, '自动推送规则')

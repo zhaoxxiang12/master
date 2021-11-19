@@ -1,28 +1,28 @@
 import {
   closeTips,
   confirmDelete
-} from "../common/dialog"
+} from '../common/dialog'
 import {
   validFormItemError
-} from "../common/form"
+} from '../common/form'
 import {
   waitIntercept
-} from "../common/http"
+} from '../common/http'
 import {
   validSuccessMessage
-} from "../common/message"
+} from '../common/message'
 import {
   activeSelect
-} from "../common/select"
+} from '../common/select'
 import {
   expandSearchConditions
-} from "../eqa/eqa-order/eqa-order"
+} from '../eqa/eqa-order/eqa-order'
 import {
   elform
-} from "../mutual-result/mutual-item"
+} from '../mutual-result/mutual-item'
 import {
   clickSearch
-} from "../setting/report-monitor/report-monitor"
+} from '../setting/report-monitor/report-monitor'
 import {
   checkBox,
   clickCreate,
@@ -45,7 +45,7 @@ import {
   selectSpec,
   setNolimitRules,
   setRulesMany
-} from "./standard"
+} from './standard'
 
 context('互认标准设置', () => {
   before(() => {

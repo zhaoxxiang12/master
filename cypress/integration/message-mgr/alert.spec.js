@@ -399,14 +399,14 @@ context('消息互通-告警查询', () => {
         expect(ResponseStatus).to.equal(ExpectStatus)
         cy.get('.el-pagination__total').should('contain', Data)
         cy.get('.el-table__body').find('.el-table__row').eq(1).click()
+        let mustBtn = cy.get('button').contains('认可处理措施')
+        if (!!mustBtn) {
+          mustBtn.click()
+          /* .then(() => {
+              window.open('http://mgr-cqb.test.sh-weiyi.com/__/#/tests/integration\\message-mgr\\biiboard.js')
+            }) */
+        }
       }
     })
-    let mustBtn = cy.get('button').contains('认可处理措施')
-    if (!!mustBtn) {
-      mustBtn.click()
-      /* .then(() => {
-          window.open('http://mgr-cqb.test.sh-weiyi.com/__/#/tests/integration\\message-mgr\\biiboard.js')
-        }) */
-    }
   })
 })

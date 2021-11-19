@@ -134,11 +134,15 @@ export const getItemTestingLength = (item) => {
     .find('tr')
 }
 
+export const getConfigOption = (itemName) => {
+  return cy.get('.data-table__body').contains(itemName).parents('.item-cell ')
+}
+
 export const enterPreserveMode = () => {
   cy.get('.detection-sys__tool').find('.cqbicon').click({
     force: true
   })
-  cy.fixture('labgd18020').then((labJson) => {
+  cy.fixture('labgd18030').then((labJson) => {
     elform('oldPwd').clear().type(labJson.password)
     clickElformButton('提示', '确定')
   })
@@ -159,6 +163,14 @@ export const selectMajor = (majorName) => {
   cy.get('.el-tabs__nav.is-top:visible').contains(majorName).click({
     force: true
   })
+}
+
+export const interceptQueryInstr = () => {
+  return interceptAll('service/base/common/instr',interceptQueryInstr.name,'/cqb-base')
+}
+
+export const interceptQueryItemTesting = () => {
+  return interceptAll('service/base/item?categoryId=*',interceptQueryItemTesting.name,'/cqb-base')
 }
 
 export const getPageData = (itemName) => {

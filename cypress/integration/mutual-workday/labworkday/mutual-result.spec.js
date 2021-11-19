@@ -264,6 +264,7 @@ context('工作日申请', () => {
         //登录管理端进行审核
         loginMgrSearch(labCode, text, monthString)
         clickButton('审核通过')
+        cy.wait(1000)
         closeTips('提示', '通过')
         cy.get('.el-form.panel-dept__header').findAllByPlaceholderText('请选择').click({
           force: true
@@ -295,6 +296,7 @@ context('工作日申请', () => {
       it('审核不通过', () => {
         loginMgrSearch(labCode, text, monthString)
         clickButton('审核不通过')
+        cy.wait(1000)
         confirmDelete()
         validSuccessMessage()
         cy.wait(1000)
@@ -402,6 +404,7 @@ context('工作日申请', () => {
       })
       it('已申请过的项目且审核通过不能再次申请', () => {
         const applyData = checkData(queryData)
+        cy.wait(2000)
         cy.get('.item-configNew__aside-body').find('.el-menu')
           .contains('肿瘤标志物').click({
             force: true
@@ -467,7 +470,6 @@ context('工作日申请', () => {
         }
       })
       it('查看消息', () => {
-        console.log(MsgResult)
         if (MsgResult.total >= 6) {
           for (let i = 1; i <= 5; i++) {
             cy.get('#pane-notice').find('.wy-list>.wy-list__item').first()
@@ -511,6 +513,11 @@ context('工作日申请', () => {
             }
           }
         }
+      })
+    })
+    context('删除测试数据',() => {
+      it('删除数据', () => {
+        cy.task('executeCqbSql','DELETE from item_month_work  where labId = 1548657879379082571')
       })
     })
   })

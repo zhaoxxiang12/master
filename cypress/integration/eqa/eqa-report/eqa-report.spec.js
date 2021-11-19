@@ -195,7 +195,7 @@ context('EQA反馈报告', () => {
           .click({
             force:true
           })
-          queryReport = interceptQueryReport()
+        queryReport = interceptQueryReport()
       },()=>{
         validSuccessMessage()
         waitRequest({
@@ -217,7 +217,7 @@ context('EQA反馈报告', () => {
           .click({
             force:true
           })
-          queryReport = interceptQueryReport()
+        queryReport = interceptQueryReport()
       },()=>{
         validSuccessMessage()
         waitRequest({

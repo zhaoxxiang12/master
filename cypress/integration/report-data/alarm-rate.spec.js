@@ -1,7 +1,7 @@
 import { changeCcl, waitQueryIntercept, checkRegion, checkSpec, activeSomeSpec, regionText, specText, shCclName, specName, itemName, queryYear, startMonth, tagName, buttonPushScreen, buttonPreview, interceptCcl, interceptSpec, reportMonth, pushToScreen } from './stats-query'
 import { getUrlQuery } from '../../shared/util'
 import { activeSelect } from '../common/select'
-import { interceptAll, waitIntercept } from '../common/http'
+import { interceptAll, waitIntercept, waitRequest } from '../common/http'
 import { queryCclReq } from '../api/ccl'
 
 /**
@@ -9,13 +9,24 @@ import { queryCclReq } from '../api/ccl'
  * */
 context('告警及反馈统计页面', () => {
   const queryAlarm = () => {
-    return interceptAll('service/mgr/reportsummary/reportAlarm?*', 'queryAlarm')
+    return interceptAll('service/mgr/reportsummary/reportAlarm?*', queryAlarm.name)
   }
   const weekText = '最近一周'
   const alarmType = '告警类型'
   const feedbackStatus = '反馈状态'
   const waitQuery = (cb) => {
-    waitQueryIntercept(queryAlarm, cb)
+    waitRequest({
+      intercept: queryAlarm,
+      onBefore: () => {
+        cy.get('.ql-search__btns button').contains('搜索').click({
+          force: true
+        })
+      },
+      onSuccess: cb,
+      waitOptions: {
+        timeout: 30000
+      }
+    })
   }
   const openSelect = (text) => {
     cy.get('.form-group-extend')

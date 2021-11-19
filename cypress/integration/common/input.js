@@ -45,3 +45,51 @@ export function getInput(title) {
     .find('input')
     .should('exist')
 }
+export function setInputRange(title, start, end) {
+  getInputParent(title)
+    .find('.el-input')
+    .first()
+    .find('input')
+    .should('exist')
+    .clear({
+      force: true
+    })
+    .type(start, {
+      force: true
+    })
+  getInputParent(title)
+    .find('.el-input')
+    .eq(1)
+    .find('input')
+    .should('exist')
+    .clear({
+      force: true
+    })
+    .type(end, {
+      force: true
+    })
+}
+export function getInputParent (title) {
+  return cy.get('.el-form-item__label')
+    .contains(title)
+    .next()
+    .should('exist')
+}
+export function clearInputRange (title) {
+  getInputParent(title)
+    .find('.el-input')
+    .first()
+    .find('input')
+    .should('exist')
+    .clear({
+      force: true
+    })
+  getInputParent(title)
+    .find('.el-input')
+    .eq(1)
+    .find('input')
+    .should('exist')
+    .clear({
+      force: true
+    })
+}

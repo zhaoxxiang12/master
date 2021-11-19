@@ -1,16 +1,24 @@
 import { visitPage } from '../../shared/route'
+import { dialogButton, elformOperation } from '../common/button'
 import {
-  confirmDelete
+  clickCancelInDialog,
+  clickOkInDialog,
+  confirmDelete, withinDialog
 } from '../common/dialog'
 import {
   elFormInput
 } from '../common/form'
 import {
-  interceptDelete,
-  interceptGet,
+  interceptAll,
   interceptPost,
+  waitIntercept,
   waitRequest
 } from '../common/http'
+import { expandSearchConditions } from '../eqa/eqa-order/eqa-order'
+import { getDialog } from '../message/message'
+import { elform } from '../mutual-result/mutual-item'
+import { clickSearch } from '../setting/report-monitor/report-monitor'
+import { relateLab } from '../user-info/lab-info'
 context('互认报告和证书管理', () => {
   const path = '**/cqb-base-mgr/service/iqc/report/monthGenerate*'
   const addGroup = (alias) => {
@@ -37,8 +45,20 @@ context('互认报告和证书管理', () => {
     })
   }
 
+  const interceptDeleteCompareGroup = () => {
+    return interceptAll('service/iqc/compareGroup/*',interceptDeleteCompareGroup.name)
+  }
+
   const findButton = (prop,text) => {
     return cy.get(`[aria-label=${prop}]`).findByText(text)
+  }
+
+  const interceptMutualRecogReport = () => {
+    return interceptAll('service/mgr/mutualRecogReport/check?*',interceptMutualRecogReport.name)
+  }
+
+  const interceptGetMutualRecogReport = () => {
+    return interceptAll('service/mgr/mutualRecogReport?*',interceptGetMutualRecogReport.name)
   }
 
   const visitCertPage = (alias) => { //访问年度互认证书页面
@@ -48,23 +68,21 @@ context('互认报告和证书管理', () => {
       force:true
     })
     cy.wait(2000)
-    cy.get('.el-form.el-form--inline').findByPlaceholderText('请输入实验室名称或编码').type(labCode)
-    interceptGet('/service/mgr/mutualRecogReport?*', 'getData')
-    cy.wait(5000)
-    cy.get('.el-form.el-form--inline').find('button').contains('搜索').click()
+    expandSearchConditions()
     cy.wait(1000)
-    cy.wait('@getData')
+    elform('keyword').type(labCode)
+    waitIntercept(interceptGetMutualRecogReport, () => {
+      clickSearch()
+    }, () => {
+      cy.wait(1000)
+    })
   }
   const searchReportLab = (alias) => {
     let labCode = 'gdtest5'
-    const $input = cy.findAllByPlaceholderText('请输入实验室名称或编码').first()
-    $input.type(labCode)
-    cy.intercept({
-      url: '**/cqb-base-mgr/service/mgr/lab/pageWithRole?*',
-      method: 'GET'
-    }).as('searchLab')
-    cy.clickButton('搜索')
-    cy.wait('@searchLab')
+    expandSearchConditions()
+    cy.wait(1000)
+    elform('labName').clear().type(labCode)
+    clickSearch()
     cy.wait(2000)
     cy.get('.el-checkbox__inner').last().click({
       force: true
@@ -98,13 +116,12 @@ context('互认报告和证书管理', () => {
     cy.get('.el-picker-panel__content').find('.el-date-table__row').last().find('td').last().click({
       force: true
     })
-    interceptGet('/service/mgr/mutualRecogReport/check?*', 'certReport')
+    waitIntercept(interceptMutualRecogReport, () => {
     cy.get('.el-dialog__footer').eq(2)
       .find('button').contains('生成报告').click({
         force: true
       })
-    cy.wait('@certReport').then((xhr) => {
-      cy.compare(xhr)
+    }, (data) => {
     })
   }
   const reportModel = (alias) => {
@@ -147,6 +164,7 @@ context('互认报告和证书管理', () => {
   const addCompareGroup = (groupName, group, addGroup, generateReport) => {
     let number = parseInt(Math.random() * 100000)
     cy.clickButton('生成月度报告')
+    cy.wait(2000)
     cy.get('.el-icon-edit-outline.ql-dlgrm__tpl-edit').last().click({
       force: true
     })
@@ -156,18 +174,12 @@ context('互认报告和证书管理', () => {
     cy.get('.el-form').last().find('[type="checkbox"]').check(group, {
       force: true
     })
-    cy.get('.el-form').last().find('button').contains('添加').click({
-      force: true
-    })
-    cy.get('.ql-search').last().find('.el-form.el-form--inline').findAllByPlaceholderText('请输入实验室名称或编码').type('gd18001')
-    cy.get('.ql-search').last().find('.el-form.el-form--inline').find('button').contains('搜索').click()
+    //关联实验室
+    relateLab('添加分组','gd18001','指定实验室')
     cy.wait(1000)
-    cy.get('.ql-search').last().find('[type="checkbox"]').first().check({
-      force: true
-    })
-    cy.get('.el-dialog__footer').last().find('button').contains('保存').click()
+    withinDialog(clickOkInDialog,'选择实验室')
     addGroup('addInstrGroup' + number)
-    cy.get('.el-dialog__footer').eq(7).find('button').contains('保存').click()
+    withinDialog(clickOkInDialog,'添加分组')
     cy.wait('@addInstrGroup' + number).then((xhr) => {
       cy.compare(xhr)
       cy.get('.el-message.el-message--success').should('have.text', '已添加分组')
@@ -176,9 +188,14 @@ context('互认报告和证书管理', () => {
       cy.get('.el-form').eq(4).find('[type="checkbox"]').check(stringValue, {
         force: true
       })
-      cy.get('.el-dialog__footer').eq(1).find('button').contains('保存').click({
-        force: true
+      cy.wait(2000)
+      withinDialog(clickOkInDialog,'编辑模板')
+      getDialog('生成报告').within(() => {
+        dialogButton('templateId').last().click({
+          force:true
+        })
       })
+      cy.wait(2000)
       generateReport('customerReport' + number)
       cy.get('button').contains('生成报告').click({
         force: true
@@ -192,24 +209,34 @@ context('互认报告和证书管理', () => {
           force: true
         })
         cy.get('button').contains('添加自定义组').should('be.exist')
-        cy.get('.el-form').eq(4).find('.compare-group .el-checkbox-group.compare-group__tags .el-icon-close').then((getData) => {
-          let length = getData.length
-          cy.get('.el-form').eq(4).find('.compare-group .el-checkbox-group.compare-group__tags .el-icon-close').last().click({
-            force: true
-          })
-          interceptDelete('/service/iqc/compareGroup/*', 'getGroup' + number)
-          confirmDelete()
-          cy.wait('@getGroup' + number).then((xhr) => {
-            cy.compare(xhr)
-            cy.get('.el-form').eq(4).find('.compare-group .el-checkbox-group.compare-group__tags .el-icon-close').should('have.length', length - 1)
-            cy.get('.el-dialog__footer').eq(2).find('button').contains('保存').click({
-              force: true
-            })
-            cy.get('button').contains('取消').click({
-              force: true
+        getDialog('编辑模板').within(() => {
+          elformOperation('compareGroup').find('.el-icon-close').then((getData) => {
+            elformOperation('compareGroup').find('.el-icon-close:visible').last().click({
+              force:true
+            })  
+            waitIntercept(interceptDeleteCompareGroup, () => {
+            confirmDelete()
+            cy.wait(1000)
+          }, () => {
+            elformOperation('compareGroup').find('.el-icon-close').should('have.length', getData.length - 1)
             })
           })
         })
+        withinDialog(clickOkInDialog,'编辑模板')
+        withinDialog(clickCancelInDialog,'生成报告')
+        // cy.get('.el-form').eq(4).find('.compare-group .el-checkbox-group.compare-group__tags .el-icon-close').then((getData) => {
+        //   let length = getData.length
+        //   cy.get('.el-form').eq(4).find('.compare-group .el-checkbox-group.compare-group__tags .el-icon-close').last().click({
+        //     force: true
+        //   })
+        //     getDialog('编辑模板').within(() => {
+        //       
+        //     })
+        //     cy.get('.el-form').eq(4).find('.compare-group .el-checkbox-group.compare-group__tags .el-icon-close').should('have.length', length - 1)
+        //    
+        //    
+        //   })
+        // })
       })
     })
   }
@@ -843,12 +870,13 @@ context('互认报告和证书管理', () => {
     let instr = 'INSTR'
     let rea = 'REA'
     let meth = 'METH'
-
     //--------------添加仪器分组--------------
     addCompareGroup(instrGroupName, instr, addGroup, generateReport)
-    //--------------添加试剂分组--------------
+    cy.wait(1000)
+    // //--------------添加试剂分组--------------
     addCompareGroup(reaGroupName, rea, addGroup, generateReport)
-    // --------------添加方法分组--------------
+    cy.wait(1000)
+    // // --------------添加方法分组--------------
     addCompareGroup(methodGroupName, meth, addGroup, generateReport)
   })
   it('016-实验室报告生成-显示参数勾选与取消勾选', () => {

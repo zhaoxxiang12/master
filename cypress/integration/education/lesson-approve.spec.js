@@ -22,8 +22,12 @@ import {
   interceptPost,
   waitIntercept
 } from '../common/http'
-import { clickButton } from '../common/button'
-import { loginMgrWithGdccl } from '../common/login'
+import {
+  clickButton
+} from '../common/button'
+import {
+  loginMgrWithGdccl
+} from '../common/login'
 const queryPlanApplyReq = () => {
   return interceptGet('service/edu/plan-apply/page?*', 'planApply')
 }
@@ -38,6 +42,7 @@ function clearInputs() {
   let labels = ['课程计划', '课程组合', '实验室', '手机号']
   labels.forEach(item => {
     clearInput(item)
+    cy.wait(300)
   })
 }
 
@@ -64,7 +69,7 @@ function cancelApply() {
         })
     }, '申请人员详情')
     cy.wait(500)
-    closeTips('提示','确定')
+    closeTips('提示', '确定')
   })
 }
 
@@ -163,20 +168,28 @@ context('在线教育人员授权管理页面', () => {
             force: true
           })
       }, '申请人员详情')
-      closeTips('提示','确定')
+      closeTips('提示', '确定')
     })
   })
   it('004-批量取消审核', () => {
     cy.wait(2000)
+    focusInput('状态')
+    activeSelect('已审核')
+    clickButton('搜索')
+    cy.wait(1000)
     selectAll()
     clickButton('批量取消审核')
-    closeTips('提示','确定')
+    closeTips('提示', '确定')
   })
   it('005-批量审核', () => {
     cy.wait(2000)
+    focusInput('状态')
+    activeSelect('未审核')
+    clickButton('搜索')
+    cy.wait(1000)
     selectAll()
     clickButton('批量审核')
-    closeTips('提示','确定')
+    closeTips('提示', '确定')
   })
   it('006-单个审核取消申请', () => {
     cancelApply()
