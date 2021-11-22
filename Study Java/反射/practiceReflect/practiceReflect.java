@@ -1,4 +1,4 @@
-package praticeReflect;
+package practiceReflect;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
