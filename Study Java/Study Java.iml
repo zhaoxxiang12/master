@@ -12,6 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/resource" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/反射" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/createAnnotation" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/getAnnotationInfo" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
