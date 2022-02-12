@@ -1,0 +1,29 @@
+概念:
+IFC(inline Format context):至一行空间中行内空间,并规定行内标签以及行内块级标签在该空间中如何进行排列
+IFC区域高度以及标签的对齐方式是由几个css属性共同决定:
+    A.font-size  B.font-family C.line-height D.vertical-align
+相关属性:
+1.font-size:字体越大,可能导致整个IFC区域的高度变大(如果IFC区域中只有文字,那么该IFC区域的高度由font-size决定)
+font-size越大,IFC的高度越高(默认情况下,IFC区域的高度是由该行空间中高度最高的行内(块级标签)所决定的)
+
+2.line-height:设置一行内容的高度,即行高
+    A.normal:行高由文字的内容高度来决定的,默认情况下
+    B.数字:指的是行高由font-size的倍数来决定的.即数字就是font-size的倍数.line-height: 1===font-size的一倍
+    具体的px:行高由像素来决定的,但是IFC区域的最小高度即为文字的内容高度
+    如果line-height很小,第一会导致行盒(IFC区域的高度等于文字的内容高度,但是会包含IFC区域的标签高度会受到行高的影响)
+
+3.font-family:不同的字体类型也会影响IFC区域的高度
+4.vertical-align:决定IFC区域中行内(行内块级)元素之前的对齐方式
+    A.bassline:默认取值,标签之间是以基线对齐参考线
+    B.top:行内元素的顶部和IFC区域的顶部对齐
+    C.bottom:行内元素的底部和IFC区域的底部对齐
+    D.text-top:行内元素的顶部和父标签里的文字顶部对齐
+    E.text-bottom:行内元素的顶部和父标签里的文字底部对齐
+    F.middle: 垂直居中
+5.font-size 是给父标签设置的
+
+
+总结:
+1.IFC区域高度是由font-size font-family  line-height  vertical-align 共同决定. line-height  vertical-align
+如果同时设置,那么IFC区域的高度也会发生变化
+2.IFC区域通过line-height 来设置行盒中文字的垂直对齐. vertical-align来决定行内块级元素的垂直对齐方式
