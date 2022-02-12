@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            /* 触发BFC,div内部区域会有BFC的特点*/
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <p>这是一个p标签</p>
+        <p>这是二个p标签</p>
+    </div>
+</div>
+</body>
+</html>
