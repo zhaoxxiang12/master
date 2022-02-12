@@ -13,6 +13,36 @@
 其他兄弟标签来说,弹性容器是一个普通的块级元素.如果是inline-flex,那么对其他的兄弟标签来说,弹性容器是一个普通的
 行内块级元素
 
-弹性布局想过CSS
+弹性布局相关CSS:
 flex-wrap:对弹性容器设置,是否允许直接子标签换行 flex-wrap:nowrap(默认不换行)  wrap:换行
-justify-content:设置子项目的对齐方式(对弹性容器设置)  1.center 
+justify-content:设置弹性子项目在主轴上的对齐方式(对弹性容器设置)  
+1.center:水平居中 
+2.flex-start:从主轴开头进行排列  
+3.flex-end:从主轴末尾进行排列
+4.space-between:弹性子项目中间均分主轴上的空余空间
+5.space-around:弹性子项目两边均分主轴上的多余空间
+6.space-evenly:弹性子项目所有的空隙都是均分的
+
+主轴和侧轴:
+flex-direction:改变主轴,默认水平(row), row-reserve(反向向左)  column(垂直向下) column-reserve(垂直向上) 
+一般不会对弹性容器设置高度
+
+侧轴:
+align-content:设置弹性子项目在侧轴上的对齐方式
+1.center:水平居中 
+2.flex-start:从主轴开头进行排列  
+3.flex-end:从主轴末尾进行排列
+4.space-between:弹性子项目中间均分主轴上的空余空间
+5.space-around:弹性子项目两边均分主轴上的多余空间
+6.space-evenly:弹性子项目所有的空隙都是均分的
+7.stretch:弹性子项目默认高度就是弹性容器的高度
+
+必须保证弹性子项目可以换行 如果设置为stretch,弹性子项目默认高度就是弹性容器的高度
+
+align-items:设置弹性子项目之间的对齐方式
+ 1.stretch:默认方式,当弹性子项目高度为auto或者没设置高度时,会自动拉伸高度,高度会刚好容得下内容
+ 2.baseline:
+ 3.flex-end:
+ 4.flex-start:
+ 5.flex-end:
+ 6.center: 
