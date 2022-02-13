@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 1000px;
+            height: 300px;
+            margin: 200px auto;
+        }
+        h1 {
+            font-size: 80px;
+            text-shadow:10px 10px 10px blue,20px 20px 10px red;
+            transition: all 0.5s;
+        }
+        h2 {
+            font-size: 80px;
+            margin-left: 200px;
+            text-shadow: 100px 100px 10px rgba(160, 15, 15, 0.7),
+            200px 200px 10px blue,
+            300px 300px 10px red;
+        }
+        h1:hover {
+            text-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>文字阴影</h1>
+    </div>
+    <div>
+        <h2>多个</h2>
+    </div>
+</body>
+</html>
