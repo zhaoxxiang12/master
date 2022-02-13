@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+    <title>Document</title>
+    <style>
+        header {
+            height: 50px;
+            background-color: black;
+            display: flex;
+            justify-content: space-between;
+        }
+        #logo {
+            height: 50px;
+            line-height: 50px;
+        }
+        #logo img {
+            /* height: 50px; */
+            vertical-align: middle;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            color: white;
+            /* align-content: center */
+        }
+       header ul li {
+            line-height: 50px;
+            padding: 0;
+            min-width: 20px;
+            width: 100px; /*设置宽度 放置在缩小时掉下来*/
+            text-align: center;
+        }
+        nav {
+            background-color: #fff;
+            color: gray;
+            height: 50px;
+        }
+        nav ul {
+            height: 100%;
+            width: 80%;
+            list-style: none;
+            padding: 0 auto;
+            margin: 0;
+            display: flex;
+            align-content: center;
+            flex-wrap: wrap;
+        }
+        nav ul li {
+            flex-grow: 1;
+            text-align: center;
+            height: 25px;
+            border-right: 1px solid gray;
+            color: black;
+        }
+        body {
+            background-color: #f3fefe;
+        }
+        .noborder {
+            border: none;
+        }
+        main {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        main div {
+            flex-grow: 1;
+            margin-top: 15px;
+            margin-left: 15px;
+            width: 200px;
+            height: 200px;
+            background-color: darkred;
+            line-height: 300px;
+            font-size: 30px;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div id="logo">
+        <img src="../../image/jquery-logo.png"  alt="">
+    </div>
+    <ul>
+        <li><i class="fa fa-edit"></i> 在线编辑器</li>
+        <li><i class="fa fa-code"></i>在线代码</li>
+        <li><i class="fa fa-balance-scale"></i>文本比较</li>
+        <li><i class="fa fa-download"></i>jQuery下载</li>
+        <li><i class="fa fa-ship"></i>前端库</li>
+        <li><i class="fa fa-book"></i>在线手册</li>
+        <li><i class="fa fa-user"></i>登录注册</li>
+    </ul>
+</header>
+<nav>
+    <ul>
+        <li>网页模板</li>
+        <li>网页模板</li>
+        <li>网页模板</li>  
+        <li>网页模板</li>
+        <li>网页模板</li>
+        <li>网页模板</li> 
+        <li>网页模板</li>
+        <li>网页模板</li>
+        <li>网页模板</li> 
+        <li class="noborder">网页模板</li> 
+    </ul>
+</nav>
+<main>
+   <div>1</div>
+   <div>2</div>
+   <div>3</div>
+   <div>4</div>
+   <div>5</div>
+   <div>6</div>
+   <div>7</div>
+   <div>8</div>
+</main>
+</body>
+</html>
