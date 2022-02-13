@@ -7,11 +7,18 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
     <title>Document</title>
     <style>
+        body {
+            background-color: #f3fefe;
+        }
         header {
             height: 50px;
             background-color: black;
             display: flex;
             justify-content: space-between;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2;
         }
         #logo {
             height: 50px;
@@ -36,6 +43,29 @@
             width: 100px; /*设置宽度 放置在缩小时掉下来*/
             text-align: center;
         }
+        #searchArea {
+            height: 500px;
+            background-image: url(../../image/item.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            flex-wrap: wrap;
+            background-attachment: fixed;
+            position: relative;
+        }
+        #searchArea .search {
+            width: 500px;
+            height: 200px;
+            background-color: blue;
+            position: fixed;
+            top: 150px;
+            left:0;
+            right: 0;
+            margin: auto;
+        }
         nav {
             background-color: #fff;
             color: gray;
@@ -58,9 +88,6 @@
             border-right: 1px solid gray;
             color: black;
         }
-        body {
-            background-color: #f3fefe;
-        }
         .noborder {
             border: none;
         }
@@ -81,6 +108,15 @@
             font-size: 30px;
             color: white;
             text-align: center;
+            margin-top: 15px;
+            margin-left: 15px;
+        }
+        #main {
+            width: 100%;
+            height: 2000px;
+            position: relative;
+            z-index: 1;
+            background-color: #f3fefe;
         }
     </style>
 </head>
@@ -90,7 +126,7 @@
         <img src="../../image/jquery-logo.png"  alt="">
     </div>
     <ul>
-        <li><i class="fa fa-edit"></i> 在线编辑器</li>
+        <li><i class="fa fa-edit"></i>在线编辑器</li>
         <li><i class="fa fa-code"></i>在线代码</li>
         <li><i class="fa fa-balance-scale"></i>文本比较</li>
         <li><i class="fa fa-download"></i>jQuery下载</li>
@@ -99,29 +135,38 @@
         <li><i class="fa fa-user"></i>登录注册</li>
     </ul>
 </header>
-<nav>
-    <ul>
-        <li>网页模板</li>
-        <li>网页模板</li>
-        <li>网页模板</li>  
-        <li>网页模板</li>
-        <li>网页模板</li>
-        <li>网页模板</li> 
-        <li>网页模板</li>
-        <li>网页模板</li>
-        <li>网页模板</li> 
-        <li class="noborder">网页模板</li> 
-    </ul>
-</nav>
-<main>
-   <div>1</div>
-   <div>2</div>
-   <div>3</div>
-   <div>4</div>
-   <div>5</div>
-   <div>6</div>
-   <div>7</div>
-   <div>8</div>
-</main>
+<!-- 搜索区域 -->
+<div id="searchArea">
+    <div class="search">
+        <input type="text"><button>搜索</button>
+    </div>
+</div>
+<div id="main">
+    <nav>
+        <ul>
+            <li>网页模板</li>
+            <li>网页模板</li>
+            <li>网页模板</li>  
+            <li>网页模板</li>
+            <li>网页模板</li>
+            <li>网页模板</li> 
+            <li>网页模板</li>
+            <li>网页模板</li>
+            <li>网页模板</li> 
+            <li class="noborder">网页模板</li> 
+        </ul>
+    </nav>
+    <main>
+       <div>1</div>
+       <div>2</div>
+       <div>3</div>
+       <div>4</div>
+       <div>5</div>
+       <div>6</div>
+       <div>7</div>
+       <div>8</div>
+    </main>
+</div>
+
 </body>
 </html>
