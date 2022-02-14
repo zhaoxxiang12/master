@@ -1,0 +1,21 @@
+概念:CSS中的渐变是作为背景图片的一个特殊的颜色来使用
+
+
+线性渐变(linear-gradient)
+基本使用:
+1.基本语法(background-image:linear-gradient(green,red))
+2. linear-gradient(渐变方向,颜色1,颜色2)
+渐变角度:
+1.对角线: A.to to left(右下到左上) B.to top right(左下到右上) C.to bottom left(右上到左下) D.to bottom right(左上到右下)
+2.指定的角度: linear-gradient(30deg,red,blue) 0deg是从下往上 以顺时针为正 逆时针为负
+3.四个方向: A. to bottom(默认:从上到下)  B.to top  C.to left D.to right
+
+
+渐变范围(色标):把渐变范围作为100%来看待,可以指定100%中的一段百分数是一个颜色的渐变
+
+原理:使用0%渐变开始,通过百分比设置来决定每个颜色的渐变范围,渐变到100%结束
+使用:background-image:linear-gradient(渐变方向,颜色1,百分比,颜色2,百分比,颜色n 百分比),
+比如:background-image:linear-gradient(30deg,red 30%, blue 50%,yellow 100%)
+
+重复渐变:在渐变范围内,会重复的进行相同的渐变
+background-image:repeat-linear-gradient(red,blue)

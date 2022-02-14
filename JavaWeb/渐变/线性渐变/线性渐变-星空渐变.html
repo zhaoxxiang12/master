@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      html {
+        height: 100%;
+      }
+      body {
+        transition: all 1s;
+        margin: 0;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        /*星空*/
+        /* background-image: linear-gradient(rgb(82,4,82), rgb(158, 43, 158));
+        */
+        /*黎明*/
+        background-image: linear-gradient(orange 0%, white 30%,blue 70%, black 100%);
+      }
+      body:hover {
+        background-size:100% 300%;
+        /* background-image: linear-gradient(rgb(66,2,66),rgb(54,37,54)); */
+      }
+      img {
+        position:absolute;
+        top: 0;
+        left:0;
+        bottom: -200px;
+        right: 0;
+        margin: auto;
+      }
+    </style>
+</head>
+<body>
+  <img src="../../image/3.jpeg" style="width: 500px;" alt="">
+</body>
+</html>
