@@ -7,33 +7,32 @@
     <title>Document</title>
     <style>
         #second{
-            /* width: 1200px; */
-            height: 500px;
-            display: inline-flex;
+            width: 350px;
+            height: 100px;
+            display: flex;
             border: 1px solid red;
             margin: 0 auto;
-            background-color: #ccc;
-            /* flex-wrap:换行*/
-            /* flex-wrap: wrap;
-            font-size: 30px; */
-            /* 居中*/
-            /* justify-content: center; */
         }
-        #second div{/* div 是最大的div的子元素*/
-            width: 200px;
-            height: 200px;
+        #second div {
             text-align: center;
             font-size: 30px;
-            background-color: red;
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 100px;
+        }
+        #second div:nth-of-type(2){/* div 是最大的div的子元素*/
+            text-align: center;
+            font-size: 30px;
+            flex-shrink: 3;
         }
     </style>
 </head>
 <body>
     <div id = "second">
-        <div style="flex-shrink: 1;">1</div>
-        <div style="flex-shrink: 1;">2</div>
-        <div style="flex-shrink: 3;">3</div>
-        <div style="flex-shrink: 3;">4</div>
+        <div style="background-color: red">1</div>
+        <div style="background-color: blue">2</div>
+        <div style="background-color: green">3</div>
+        <div style="background-color: pink">4</div>
 </div>
 </body>
 </html>
