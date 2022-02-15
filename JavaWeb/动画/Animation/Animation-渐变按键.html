@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      button {
+        width: 200px;
+        height: 50px;
+        line-height: 50px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+      button {
+        background-image: linear-gradient(100deg,rgba(205,230,238),rgb(4,188,250));
+        text-align: center;
+        color: white;
+        background-size: 100% 100%;
+        font-size: 24px;
+        transition: all 1s;
+        cursor: pointer;
+        animation: buttonAnimation 3s linear infinite;
+      }
+
+      @keyframes buttonAnimation {
+        0% {
+          background-position: 0px 0px;
+        }
+        100% {
+          background-position: 200px 0px;
+        }
+      }
+    </style>
+</head>
+<body>
+  <button>搜索</button>
+</body>
+</html>

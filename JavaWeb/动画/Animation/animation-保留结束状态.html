@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      div {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        border-radius: 0px;
+      }
+        /*定义动画向右移动200px*/
+        /*定义动画*/
+        @keyframes moveRight {
+          from {
+            margin-left:0px;
+          }
+          to {
+            margin-left:200px;
+            background-color: blue;
+            border-radius: 50%;
+          }
+        }
+      /*2.执行*/
+      div {
+        animation: moveRight 2s linear alternate;
+        /*保留结束状态*/
+        animation-fill-mode: forwards;
+      }
+    </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>

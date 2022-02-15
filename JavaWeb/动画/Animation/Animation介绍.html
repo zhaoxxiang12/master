@@ -1,0 +1,43 @@
+CSS通过animation属性来实现动画,本身animation就是一个组合属性
+
+Animation:
+animation-name(动画名称):  
+animation-duration(动画持续时间): 
+animation-delay(动画的延时时间):  
+animation-timing-function(动画的速度): 
+  A.linear  
+  B.ease  
+  C.ease-in  
+  D.ease-in-out 
+  E.ease-out
+animation-iteration-count (动画的播放次数):  
+  A.infinite:无限次数
+
+animation-durection:(控制动画的播放方向,是否允许反向播放,默认不允许):
+  A.alterante:允许来回播放 动画的状态
+  animation-file-mode:是否保留动画的结束状态  默认不保持  animation-file-mode:forwards
+
+Animation使用
+1.利用@keyframes定义动画的关键帧,并设置动画名称
+      @keyframes 动画名称{
+       
+      from {
+        动画的初始样式
+      }
+      to {
+        动画结束之后的样式
+      }
+    }
+2.对标签使用animation CSS来执行动画  比如:<div>向右移动200px  
+  1.定义动画(不依赖标签,该动画可以给任意标签) @keyframes moveRight {
+    from {
+      margin-left:0px;
+    }
+    to {
+      margin-left:200px;
+    }
+  }
+  2.执行动画
+   div {
+     animation:moveRight 2s;
+   }
