@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      div {
+        line-height: 200px;
+        text-align: center;
+        border: 1px solid black;
+      }
+      #first {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        transition: background-color,3s,liner,5s;
+        transition-delay: 3s;
+        transition-timing-function: linear;
+      }
+     #first:hover {
+        background-color: blue;
+      }
+      #second {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        transition:margin-left, 5s;
+        transition-delay: 3s;
+        transition-timing-function: linear;
+      }
+      #second:hover {
+       margin-left: 300px;
+      }
+      #ease-box {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        transition-timing-function: ease;
+      }
+      button {
+        background-color: lightblue;
+        color: white;
+        text-align: center;
+        border: solid 1px black;
+        font-size: 24px;
+        transition: all 1s;
+        cursor: pointer;
+      }
+      input,button {
+        width: 200px;
+        height: 50px;
+        line-height: 50px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+      input {
+        height: 30px;
+        width: 300px;
+        transition: all 1s;
+      }
+      input:focus {
+        box-shadow: 0 0 10px 0 lightblue;
+        border: 1px solid lightblue;
+        width: 350px;
+        height: 35px;
+      }
+
+      button:hover {
+        color: lightblue;
+        background-color: aqua;
+      }
+    </style>
+</head>
+<body>
+  <!-- <div id="first">1</div>
+  <div id="second">2</div>
+  <div id="ease-box">3</div> -->
+  <input type="text" placeholder="实验室名称或编码"><br>
+  <button>搜索</button>
+</body>
+</html>
