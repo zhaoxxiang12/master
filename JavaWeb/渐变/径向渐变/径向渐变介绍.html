@@ -1,0 +1,41 @@
+概念:以一个椭圆或圆为中心向四周扩散的一种渐变
+基本使用:background-image:radial-gradient(颜色1,颜色2) 例如:background-image:radial-gradient(red,blue)
+改变形状:
+1.径向渐变支持椭圆和圆,默认是椭圆
+
+1.改变圆心点
+
+  单词 
+  A.at top left 圆心点再左上角  
+  B.at buttom right  圆心再右下角   
+  C.at center right:圆心右边界中间
+  D.at top right:圆心右上角
+  E.at bottom left:圆心左下角
+  F.at center left:圆心左边界中间
+  G.at center top:圆心上边界中间
+  H.at center bottom:圆心下边界中间
+
+
+  像素(百分比):相对于合资的尺寸而言
+  background-image: radial-gradient(50px 50px, red,blue);
+
+色标(颜色渐变范围)
+background-image: radial-gradient(大小 at 中心点, 颜色1 百分比,颜色2 百分比) 工作模式类似于线性渐变,把
+整个范围看成100%,到100%结束
+
+
+形状大小
+  A.像素 background-image: radial-gradient(50px, red,blue) 渐变的大小为50像素
+  B.渐变的宽度为150px 高度200px background-image: radial-gradient(150px 200px, red,blue) 渐变的大小为50像素
+  C.渐变大小为400px 300px同时中心点在右上角   background-image: radial-gradient(150px 200px at top right, red,blue)
+
+细节调整
+A.closest-side:最近的边
+  渐变的大小调整为渐变边缘能够接触最近的边
+B.farthest-side:最远的边
+  渐变的大小调整为渐变边缘能够接触最远的边
+C.closest-corner:最近的角
+  渐变的大小调整为渐变边缘能够接触最近的角
+D.farthest-corner:最远的角
+  渐变的大小调整为渐变边缘能够接触最远的角
+
