@@ -1,0 +1,33 @@
+概念:可以利用transform来实现标签的旋转、位移等特性
+
+位移: translate来控制标签的移动,推荐使用,替代margin 或者top等进行移动
+
+transform:translate(x轴的移动量,y轴的移动量)  translate(x轴的移动量) translateX(x轴的移动量) translateY(y轴的移动量)
+
+旋转
+ rotate:实现标签的旋转,正角度为顺时针,负角度为逆时针
+ transform:rotate(角度) 标签的默认旋转中心点为盒子的中心点
+ transform:rotateX(角度)
+ transform:rotateY(角度)
+
+ 与位移一起使用的区别: 
+ 1.如果先旋转再位移,会导致旋转中心点改变,所以一般是先位移再旋转   transform: translate(100px) rotate(45deg);
+
+缩放
+transform: scale() 对标签进行尺寸的比例缩放;
+  transform: scale(1): 1指的是标签的比例,默认为1
+  transform: scale(宽度比例,高度比例) 
+  transform: scale(尺寸比例):宽高同比例
+
+
+改变转换基点
+transform-origin:改变某个标签的转换基点
+
+transform-origin:X轴的偏移量 Y轴的偏移量
+  A.偏移量指的是相对于标签的左上角的原点距离
+  B.偏移量可以是具体的像素,百分比或者是center left right
+
+倾斜
+skew:
+1.对盒子进行倾斜操作.作用于是尺寸会进行拉伸,变成一个平行四边形
+2.transform:skew(X轴角度,Y轴角度) skewX(X轴角度):单独指定X轴的倾斜  skewY(Y轴角度):单独指定Y轴的倾斜

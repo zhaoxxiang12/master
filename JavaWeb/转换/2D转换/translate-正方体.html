@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #top,#center,#right {
+          width: 200px;
+          height: 200px;
+          margin: auto;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          position: absolute;
+        }
+        #top {
+          top: -300px;
+          background-color: green;
+          transform: skewX(-45deg);
+          height: 100px;
+          left: 100px;
+        }
+        #right {
+          background-color: purple;
+          left: 400px;
+          transform: skewY(-45deg);
+          width: 100px;
+          transition: all 1s;
+          
+        }
+        #center {
+          background-color: red;
+        }
+        #right:hover {
+          top: -100px;
+          left: 300px;
+        }
+        #line1,#line-rotate {
+          width: 200px;
+          margin: auto;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          position: absolute;
+        }
+        #line1 {
+          height: 200px;
+          border-left: 1px dashed black;
+          border-bottom: 1px dashed black;
+          transform: translate(100px, -100px);
+        }
+        #line-rotate {
+          height: 0px;
+          left: 155px;
+          border-bottom: 3px dashed white;
+          transform: rotate(135deg); 
+          transform-origin: 0 0;
+          width: 145px;
+        }
+    </style>
+</head>
+<body>
+    <div id="top"></div>
+    <div id="center"></div>
+    <div id="right"></div>
+    <div id="line1"></div>
+    <div id="line-rotate"></div>
+</body>
+</html>

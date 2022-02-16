@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      div {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        line-height: 200px;
+        text-align: center;
+        transform: scale(0.5);
+        margin: 200px auto;
+        transition: all 1s;
+      }
+      div:hover {
+        transform: scale(1,2);
+      }
+      input {
+        width: 200px;
+        height: 30px;
+        margin: 0 auto;
+        transition: all 3s;
+      }
+      input:hover {
+        transform: scale(2);
+      }
+      input:focus {
+        width: 400px;
+        height: 60px;
+      }
+    </style>
+</head>
+<body>
+  <div>
+    缩放
+  </div>
+
+  <input type="text">
+</body>
+</html>

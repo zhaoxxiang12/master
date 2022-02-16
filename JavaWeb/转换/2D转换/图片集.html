@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      #box {
+        width: 500px;
+        height: 600px;
+        border-radius: 15px;
+        border: 1px solid #cccccc;
+        margin: 100px auto;
+        position: relative;
+      }
+      #box img {
+        width: 100%;
+      }
+      #box div {
+        width: 250px;
+        height: 250px;
+        padding: 20px;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        position: absolute;
+        transition: all 1s;
+        box-sizing: border-box;
+      }
+      .item1 {
+        top: 254px;
+        left: 214px;
+        transform: rotate(45deg);
+      }
+      .item2 {
+        /* top: 100px;
+        left: 10px; */
+        transform: rotate(-45deg) translate(100px,130px);
+      }
+      .item3 {
+        top: 200px;
+        left: 24px;
+        transform: rotate(145deg);
+      }
+     #box .item1:hover {
+        width: 500px;
+        height: auto;
+        top: 0px;
+        left: 0px;
+        transform: rotate(0deg);
+        z-index: 1;
+      }
+    </style>
+</head>
+<body>
+  <div id="box">
+  <div class="item1"><img src="../../image/flo1.jpeg" alt=""></div>
+  <div class="item2"><img src="../../image/flo2.jpeg" alt=""></div>
+  <div class="item3"><img src="../../image/flo3.jpeg" alt=""></div>
+</div>
+</body>
+</html>
