@@ -9,12 +9,29 @@ prespective: px
   2.3D效果,景深越浅,效果越明显
 
 3D转换
+1.旋转
+  rotateZ(Z轴的角度) rotate3D(x,y,z)同时设置3轴旋转 前三个表示是否需要该轴进行旋转,0为不旋转,1为旋转
+  transform:rotate3D(x,y,z,旋转角度) 比如:同时按x轴和z轴旋转30度  rotate3D(1,0,1,30deg)
+
+2.位移 translateZ(Z轴的移动量) Z轴向外为正,设置足够px,可能会导致标签紧挨屏幕(放大),反正越小
+
+translate3D(x,y,z) 3轴同时设置
+3.缩放:跟2D一模一样
+
+
+
 3D子元素
   1.transform-style:决定了某个标签里面的子元素是以2D模式还是3D模式进行展示,默认2D
   transform-style:flot(2D) | preserve-3d
   2.默认2D情况下,该标签里面的子标签所有的转换以2D 的形式进行展示
   子标签的活动空间全在父标签所在平面上
+
+
 3D转换基点
+  transform-origin:添加了对Z轴的支持
+  transform-origin:x y z 例子:按(20px,30px,40px)设置为转换中心点
+  transform-origin:(20px,30px,40px)
+
 3D观察模式
 
 3D一般流程:
