@@ -1,0 +1,37 @@
+结构选择器:
+1.first-child:指的是标签需要满足的条件,某个标签必须是作为父标签的第一个子标签
+  td:first-child { 找到td并设置样式,td是某个标签的第一个子标签
+    color: red;
+  }
+
+2.last-child:指的是标签需要满足的条件,某个标签必须是作为父标签的最后子标签
+
+td:last-child { 找到td并设置样式,td是某个标签的第一个子标签
+  color: red;
+}
+
+3.nth-child(数字):指的是标签需要满足的条件,某个标签必须是作为父标签的第n个子标签
+  p:nth-child(3){ 找到p标签并设置样式,条件:p是某个标签的第三个子标签
+    color:red
+  }
+
+  p:nth-child(2n-1) {找到p标签并设置样式,条件:p是某个标签的奇数子标签
+
+  }
+
+4.nth-of-type():指的是标签需要满足的条件,某个标签必须是作为父标签的第几个该子标签
+
+  p:nth-of-type(3) {找到p标签并设置样式,条件:p是某个标签的第三个子标签
+    color:orange
+  }
+  .item:nth-of-type(3) {找到class为item标签并设置样式,条件:该标签是某个标签的第三个class为item的子标签
+    color:red
+  }
+
+5.last-of-type():
+6.not():
+7.nth-last-child(n): 指的是标签需要满足的条件,某个标签必须是作为父标签的倒数第n个子标签
+  p:nth-last-child(3){找到p标签并设置样式,条件:p是某个标签的倒数第三个子标签
+    color:green
+  }
+  
