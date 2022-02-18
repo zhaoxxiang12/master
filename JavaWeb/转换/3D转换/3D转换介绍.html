@@ -32,7 +32,15 @@ translate3D(x,y,z) 3轴同时设置
   transform-origin:x y z 例子:按(20px,30px,40px)设置为转换中心点
   transform-origin:(20px,30px,40px)
 
-3D观察模式
+3D观察模式:通过perspective-origin来设置观察者模式,可以从不同角度去观察盒子
+perspective-origin:x y;  x和y表示X轴和y轴的偏移量,确定了观察者的位置.具体值可以是
+  top、left、bottom、right、%、px等
+
+  例子:观察者在左边进行观察  perspective-origin:0px center
+  默认值是正中间:perspective-origin:center center
+
+
+
 
 3D一般流程:
 1.给父标签设置景深
