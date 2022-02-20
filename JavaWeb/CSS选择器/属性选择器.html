@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+     a[href] {
+         color: red;
+     }
+     a[href="#"] {
+         color: blue;
+     }
+     a[href*="abc"] {
+         color: orange;
+     }
+     a[href~="abc"] {
+         color: pink;
+     }
+    </style>
+</head>
+<body>
+<div>
+    <a href="#">1233</a><br>
+    <a href="http://www.baidu.com">1255</a><br>
+    <a >无超链接</a><br>
+    <a href="">href为空</a><br>
+    <a href="abcd.html">abcd</a><br>
+</div>
+</body>
+</html>

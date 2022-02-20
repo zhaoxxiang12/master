@@ -19,8 +19,17 @@ td:last-child { 找到td并设置样式,td是某个标签的第一个子标签
 
   }
 
-4.nth-of-type():指的是标签需要满足的条件,某个标签必须是作为父标签的第几个该子标签
-
+4.nth-of-type(n):指的是标签需要满足的条件,某个标签必须是作为父标签的第几个该子标签
+  1.前面跟的是标签选择器.指的是该标签是其父标签的第n个同类型的子标签
+  2. p:nth-of-type(3){ 找到符合条件的p标签,条件是该p标签是作为其父标签的第三个p子标签
+    color:red 
+  }
+  3.前面跟的是class选择器,那么具体的匹配规则会发生变化
+    A.会先根据class找到所有有该class的标签类型进行分类或者分组,子里面是包含了该标签
+    的所有同类型的标签
+ 
+ 
+ 
   p:nth-of-type(3) {找到p标签并设置样式,条件:p是某个标签的第三个子标签
     color:orange
   }
@@ -28,10 +37,42 @@ td:last-child { 找到td并设置样式,td是某个标签的第一个子标签
     color:red
   }
 
-5.last-of-type():
-6.not():
+5.nth-last-of-type():指的是标签需要满足的条件,某个标签必须是作为父标签的倒数第几个该子标签
+
+.item:nth-last-of-type(3) {找到class为item标签并设置样式,条件:该标签是某个标签的倒数第三个class为item的子标签
+  color:red
+}
+
+6.not():匹配()里选择器的相反标签
+
+not(p) { 除了标签之外的所有标签字体都是红色的
+  color:red
+}
+
+
+
 7.nth-last-child(n): 指的是标签需要满足的条件,某个标签必须是作为父标签的倒数第n个子标签
   p:nth-last-child(3){找到p标签并设置样式,条件:p是某个标签的倒数第三个子标签
     color:green
   }
+
+
+  兄弟选择器:
+  1.+  找到紧挨着的下一个兄弟标签  div + p {对p标签设置样式,p标签上一个兄弟标签必须是div}
+  2.~  找到符合条件的所有的后续兄弟标签
+    div ~ p {  找到div后续的所有p兄弟标签
+      color:red
+    }
+
+后代选择器:
+div P:找到div的所有后代p标签
+div > p:找到div的所有直接子p标签
+div > P {
+  color:red
+}
   
+属性选择器:
+div[id="demo"]:找到所有的id为demo div的标签
+div[id]:找到所有有id属性的div标签
+div[id*=abc]:找到所有id属性值里面有abc的div标签(只要id属性包含了abc即可)
+div[id~=abc]:找到所有id属性值里面有abc的div标签(abc必须是单独的一个单词,跟其他的单词之间有空格)

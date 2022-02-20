@@ -33,20 +33,14 @@
       tr:nth-child(2n-1) {
         background-color: lightblue;
       }
-      p:nth-last-child(3) {
-        color: red;
-      }
-      P:nth-of-type(2) {
-        color: orange;
-      }
       .item:nth-of-type(3) {
-        color: pink;
+          background-color: red;
       }
-      .item1:nth-last-of-type(3) {
-        color: goldenrod
+      .item:nth-of-type(2) {
+          background-color: blueviolet;
       }
-     body :not(p,div) {
-        background-color: blueviolet;
+      .item:nth-of-type(1) {
+          background-color: orange;
       }
     </style>
 </head>
@@ -57,30 +51,30 @@
           <th>学号</th>
           <th>姓名</th>
           <th>年龄</th>
-          <th class="item">性别</th>
+          <th class="ite">性别</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="item">001</td>
-          <td class="item">张三</td>
-          <td class="item">18</td>
-          <td class="zs item">男</td>
+          <td class="ite">001</td>
+          <td class="ite">张三</td>
+          <td class="ite">18</td>
+          <td class="zs ite">男</td>
         </tr>
         <tr>
-          <td class="zs item">002</td>
+          <td class="zs ite">002</td>
           <td>李四</td>
           <td>21</td>
           <td>男</td>
         </tr>
         <tr>
-          <td class="item">003</td>
+          <td class="ite">003</td>
           <td>王五</td>
           <td>25</td>
           <td>男</td>
         </tr>
         <tr>
-          <td class="item">004</td>
+          <td class="ite">004</td>
           <td>孔明</td>
           <td>25</td>
           <td>男</td>
@@ -107,12 +101,12 @@
   </table>
 
   <div>
-    <a href="#" class="item1">百度</a>
-    <p class="item1">这是div中的 p标签</p>
-    <a href="#" class="item1">12222</a>
-    <p class="item1">这是div中的 第二个p标签</p>
-    <a href="#" class="item1">百度</a>
-    <p class="item1">这是div中的 第三个p标签</p>
+    <a href="#" >百度</a>
+    <p>这是div中的 p标签</p>
+    <a href="#" class="item">12222</a>
+    <p class="item">这是div中的 第二个p标签</p>
+    <a href="#" class="item">百度</a>
+    <p class="item">这是div中的 第三个p标签</p>
   </div>
 </body>
 </html>

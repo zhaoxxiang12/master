@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 1440px;
+            height: 500px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        ul {
+            width: 500%;
+            height: 100%;
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            transform: translateX(-0px);
+            animation:  move infinite  10s;
+        }
+        li {
+            width: 1440px;
+            height: 100%;
+            
+        }
+        li img {
+            width: 1440px;
+            height: 500px;
+        }
+        @keyframes move {
+            0% {
+                transform: translateX(-0px);
+            }
+            10%,20% {
+                transform: translateX(-1440px);
+            }
+            30%,40% {
+                transform: translateX(-2880px);
+            }
+            50%,60% {
+                transform: translateX(-4320px);
+            }
+            70%,80% {
+                transform: translateX(-5760px);
+            }
+            100% {
+                transform: translateX(-7200px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <ul>
+            <li><img src="../LOL-image/天使彦1.jpg" alt=""></li>
+            <li><img src="../LOL-image/天使彦2.jpg" alt=""></li>
+            <li><img src="../LOL-image/天使彦3.jpg" alt=""></li>
+            <li><img src="../LOL-image/天使彦4.jpg" alt=""></li>
+            <li><img src="../LOL-image/天使彦5.jpg" alt=""></li>
+        </ul>
+    </div>
+</body>
+</html>
