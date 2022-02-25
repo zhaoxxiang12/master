@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120px" height="48px" viewBox="0 0 120 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Title_Button_Yellow</title>
+    <defs>
+        <polygon id="path-1" points="1.7395807e-13 20 6 -1.27897692e-13 33 -3.99957845e-14 35 5 85 5 83 -3.99957845e-14 110 -1.27897692e-13 120 28 114 48 10 48"></polygon>
+        <filter x="-3.3%" y="-8.3%" width="106.7%" height="116.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feGaussianBlur stdDeviation="4" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="0" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 0.778139535   0 0 0 0 0.28  0 0 0 0.4 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="全国-综合疫情" transform="translate(-1464.000000, -32.000000)">
+            <g id="Title_Button_Yellow" transform="translate(1464.000000, 32.000000)">
+                <g id="矩形">
+                    <use fill-opacity="0.8" fill="#291F08" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <path stroke="#CC9929" stroke-width="1" d="M32.6614835,0.5 L34.6614835,5.5 L85.7385165,5.5 L83.7385165,0.5 L109.64764,0.5 L119.473914,28.0135674 L113.627985,47.5 L10.3523596,47.5 L0.526085537,19.9864326 L6.37201533,0.5 L32.6614835,0.5 Z" stroke-linejoin="square"></path>
+                </g>
+                <path d="M41,0 L43,4 L37,4 L35,0 L41,0 Z M49,0 L51,4 L45,4 L43,0 L49,0 Z M57,0 L59,4 L53,4 L51,0 L57,0 Z M65,0 L67,4 L61,4 L59,0 L65,0 Z M73,0 L75,4 L69,4 L67,0 L73,0 Z M81,0 L83,4 L77,4 L75,0 L81,0 Z" id="矩形-2" fill="#FFC647"></path>
+            </g>
+        </g>
+    </g>
+</svg>

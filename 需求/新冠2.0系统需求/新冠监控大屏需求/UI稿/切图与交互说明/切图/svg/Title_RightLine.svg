@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="589px" height="20px" viewBox="0 0 589 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Title_RightLine</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="全国-综合疫情" transform="translate(-1311.000000, -44.000000)">
+            <g id="Title_RightLine" transform="translate(1605.500000, 54.000000) scale(-1, 1) translate(-1605.500000, -54.000000) translate(1311.000000, 44.000000)">
+                <polygon id="矩形" fill="#347ED0" points="-1.77635684e-15 17 64 17 64 18 21 18 19 20 4 20 2.00487976 18 -1.77635684e-15 18"></polygon>
+                <polygon id="路径" fill="#3A87E8" fill-rule="nonzero" points="575 5 575 6 467.053738 6 459.041633 15 12 15 12 14 431 14 432.003087 13 457 13 459 10.9952106 461.266023 10.9952106 466.604496 5"></polygon>
+                <polygon id="路径" fill="#3A87E8" fill-rule="nonzero" points="500 2 500 3.01933886 465.534782 3.01933886 458.745894 10 458 9.32876066 461.219971 5.99843801 461.219971 3.01933886 464 0 468 0 470 2"></polygon>
+                <polygon id="路径备份" fill="#3A87E8" fill-rule="nonzero" points="589 2 589 3 545 3 545 2"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
