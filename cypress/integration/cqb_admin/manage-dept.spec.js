@@ -50,7 +50,7 @@ const interceptUpdateUser = () => {
 }
 
 const getUserLength = (text) => {
-  return cy.get('.el-table__body:visible').last().contains(text).parents('.el-table__row')
+  return cy.get('.el-table__body:visible').first().contains(text).parents('.el-table__row')
 }
 
 const getDataLength = () => {
@@ -83,9 +83,13 @@ const interceptCheckUser = () => {
 
 const clickCreate = (param = '添加下一级管理单位') => {
   if (param === '添加用户') {
-    cy.get('.el-header').contains('添加用户').click()
+    cy.get('.el-header').contains('添加用户').click({
+      force:true
+    })
   } else {
-    cy.get('.el-header').contains('添加下一级管理单位').click()
+    cy.get('.el-header').contains('添加下一级管理单位').click({
+      force:true
+    })
   }
   cy.wait(2000)
 }
@@ -123,7 +127,7 @@ const loginMgrWithNewUser = (path) => {
 
 context('分级管理机构', () => {
   const cclName = '测试' + new Date().getTime()
-  const path = '/cqb-base-mgr-fe/app.html#/manage/account/manage-dept'
+  const path = '/cqb-base-mgr-fe/app.html#/dept-mgr/manage-dept'
   before(() => {
     cy.loginCQB()
     waitIntercept(waitPage, () => {
@@ -215,7 +219,7 @@ context('分级管理机构', () => {
       validFormItemError('请输入密码')
       withinDialog(clickCancelInDialog, userTitle)
     })
-    it('008-权限未填写', () => {
+    it('009-权限未填写', () => {
       clickCreate('添加用户')
       createUser(userCode, userName, password)
       withinDialog(clickOkInDialog, userTitle)
@@ -242,7 +246,7 @@ context('分级管理机构', () => {
       })
     })
     context('修改',() => {
-      it('009-修改管理机构名字', () => {
+      it('010-修改管理机构名字', () => {
         const newCclName = '自动化测试' + new Date().getTime()
         getDataLength().contains(cclName).parent().find('[title="编辑管理单位"]').click()
         cy.wait(2000)
@@ -257,7 +261,7 @@ context('分级管理机构', () => {
           })
         })
       })
-      it('010-修改用户名', () => {
+      it('011-修改用户名', () => {
         const newName = '自动化修改' + new Date().getTime()
         getUserLength(userCode).findByText('编辑').click({
           force:true
@@ -277,7 +281,7 @@ context('分级管理机构', () => {
       }) 
     })
     context('删除',() => {
-      it('011-有用户的管理单位不允许删除', () => {
+      it('012-有用户的管理单位不允许删除', () => {
         getDataLength().contains('测试').parent().find('[title="删除管理单位"]').click()
         waitRequest({
           intercept:interceptDeleteCcl,
@@ -289,7 +293,7 @@ context('分级管理机构', () => {
           }
         }) 
       })
-      it('012-删除用户名',()=> {
+      it('013-删除用户名',()=> {
         getUserLength('明').findByText('删除').click({
           force:true
         })
@@ -300,16 +304,13 @@ context('分级管理机构', () => {
           cy.wait(2000)
         })
       })
-      it('013-管理单位删除成功',() => {
+      it('014-管理单位删除成功',() => {
         getDataLength().then(getData => {
-          getDataLength().contains('测试').parent().find('[title="删除管理单位"]').click()
+          getDataLength().contains('自动化测试').parent().find('[title="删除管理单位"]').click()
           waitRequest({
             intercept:interceptDeleteCcl,
             onBefore:() => {
               confirmDelete()
-            },
-            onError: (data) => {
-              validErrorMsg(data)
             },
             onSuccess:() => {
               validSuccessMessage()
@@ -322,7 +323,7 @@ context('分级管理机构', () => {
     })
   })
   context('其他操作',() => {
-    it('014-添加管理机构-关键字搜索', () => {
+    it('015-添加管理机构-关键字搜索', () => {
       cy.get('.el-tree-node__children').first().find('[role="treeitem"]').last().invoke('text').then((text) => {
         let data = text.replace(/(^\s*)|(\s*$)/g, '')
         cy.get('[placeholder="请输入管理单位名进行查找"]').type(data)
@@ -330,7 +331,7 @@ context('分级管理机构', () => {
         getDataLength().contains(data).parents('.el-tree-node').should('have.class', 'is-expanded')
       })
     })
-    it('015-系统顶级管理员-添加用户', () => {
+    it('016-系统顶级管理员-添加用户', () => {
       let name = 'addCQB'
       let checkUser
       cy.get('.tree-dept .tree-dept-node .tree-dept-node-txt.tree-dept-node-l1').contains('系统顶级管理单位').click()
@@ -379,17 +380,19 @@ context('分级管理机构', () => {
       })
 
     })
-    it('016-系统顶级管理员-修改用户密码', () => {
+    it('017-系统顶级管理员-修改用户密码', () => {
       cy.fixture('editCQB').then(json => {
         cy.get('.tree-dept .tree-dept-node .tree-dept-node-txt.tree-dept-node-l1').contains('系统顶级管理单位').click()
         cy.wait(2000)
         cy.get('.el-table__body')
-          .last()
+          .first()
           .find('.cell')
           .contains(json.username)
           .closest('tr')
           .findByText('编辑')
-          .click()
+          .click({
+            force:true
+          })
         cy.wait(3000)
         cy.get('[autocomplete="new-password"]').last().clear().type(json.password)
         cy.intercept('**/cqb-base-mgr/service/system/user/update*').as('edit')
@@ -402,18 +405,17 @@ context('分级管理机构', () => {
           cy.wait(1000)
           loginMgrWithGdccl('lab-manager', 'editCQB')
           loginMgrWithGdccl('report-rate', 'admin')
-          cy.wait(1000)
-          cy.get('button').contains('推送到大屏').should('be.exist')
           cy.visit(path)
-          cy.wait(waitPage('waitPage')).its('response.statusCode').should('eq', 200)
           cy.wait(2000)
           cy.get('.el-table__body')
-            .last()
+            .first()
             .find('.cell')
             .contains(json.username)
             .closest('tr')
             .findByText('删除')
-            .click()
+            .click({
+              force:true
+            })
   
           cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click()
         })

@@ -1,8 +1,13 @@
+import { visitPage } from '../../shared/route'
 import { confirmPushReport } from '../common/button'
-import { confirmDelete } from '../common/dialog'
+import { clickCancelInDialog, clickOkInDialog, confirmDelete, withinDialog } from '../common/dialog'
 import { elFormInput } from '../common/form'
 import { interceptAll, waitIntercept } from '../common/http'
 import { validSuccessMessage } from '../common/message'
+import { activeSelect } from '../common/select'
+import { getDialog } from '../message/message'
+import { elform } from '../mutual-result/mutual-item'
+import { addTag, clearTag, validAccount } from './lab-manager'
 
 //声明这是一个测试用例
 describe('账户管理-实验室账户', function () {
@@ -12,6 +17,10 @@ describe('账户管理-实验室账户', function () {
       .find(`[for="${prop}"]`)
       .next('.el-form-item__content')
       .findAllByPlaceholderText(`${area}`).click()
+  }
+
+  const interceptEditMany = () => {
+    return interceptAll('service/mgr/lab/updateBatch',interceptEditMany.name)
   }
 
   const labInformation = (labName, labCode, regionCode, GPS, labAdminName, labAdminPhone, password) => {
@@ -66,7 +75,7 @@ describe('账户管理-实验室账户', function () {
           cy.compare(xhr)
           cy.get('body').should('contain', '实验室已添加')
           cy.get('input[placeholder="实验室名称或编码"').type(labCode)
-          cy.get('button').findByText('搜索').click()
+          cy.get('button[type=submit]').findByText('搜索').click()
           cy.wait(1000)
           cy.get('body').should('contain', '共 1 条')
         })
@@ -96,7 +105,7 @@ describe('账户管理-实验室账户', function () {
 
   const searchData = (keyWord) => {
     cy.get('input[placeholder="实验室名称或编码"').clear().type(keyWord)
-    cy.get('button').findByText('搜索').click()
+    cy.get('button[type = "submit"]').findByText('搜索').click()
     cy.wait(1000)
   }
 
@@ -234,7 +243,7 @@ describe('账户管理-实验室账户', function () {
         .type(keyWord)
     }
     waitIntercept(queryLab, () => {
-      cy.get('button').findByText('搜索').click()
+      cy.get('button[type="submit"]').findByText('搜索').click()
     }, data => {
       result = data.data
       const length = result.length
@@ -293,6 +302,10 @@ describe('账户管理-实验室账户', function () {
     const labAdminName = 'AA'
     const labAdminPhone = '18'
     const password = 'gd' + randomCode
+    before(() => {
+      visitPage('lab-manager')
+      cy.wait(3000)
+    })
     // --------------------------------------------添加实验室------------------------------------------------
     it('001-添加实验室-实验室名称为空不能保存', () => {
       cy.wait(1000)
@@ -376,7 +389,7 @@ describe('账户管理-实验室账户', function () {
       waitIntercept(queryLab, () => {
         cy.get('input[placeholder="实验室名称或编码"').clear().type(labName)
         filterLab(null,'广东省')
-        cy.get('button').findByText('搜索').click()
+        cy.get('button[type="submit"]').findByText('搜索').click()
         cy.wait(2000)
       }, data => {
         result = data.data
@@ -396,7 +409,7 @@ describe('账户管理-实验室账户', function () {
       waitIntercept(queryLab, () => {
         cy.get('input[placeholder="实验室名称或编码"').clear().type(labName)
         filterLab(null,'广东省')
-        cy.get('button').findByText('搜索').click()
+        cy.get('button[type="submit"]').findByText('搜索').click()
         cy.wait(2000)
       }, data => {
         result = data.data
@@ -422,88 +435,18 @@ describe('账户管理-实验室账户', function () {
       cy.get('.el-table__row').first().find('button').contains('编辑').click({
         force: true
       })
-      cy.get('.ql-select-tag__selected').first().find('.el-tag.el-tag--success.el-tag--medium')
-        .then((length) => {
-          let getLength = length.length
-          cy.get('button').contains('添加标签').first().click()
-          cy.wait(500)
-          cy.get('.el-tabs__item.is-left').contains('数据上报').click()
-          cy.get('button').contains('佛山').click()
-          cy.get('.el-button.el-button--default.el-button--medium').last().click({
-            force: true
-          })
-          cy.intercept('**/cqb-base-mgr/service/mgr/lab/checkLabId?*').as('update')
-          cy.get('button').contains('保存').click({
-            force: true
-          })
-          cy.wait('@update').then((xhr) => {
-            cy.compare(xhr)
-            cy.get('.el-message.el-message--success').should('contain', '实验室已更新')
-            cy.get('.el-table__row').first().find('.el-button.el-button--text.el-button--medium').first().contains('编辑').click({
-              force: true
-            })
-            cy.get('.ql-select-tag__selected').first().find('.el-tag.el-tag--success.el-tag--medium').should('have.length', getLength + 1)
-            //-------------清除之前添加的标签-------------------
-            cy.get('.ql-select-tag__selected').first().find('.el-tag__close.el-icon-close').last().click()
-            cy.get('button').contains('保存').click({
-              force: true
-            })
-            cy.wait(1000)
-            //点击编辑
-            cy.get('.el-table__row').first().find('.el-button.el-button--text.el-button--medium').first().click({
-              force: true
-            })
-            cy.get('.ql-select-tag__selected').first().find('.el-tag.el-tag--success.el-tag--medium').should('have.length', getLength)
-            //关闭窗口
-            cy.get('.el-button.el-button--default.el-button--medium').last().click({
-              force: true
-            })
-          })
-        })
+      cy.get('.ql-select-tag__selected').first().find('.el-tag.el-tag--success').then(element => {
+        addTag(true, '佛山', element.length)
+      })
     })
     it('016-关联系统标签', () => {
       cy.get('.el-table__row').first().find('button').contains('编辑').click({
         force: true
       })
       cy.wait(2000)
-      cy.get('.ql-select-tag__selected').last().find('.el-tag.el-tag--success.el-tag--medium')
-        .then((length) => {
-          let getLength = length.length
-          cy.get('.el-button.el-button--default.el-button--mini').last().click()
-          cy.wait(500)
-          cy.get('.el-tabs__nav.is-left').find('.el-tabs__item').contains('UI测试').click()
-          cy.get('.el-button.el-button--small').contains('UI测试标签').click()
-          cy.get('.el-button.el-button--default.el-button--medium').last().click({
-            force: true
-          })
-          cy.intercept('**/cqb-base-mgr/service/mgr/lab/checkLabId?*').as('update')
-          cy.get('button').contains('保存').click({
-            force: true
-          })
-          cy.wait('@update').then((xhr) => {
-            cy.compare(xhr)
-            cy.get('.el-message.el-message--success').should('contain', '实验室已更新')
-            cy.get('.el-table__row').first().find('button').contains('编辑').click({
-              force: true
-            })
-            cy.get('.ql-select-tag__selected').last().find('.el-tag.el-tag--success.el-tag--medium').should('have.length', getLength + 1)
-            //-------------清除之前添加的标签-------------------
-            cy.get('.el-tag__close.el-icon-close').last().click()
-            cy.get('button').contains('保存').click({
-              force: true
-            })
-            cy.wait(1000)
-            cy.get('.el-table__row').first().find('.el-button.el-button--text.el-button--medium').first().click({
-              force: true
-            })
-            cy.get('.ql-select-tag__selected').last().find('.el-tag.el-tag--success.el-tag--medium').should('have.length', getLength)
-            //关闭窗口
-            cy.get('.el-button.el-button--default.el-button--medium').last().click({
-              force: true
-            })
-            cy.get('input[placeholder="实验室名称或编码"]').clear()
-          })
-        })
+      cy.get('.ql-select-tag__selected').last().find('.el-tag.el-tag--success').then(element => {
+        addTag(false, 'UI测试', element.length)
+      }) 
     })
   })
   context('筛选条件', () => {
@@ -542,11 +485,30 @@ describe('账户管理-实验室账户', function () {
       searchData(labName)
     })
     it('020-实验室账户-已关联新冠质管账户不允许删除和编辑', () => {
-
-      cy.get('.ql-tag.el-tag.el-tag--medium').contains('COVID19_QC_WEIYI').click()
-      cy.get('.el-form').last().find('[for="systemName"]').next('.el-form-item__content')
-        .findAllByPlaceholderText('请选择').should('be.disabled')
-      cy.get('button').contains('确定').click()
+      const accountName = 'COVID19_QC_WEIYI'
+      cy.get('.el-table__row').first().find('td').eq(5).find('span').invoke('text').then(text => {
+       let textArray = text.replace(/\n/g,"").split(" ").filter(i => i && i.trim())
+        for (let i = 0; i <= textArray.length; i++) {
+          if (textArray[i] === accountName) {
+            validAccount(accountName)
+            break;
+          }
+          if (i == textArray.length) {
+            cy.get('.el-icon-plus').click({
+              force:true
+            })
+            cy.wait(3000)
+            cy.get('[aria-label="设置关联帐号"]').within(() => {
+              cy.findAllByPlaceholderText('请选择').click()
+              activeSelect(accountName)
+              elform('systemAccount').type(123456)
+              withinDialog(clickOkInDialog,'设置关联帐号')
+            })
+            cy.wait(3000)
+            validAccount(accountName)
+          }
+        }
+      })
     })
     it('021-重置密码', () => {
       const newPassWord1 = '12345'
@@ -560,8 +522,6 @@ describe('账户管理-实验室账户', function () {
       let typeWord = '测试'
       let userName = '明' + parseInt(Math.random() * 100000)
       let phoneNumber = parseInt(Math.random() * 100000)
-      let editName = 6
-      let editPhone = 7
       cy.get('input[placeholder="实验室名称或编码"]').clear().type(typeWord)
       cy.intercept({
         url: '**/cqb-base-mgr/service/mgr/lab/page?*',
@@ -571,52 +531,54 @@ describe('账户管理-实验室账户', function () {
       cy.wait('@searchLab').then((xhr) => {
         cy.compare(xhr)
       })
-      cy.get('.el-checkbox__inner').eq(1).click({
+      cy.wait(2000)
+      cy.get('.el-checkbox__inner:visible').eq(1).click({
         force: true
       })
-      cy.get('.el-checkbox__inner').eq(2).click({
+      cy.get('.el-checkbox__inner:visible').eq(2).click({
         force: true
       })
       cy.get('button').contains('批量编辑').click()
       cy.wait(2000)
-      cy.get('.el-form').last().find('[type="checkbox"]').check('labAdminName', {
-        force: true
+      getDialog('批量编辑实验室').within(() => {
+        cy.get('.el-form').last().find('[type="checkbox"]').check('labAdminName', {
+          force: true
+        })
+        cy.get('.el-form').last().find('[type="checkbox"]').check('labAdminPhone', {
+          force: true
+        })
+        // 修改数据
+        elform('labAdminName').type(userName)
+        elform('labAdminPhone').type(phoneNumber)
       })
-      cy.get('.el-form').last().find('[type="checkbox"]').check('labAdminPhone', {
-        force: true
+      waitIntercept(interceptEditMany, () => {
+        withinDialog(clickOkInDialog, '批量编辑实验室')
+      }, () => {
+        validSuccessMessage()
       })
-      cy.get('.el-form').last().find('.el-input__inner').first().type(userName)
-      cy.get('.el-form').last().find('.el-input__inner').last().type(phoneNumber)
-      cy.intercept('**/cqb-base-mgr/service/mgr/lab/updateBatch*').as('edit')
-      cy.get('button').contains('保存').click()
-      cy.wait('@edit').then((xhr) => {
-        cy.compare(xhr)
-        cy.get('.el-message.el-message--success').should('contain', '实验室已批量更新')
-      })
+      cy.wait(2000)
       for (let i = 0; i < 2; i++) {
-        cy.get('.el-table__body').eq(1).find('tr').eq(i).find('button').contains('编辑').click({
+        cy.get('.el-table__body:visible')
+        .last().find('tr').eq(i).findByText('编辑').click({
           force: true
         })
         cy.wait(5000)
         //联系人
-        cy.get('.el-form').last().find('.el-input__inner').eq(editName).should('have.value', userName)
+        elform('labAdminName').should('have.value', userName)
         //联系电话
-        cy.get('.el-form').last().find('.el-input__inner').eq(editPhone).should('have.value', phoneNumber)
-        cy.get('.el-button.el-button--default.el-button--medium').last().click({
-          force: true
-        })
+        elform('labAdminPhone').should('have.value', phoneNumber)
+       //关闭窗口
+       withinDialog(clickCancelInDialog, '编辑实验室')
+       cy.wait(2000)
       }
     })
   })
   context('流程验证', () => {
     const labCode = 'test12379'
     it('023-实验室账户-锁定实验室', () => {
-      // cy.get('input[placeholder="实验室名称或编码"]').clear().type('test12379')
-      // cy.intercept('**/cqb-base-mgr/service/mgr/lab/page?*').as('labData')
-      // cy.get('button').contains('搜索').click()
       cy.get('input[placeholder="实验室名称或编码"').clear().type(labCode)
       waitIntercept(queryLab, () => {
-        cy.get('button').findByText('搜索').click()
+        cy.get('button[type=submit]').findByText('搜索').click()
         cy.wait(3000)
       }, data => {
         result = data.data
@@ -625,24 +587,23 @@ describe('账户管理-实验室账户', function () {
           cy.get('.el-table__body').last().find('.el-table__row').eq(rowIndex).findByText('启用').should('exist')
           cy.loginLockLabCQB()
           //----------------返回管理端再次启用实验室---------------------
-          cy.visitPage('lab-manager')
+          visitPage('lab-manager')
           searchData(labCode)
           enableLab(rowIndex)
-        }
-        else {
+        } else {
           let changeIndex = 0
           disableLab(changeIndex)
           cy.loginLockLabCQB()
-          cy.visitPage('lab-manager')
+          visitPage('lab-manager')
           searchData(labCode)
           enableLab(changeIndex)
         }
       })
     })
   })
-  context('删除测试数据',() => {
+  context.only('删除测试数据',() => {
     it('删除测试数据', () => {
       cy.task('executeCqbSql', 'delete from base_lab_info where labName = "佛山市医院" ')
+      })
     })
-  })
 })

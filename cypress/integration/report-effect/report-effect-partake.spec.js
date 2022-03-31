@@ -1,9 +1,9 @@
 import { formatPrecision } from '../../shared/util'
 import { clickListener } from '../common/event'
 import { validatePdfFile } from '../common/file'
-import { interceptGet, waitIntercept } from '../common/http'
+import { interceptAll, interceptGet, waitIntercept } from '../common/http'
 import { activeSelect } from '../common/select'
-import { clickSearch, inputSearch, clickHeaderCell, checkRadio, openProvince, clickTool, openTagSelect, checkDisplayFields, validCclChecked, validPrint, validCellText, BUTTON_PDF, selectFirstCcl } from './effect-query'
+import { clickSearch, inputSearch, clickHeaderCell, checkRadio, openProvince, clickTool, openTagSelect, checkDisplayFields, validCclChecked, validPrint, validCellText, BUTTON_PDF, selectFirstCcl, queryMgrTree } from './effect-query'
 
 context('参与实验室情况', () => {
   const provinceName = '广东省'
@@ -18,6 +18,10 @@ context('参与实验室情况', () => {
     return interceptGet('service/mgr/evaReport/joinLab?*', queryPartake.name)
   }
   
+  const interceptQueryData = () => {
+    return interceptAll('service/mgr/evaReport/joinLab?*', interceptQueryData.name)
+  }
+
   const waitQuery = (cb) => {
     waitIntercept(queryPartake, clickSearch, cb)
   }
@@ -54,7 +58,11 @@ context('参与实验室情况', () => {
     validCellText(4, unTagText)
   }
   before(() => {
-    cy.visitPage('report-effect-partake')
+    waitIntercept(queryMgrTree, () => {
+      cy.visitPage('report-effect-partake')
+    }, () => {
+      
+    })
   })
   it('001-默认选中管理机构且不查询', () => {
     validCclChecked()
@@ -78,24 +86,35 @@ context('参与实验室情况', () => {
       validData(result)
     })
     it('003-点击表头列，显示实验室详情数据', () => {
-      headerTexts.forEach((text, columnIndex) => {
-        if (columnIndex) {
-          clickHeaderCell(text)
-          const checkCount = result.details.filter(item => item.type === columnIndex).length
-
-          cy.get(tbodySelector)
-            .within($body => {
-              // expect($body.find('tr').length).to.equal(checkCount + 1)
-              cy.get('tr').should('have.length', checkCount + 1)
-              cy.get('tr')
-                .eq(1)
-                .find('td')
-                .eq(columnIndex)
-                .should('have.text', textChecked)
-            })
+      waitIntercept(interceptQueryData, () => {
+        clickSearch()
+      }, data => {
+        const header = {
+          '参与情况': 0,
+          '参与':data.joinNum,
+          '申请中':data.applyNum,
+          '未参与':data.noJoinNum,
+          '标签未配置':data.unTag
         }
+        headerTexts.forEach((text, columnIndex) => {
+          if (columnIndex) {
+            if (text === Object.keys(header)[columnIndex] && header[text]) {
+              clickHeaderCell(text)
+              const checkCount = result.details.filter(item => item.type === columnIndex).length 
+              cy.get(tbodySelector)
+                .within($body => {
+                  // expect($body.find('tr').length).to.equal(checkCount + 1)
+                  cy.get('tr').should('have.length', checkCount + 1)
+                  cy.get('tr')
+                    .eq(1)
+                    .find('td')
+                    .eq(columnIndex)
+                    .should('have.text', textChecked)
+                })
+            }
+          }
+        })
       })
-      
     })
     it('004-实验室搜索', () => {
       // 按名称

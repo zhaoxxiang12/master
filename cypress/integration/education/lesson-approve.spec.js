@@ -18,6 +18,7 @@ import {
 } from '../common/select'
 
 import {
+  interceptAll,
   interceptGet,
   interceptPost,
   waitIntercept
@@ -28,14 +29,21 @@ import {
 import {
   loginMgrWithGdccl
 } from '../common/login'
+import {
+  visitPage
+} from '../../shared/route'
+import {
+  getDialog
+} from '../message/message'
+import { getQcData } from '../qc-data/qc-data'
 const queryPlanApplyReq = () => {
   return interceptGet('service/edu/plan-apply/page?*', 'planApply')
 }
-const queryLessonGroupReq = () => {
-  return interceptGet('service/edu/plan/1/lesson-group', 'lessonGroup')
+const queryLessonGroupReq = (planId) => {
+  return interceptAll(`service/edu/plan/${planId}/lesson-group`, queryLessonGroupReq.name)
 }
-const querySingleLessonReq = () => {
-  return interceptGet('service/edu/plan/1/lesson-group', 'lessonGroup')
+const querySingleLessonReq = (lessonId) => {
+  return interceptGet(`service/edu/lesson/${lessonId}`, 'lessonGroup')
 }
 
 function clearInputs() {
@@ -48,28 +56,26 @@ function clearInputs() {
 
 function cancelApply() {
   clearInputs()
-  setInput('课程计划', '相同名称计划')
   focusInput('状态')
   activeSelect('已审核')
   waitIntercept(queryPlanApplyReq, () => {
     clickButton('搜索')
-  }, () => {
-    findTableCell(0, 6)
-      .contains('取消审核')
-      .should('exist')
-      .click({
-        force: true
+  }, (data) => {
+    if (data.total) {
+      getQcData().first().findByText('取消审核').click({
+        force:true
       })
-    cy.wait(500)
-    withinDialog(() => {
-      cy.get('.el-dialog__footer button')
-        .contains('取消审核')
-        .click({
-          force: true
-        })
-    }, '申请人员详情')
-    cy.wait(500)
-    closeTips('提示', '确定')
+      cy.wait(500)
+      withinDialog(() => {
+        cy.get('.el-dialog__footer button')
+          .contains('取消审核')
+          .click({
+            force: true
+          })
+      }, '申请人员详情')
+      cy.wait(500)
+      closeTips('提示', '确定')
+    }
   })
 }
 
@@ -89,8 +95,8 @@ function closeDialog(text) {
   }, text)
 }
 
-function openLessonGroupDialog(cb) {
-  waitIntercept(queryLessonGroupReq, () => {
+function openLessonGroupDialog(lessonId, cb) {
+  waitIntercept(querySingleLessonReq(lessonId), () => {
     cb && cb()
   }, () => {
     withinDialog(() => {
@@ -101,6 +107,25 @@ function openLessonGroupDialog(cb) {
           force: true
         })
     }, '课程计划详情')
+  })
+}
+
+const interceptQueryData = () => {
+  return interceptAll('service/edu/plan-apply/page?planName*', interceptQueryData.name)
+}
+
+const searchAndOperate = (status, operate) => {
+  focusInput('状态')
+  activeSelect(status)
+  waitIntercept(interceptQueryData, () => {
+    clickButton('搜索')
+  }, data => {
+    if (data.total) {
+      cy.wait(1000)
+      selectAll()
+      clickButton(operate)
+      closeTips('提示', '确定')
+    }
   })
 }
 
@@ -121,10 +146,15 @@ function closeLessonGroupDialog(cb) {
 context('在线教育人员授权管理页面', () => {
   before(() => {
     cy.gdfslj_user_login()
-    cy.visitPage('lesson-approve')
-    loginMgrWithGdccl('lesson-approve')
+    visitPage('lesson-approve')
+    waitIntercept(interceptQueryData, () => {
+      loginMgrWithGdccl('lesson-approve')
+    }, () => {
+
+    })
   })
   it('001-列表页包含字段', () => {
+    cy.wait(5000)
     findTableCell(0, 4)
       .contains('查看详情')
       .should('exist')
@@ -154,42 +184,31 @@ context('在线教育人员授权管理页面', () => {
 
     waitIntercept(queryPlanApplyReq, () => {
       clickButton('搜索')
-    }, () => {
-      findTableCell(0, 6)
-        .contains('审核')
-        .should('exist')
-        .click({
-          force: true
-        })
-      withinDialog(() => {
-        cy.get('.el-dialog__footer button')
-          .contains('审核通过')
-          .click({
-            force: true
-          })
-      }, '申请人员详情')
-      closeTips('提示', '确定')
+    }, (data) => {
+      if (data.total) {
+       getQcData().first()
+       .findByText('审核')
+       .click({
+        force: true
+      })
+        withinDialog(() => {
+          cy.get('.el-dialog__footer button')
+            .contains('审核通过')
+            .click({
+              force: true
+            })
+        }, '申请人员详情')
+        closeTips('提示', '确定')
+      }
     })
   })
   it('004-批量取消审核', () => {
     cy.wait(2000)
-    focusInput('状态')
-    activeSelect('已审核')
-    clickButton('搜索')
-    cy.wait(1000)
-    selectAll()
-    clickButton('批量取消审核')
-    closeTips('提示', '确定')
+    searchAndOperate('已审核', '批量取消审核')
   })
   it('005-批量审核', () => {
     cy.wait(2000)
-    focusInput('状态')
-    activeSelect('未审核')
-    clickButton('搜索')
-    cy.wait(1000)
-    selectAll()
-    clickButton('批量审核')
-    closeTips('提示', '确定')
+    searchAndOperate('未审核', '批量审核')
   })
   it('006-单个审核取消申请', () => {
     cancelApply()
@@ -198,29 +217,38 @@ context('在线教育人员授权管理页面', () => {
     clearInputs()
     waitIntercept(queryPlanApplyReq, () => {
       clickButton('搜索')
-    }, () => {
-      findTableCell(0, 4)
-        .find('button')
-        .contains('查看详情')
-        .click({
-          force: true
-        })
-      waitIntercept(querySingleLessonReq, () => {
-        openLessonGroupDialog(() => {
+    }, (data) => {
+      if (data.total) {
+        const lessonGroupName = data.records[0].userApplys[0].lessonGroups[0].lessonGroupName
+        const planId = data.records[0].planId
+        findTableCell(0, 4)
+          .find('button')
+          .contains('查看详情')
+          .click({
+            force: true
+          })
+        waitIntercept(queryLessonGroupReq(planId), () => {
           withinDialog(() => {
             findTableCell(0, 5)
-              .find('button')
-              .last()
+              .contains(lessonGroupName)
               .click({
                 force: true
               })
           }, '申请人员详情')
-        })
-      }, () => {
-        closeLessonGroupDialog(() => {
-          closeDialog('申请人员详情')
-        })
-      })
+        }, data => {
+           withinDialog(() => {
+            findTableCell(0, 2)
+              .find('button')
+              .first()
+              .click({
+                force: true
+              })
+          }, '课程计划详情')
+            closeLessonGroupDialog(() => {
+            closeDialog('申请人员详情')
+          })
+        }) 
+      }
     })
   })
   it('008-查看课程信息', () => {
@@ -230,16 +258,18 @@ context('在线教育人员授权管理页面', () => {
     // activeSelect('已审核')
     waitIntercept(queryPlanApplyReq, () => {
       clickButton('搜索')
-    }, () => {
-      openLessonGroupDialog(() => {
-        findTableCell(0, 1)
-          .find('button')
-          .first()
-          .click({
-            force: true
-          })
-      })
-      closeLessonGroupDialog()
+    }, (data) => {
+      if (data.total) {
+        openLessonGroupDialog(() => {
+          findTableCell(0, 1)
+            .find('button')
+            .first()
+            .click({
+              force: true
+            })
+        })
+        closeLessonGroupDialog()
+      }
     })
   })
   /* it('009-导出CSV表', () => {

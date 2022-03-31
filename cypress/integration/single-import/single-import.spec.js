@@ -16,10 +16,11 @@ import {
   validExcelFile
 } from '../common/file'
 import {
-  waitIntercept
+  waitIntercept, waitRequest
 } from '../common/http'
 import {
   closeClientAlert,
+  validErrorMsg,
   validSuccessMessage,
 } from '../common/message'
 import {
@@ -37,6 +38,7 @@ import {
 } from '../qc-data/qc-data'
 import {
   findDialogButton,
+  interceptQueryGroupName,
   interceptQueryQcData,
   interceptSkipIqc,
   interceptWaitPage,
@@ -62,9 +64,10 @@ context('单项目数据录入', () => {
     const CTValue = 25
     const resultType = '定量'
     const itemName = '病毒基因E区'
-    const batchGroupName = '伯乐201910'
+    let batchGroupName 
     before(() => {
       visitLabPage('ds-config')
+      cy.wait(3000)
       selectMajor('新冠病毒核酸检测')
       cy.wait(2000)
       enterPreserveMode()
@@ -86,9 +89,13 @@ context('单项目数据录入', () => {
       }, () => {
         cy.wait(2000)
       })
-      visitLabPage('qc-relate')
-      cy.wait(2000)
-      relateConfig(instrument, batchGroupName)
+      waitIntercept(interceptQueryGroupName, () => {
+        visitLabPage('qc-relate')
+      }, groupName => {
+         batchGroupName =   groupName[0].groupName
+        cy.wait(2000)
+        relateConfig(instrument, batchGroupName)
+      }) 
     })
     it('上报数据', () => {
       visitLabPage('single-import')
@@ -110,16 +117,29 @@ context('单项目数据录入', () => {
       cy.wait(3000)
       closeClientAlert()
       selectMajor('新冠病毒核酸检测')
-      cy.wait(1000)
+      cy.wait(5000)
       removeBatchGroup(itemName)
     })
   })
   context('多项目数据录入', () => {
+    let groupId, instrId, instrNo, testingId
     before(() => {
-      waitIntercept(interceptWaitPage, () => {
+      const waitOptions = {
+        timeout: 90000
+      }
+      waitRequest({
+        waitOptions,
+        intercept: interceptWaitPage,
+        onBefore: () => {
         visitLabPage('multiple-import')
-      }, () => {
-        cy.wait(3000)
+      },
+      onSuccess: (data) => {
+          groupId = data[0].batchNoGroup.groupId
+          instrId = data[0].itemTesting.instrId
+          instrNo = data[0].itemTesting.instrNo
+          testingId = data[0].itemTesting.testingId
+          cy.wait(3000)
+        }
       })
     })
     it('多项目数据录入', () => {
@@ -127,40 +147,26 @@ context('单项目数据录入', () => {
       validSuccessMessage()
     })
     it('跳转IQC', () => {
-      waitIntercept(interceptSkipIqc, () => {
-        cy.get('.data-import-tool-bar').findByText('跳转到IQC').click({
-          force: true
-        })
-      }, () => {
-        cy.getIframe().find('.ql-layout__title').should('have.text', '质控数据维护')
+      const IqcUrl = `http://lab-cqb.test.sh-weiyi.com/cqb-base/service/base/loginUrl/IQC?toPage=qcRecord&
+      groupId=${groupId}&instrId=${instrId}&instrNo=${instrNo}&testingId=${testingId}&showDisable=false&isDL=true`
+      cy.request({
+        method: 'GET',
+        url: IqcUrl
+      }).as('getUrl')
+      cy.get('@getUrl').then((response) => {
+        waitRequest({
+          intercept:interceptSkipIqc, 
+          onBefore: () => {
+            cy.visit(response.body.data)
+        }, 
+        onSuccess:(data) => {
+          console.log(data);
+          cy.get('.ql-layout__title').should('have.text', '质控数据维护')
+        },
+        onError: (msg) => {
+          validErrorMsg()
+        }
       })
-    })
-  })
-  context.only('数据导出', () => {
-    let qcData
-    before(() => {
-      waitIntercept(interceptQueryQcData, () => {
-        visitLabPage('single-import')
-        cy.wait(3000)
-        closeClientAlert()
-      }, data => {
-        qcData = data
-      })
-    })
-    it('数据导出', () => {
-      cy.wait(3000)
-      cy.get('.data-import-tool-bar').findByText('导出数据').click({
-        force: true
-      })
-      clickListener(() => {
-        findDialogButton('质控数据导出', '导出')
-      },8000)
-    })
-    it('验证Excel数据', () => {
-      // const excelName = dayjs().format('YYYY-MM-DD') + '.xls'
-      const excelName = '2021-11-18.xls'
-      validExcelFile(excelName, data => {
-        console.log(data);
       })
     })
   })

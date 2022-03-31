@@ -250,7 +250,7 @@ export const relateLab = (dialogName,labName,labelText = '关联实验室') => {
  */
 export const selectLab = (labName) => {
   getDialog('选择实验室').within(() => {
-    expandSearchConditions()
+    expandSearchConditions('高级搜索')
   })
   elform('labName')
     .clear({

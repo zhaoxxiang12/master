@@ -13,15 +13,8 @@ import {
 } from '../common/http'
 context('CQB实验室端-消息列表页', () => {
   before(() => {
-    cy.loginLabCQB()
-    cy.visit('/cqb-base-gz-fe/app.html#/message')
+    cy.visitLabPage('message','gd18001')
     cy.wait(1000)
-    cy.get('.popover-notice').first().click({
-      force: true
-    })
-    cy.get('.wy-list__more').contains('查看更多').click({
-      force: true
-    })
   })
 
   function queryWarnList() {

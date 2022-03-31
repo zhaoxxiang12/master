@@ -16,6 +16,7 @@ import {
   validErrorMsg,
   validSuccessMessage
 } from '../common/message'
+import { getDialog } from '../message/message'
 import {
   elform
 } from '../mutual-result/mutual-item'
@@ -45,7 +46,9 @@ const createDictReason = (value) => {
   })
   cy.wait(1000)
   if (value) {
-    elform('value').clear().type(value)
+    getDialog('添加选项').within(() => {
+      elform('value').clear().type(value)
+    })
   }
 }
 
@@ -77,7 +80,9 @@ const findDictButton = (text, edit = true) => {
 const createType = (value) => {
   clickCreateType()
   if (value) {
-    elform('value').clear().type(value)
+    getDialog('添加分类').within(() => {
+      elform('value').clear().type(value)
+    })
   }
 }
 
@@ -119,6 +124,7 @@ const clickCreateType = () => {
   cy.get('.el-tab-pane:visible').last().find('button').contains('增加类别').click({
     force: true
   })
+  cy.wait(1000)
 }
 
 const getLength = () => {
@@ -182,7 +188,7 @@ const clickSaveButton = (elform = true) => {
 context('信息互通设置-告警原因和措施', () => {
   before(() => {
     cy.loginCQB()
-    cy.visit('/cqb-base-mgr-fe/app.html#/setting/message-setting/reason-step-dict')
+    cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/reason-step-dict')
     cy.wait(3000)
   })
   context('未上报', () => {
@@ -314,7 +320,9 @@ context('信息互通设置-告警原因和措施', () => {
         })
         it('014-修改失控类别名称', () => {
           findDictButton(newSpecName)
-          elform('value').clear().type(editSpecName)
+          getDialog('编辑分类').within(() => {
+            elform('value').clear().type(editSpecName)
+          })
           waitIntercept(interceptCreateReasonDict, () => {
             withinDialog(clickOkInDialog, '编辑分类')
           }, () => {
@@ -363,7 +371,9 @@ context('信息互通设置-告警原因和措施', () => {
         })
         it('019-修改失控原因', () => {
           findDictButton(newDictReason)
-          elform('value').clear().type(editDictReason)
+          getDialog('编辑选项').within(() => {
+            elform('value').clear().type(editDictReason)
+          })
           waitIntercept(interceptCreateReason, () => {
             withinDialog(clickOkInDialog, '编辑选项')
           }, () => {
@@ -415,7 +425,9 @@ context('信息互通设置-告警原因和措施', () => {
         })
         it('024-修改失控类别名称', () => {
           findDictButton(newSpecName)
-          elform('value').clear().type(editSpecName)
+          getDialog('编辑分类').within(() => {
+            elform('value').clear().type(editSpecName)
+          })
           waitIntercept(interceptCreateReasonDict, () => {
             withinDialog(clickOkInDialog, '编辑分类')
           }, () => {
@@ -464,7 +476,9 @@ context('信息互通设置-告警原因和措施', () => {
         })
         it('029-修改处理措施', () => {
           findDictButton(newDictReason)
-          elform('value').clear().type(editSpecName)
+          getDialog('编辑选项').within(() => {
+            elform('value').clear().type(editSpecName)
+          })
           waitIntercept(interceptCreateReason, () => {
             withinDialog(clickOkInDialog, '编辑选项')
           }, () => {
@@ -516,7 +530,9 @@ context('信息互通设置-告警原因和措施', () => {
         })
         it('034-修改预防类别名称', () => {
           findDictButton(newSpecName)
-          elform('value').clear().type(editSpecName)
+          getDialog('编辑分类').within(() => {
+            elform('value').clear().type(editSpecName)
+          })
           waitIntercept(interceptCreateReasonDict, () => {
             withinDialog(clickOkInDialog, '编辑分类')
           }, () => {
@@ -565,7 +581,9 @@ context('信息互通设置-告警原因和措施', () => {
         })
         it('039-修改预防措施', () => {
           findDictButton(newDictReason)
-          elform('value').clear().type(editSpecName)
+          getDialog('编辑选项').within(() => {
+            elform('value').clear().type(editSpecName)
+          })
           waitIntercept(interceptCreateReason, () => {
             withinDialog(clickOkInDialog, '编辑选项')
           }, () => {

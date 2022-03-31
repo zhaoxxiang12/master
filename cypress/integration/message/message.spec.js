@@ -19,6 +19,7 @@ import {
 import {
   expandSearchConditions
 } from '../eqa/eqa-order/eqa-order'
+import { queryMessageContent } from '../message-setting/push-setting'
 import {
   elform
 } from '../mutual-result/mutual-item'
@@ -66,9 +67,15 @@ context('告警消息', () => {
       messageOption('钾').find('[type=checkbox]').check({
         force: true
       })
-      pushMessage(message, '1', '1')
-      clickMessageButton()
-      validSuccessMessage()
+      waitIntercept(queryMessageContent, () => {
+        cy.get('.el-dialog__body').findByText('推送消息通知').click({
+          force: true
+        })
+      }, msg => {
+        pushMessage(msg.data[0].content, '1', '1')
+        clickMessageButton()
+        validSuccessMessage()
+      })
     })
     context('状态查询和操作', () => {
       const messageType = '告警消息'
@@ -127,7 +134,7 @@ context('告警消息', () => {
         visitPage('alert')
         cy.wait(2000)
         closeClientAlert()
-        expandSearchConditions()
+        expandSearchConditions('高级搜索')
         elform('date').first().click()
         // activeSelect('前一天')
         elform('labName').type('gd18020')
@@ -183,7 +190,13 @@ context('告警消息', () => {
         messageOption('钠').find('[type=checkbox]').check({
           force: true
         })
-        pushMessage(messageContent, '1', '1')
+        waitIntercept(queryMessageContent, () => {
+          cy.get('.el-dialog__body').findByText('推送消息通知').click({
+            force: true
+          })
+        }, msg => {
+          pushMessage(msg.data[0].content, '1', '1')
+        })
         clickMessageButton()
         validSuccessMessage()
         cy.visitLabPage('message', 'labgd18020')
@@ -232,7 +245,13 @@ context('告警消息', () => {
       messageOption('钾').find('[type=checkbox]').check({
         force: true
       })
-      pushMessage(message, '1', '1')
+      waitIntercept(queryMessageContent, () => {
+        cy.get('.el-dialog__body').findByText('推送消息通知').click({
+          force: true
+        })
+      }, msg => {
+        pushMessage(msg.data[0].content, '1', '1')
+      }) 
       clickMessageButton()
       validSuccessMessage()
     })
@@ -283,8 +302,14 @@ context('告警消息', () => {
       messageOption('钾').find('[type=checkbox]').check({
         force: true
       })
-      pushMessage(message, '1', '2')
-      clickMessageButton()
+      waitIntercept(queryMessageContent, () => {
+        cy.get('.el-dialog__body').findByText('推送消息通知').click({
+          force: true
+        })
+      }, msg => {
+        pushMessage(msg.data[0].content, '1', '2')
+        clickMessageButton()
+      })
       validSuccessMessage()
     })
     context('消息处理', () => {
@@ -332,7 +357,13 @@ context('告警消息', () => {
       messageOption('钾').find('[type=checkbox]').check({
         force: true
       })
-      pushMessage(message, '1', '3')
+      waitIntercept(queryMessageContent, () => {
+        cy.get('.el-dialog__body').findByText('推送消息通知').click({
+          force: true
+        })
+      }, msg => {
+        pushMessage(msg.data[0].content, '1', '3')
+      })
       clickMessageButton()
       validSuccessMessage()
     })
@@ -385,56 +416,67 @@ context('告警消息', () => {
     })
     context('搜索条件', () => {
       it('组合搜索条件验证(仪器+状态)', () => {
-        const instrumentNo = '日立7080(006)'
-        clickSearchCondition('CV/符合率失控告警记录', '请选择', '数据已处理')
-        clickSearchCondition('CV/符合率失控告警记录', '请选择仪器编号', instrumentNo)
-        waitIntercept(interceptQueryNotReportWarnning, () => {
-          clickLabSearch(cvOutControl)
-        }, (data) => {
-          if (data.data.length > 0) {
-            data.data.map(item => {
-              expect(item.insName).to.eq(instrumentNo.split('(')[0])
-            })
-          }
-
-        })
-        cy.get('.el-tag__close.el-icon-close').click({
-          force: true
-        })
+        if (result.length) {
+          const instrumentNo = result[0].instrName+'(' + result[0].instrNos[0] + ')'
+          clickSearchCondition('CV/符合率失控告警记录', '请选择', '数据已处理')
+          clickSearchCondition('CV/符合率失控告警记录', '请选择仪器编号', instrumentNo)
+          waitIntercept(interceptQueryNotReportWarnning, () => {
+            clickLabSearch(cvOutControl)
+          }, (data) => {
+            if (data.data.length > 0) {
+              data.data.map(item => {
+                expect(item.insName).to.eq(instrumentNo.split('(')[0])
+              })
+            }
+          })
+          cy.get('.el-tag__close.el-icon-close').click({
+            force: true
+          })
+        }
       })
       it('组合搜索条件验证(仪器+时间)', () => {
-        const instrumentNo = '日立7080(006)'
-        clickSearchCondition('CV/符合率失控告警记录', '请选择', '数据已处理')
-        clickSearchCondition('CV/符合率失控告警记录', '请选择仪器编号', instrumentNo)
-        selectConditionTime(currentTime)
-        waitIntercept(interceptQueryNotReportWarnning, () => {
-          clickLabSearch(cvOutControl)
-        }, (data) => {
-          if (data.data.length > 0) {
-            data.data.map(item => {
-              expect(item.insName).to.eq(instrumentNo.split('(')[0])
-              const time = (item.messageCreateTime.split(' '))[0]
-              expect(time).to.eq(currentDoubleTime.replace(/\//g, '-'))
-            })
-          }
-        })
-        cy.get('.el-tag__close.el-icon-close').click({
-          force: true
-        })
+        if (result.length) {
+          const instrumentNo = result[0].instrName+'(' + result[0].instrNos[0] + ')'
+          clickSearchCondition('CV/符合率失控告警记录', '请选择', '数据已处理')
+          clickSearchCondition('CV/符合率失控告警记录', '请选择仪器编号', instrumentNo)
+          selectConditionTime(currentTime)
+          waitIntercept(interceptQueryNotReportWarnning, () => {
+            clickLabSearch(cvOutControl)
+          }, (data) => {
+            if (data.data.length > 0) {
+              data.data.map(item => {
+                expect(item.insName).to.eq(instrumentNo.split('(')[0])
+                const time = (item.messageCreateTime.split(' '))[0]
+                expect(time).to.eq(currentDoubleTime.replace(/\//g, '-'))
+              })
+            }
+          })
+          cy.get('.el-tag__close.el-icon-close').click({
+            force: true
+          })
+        }
       })
     })
     context('批量设置', () => {
       let result
-      const instrumentNo = '日立7080(006)'
+      let instrNo
       before(() => {
-        clickSearchCondition('CV/符合率失控告警记录', '请选择', '数据已处理')
-        clickSearchCondition('CV/符合率失控告警记录', '请选择仪器编号', instrumentNo)
-        selectConditionTime(currentTime)
-        waitIntercept(interceptQueryNotReportWarnning, () => {
-          clickLabSearch(cvOutControl)
-        }, (data) => {
-          result = data
-        })
+        waitIntercept(interceptQueryInstrument, () => {
+          cy.reload()
+        }, data => {
+          instrNo = data
+          if (instrNo.length) {
+            const instrumentNo = instrNo[1].instrName + '(' + instrNo[1].instrNos[0] + ')'
+            clickSearchCondition('CV/符合率失控告警记录', '请选择', '数据已处理')
+            clickSearchCondition('CV/符合率失控告警记录', '请选择仪器编号', instrumentNo)
+            selectConditionTime(currentTime)
+            waitIntercept(interceptQueryNotReportWarnning, () => {
+              clickLabSearch(cvOutControl)
+            }, (data) => {
+              result = data
+            })
+          }
+        }) 
       })
       it('批量设置成功', () => {
         const array = result.data.map((item, index) => {

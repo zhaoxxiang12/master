@@ -50,7 +50,8 @@ import {
   importCSV,
   batchDelete,
   exportLessonSum,
-  importLessonSum
+  importLessonSum,
+  interceptQueryLessonGroup
 } from './auth-manager'
 import {
   logout
@@ -70,14 +71,82 @@ import {
 import {
   clickSearch
 } from '../setting/report-monitor/report-monitor'
+import { visitPage } from '../../shared/route'
+
+
 const syncLessonReq = () => {
   return interceptPost('service/edu/lesson/sync', syncLessonReq.name)
 }
+
+const interceptLessonName = () => {
+ return interceptAll('service/edu/group/page?*', interceptLessonName.name)
+}
+
 const queryLabReq = () => {
   return interceptGet('service/mgr/lab/page?*', queryLabReq.name)
 }
 const waitOptions = {
   timeout: 90000
+}
+
+const editLessonGroup = (lessonGroupName,editLessonGroupName) => {
+  getLabForm()
+  .contains(lessonGroupName)
+  .parents('.el-table__row')
+  .findByText('推送')
+  .click({
+    force: true
+  })
+getDialog('推送课程组合').within(() => {
+  cy.findAllByPlaceholderText('请选择管理机构').click()
+  cy.wait(3000)
+})
+selectDropListValue('佛山市临床检验质量控制中心')
+withinDialog(clickOkInDialog, '推送课程组合')
+findTableCell(0, 5)
+  .find('button')
+  .contains('修改')
+  .click({
+    force: true
+  })
+cy.wait(1000)
+withinDialog(() => {
+  setInput('课程组合名称', editLessonGroupName)
+  clickButton('确定')
+}, '修改课程组合')
+cy.wait(1000)
+cy.findAllByPlaceholderText('请输入课程组合名称')
+  .clear()
+  .type(editLessonGroupName)
+clickSearch()
+cy.wait(2000)
+findTableCell(0, 5)
+  .find('button')
+  .contains('删除')
+  .click({
+    force: true
+  })
+closeTips('删除提示', '删除')
+cy.wait(100)
+validErrorMsg('该课程组合已经被推送给管理单位，不允许删除')
+cy.wait(100)
+findTableCell(0, 5)
+  .find('button')
+  .contains('取消推送')
+  .click({
+    force: true
+  })
+
+closeTips('提示', '确定')
+cy.wait(1000)
+findTableCell(0, 5)
+  .find('button')
+  .contains('删除')
+  .click({
+    force: true
+  })
+closeTips('删除提示', '删除')
+cy.wait(100)
 }
 
 const usePlan = () => {
@@ -117,11 +186,37 @@ const interceptQueryEduPlan = () => {
   return interceptAll('service/edu/plan/ccl/page?*', interceptQueryEduPlan.name)
 }
 
+const setLessonGroup = () => {
+  waitIntercept(interceptLessonName, () => {
+    visitPage('lesson-group')
+    clickButton('搜索')
+  }, data => {
+    const lesson1 = data.records[0].lessonList[0].lessonName
+    const lesson2 = data.records[0].lessonList[1].lessonName
+    cy.wait(300)
+    customizeLessonGroup()
+    cy.wait(3000)
+    setLessonGroupName('gfj')
+    cy.wait(2000)
+    selectCheckbox(lesson1)
+    selectCheckbox(lesson2)
+    cy.wait(5000)
+    clickCreateGroupBtn('添加')
+    clickCreateGroupBtn('确定')
+    // 删除
+    cy.wait(3000)
+    searchGroupName('gfj')
+    cy.wait(300)
+    delLessonGroup()
+  })
+}
+
 describe('权限管理', () => {
   context('管理员权限', () => {
     before(() => {
       cy.loginCQB()
       cy.visitPage('lesson')
+      visitPage('lesson')
       cy.wait(1000)
     })
     it('001-同步课程', () => {
@@ -142,6 +237,7 @@ describe('权限管理', () => {
       })
     })
     it('002-添加课程', () => {
+      // console.log(123);
       clickButton('添加课程')
       withinDialog(() => {
         setInput('课程名', '测试权限管理')
@@ -165,29 +261,13 @@ describe('权限管理', () => {
         force: true
       })
       clickButton('课程绑定')
-      cy.get('.el-popover button').contains('确认').click({
-        force: true
-      })
+      okOnPopConfirm()
     })
     it('004-组合课程', () => {
-      cy.visitPage('lesson-group')
-      cy.wait(300)
-      customizeLessonGroup()
-      cy.wait(50)
-      setLessonGroupName('gfj')
-      cy.wait(50)
-      selectCheckbox('0000')
-      selectCheckbox('[0101001]从BCG检测白蛋白开始')
-      clickCreateGroupBtn('添加')
-      clickCreateGroupBtn('确定')
-      // 删除
-      cy.wait(3000)
-      searchGroupName('gfj')
-      cy.wait(300)
-      delLessonGroup()
+      setLessonGroup()
     })
     it('005-创建计划', () => {
-      cy.visitPage('lesson-plan')
+      visitPage('lesson-plan')
       cy.wait(1000)
       clickButton('自定义课程计划')
       withinDialog(() => {
@@ -218,39 +298,39 @@ describe('权限管理', () => {
       }, '创建课程计划')
     })
     it('006-学员授权管理', () => {
-      cy.visitPage('lesson-approve')
+      visitPage('lesson-approve')
       authManage()
     })
     it('007-学员学习信息维护-每月用户学习统计表-导出Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       exportLessonReport()
     })
     it('008-学员学习信息维护-每月用户学习统计表-导入Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       importLessonReport()
     })
     it('009-学员学习信息维护-每月课程信息反馈表-导出Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       exportLessonInfo()
     })
     it('010-学员学习信息维护-每月课程信息反馈表-导入Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       importCSV()
     })
     it('011-学员学习信息维护-每月课程信息反馈表-批量删除', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       batchDelete()
     })
     it('012-学员学习信息维护-课程信息反馈汇总表-导出Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       exportLessonSum()
     })
     it('013-学员学习信息维护-课程信息反馈汇总表-导入Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       importLessonSum()
     })
     it('014-字典维护-新增字典', () => {
-      cy.visitPage('lesson-dict')
+      visitPage('lesson-dict')
       cy.wait(1000)
       clickButton('添加字典')
       withinDialog(() => {
@@ -259,7 +339,7 @@ describe('权限管理', () => {
       }, ' 添加/编辑字典')
     })
     it('015-字典维护-启用/停用字典', () => {
-      cy.visitPage('lesson-dict')
+      visitPage('lesson-dict')
       cy.wait(1000)
       cy.get('.el-table__body-wrapper  tbody tr').each($el => {
         const name = $el.find('td').first().text()
@@ -269,7 +349,7 @@ describe('权限管理', () => {
       })
     })
     it('016-字典维护-编辑字典', () => {
-      cy.visitPage('lesson-dict')
+      visitPage('lesson-dict')
       cy.wait(1000)
       cy.get('.el-table__body-wrapper  tbody tr').each($el => {
         const name = $el.find('td').first().text()
@@ -277,7 +357,7 @@ describe('权限管理', () => {
           $el.find('button').click()
           withinDialog(() => {
             focusInput('状态')
-            activeSelect('停用')
+            activeSelect('停用', false)
             clickButton('保存')
           }, ' 添加/编辑字典')
         }
@@ -293,7 +373,7 @@ describe('权限管理', () => {
         })
     }
     it('017-字典维护-切换字典类型（不同类型的字典操作流程一样）', () => {
-      cy.visitPage('lesson-dict')
+      visitPage('lesson-dict')
       cy.wait(1000)
       switchTabs('专业组字典')
       cy.wait(1000)
@@ -306,22 +386,11 @@ describe('权限管理', () => {
     it('001-创建组合', () => {
       loginMgrWithGdccl('lesson-group')
       cy.wait(300)
-      customizeLessonGroup()
-      cy.wait(50)
-      setLessonGroupName('gdfslj')
-      cy.wait(50)
-      selectCheckbox('0000')
-      selectCheckbox('[0101001]从BCG检测白蛋白开始')
-      clickCreateGroupBtn('添加')
-      clickCreateGroupBtn('确定')
-      // 删除
-      cy.wait(3000)
-      searchGroupName('gdfslj')
-      cy.wait(300)
-      delLessonGroup()
+      setLessonGroup()
     })
     it('002-创建计划', () => {
       loginMgrWithGdccl('lesson-plan')
+      visitPage('lesson-plan')
       cy.wait(3000)
       clickButton('自定义课程计划')
       withinDialog(() => {
@@ -352,129 +421,91 @@ describe('权限管理', () => {
       }, '创建课程计划')
     })
     it('003-应用计划', () => {
-      loginMgrWithGdccl('lesson-plan')
-      cy.wait(interceptQueryEduPlan('interceptQueryEduPlan')).then((xhr) => {
-        if (xhr.response.statusCode === 500) {
-          const labId = ((xhr.response.body.msg).split(':'))[1]
+      cy.wait(2000)
+      waitRequest({
+        intercept: interceptQueryEduPlan,
+        errorLevel: 'info',
+        onBefore: () => {
+          loginMgrWithGdccl('lesson-plan')
+          visitPage('lesson-plan')
+        },
+        onError: (data) => {
+          const labId = data.split(':')[1]
           cy.task('executeEduSql', `delete from edu_lesson_plan_lab where lab_id = ${labId}`)
-          usePlan()
-        } else {
           usePlan()
         }
       })
     })
     it('004-学员学习信息维护-每月用户学习统计表-导出Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       exportLessonReport()
     })
     it('005-学员学习信息维护-每月用户学习统计表-导入Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       importLessonReport()
     })
     it('006-学员学习信息维护-每月课程信息反馈表-导出Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       exportLessonInfo()
     })
     it('07-学员学习信息维护-每月课程信息反馈表-导入CSV表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       importCSV()
     })
     it('008-学员学习信息维护-每月课程信息反馈表-批量删除', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       batchDelete()
     })
     it('009-学员学习信息维护-课程信息反馈汇总表-导出Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       exportLessonSum()
     })
     it('010-学员学习信息维护-课程信息反馈汇总表-导入Excel表', () => {
-      cy.visitPage('lesson-report')
+      visitPage('lesson-report')
       importLessonSum()
     })
     it('011-不可以修改和删除管理员推送的信息', () => {
       const lessonGroupName = 'abc123'
       const editLessonGroupName = 'editLesson'
-      cy.visitPage('lesson-group')
-      cy.wait(1000)
-      //创建一个组合
-      customizeLessonGroup()
-      setLessonGroupName(lessonGroupName)
-      cy.wait(50)
-      selectCheckbox('0000')
-      selectCheckbox('[0101001]从BCG检测白蛋白开始')
-      clickCreateGroupBtn('添加')
-      clickCreateGroupBtn('确定')
-      cy.get('.el-input__inner')
-        .first()
-        .clear({
-          force: true
-        }).type(lessonGroupName, {
-          force: true
+      loginMgrWithGdccl('lesson-group','admin')
+      waitIntercept(interceptLessonName, () => {
+        visitPage('lesson-group')
+      }, lesson => {
+        const lesson1 = lesson.records[0].lessonList[0].lessonName
+        const lesson2 = lesson.records[0].lessonList[1].lessonName
+        cy.wait(1000)
+        cy.findAllByPlaceholderText('请输入课程组合名称')
+          .first()
+          .type(lessonGroupName)
+        waitIntercept(interceptQueryLessonGroup, () => {
+          clickSearch()
+        }, data => {
+          if (data.total === 0) {
+            customizeLessonGroup()
+            setLessonGroupName(lessonGroupName)
+            cy.wait(50)
+            selectCheckbox(lesson1)
+            cy.wait(2000)
+            selectCheckbox(lesson2)
+            cy.wait(2000)
+            clickCreateGroupBtn('添加')
+            clickCreateGroupBtn('确定')
+            clickButton('搜索')
+            cy.wait(5000)
+            editLessonGroup(lessonGroupName,editLessonGroupName)
+          } else {
+           editLessonGroup(lessonGroupName,editLessonGroupName)
+          }
         })
-      clickButton('搜索')
-      cy.wait(1000)
-      getLabForm()
-        .contains(lessonGroupName)
-        .parents('.el-table__row')
-        .findByText('推送')
-        .click({
-          force: true
-        })
-      getDialog('推送课程组合').within(() => {
-        cy.findAllByPlaceholderText('请选择管理机构').click()
-        cy.wait(3000)
       })
-      selectDropListValue('佛山市临床检验质量控制中心')
-      withinDialog(clickOkInDialog, '推送课程组合')
-      findTableCell(0, 5)
-        .find('button')
-        .contains('修改')
-        .click({
-          force: true
-        })
-      cy.wait(1000)
-      withinDialog(() => {
-        setInput('课程组合名称', editLessonGroupName)
-        clickButton('确定')
-      }, '修改课程组合')
-      cy.wait(1000)
-      cy.findAllByPlaceholderText('请输入课程组合名称')
-        .clear()
-        .type(editLessonGroupName)
-      clickSearch()
-      cy.wait(2000)
-      findTableCell(0, 5)
-        .find('button')
-        .contains('删除')
-        .click({
-          force: true
-        })
-      closeTips('删除提示', '删除')
-      cy.wait(100)
-      validErrorMsg('该课程组合已经被推送给管理单位，不允许删除')
-      cy.wait(100)
-      findTableCell(0, 5)
-        .find('button')
-        .contains('取消推送')
-        .click({
-          force: true
-        })
-
-      closeTips('提示', '确定')
-      cy.wait(1000)
-      findTableCell(0, 5)
-        .find('button')
-        .contains('删除')
-        .click({
-          force: true
-        })
-      closeTips('删除提示', '删除')
-      cy.wait(100)
+   
+     
     })
   })
   context('特殊账号权限', () => {
     it('001-用超管新建一个教育账号', () => {
       loginMgrWithGdccl('manage-dept', 'admin')
+      visitPage('manage-dept')
       cy.wait(1000) -
         clickButton('添加用户')
       withinDialog(() => {
@@ -483,7 +514,7 @@ describe('权限管理', () => {
         setInput('密码', 'edu')
         expandChildTree('permissions', '管理')
         cy.wait(1000)
-        findTreeNode('permissions', '人员培训管理').click({
+        findTreeNode('permissions', '教育培训').click({
           force: true
         })
         clickButton('确定')
@@ -491,11 +522,13 @@ describe('权限管理', () => {
     })
     it('002-教育账号登录', () => {
       loginMgrWithGdccl('404', 'edu')
+      visitPage('lesson')
       cy.wait(3000)
-      cy.get('.ql-layout__aside .ql-layout__aside-menu .el-submenu .el-submenu__title').contains('管理').click({
+      cy.get('.el-menu-item').contains('培训计划管理').click({
         force: true
       })
-      cy.get('.ql-layout__aside .ql-layout__aside-menu .el-submenu .el-submenu__title').contains('人员培训管理').click({
+      cy.wait(2000)
+      cy.get('.el-menu-item').contains('参训人员审核').click({
         force: true
       })
       cy.wait(3000)

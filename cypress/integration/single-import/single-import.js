@@ -20,16 +20,25 @@ export const getRelateOption = (instrumentName, option) => {
     .findByText(option)
 }
 
+/**
+ * 选择项目
+ * @param {text} prop 
+ * @returns 
+ */
 export const getSingleImportOption = (prop) => {
-  return cy.get('.el-menu:visible').first().contains(prop)
+  return cy.get('.el-menu-item').contains(prop)
 }
 
 export const interceptDeleteReportData = () => {
   return interceptAll('service/base/qc/data/*', interceptDeleteReportData.name, '/cqb-base')
 }
 
+export const interceptQueryGroupName = () => {
+  return interceptAll('service/base/qc/group', interceptQueryGroupName.name, 'cqb-base')
+}
+
 /**
- * 
+ * 生成随机数
  * @param {number} min 最小值
  * @param {number} max 最大值
  * @returns 
@@ -40,41 +49,65 @@ export const mathRomdomNumber = (min, max) => {
 
 /**
  * 
+ * @param {string} batchGroupName 质控组合名称
+ * @returns 
+ */
+const getItemTestingGroupName = (batchGroupName) => {
+  return cy.get('.el-menu').contains(batchGroupName).parent().parent()
+}
+
+/**
+ * 
+ * @param {string} instrument 仪器名称
+ * @returns 
+ */
+const getInstrumentOption = (instrument) => {
+  return cy.get('.el-submenu__icon-arrow').parent().contains(instrument).parent()
+}
+
+/**
+ * 选择检测体系
  * @param {string} instrument 仪器名称
  * @param {string} batchGroupName 质控批号
  * @param {string} itemName 项目名称
  */
 export const selectConfig = (instrument, batchGroupName, itemName) => {
-  cy.get('.page-title').parents('.el-main.ql-main').within(() => {
+  cy.get('.data-import-menu:visible').within(() => {
     const $getInstrument = cy.get('.el-menu:visible').first().contains(instrument)
     $getInstrument.parents('.el-submenu').within((element) => {
-      if (element.hasClass('is-opened')) {
-        getSingleImportOption(batchGroupName).parent().parent().then(batchElement => {
-          if (batchElement.hasClass('is-opened')) {
+      if (element.hasClass('is-opened')) {//判断选择的仪器是否是打开的
+        cy.get('.el-menu').contains(batchGroupName).parent().parent().then(batchElement => {
+          if (batchElement.hasClass('is-opened')) { //判断选择的质控组合是否是打开的
             getSingleImportOption(itemName).click({
               force: true
             })
-          } else {
-            getSingleImportOption(batchGroupName).parent().parent().within(() => {
-              cy.get('.el-submenu__icon-arrow:visible').click({
-                force: true
+          } else { //质控品未展开就点击该质控组合,然后再点击要上报的项目
+            getItemTestingGroupName(batchGroupName).within(() => {
+              cy.get('.el-submenu__icon-arrow').click({
+                force:true
               })
               getSingleImportOption(itemName).click({
-                force: true
+                force:true
               })
-            })
+            })     
           }
         })
-      } else {
-        $getInstrument.find('.el-submenu__icon-arrow:visible').click({
-          force: true
+      } else {//仪器下的数据未展示,需要进行点击展示
+        getInstrumentOption(instrument).within(() => {
+          cy.get('.el-submenu__icon-arrow').click({
+            force:true
+          })
         })
-        getSingleImportOption(batchGroupName).parent().parent().within(() => {
-          cy.get('.el-submenu__icon-arrow:visible').click({
+        //点击质控组合展示数据图表
+        getInstrumentOption(instrument).next('.el-menu').contains(batchGroupName).parent().parent()
+        .within(() => {
+          cy.get('.el-submenu__icon-arrow')
+          .click({
             force: true
           })
+          //点击项目名称
           getSingleImportOption(itemName).click({
-            force: true
+            force:true
           })
         })
       }
@@ -88,7 +121,7 @@ export const reportDataOption = (option, data) => {
       force: true
     })
     cy.get('.el-table__body:visible')
-      .last()
+      .first()
       .find('.el-input__inner')
       .last()
       .clear({
@@ -125,7 +158,7 @@ export const interceptBatchImport =() => {
 }
 
 export const interceptSkipIqc = () => {
-  return interceptAll('service/base/loginUrl/IQC?*',interceptSkipIqc.name,'/cqb-base')
+  return interceptAll('service/tree/getCqbTree.do??*',interceptSkipIqc.name,'/iqc-web')
 }
 
 export const interceptWaitPage = () => {

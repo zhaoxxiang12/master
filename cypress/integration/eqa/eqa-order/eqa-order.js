@@ -1,25 +1,54 @@
 import {
   clickOkInDialog,
+  okOnPopConfirm,
   withinDialog
 } from '../../common/dialog'
 import {
-  interceptAll
+  interceptAll, waitRequest
 } from '../../common/http'
+import { validSuccessMessage } from '../../common/message'
 import {
   addEqaPlan,
   subimtInformation,
   searchPlan
 } from '../eqa-plan/eqa-plan'
 
-export const expandSearchConditions = () => {
+export const expandSearchConditions = (textWord = '展开') => {
   cy.get('.ql-search--simple.is-right:visible').first().within($el => {
     if ($el.css('display') === 'block') {
-      cy.get('.el-form.el-form--inline').last().findByText('展开').click({
+      cy.get('.el-form.el-form--inline').last().findByText(textWord).click({
         force: true
       })
     }
   })
 }
+
+export const queryJoinedLab = () => {
+  return interceptAll('service/plan/lab/list?planId=*', queryJoinedLab.name, '')
+}
+
+/**
+ * 实验室重置上报
+ * @param {number} index 重置上报的下标
+ */
+export const resetLabReport = (index) => {
+  withinDialog(() => {
+    cy.findAllByText('重置上报').eq(index).click({
+      force: true
+    }, '实验室管理')
+  })
+  waitRequest({
+    intercept: interceptResetReport,
+    onBefore: () => {
+     okOnPopConfirm()
+    },
+    onSuccess: () => {
+      validSuccessMessage()
+      withinDialog(clickOkInDialog, '实验室管理')
+    }
+  })
+}
+
 
 export const interceptCreateOrder = () => {
   return interceptAll('service/plan/order/add', interceptCreateOrder.name, '')

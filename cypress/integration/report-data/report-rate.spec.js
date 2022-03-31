@@ -1,8 +1,21 @@
-import { PROVINCE_GD, TEXT_PREVIEW } from '../../shared/constants'
-import { interceptAll, waitIntercept } from '../common/http'
-import { activeSelect } from '../common/select'
-import { findTableCell } from '../common/table'
-import { pushToScreen } from './stats-query'
+import {
+  PROVINCE_GD,
+  TEXT_PREVIEW
+} from '../../shared/constants'
+import {
+  interceptAll,
+  waitIntercept,
+  waitRequest
+} from '../common/http'
+import {
+  activeSelect
+} from '../common/select'
+import {
+  findTableCell
+} from '../common/table'
+import {
+  pushToScreen
+} from './stats-query'
 
 context('上报率', () => {
   const queryRateReq = () => {
@@ -25,8 +38,8 @@ context('上报率', () => {
       cy.visitPage('report-rate')
     }, data => {
       initData = data
-      initData.sort(sortAreaName) 
-      cy.get('.gl-report-rate .stats-report').should('exist')
+      initData.sort(sortAreaName)
+      // cy.get('.gl-report-rate .stats-report').should('exist')
     })
   })
 
@@ -60,22 +73,30 @@ context('上报率', () => {
       .should('have.length', 7)
   })
   it('切换所在地', () => {
-    waitIntercept(queryRateReq, () => {
-      cy.get('.select-region')
-        .findByPlaceholderText('请选择省')
-        .click({
-          force: true
-        })
+    const waitOptions = {
+      timeout: 90000
+    }
+    waitRequest({
+      waitOptions,
+      intercept: queryRateReq,
+      onBefore: () => {
+        cy.get('.select-region')
+          .findByPlaceholderText('请选择省')
+          .click({
+            force: true
+          })
 
-      activeSelect(PROVINCE_GD)
-      cy.get('button')
-        .contains('搜索')
-        .click({
-          force: true
-        })
-    }, data => {
-      data.sort(sortAreaName)
-      validRateTable(data[0])
+        activeSelect(PROVINCE_GD)
+        cy.get('button')
+          .contains('搜索')
+          .click({
+            force: true
+          })
+      },
+      onSuccess: data => {
+        data.sort(sortAreaName)
+        validRateTable(data[0])
+      }
     })
   })
   it('全屏预览', () => {
@@ -89,8 +110,7 @@ context('上报率', () => {
       const $splitviewItem = cy.get('.ql-splitview__item')
       $splitviewItem.should('have.length', 1)
       $splitviewItem.find('canvas').should('have.length', 1)
-      cy.get('.ql-splitview__top').trigger('mouseover')
-      cy.get('.ql-splitview__close').click({
+      cy.get('.tool-icon.is-close').click({
         force: true
       })
     })

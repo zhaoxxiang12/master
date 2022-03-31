@@ -5,7 +5,9 @@ import {
   activeArea,
   setLabNameOrCode,
   setYear,
-  setPlanName
+  searchDataAfterOption,
+  interceptQueryPlan,
+  interceptQueryPlanData,
 } from './user-report'
 import {
   clickListener
@@ -18,7 +20,7 @@ import {
 } from '../common/table'
 context('在线教育人员管理报表', () => {
   before(() => {
-    cy.visitPage('user-report')
+      cy.visitPage('user-report')
   })
   it('001-在线教育人员管理报表-筛选条件-类型地区', () => {
     cy.get('.el-radio-group .el-radio').first().click({
@@ -26,9 +28,9 @@ context('在线教育人员管理报表', () => {
     })
     activeArea()
     setLabNameOrCode('青浦区白鹤社区卫生服务中心')
-    setYear('2020')
-    setPlanName('青浦计划2(青浦医联体)')
-    clickButton('搜索')
+    searchDataAfterOption(interceptQueryPlan, 2020, () => {
+      clickButton('搜索')
+    })
   })
   it('002-在线教育人员管理报表-筛选条件-类型管理机构', () => {
     cy.get('.el-radio-group .el-radio').eq(1).click({
@@ -41,9 +43,9 @@ context('在线教育人员管理报表', () => {
       force: true
     })
     setLabNameOrCode('青浦区白鹤社区卫生服务中心')
-    setYear('2020')
-    setPlanName('青浦计划2(青浦医联体)')
-    clickButton('搜索')
+    searchDataAfterOption(interceptQueryPlan, 2020, () => {
+      clickButton('搜索')
+    })
   })
   it('003-在线教育人员管理报表-筛选条件-类型实验室标签', () => {
     cy.get('.el-radio-group .el-radio').eq(2).click({
@@ -56,9 +58,9 @@ context('在线教育人员管理报表', () => {
       force: true
     })
     setLabNameOrCode('青浦区白鹤社区卫生服务中心')
-    setYear('2020')
-    setPlanName('青浦计划2(青浦医联体)')
-    clickButton('搜索')
+    searchDataAfterOption(interceptQueryPlan, 2020, () => {
+      clickButton('搜索')
+    })
   })
   it('004-在线教育人员管理报表-导出excel', () => {
     cy.wait(1000)
@@ -66,8 +68,11 @@ context('在线教育人员管理报表', () => {
   })
   it('005-在线教育人员管理报表-查看申请计划', () => {
     cy.wait(1000)
-    findTableCell(0, 1).click({
-      force: true
-    })
+    setYear(2020)
+    searchDataAfterOption(interceptQueryPlanData, 2020, () => {
+      findTableCell(0, 1).click({
+        force: true
+      })
+    }, false)
   })
 })

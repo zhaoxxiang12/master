@@ -12,7 +12,9 @@ export function validErrorMsg (text) {
  * 断言事件成功是否出现弹窗
  */
 export function validSuccessMessage () {
-  cy.get('.el-message__content').should('be.exist')
+  cy.document()
+    .its('body')
+    .find('.el-message__content').should('be.exist')
 }
 
 /**

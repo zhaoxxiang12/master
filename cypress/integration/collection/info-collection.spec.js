@@ -6,11 +6,15 @@ import { findTableCell, validTable } from '../common/table'
 import { elFormInput, findFormItemContent, validFormItemError } from '../common/form'
 import { interceptDelete, interceptGet, interceptPost, waitIntercept } from '../common/http'
 import { validQcDept } from '../api/ccl'
+import { visitPage } from '../../shared/route'
 
 /**
  * 实验室信息采集表配置
  */
 context('实验室信息采集表配置', () => {
+  before(() => {
+    cy.visitPage('info-collection')
+  })
   const getFormName = () => {
     return `自动化${dayjs().format('MM-DD HH:mm:ss')}`
   }
@@ -141,7 +145,7 @@ context('实验室信息采集表配置', () => {
   before(() => {
     validQcDept(() => {
       queryForm = queryFormReq()
-      cy.visitPage('info-collection')
+      visitPage('info-collection')
     }, data => {
 
     })

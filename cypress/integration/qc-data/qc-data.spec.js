@@ -2,6 +2,7 @@ import {
   visitLabPage
 } from '../../shared/route'
 import {
+  closeTips,
   confirmDelete
 } from '../common/dialog'
 import {
@@ -16,15 +17,14 @@ import {
 import {
   clickConfigButton,
   createConfig,
-  selectMajor,
   validEnterPreserveMode
 } from '../ds-config/ds-config'
 import {
   clickDeleteData,
   createGroup,
   elformButton,
+  enableOrDisableGroup,
   getData,
-  getQcData,
   groupButton,
   interceptBatchNoTree,
   interceptChange,
@@ -32,12 +32,12 @@ import {
   interceptDeleteBatchNo,
   interceptMapping,
   interceptQueryGroup,
-  interceptRelate,
-  relatedGroupButton,
+  queryRelateGroupData,
+  relateConfig,
+  removeBatchGroup,
   reportData,
   selectGroupMap,
   selectGroupValue,
-  selectTitle,
   visitDsConfig
 } from './qc-data'
 
@@ -54,7 +54,6 @@ context('质控批号维护', () => {
   const unit = 'mmol/L'
   const CTValue = 25
   const resultType = '定量'
-  const majorName = '新冠病毒核酸检测'
   const itemName = '病毒基因E区'
   const waitOptions = {
     timeout: 90000
@@ -64,7 +63,7 @@ context('质控批号维护', () => {
       waitOptions,
       intercept: interceptQueryGroup,
       onBefore: () => {
-        cy.visitLabPage('qc-data', 'labgd18020')
+        cy.visitLabPage('qc-data', 'labgd18030')
       },
       onSuccess: data => {
         responseData = data
@@ -77,11 +76,9 @@ context('质控批号维护', () => {
       cy.wait(2000)
     })
     it('添加重复的批号', () => {
-      const relatedGroup = responseData[0].batchNo
-      if (responseData.length === 0) {
-
-      } else {
-        createGroup(relatedGroup)
+      if (responseData.length) {
+        const relatedGroup = responseData[0].uniqueBatchNo.split('_')
+        createGroup(relatedGroup, relatedGroup.length)
         elformButton('确定')
         waitRequest({
           intercept: interceptCreateGroup,
@@ -98,14 +95,14 @@ context('质控批号维护', () => {
     })
     it('批号添加成功', () => {
       getData().then(Data => {
-        createGroup(batchNo)
+        createGroup(batchNo, 1)
         elformButton('确定')
         waitIntercept(interceptCreateGroup, () => {
           groupButton('保存')
         }, () => {
           cy.wait(1000)
           getData().should('have.length', Data.length + 1)
-          getData().first().find('.cell').first().should('have.text', batchNo)
+          cy.get('.el-table__body').find('.el-table__row').contains(batchNo).should('exist')
         })
       })
     })
@@ -190,71 +187,35 @@ context('质控批号维护', () => {
     })
   })
   context('启用/停用', () => {
-    const batchNo = '1199UN'
+    let groupArray, groupName
     before(() => {
-      cy.reload()
-      cy.wait(3000)
-      closeClientAlert()
-      createGroup(batchNo)
-      elformButton('确定')
-      groupButton('保存')
+      waitIntercept(interceptQueryGroup, () => {
+        cy.reload()
+        cy.wait(2000)
+        closeClientAlert()
+      }, group => {
+        if (group.length) {
+          groupArray = group.map(item => {
+            if (item.status) {
+              return item.groupName
+            }
+          }).filter(data => data !== undefined)
+        }
+        if (groupArray.length) {
+          groupName = groupArray[0]
+        }
+      })
     })
     it('停用', () => {
       cy.wait(2000)
-      getData().first().findByText('编辑').click({
-        force: true
-      })
-      getData().first().find('.el-switch__core').click({
-        force: true
-      })
-      waitIntercept(interceptCreateGroup, () => {
-        getData().first().findByText('保存').click({
-          force: true
-        })
-      }, () => {
-        selectTitle('已停用质控批号')
-        cy.wait(1000)
-        getData().first().find('.cell').first().should('have.text', batchNo)
-      })
+      enableOrDisableGroup(groupName)
     })
     it('启用', () => {
       cy.wait(2000)
-      getData().first().findByText('编辑').click({
-        force: true
-      })
-      getData().first().find('.el-switch__core').click({
-        force: true
-      })
-      waitIntercept(interceptCreateGroup, () => {
-        getData().first().findByText('保存').click({
-          force: true
-        })
-      }, () => {
-        selectTitle('已启用质控批号')
-        cy.wait(1000)
-        getData().first().find('.cell').first().should('have.text', batchNo)
-        getData().first().findByText('编辑').click({
-          force: true
-        })
-        cy.wait(1000)
-        getData().first().findByText('删除').click({
-          force: true
-        })
-        waitRequest({
-          intercept: interceptDeleteBatchNo,
-          waitOptions,
-          onBefore: () => {
-            confirmDelete()
-          },
-          onSuccess: () => {
-
-          }
-        })
-      })
+      enableOrDisableGroup(groupName, false)
     })
   })
   context('关联/解除关联质控品', () => {
-    const batchGroupName = '血常规E5163-02'
     before(() => {
       visitDsConfig()
       validEnterPreserveMode(() => {
@@ -276,45 +237,21 @@ context('质控批号维护', () => {
       })
     })
     it('关联质控品', () => {
-      visitLabPage('qc-relate')
-      cy.wait(1000)
-      selectMajor(majorName)
-      cy.wait(1000)
-      getQcData().last().findByText('编辑').click({
-        force: true
-      })
-      createGroup(batchGroupName)
-      relatedGroupButton('选择质控批号', '确定')
-      waitIntercept(interceptRelate, () => {
-        getQcData().last().findByText('保存').click({
-          force: true
-        })
-      }, () => {
+      let relateGroupData
+      waitIntercept(interceptQueryGroup, () => {
+        relateGroupData = queryRelateGroupData()
+        visitLabPage('qc-relate')
         cy.wait(1000)
-        getQcData().last().find('.tag-select__title').should('have.text', batchGroupName)
+      }, data => {
+        const batchGroupName = data[0].groupName
+        waitIntercept(relateGroupData, () => {
+          relateConfig(instrument, batchGroupName)
+        })
       })
     })
     it('解除关联质控品', () => {
       cy.wait(1000)
-      getQcData().last().findByText('编辑').click({
-        force: true
-      })
-      clickDeleteData()
-      confirmDelete()
-      waitIntercept(interceptRelate, () => {
-        getQcData().last().findByText('保存').click({
-          force: true
-        })
-      }, () => {
-        cy.wait(1000)
-        getQcData().last().should('not.have.class', '.tag-select__title')
-        visitDsConfig()
-        validEnterPreserveMode(() => {
-          cy.wait(1000)
-          clickConfigButton(itemName, '删除')
-          confirmDelete()
-        })
-      })
+      removeBatchGroup(itemName)
     })
   })
   context('批号对照', () => {
@@ -342,7 +279,7 @@ context('质控批号维护', () => {
       closeClientAlert()
     })
     it('LIS批号正常对照', () => {
-      const selectValue = 'RD1143UN'
+      const selectValue = '00211103水平3'
       let groupMapData
       cy.get('.el-table__body').first().find('.el-table__row')
         .eq(notRelated)
@@ -362,6 +299,14 @@ context('质控批号维护', () => {
           intercept: interceptMapping(groupId),
           onBefore: () => {
             selectGroupValue(groupName, '保存')
+            cy.wait(2000)
+            cy.document()
+              .its('body')
+              .then(el => {
+                if (el.find('.el-message-box:visible').length > 0) {
+                  closeTips('系统提示', '确定')
+                }
+              })
           },
           onSuccess: () => {
             validSuccessMessage()
@@ -409,13 +354,12 @@ context('质控批号维护', () => {
               return index
             }
           })
-          console.log(rowIndex)
           groupId = data[rowIndex].groupId
           groupName = data[rowIndex].groupName
           notRelated = rowIndex = data.findIndex(item => item.related === false)
           repeatBatchNo = data.map(item => {
             if (item.related === true && item.groupName !== groupName && item.status) {
-              return item.batchNo
+              return item.uniqueBatchNo
             }
           }).filter(filterItem => filterItem !== undefined)
         }
@@ -447,7 +391,6 @@ context('质控批号维护', () => {
     })
     it('批号更换成功', () => {
       const groupBatch = 'CHA20111Z'
-      console.log(rowIndex)
       cy.get('.el-table__body').first().find('.el-table__row').eq(1)
         .findByText('批号更换')
         .click({
@@ -515,7 +458,7 @@ context('质控批号维护', () => {
               })
           }
           reportData(23)
-          cy.task('executeCqbSql',`delete from base_qc_batch_no_group where createTime LIKE '%${currentTime}%'`)
+          cy.task('executeCqbSql', `delete from base_qc_batch_no_group where createTime LIKE '%${currentTime}%'`)
         }
       })
     })

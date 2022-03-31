@@ -6,10 +6,16 @@ import {
   visitIframePage
 } from '../../../shared/route'
 import {
+  clickButton
+} from '../../common/button'
+import {
   interceptAll,
   waitIntercept,
   waitRequest
 } from '../../common/http'
+import {
+  expandSearchConditions
+} from '../eqa-order/eqa-order'
 import {
   queryPlanData,
   addEqaPlan,
@@ -36,13 +42,12 @@ import {
   confirmClick,
   saveReportModel,
   interceptEditModel,
-  queryReportedLab,
   findButton,
   clickGenerateReport,
   interceptQueryData,
-  checkbox,
-  generateReport,
-  interceptSendSimple
+  interceptSendSimple,
+  queryData,
+  validGenerateReport
 } from './eqa-plan'
 
 
@@ -64,7 +69,7 @@ context('比对计划组织', () => {
       const majorName = '临床免疫学'
       const simpleNum = 3
       const times = 6
-      const labCode = 'gdtest5'
+      const labCode = 'gdtest2'
       addEqaPlan({
         planName,
         planCompareCode,
@@ -81,10 +86,10 @@ context('比对计划组织', () => {
     })
     it('002-盲样计划添加新冠专业', () => {
       const planName = '自动测试计划' + randomCode
-      const planCompareCode = 'plan' + randomCode
-      const majorName = '新冠病毒核酸检测'
+      const planCompareCode = 'Cov-19' + randomCode
+      const majorName = '凝血试验'
       const simpleNum = 3
-      const times = 6
+      const times = 7
       addEqaPlan({
         planName,
         planCompareCode,
@@ -105,8 +110,8 @@ context('比对计划组织', () => {
     })
     it('项目无TEa不允许启用', () => {
       const planName = '自动测试计划' + randomCode
-      const planCompareCode = 'plan' + randomCode
-      const majorName = '新冠病毒核酸检测'
+      const planCompareCode = 'NoTEa' + randomCode
+      const majorName = '凝血试验'
       const times = 8
       addEqaPlan({
         planName,
@@ -239,6 +244,7 @@ context('比对计划组织', () => {
   context('推送计划失败', () => {
     beforeEach(() => {
       visitEQA()
+
     })
     it('009-比对计划信息不全不能进行推送', () => {
       const majorName = '临床免疫学'
@@ -259,7 +265,7 @@ context('比对计划组织', () => {
     it('010-无比对项目不能进行推送', () => {
       const majorName = '凝血试验'
       const simpleNum = 3
-      const labCode = 'gdtest5'
+      const labCode = 'gdtest2'
       const times = 8
       const planName = '自动测试计划B' + randomCode
       const planCompareCode = 'planB' + randomCode
@@ -291,25 +297,44 @@ context('比对计划组织', () => {
       cannotPush(planName, true)
     })
     it('012-无法取消推送', () => {
-      const plan = 'test11'
-      const plan2 = '订单验证2'
-      //有上报数据的
-      searchPlan(plan)
-      waitIntercept(cancelPush, () => {
-        cy.get('.el-table__row').last().find('.el-switch').click({
-          force: true
-        })
+      expandSearchConditions()
+      clickButton('重置')
+      waitIntercept(interceptQueryData, () => {
+        clickButton('搜索')
       }, data => {
-        iframeValidMessage('当前比对计划已有实验室上报，不能取消推送')
-      })
-      //过了上报时间的
-      searchPlan(plan2)
-      waitIntercept(cancelPush, () => {
-        cy.get('.el-table__row').last().find('.el-switch').click({
-          force: true
-        })
-      }, data => {
-        iframeValidMessage('当前比对计划已过上报截止日期，不能取消推送')
+        if (data.total) {
+          //有上报数据的
+          const havingReported = data.records.findIndex(item => item.orderStatus === 1)
+          const outOfDate = data.records.findIndex(item => item.orderStatus === null && item.giveSampleTime === 0)
+          if (havingReported !== -1) {
+            waitRequest({
+              intercept: cancelPush,
+              onBefore: () => {
+                cy.get('.el-table__row').eq(havingReported).find('.el-switch').click({
+                  force: true
+                })
+              },
+              onError: () => {
+                iframeValidMessage('当前比对计划已有实验室上报，不能取消推送')
+              }
+            })
+          }
+          //过了上报时间的
+          cy.wait(5000)
+          if (outOfDate !== -1) {
+            waitRequest({
+              intercept: cancelPush,
+              onBefore: () => {
+                cy.get('.el-table__row').eq(outOfDate).find('.el-switch').click({
+                  force: true
+                })
+              },
+              onError: () => {
+                iframeValidMessage('当前比对计划已过上报截止日期，不能取消推送')
+              }
+            })
+          }
+        }
       })
     })
     it('015-删除计划', () => {
@@ -378,9 +403,9 @@ context('比对计划组织', () => {
     })
   })
   context('计划推送成功/取消推送', () => {
-    const majorName = '临床免疫学'
+    const majorName = '常规化学'
     const simpleNum = 3
-    const labCode = 'gdtest5'
+    const labCode = 'gdtest2'
     const times = 11
     const issueTime = 1
     const issueEndTime = 2
@@ -589,6 +614,7 @@ context('比对计划组织', () => {
     const prop = '生成报告'
     before(() => {
       visitEQA()
+      expandSearchConditions()
     })
     it('028-模板保存成功', () => {
       let modelName = '报告模板名称' + parseInt(Math.random() * 100000)
@@ -622,77 +648,105 @@ context('比对计划组织', () => {
       cancelElform(prop)
     })
     it('032-报告生成使用模板', () => {
-      searchPlan('订单验证2')
-      clickGenerateReport()
-      cy.get('[aria-label="生成报告"]').findByText('选择模板').click({
-        force: true
+      clickButton('重置')
+      waitIntercept(queryData, () => {
+        clickButton('搜索')
+      }, data => {
+        if (data.total) {
+          const rowIndex = data.records.findIndex(item => item.canGenerateReport)
+          if (rowIndex !== -1) {
+            clickGenerateReport(rowIndex)
+            cy.get('[aria-label="生成报告"]').findByText('选择模板').click({
+              force: true
+            })
+            cy.get('.el-table__body').last().find('.el-table__row').first().findByText('使用').click({
+              force: true
+            })
+            cy.get('.el-form.plan-report').find('[value = "lab"]').parent().should('have.class', 'is-checked')
+            cancelElform(prop)
+          }
+        }
       })
-      cy.get('.el-table__body').last().find('.el-table__row').first().findByText('使用').click({
-        force: true
-      })
-      cy.get('.el-form.plan-report').find('[value = "lab"]').parent().should('have.class', 'is-checked')
-      cancelElform(prop)
     })
     it('033-修改报告模板名称', () => {
       const newModelName = '修改模板名称' + parseInt(Math.random() * 100000)
-      searchPlan('订单验证2')
-      clickGenerateReport()
-      cy.get('[aria-label="生成报告"]').findByText('选择模板').click({
-        force: true
-      })
-      cy.get('.el-table__body').last().find('.el-table__row').first().find('.cell').first().invoke('text').then((getData) => {
-        const modelName = getData
-        cy.get('.el-table__body').last().find('.el-table__row').first().findByText('修改').click({
-          force: true
-        })
-        cy.get('[aria-label="编辑模板"]').find('[for="name"]').next('.el-form-item__content').find('.el-input__inner')
-          .clear()
-          .type(newModelName)
-        waitRequest({
-          intercept: interceptEditModel,
-          onBefore: () => {
-            confirmClick('编辑模板')
-          },
-          onSuccess: () => {
-            iframeValidMessage('模板更新成功')
+      clickButton('重置')
+      waitIntercept(queryData, () => {
+        clickButton('搜索')
+      }, data => {
+        if (data.total) {
+          const rowIndex = data.records.findIndex(item => item.canGenerateReport)
+          if (rowIndex !== -1) {
+            clickGenerateReport(rowIndex)
+            cy.get('[aria-label="生成报告"]').findByText('选择模板').click({
+              force: true
+            })
+            cy.get('.el-table__body').last().find('.el-table__row').first().find('.cell').first().invoke('text').then((getData) => {
+              const modelName = getData
+              cy.get('.el-table__body').last().find('.el-table__row').first().findByText('修改').click({
+                force: true
+              })
+              cy.get('[aria-label="编辑模板"]').find('[for="name"]').next('.el-form-item__content').find('.el-input__inner')
+                .clear()
+                .type(newModelName)
+              waitRequest({
+                intercept: interceptEditModel,
+                onBefore: () => {
+                  confirmClick('编辑模板')
+                },
+                onSuccess: () => {
+                  iframeValidMessage('模板更新成功')
+                }
+              })
+              cy.get('.el-table__body').last().find('.el-table__row').first().find('.cell').first().invoke('text').then((getData) => {
+                const newName = getData
+                expect(newName).not.to.eq(modelName)
+              })
+              cancelElform(prop)
+            })
           }
-        })
-        cy.get('.el-table__body').last().find('.el-table__row').first().find('.cell').first().invoke('text').then((getData) => {
-          const newName = getData
-          expect(newName).not.to.eq(modelName)
-        })
-        cancelElform(prop)
+        }
+      }) 
         // cy.get('[aria-label="生成报告"]').findByText('选择模板').parent('button').parent('span').then($el => {
         //   console.log($el.css('display'))
         //   // if($el.css('display')==='block'){//没有报告模板
         //   //   console.log(123)
         //   // }
         // })
-      })
+      // })
     })
     it('034-删除报告模板', () => {
-      searchPlan('订单验证2')
-      clickGenerateReport()
-      cy.get('[aria-label="生成报告"]').findByText('选择模板').click({
-        force: true
-      })
-      cy.get('.el-table__body').last().find('.el-table__row').then((length) => {
-        const dataLength = length.length
-        waitRequest({
-          intercept: interceptAll('/service/template/form/delete?*', 'deleteModel', ''),
-          onBefore: () => {
-            cy.get('.el-table__body').last().find('.el-table__row').first().findByText('删除').click({
+      clickButton('重置')
+      waitIntercept(queryData, () => {
+        clickButton('搜索')
+      }, data => {
+        if (data.total) {
+          const rowIndex = data.records.findIndex(item => item.canGenerateReport)
+          if (rowIndex !== -1) {
+            clickGenerateReport(rowIndex)
+            cy.get('[aria-label="生成报告"]').findByText('选择模板').click({
               force: true
             })
-            cy.get('.el-popconfirm').last().findByText('确定').click({
-              force: true
+            cy.get('.el-table__body').last().find('.el-table__row').then((length) => {
+              const dataLength = length.length
+              waitRequest({
+                intercept: interceptAll('/service/template/form/delete?*', 'deleteModel', ''),
+                onBefore: () => {
+                  cy.get('.el-table__body').last().find('.el-table__row').first().findByText('删除').click({
+                    force: true
+                  })
+                  cy.get('.el-popconfirm').last().findByText('确定').click({
+                    force: true
+                  })
+                },
+                onSuccess: () => {
+                  cy.get('.el-table__body').last().find('.el-table__row').should('have.length', dataLength - 1)
+                }
+              })
+              cancelElform(prop)
             })
-          },
-          onSuccess: () => {
-            cy.get('.el-table__body').last().find('.el-table__row').should('have.length', dataLength - 1)
           }
-        })
-        cancelElform(prop)
+        }
       })
     })
   })
@@ -701,125 +755,71 @@ context('比对计划组织', () => {
     const prop = '生成报告'
     const confirm = '确定'
     it('035-所有实验室都没有上报不能生成报告', () => {
-      searchPlan('订单验证2')
-      waitRequest({
-        intercept: queryReportedLab,
-        onBefore: () => {
-          clickGenerateReport()
-        },
-        onSuccess: (data) => {
-          data.forEach(item => expect(item.isSubmit).to.eq(false))
-          findButton(prop, confirm).parent('button').should('have.class', 'is-disabled')
-          cancelElform(prop)
-        }
+      searchPlan('新UI')
+      validGenerateReport(() => {
+
+      }, () => {
+        findButton(prop, confirm).parent('button').should('have.class', 'is-disabled')
+        cancelElform(prop)
       })
     })
     it('036-所属组未选择不能生成报告', () => {
-      searchPlan('test11')
-      waitRequest({
-        intercept: queryReportedLab,
-        onBefore: () => {
-          clickGenerateReport()
-        },
-        onSuccess: (data) => {
-          const rowIndex = data.findIndex(item => item.isSubmit === true)
-          if (rowIndex === -1) {
-            findButton(prop, confirm).parent('button').should('have.class', 'is-disabled')
-          } else {
-            findButton(prop, confirm).parent('button').should('not.have.class', 'is-disabled')
-          }
-        }
+      clickButton('重置')
+      validGenerateReport(() => {
+        findButton(prop, confirm).parent('button').should('not.have.class', 'is-disabled')
+        findButton(prop, confirm).click({
+          force: true
+        })
+        errorInformation('请选择所属组')
+        cancelElform(prop)
+      }, () => {
       })
-      findButton(prop, confirm).click({
-        force: true
-      })
-      errorInformation('请选择所属组')
-      cancelElform(prop)
     })
     it('037-报告生成成功', () => {
-      cy.wait(1000)
-      waitRequest({
-        intercept: interceptQueryData,
-        onBefore: () => {
-          cy.get('button').contains('搜索').click({
-            force: true
-          })
-        },
-        onSuccess: (data) => {
-          const rowIndex = data.records.map((item, index) => {
-            if (item.canGenerateReport) {
-              return index
-            }
-          }).filter(item => item !== undefined)
-          for (let i = 0; i < rowIndex.length; i++) {
-            waitRequest({
-              intercept: queryReportedLab,
-              onBefore: () => {
-                cy.get('.el-table__body').eq(1).find('.el-table__row').eq(rowIndex[i]).findByText('生成报告').click({
-                  force: true
-                })
-              },
-              onSuccess: (data) => {
-                const flag = data.findIndex(item => item.isSubmit === true)
-                if (flag === -1) { //生成报告确定按键置灰，无法生成报告
-                  cancelElform(prop)
-                } else {
-                  checkbox('lab')
-                  checkbox('instr')
-                  waitRequest({
-                    intercept: generateReport,
-                    onBefore: () => {
-                      findButton(prop, confirm).click({
-                        force: true
-                      })
-                      findButton('温馨提示', '已配置').click({
-                        force: true
-                      })
-                    },
-                    onSuccess: () => {
-                      iframeValidMessage('生成反馈报告任务已提交，可以在反馈报告页面查看报告')
-                      cancelElform(prop)
-                    },
-                    onError: () => {
-                      cancelElform(prop)
-                    }
-                  })
-                }
-              }
-            })
-          }
-        }
-      })
+      clickButton('重置')
+      validGenerateReport(() => {
+        iframeValidMessage('生成反馈报告任务已提交，可以在反馈报告页面查看报告')
+        cancelElform(prop)
+      }, () => {
+
+      }, true)
     })
     it('038-样本下发', () => {
       searchPlan('test11')
-      cy.get('.el-table__body').eq(1).find('.el-table__row').first().findByText('样本下发').click({
-        force: true
-      })
-      cy.wait(2000)
-      cy.get('[aria-label="样本下发"]').find('[type=checkbox]').check('', {
-        force: true
-      })
-      waitRequest({
-        intercept: interceptSendSimple,
-        onBefore: () => {
-          findButton('样本下发', '确定').click({
+      clickButton('重置')
+      waitIntercept(queryData, () => {
+        clickButton('搜索')
+      }, data => {
+        if (data.total) {
+          cy.get('.el-table__body').eq(1).find('.el-table__row').first().findByText('样本下发').click({
             force: true
           })
-        },
-        onSuccess: () => {
-          iframeValidMessage('样本下发成功')
+          cy.wait(2000)
+          cy.get('[aria-label="样本下发"]').find('[type=checkbox]').check('', {
+            force: true
+          })
+          waitRequest({
+            intercept: interceptSendSimple,
+            onBefore: () => {
+              findButton('样本下发', '确定').click({
+                force: true
+              })
+            },
+            onSuccess: () => {
+              iframeValidMessage('样本下发成功')
+            }
+          })
         }
       })
     })
   })
-  context('删除数据库中的数据',() => {
-    it('删除数据',() => {
+  context('删除数据库中的数据', () => {
+    it('删除数据', () => {
       const planName = '自动测试计划'
       const planName2 = '修改计划'
-      cy.task('executeEqaSql',`delete from plan where name LIKE "%${planName}%"`)
+      cy.task('executeEqaSql', `delete from plan where name LIKE "%${planName}%"`)
       cy.wait(1000)
-      cy.task('executeEqaSql',`delete from plan where name LIKE "%${planName2}%"`)
+      cy.task('executeEqaSql', `delete from plan where name LIKE "%${planName2}%"`)
     })
   })
 })

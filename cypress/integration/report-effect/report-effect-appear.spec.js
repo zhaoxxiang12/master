@@ -1,4 +1,4 @@
-import { checkDisplayFields, checkRadio, clickSearch, clickTool, inputSearch, openProvince, openTagSelect, validCclChecked, validCclSelect, validCellText, validMonthRange, validPrint, validRowsLength } from './effect-query'
+import { checkDisplayFields, checkRadio, clickSearch, clickTool, inputSearch, openProvince, openTagSelect, queryMgrTree, validCclChecked, validCclSelect, validCellText, validMonthRange, validPrint, validRowsLength } from './effect-query'
 
 import { changeCcl, shCclName, tagName } from '../report-data/stats-query'
 import { validatePdfFile } from '../common/file'
@@ -66,7 +66,11 @@ describe('实验室上报情况', () => {
     }
   }
   before(() => {
-    cy.visitPage('report-effect-appear')
+    waitIntercept(queryMgrTree, () => {
+      cy.visitPage('report-effect-appear')
+    }, () => {
+
+    })
   })
   
   context('默认选中管理机构', () => {

@@ -8,7 +8,7 @@ import { loginMgr, loginMgrWithGdccl } from '../common/login'
 import { validErrorMsg } from '../common/message'
 import { activeSelect } from '../common/select'
 import { findTableLineCell, validRowCellText } from '../common/table'
-import { BUTTON_PDF, checkRadio, clickSearch, clickTool, inputSearch, openProvince, openTagSelect, selectFirstCcl, validCclChecked, validCclSelect, validFirstDisplayField, validMonthRange, validPrint, validRowsLength, validTableColumnSort } from './effect-query'
+import { BUTTON_PDF, checkRadio, clickSearch, clickTool, inputSearch, openProvince, openTagSelect, queryMgrTree, selectFirstCcl, validCclChecked, validCclSelect, validFirstDisplayField, validMonthRange, validPrint, validRowsLength, validTableColumnSort } from './effect-query'
 
 context('信息反馈情况', () => {
   const queryFeedbackReq = () => {
@@ -18,7 +18,11 @@ context('信息反馈情况', () => {
     waitIntercept(queryFeedbackReq, clickSearch, cb)
   }
   before(() => {
-    cy.visitPage('report-effect-feedback')
+    waitIntercept(queryMgrTree, () => {
+      cy.visitPage('report-effect-feedback')
+    }, () => {
+      
+    })
   })
   it('001-默认不查询且月度为上个月', () => {
     cy.get('.table-main tbody tr').should('not.exist')

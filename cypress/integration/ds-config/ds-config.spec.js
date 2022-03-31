@@ -1,4 +1,7 @@
 import {
+  visitLabPage
+} from '../../shared/route'
+import {
   confirmDelete
 } from '../common/dialog'
 import {
@@ -11,6 +14,11 @@ import {
 import {
   selectDropListValue
 } from '../eqa/eqa-report/eqa-report'
+import {
+  enableLabItem,
+  interceptQueryItemStatus,
+  selectLabSpec
+} from '../user-info/lab-info'
 import {
   clickConfigButton,
   clickPlaceHolder,
@@ -47,20 +55,6 @@ context('检测体系配置', () => {
     cy.wait(3000)
   })
   context('新增检测体系', () => {
-    before(() => {
-      waitIntercept(interceptQueryItemTesting, () => {
-        selectMajor('新冠病毒核酸检测')
-      }, data => {
-        data.forEach(itemTesting => {
-          if (itemTesting.itemName === '病毒基因E区') {
-            itemTesting.itemTestingList.forEach(configList => {
-              itemTestinginstru.push(configList.instrName)
-            })
-          }
-        })
-      })
-      cy.wait(1000)
-    })
     const testMethod = '干化学'
     const nuReagent = '拜耳'
     const testReagent = '科方(广州)'
@@ -68,15 +62,75 @@ context('检测体系配置', () => {
     const unit = 'mmol/L'
     const CTValue = 25
     const resultType = '定量'
-    const instrumentNo = '001'
     const itemName = '病毒基因E区'
+    const instrumentNo = '001'
+    before(() => {
+      waitIntercept(interceptQueryItemTesting, () => {
+        selectMajor('新冠病毒核酸检测')
+      }, data => {
+        data.forEach(itemTesting => {
+          // 判断 "病毒基因E区" 是否已开启
+          if (itemTesting.itemName === itemName && itemTesting.status === false) {
+            visitLabPage('mutual-result')
+            cy.wait(3000)
+            waitIntercept(interceptQueryItemStatus, () => {
+              selectLabSpec('新冠病毒核酸检测')
+              cy.wait(2000)
+            }, data => {
+              const itemIndex = data.findIndex(item => item.itemName === itemName)
+              enableLabItem(itemIndex)
+              visitLabPage('ds-config')
+              cy.wait(1000)
+            })
+          }
+          //判断 病毒基因E区 是否有检测体系
+          if (itemTesting.itemName === itemName && itemTesting.itemTestingList.length === 0) {
+            const instrument = 'ABI 7500 实时荧光定量PCR仪'
+            cy.get('.data-table__body').contains(itemName).parents('.item-cell ').find('.item-cell__text')
+              .invoke('text').then((getItemName) => {
+                getItemTestingLength(getItemName).then((getData) => {
+                  enterPreserveMode()
+                  createConfig({
+                    instrument,
+                    testMethod,
+                    nuReagent,
+                    testReagent,
+                    testCalibration,
+                    unit,
+                    CTValue,
+                    resultType
+                  })
+                  clickConfigButton(getItemName, '保存')
+                })
+                cy.wait(2000)
+                selectMajor('糖化血红蛋白')
+                cy.wait(2000)
+                waitIntercept(interceptQueryItemStatus, () => {
+                  selectMajor('新冠病毒核酸检测')
+                }, data => {
+                  if (data.itemName === itemName) {
+                    data.itemTestingList.forEach(configList => {
+                      itemTestinginstru.push(configList.instrName)
+                    })
+                  }
+                })      
+              })
+          } else {
+            if (itemTesting.itemName === itemName) {
+              itemTesting.itemTestingList.forEach(configList => {
+                itemTestinginstru.push(configList.instrName)
+              })
+            }
+          }
+        })
+      })
+    })
     it('添加仪器编号已存在的检测体系', () => {
       const instrument = '贝克曼 AU 5800 全自动生化分析系统'
-      cy.get('.data-table__body').contains(itemName).parents('.item-cell ').find('.item-cell__text')
+      validEnterPreserveMode(() => {
+        cy.get('.data-table__body').contains(itemName).parents('.item-cell ').find('.item-cell__text')
         .invoke('text').then((getItemName) => {
           getItemTestingLength(getItemName).then((getData) => {
-            enterPreserveMode()
-            cy.wait(1000)
             cy.get('.data-table__body').contains(itemName).parents('.item-cell ').findByText('添加').click({
               force: true
             })
@@ -105,6 +159,7 @@ context('检测体系配置', () => {
             })
           })
         })
+      })
     })
     it('检测体系创建成功', () => {
       const newArray = instruArray.filter(item => {

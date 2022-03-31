@@ -4,6 +4,9 @@ import {
 import {
   activeSelect
 } from '../common/select'
+import {
+  getDialog
+} from '../message/message'
 
 const precisionStandard = {
   cvThreshold: {
@@ -304,15 +307,22 @@ export const setRulesMany = (specName) => {
   })
   cy.wait(3000)
   selectSpec(specName)
-  cy.get('.el-table__body').first().contains('钾').parents('.el-table__row').find('[type= checkbox]').check({
-    force: true
-  })
-  cy.get('.el-table__body').first().contains('氯').parents('.el-table__row').find('[type= checkbox]').check({
-    force: true
-  })
-  //点击批量设置按钮
-  cy.get('.el-icon-edit').click({
-    force: true
+  cy.wait(1000)
+  getDialog('编辑互认标准').within(() => {
+    cy.get('.el-form-item__label').contains('标准设置').parent().within(() => {
+      cy.get('.el-table__body').contains('钾').parents('.el-table__row').find('[type= checkbox]').check({
+        force: true
+      })
+      cy.wait(1000)
+      cy.get('.el-table__body').contains('氯').parents('.el-table__row').find('[type= checkbox]').check({
+        force: true
+      })
+      cy.wait(1000)
+    })
+    //点击批量设置按钮
+    cy.get('.el-icon-edit').click({
+      force: true
+    })
   })
 }
 
@@ -325,7 +335,7 @@ export const setNolimitRules = (specName) => {
   cy.get('.el-button.spec-filter__item.el-button--small').contains(specName).click({
     force: true
   })
-  cy.get('.el-table__body').first().contains('病毒基因M区').parents('.el-table__row').find('[type= checkbox]').check({
+  cy.get('.el-table__body').first().contains('病毒基因E区').parents('.el-table__row').find('[type= checkbox]').check({
     force: true
   })
   cy.get('.el-table__body').first().contains('病毒基因S区').parents('.el-table__row').find('[type= checkbox]').check({
@@ -371,9 +381,9 @@ export const getModelLength = () => {
 }
 
 export const getStandard = () => {
-  return  cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow')
+  return cy.get('.sd-cfg').find('.el-card.sd-cfg__item.is-hover-shadow')
 }
 
 export const interceptChangeOrg = () => {
-  return interceptAll('service/mgr/std/yearrecog/list?*',interceptChangeOrg.name)
+  return interceptAll('service/mgr/std/yearrecog/list?*', interceptChangeOrg.name)
 }

@@ -1,12 +1,12 @@
 /**
  * 课程组合管理
  */
+import { visitPage } from '../../shared/route'
 import { loginMgrWithGdccl } from '../common/login'
 import {
   logout,
   customizeLessonGroup,
   setLessonGroupName,
-  selectCheckbox,
   clickCreateGroupBtn,
   selectAll,
   batchPush,
@@ -18,7 +18,9 @@ import {
   seeLessonGroupDetail,
   closeDetailDialog,
   cancelPush,
-  pushLesson
+  pushLesson,
+  addLessonGroup,
+  searchAndOperate
 } from './lesson-group'
 describe('课程组合管理', () => {
   context('课程组合管理-admin', () => {
@@ -30,86 +32,74 @@ describe('课程组合管理', () => {
       logout()
     })
     it('001-系统管理员新增课程组合', () => {
-      cy.wait(300)
-      customizeLessonGroup()
-      cy.wait(50)
-      setLessonGroupName('abc')
-      cy.wait(50)
-      selectCheckbox('0000')
-      selectCheckbox('[0101001]从BCG检测白蛋白开始')
-      clickCreateGroupBtn('添加')
-      clickCreateGroupBtn('确定')
+      addLessonGroup('abc')
 
     })
     it('002-系统管理员推送课程组合', () => {
-      cy.wait(300)
+      cy.wait(500)
       selectAll()
       batchPush()
       pushAll()
     })
     it('003-系统管理员批量取消推送', () => {
       cy.wait(300)
-      searchGroupName('abc')
-      selectAll()
-      cancelBatchPush()
+      searchAndOperate('abc', () => {
+        searchGroupName('abc')
+        selectAll()
+        cancelBatchPush()
+      })
     })
     it('004-系统管理员新增课程组合-相同的课程允许存在不同的组合中', () => {
-      cy.wait(300)
-      customizeLessonGroup()
-      cy.wait(100)
-      setLessonGroupName('def')
-      cy.wait(100)
-      selectCheckbox('0000')
-      selectCheckbox('[0101001]从BCG检测白蛋白开始')
-      clickCreateGroupBtn('添加')
-      clickCreateGroupBtn('确定')
+      addLessonGroup('def')
     })
     it('005-系统管理员删除课程组合abc', () => {
       cy.visitPage('lesson-group')
       cy.wait(300)
-      searchGroupName('abc')
-      cy.wait(300)
-      delLessonGroup()
+     searchAndOperate('abc', delLessonGroup)
     })
     it('006-系统管理员删除课程组合def', () => {
       cy.wait(300)
-      searchGroupName('def')
-      cy.wait(300)
-      delLessonGroup()
+      searchAndOperate('def', delLessonGroup)
     })
     it('007-系统管理员-查看内含课程', () => {
       cy.wait(300)
-      searchGroupName('AA')
-      seeLessonGroupDetail()
-      cy.wait(1000)
-      closeDetailDialog()
+      searchAndOperate('内部学习', () => {
+        seeLessonGroupDetail()
+        cy.wait(1000)
+        closeDetailDialog()
+      })
     })
     it('008-无法取消推送的场景', () => {
       cy.wait(300)
+      searchAndOperate('内部学习111', () => {
       selectAll()
       cancelPush()
+      })
     })
     it('009-单个组合推送', () => {
       cy.wait(300)
-      searchGroupName('AA')
-      cy.get('.el-table button')
+      searchAndOperate('AA', () => {
+        cy.get('.el-table button')
         .contains('推送')
         .click({
           force: true
         })
       pushAll()
       pushLesson()
+      })
     })
     it('010-单个组合取消推送', () => {
       cy.wait(300)
-      searchGroupName('AA')
-      cancelSinglePush()
+      searchAndOperate('AA', () => {
+        cancelSinglePush()
+      })
     })
 
     it('011-删除已推送的组合AA', () => {
       cy.wait(300)
-      searchGroupName('AA')
-      delLessonGroup()
+      searchAndOperate('AA', () => {
+        delLessonGroup()
+      })
     })
     /* it('0011-系统管理员新增课程组合-组合名称验证', () => {
       cy.visitPage('lesson-group')
@@ -148,7 +138,7 @@ describe('课程组合管理', () => {
   context('课程组合管理-广东佛山临检', () => {
     before(() => {
       cy.gdfslj_user_login()
-      cy.visitPage('lesson-group')
+      visitPage('lesson-group')
       loginMgrWithGdccl('lesson-group')
     })
     after(() => {

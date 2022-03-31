@@ -23,7 +23,7 @@ import {
   activeSelect
 } from '../common/select'
 import {
-  elform
+  elform, findLabel
 } from '../mutual-result/mutual-item'
 import {
   clickSaveButton,
@@ -45,7 +45,7 @@ import {
 context('信息互通设置-推送设置', () => {
   before(() => {
     cy.loginCQB()
-    cy.visit('/cqb-base-mgr-fe/app.html#/setting/message-setting/push-setting')
+    visitPage('push-setting')
   })
   context('新建失控告警规则', () => {
     before(() => {
@@ -468,8 +468,7 @@ context('信息互通设置-推送设置', () => {
             force: true
           })
         cy.get('.el-textarea__inner').first().type(messageContent)
-        elform('message').parents('.el-form-item__content').findByText('保存为模板')
-          .click({
+        findLabel('消息内容').parents('.el-form-item__content').findByText('保存为模板').click({
             force: true
           })
         elform('message').click()

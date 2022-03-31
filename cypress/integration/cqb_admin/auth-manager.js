@@ -5,6 +5,7 @@ import { activeSelect } from '../common/select'
 import { withinDialog, closeTips } from '../common/dialog'
 import { clickListener } from '../common/event'
 import { ifDomExist } from '../common/dom'
+import { interceptAll, waitIntercept } from '../common/http'
 /**
  * 设置日期
  * @param {*} first
@@ -23,6 +24,19 @@ export function setRangeDate(first, second, context) {
     .click({
       force: true
     })
+}
+
+const queryLessonPlan = () => {
+  return interceptAll('service/edu/plan/query', queryLessonPlan.name)
+}
+
+/**
+ * 
+ * @param {number} planId 计划Id
+ * @returns 
+ */
+const queryLessonGroup = (planId) => {
+  return interceptAll(`service/edu/plan/${planId}/lesson-group`, queryLessonGroup.name)
 }
 
 /**每月用户学习统计表
@@ -50,7 +64,7 @@ export function importLessonReport() {
 export function authManage() {
   cy.wait(1000)
   focusInput('管理单位')
-  cy.get('.tree-dept .el-tree').contains('区域医联体').click({
+  cy.get('.tree-dept .el-tree').contains('佛山市临床').click({
     force: true
   })
   clickButton('搜索')
@@ -77,16 +91,28 @@ export function importCSV() {
   cy.get('.el-tabs__item.is-top').contains('每月课程信息反馈表').click({
     force: true
   })
-  clickButton('导入CSV表')
-  withinDialog(() => {
-    focusInput('课程计划')
-    activeSelect('C计划(系统顶级管理单位)')
-    focusInput('课程组合名称')
-    activeSelect('小笑')
-    clickButton('点击上传CSV文件')
-    cy.get('[type=file]').last().attachFile('每月课程信息反馈表.xlsx')
-    clickButton('确定')
-  }, '导入CSV表')
+  cy.wait(2000)
+  // withinDialog(() => {
+    waitIntercept(queryLessonPlan, () => {
+      clickButton('导入CSV表')  
+    }, data => {
+      if (data.length) {
+        withinDialog(() => {
+          focusInput('课程计划')
+          waitIntercept(queryLessonGroup(data[0].planId), () => {
+            activeSelect(data[0].planName)    
+          }, group => {
+            focusInput('课程组合名称')
+            if (group.length) {
+              activeSelect(group[0].lessonGroupName)
+              clickButton('点击上传CSV文件')
+              cy.get('[type=file]').last().attachFile('每月-课程信息反馈-个人.csv')
+              clickButton('确定')  
+            }
+          })
+        }, '导入CSV表')
+      }
+    })
 }
 
 /**每月课程信息反馈表
@@ -126,4 +152,8 @@ export function importLessonSum() {
   })
   clickButton('导入Excel表')
   cy.get('[type=file]').last().attachFile('课程信息反馈汇总表.xlsx')
+}
+
+export const interceptQueryLessonGroup = () => {
+  return interceptAll('service/edu/group/page?*',interceptQueryLessonGroup.name)
 }

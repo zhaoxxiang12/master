@@ -5,14 +5,10 @@ import {
   clickButton
 } from '../common/button'
 import {
-  clickListener
-} from '../common/event'
-import {
   setInput,
   focusInput,
   setTextarea,
   getInput,
-  getTextarea,
   clearInput,
   setInputRange,
   clearInputRange
@@ -60,6 +56,23 @@ const checkTableAll = () => {
     force: true
   })
 }
+
+const interceptQueryLesson = () => {
+  return interceptAll('service/edu/lesson/page?*', interceptQueryLesson.name)
+}
+
+const searchAndOperateLesson = (keyword,lessonName,option) => {
+  waitIntercept(interceptQueryLesson, () => {
+    setInput(keyword,lessonName)
+    clickButton('搜索')
+    cy.wait(2000)
+  }, data => {
+    if (data.total) {
+      option() && option()
+    }
+  })
+}
+
 const getDocument = () => {
   return cy.document()
     .its('body')
@@ -77,6 +90,8 @@ const deleteCheckLeason = () => {
   return interceptAll('service/edu/lesson/*/delete-check', deleteCheckLeason.name)
 }
 context('课程管理', () => {
+  const lessonName = '12222'
+  const keyword = '课程名'
   before(() => {
     // cy.loginCQB()
     cy.visitPage('lesson')
@@ -109,9 +124,7 @@ context('课程管理', () => {
     cy.wait(3000)
     clickButton('数据同步')
     cy.wait(1000)
-    cy.get('.el-popover button:visible').contains('确认').click({
-      force: true
-    })
+  okOnPopConfirm()
   })
   it('003.列表页左上角增加‘一共XX个课程’', () => {
     cy.visitPage('lesson')
@@ -145,9 +158,7 @@ context('课程管理', () => {
     findTableCell(0, 8).find('button').contains('删除').click({
       force: true
     })
-    cy.get('.el-popconfirm button').last().contains('确认').click({
-      force: true
-    })
+    okOnPopConfirm()
   })
   it('005.添加课程的校验课程名必填唯一，长度60', () => {
     cy.visitPage('lesson')
@@ -289,52 +300,52 @@ context('课程管理', () => {
   it('010.添加课程-编辑单个课程', () => {
     cy.visitPage('lesson')
     cy.wait(3000)
-    setInput('课程名', '12222')
-    clickButton('搜索')
-    cy.wait(1000)
-    findTableCell(0, 1).contains('12222').should('exist')
-    findTableCell(0, 8).find('button').contains('编辑').click({
-      force: true
+    searchAndOperateLesson(keyword, lessonName, () => {
+      findTableCell(0, 1).contains(lessonName).should('exist')
+      findTableCell(0, 8).find('button').contains('编辑').click({
+        force: true
+      })
+      withinDialog(() => {
+        setInput('学分', 8)
+        clickButton('保存')
+        cy.wait(1000)
+        clickCancelInDialog()
+      }, '编辑课程')
     })
-    withinDialog(() => {
-      setInput('学分', 8)
-      clickButton('保存')
-      cy.wait(1000)
-      clickCancelInDialog()
-    }, '编辑课程')
   })
   it('011.添加课程-批量编辑课程', () => {
     cy.visitPage('lesson')
     cy.wait(3000)
-    setInput('课程名', '12222')
-    clickButton('搜索')
-    cy.wait(1000)
-    checkTableAll()
-    clickButton('批量编辑')
-    withinDialog(() => {
-      setInput('授课者', '测试')
-      focusInput('课程类型')
-      activeSelect('图文')
-      setInput('学分', '9')
-      setTextarea('课程简介', '9')
-      clickButton('确定')
-    }, '批量编辑课程')
+    searchAndOperateLesson(keyword, lessonName, () => {
+      setInput('课程名', '12222')
+      clickButton('搜索')
+      cy.wait(1000)
+      checkTableAll()
+      clickButton('批量编辑')
+      withinDialog(() => {
+        setInput('授课者', '测试')
+        focusInput('课程类型')
+        activeSelect('图文')
+        setInput('学分', '9')
+        setTextarea('课程简介', '9')
+        clickButton('确定')
+      }, '批量编辑课程')
+    })
   })
   it('012.添加课程-批量编辑课程，允许部分字段为空', () => {
     cy.visitPage('lesson')
     cy.wait(3000)
-    setInput('课程名', '12222')
-    clickButton('搜索')
-    cy.wait(1000)
-    checkTableAll()
-    clickButton('批量编辑')
-    withinDialog(() => {
-      focusInput('课程类型')
-      activeSelect('图文')
-      setInput('学分', '8')
-      setTextarea('课程简介', '8')
-      clickButton('确定')
-    }, '批量编辑课程')
+    searchAndOperateLesson(keyword, lessonName, () => {
+      checkTableAll()
+      clickButton('批量编辑')
+      withinDialog(() => {
+        focusInput('课程类型')
+        activeSelect('图文')
+        setInput('学分', '8')
+        setTextarea('课程简介', '8')
+        clickButton('确定')
+      }, '批量编辑课程')
+    })
   })
   it('013.添加课程-绑定课程以及取消绑定', () => {
     cy.visitPage('lesson')
@@ -431,14 +442,14 @@ context('课程管理', () => {
     okOnPopConfirm()
     cy.wait(3000)
     jumpLast()
-    cy.wait(1000)
-    findTableCell(6, 0).find('.el-checkbox').click({
-      force: true
-    })
-    findTableCell(7, 0).find('.el-checkbox').click({
-      force: true
-    })
+    cy.wait(3000)
+    // findTableCell(6, 0).find('.el-checkbox').click({
+    //   force: true
+    // })
+    // findTableCell(7, 0).find('.el-checkbox').click({
+    //   force: true
     clickButton('课程绑定')
+    cy.wait(1000)
     okOnPopConfirm()
   })
   it('016.添加课程-没有批量删除按钮', () => {
@@ -446,95 +457,118 @@ context('课程管理', () => {
     cy.get('button')
       .contains('批量删除')
       .should('not.exist')
-    setInput('课程名', '英英')
-    clickButton('搜索')
-    cy.wait(1000)
-    findTableCell(0, 8)
-      .find('button')
-      .contains('删除')
-      .should('exist')
+      searchAndOperateLesson(keyword, '英英', () => {
+        findTableCell(0, 8)
+        .find('button')
+        .contains('删除')
+        .should('exist')
+      })
   })
   it('017.添加课程-"取消推送"按钮高亮', () => {
     cy.wait(3000)
-    cy.get('button').contains('取消推送').parent().should('have.class', 'is-disabled')
-    checkTableAll()
-    cy.get('button').contains('取消推送').parent().should('not.have.class', 'is-disabled')
+    waitIntercept(interceptQueryLesson, () => {
+      getInput(keyword)
+      .clear({
+        force: true
+      })
+      clickButton('搜索')
+    }, () => {
+      cy.get('button').contains('取消推送').parent().should('have.class', 'is-disabled')
+      checkTableAll()
+      cy.get('button').contains('取消推送').parent().should('not.have.class', 'is-disabled')
+    })
   })
 
   it('018.添加课程-"已推送单位"字段验证', () => {
     cy.wait(3000)
-    setInput('课程名', '0000')
-    clickButton('搜索')
-    cy.wait(1000)
-    checkTableAll()
-    clickButton('批量推送')
-    withinDialog(() => {
-      focusInput('推送所选课程给以下管理单位')
-      pushUnit('佛山市临床检验质量控制中心')
-      pushUnit('青浦医联体')
-      cy.get('.el-dialog__title').click({
-        force: true
-      })
-      clickButton('确定')
-    }, '推送课程组合')
-    cy.wait(1000)
-    findTableCell(0, 7).should('contain.text', ' 佛山市临床检验质量控制中心、青浦医联体')
+    searchAndOperateLesson(keyword, '0000', () => {
+      cy.wait(1000)
+      checkTableAll()
+      clickButton('批量推送')
+      withinDialog(() => {
+        focusInput('推送所选课程给以下管理单位')
+        pushUnit('佛山市临床检验质量控制中心')
+        pushUnit('青浦医联体')
+        cy.get('.el-dialog__title').click({
+          force: true
+        })
+        clickButton('确定')
+      }, '推送课程组合')
+      cy.wait(1000)
+      findTableCell(0, 7).should('contain.text', ' 佛山市临床检验质量控制中心、青浦医联体')
+    })
   })
   it('019.删除已推送的课程', () => {
     cy.wait(3000)
-    setInput('课程名', '0000')
-    clickButton('搜索')
-    cy.wait(1000)
-    findTableCell(0, 8)
-      .find('button')
-      .contains('删除')
-      .should('not.exist')
+    searchAndOperateLesson(keyword, '0000', () => {
+      cy.wait(1000)
+      findTableCell(0, 8)
+        .find('button')
+        .contains('删除')
+        .should('not.exist')
+    })
+  
   })
   it('020.删除已推送的课程', () => {
     cy.wait(3000)
-    setInput('课程名', '测试权限管理')
-    clickButton('搜索')
-    cy.wait(1000)
-    findTableCell(0, 8)
-      .find('button')
-      .contains('编辑')
-      .should('exist')
-    findTableCell(0, 8)
-      .find('button')
-      .contains('删除')
-      .should('exist')
+    searchAndOperateLesson(keyword, '测试权限管理', () => {
+      cy.wait(1000)
+      findTableCell(0, 8)
+        .find('button')
+        .contains('编辑')
+        .should('exist')
+      findTableCell(0, 8)
+        .find('button')
+        .contains('删除')
+        .should('exist')
+    })
   })
-  it('021.删除已绑定过的课程', () => {
+  it.only('021.删除已绑定过的课程', () => {
     cy.visitPage('lesson')
     cy.wait(3000)
-    jumpLast()
-    cy.wait(1000)
-    findTableCell(6, 0).find('.el-checkbox').click({
-      force: true
-    })
-    clickButton('取消绑定')
-    okOnPopConfirm()
-    cy.wait(3000)
-    findTableCell(6, 0).find('.el-checkbox').click({
-      force: true
-    })
-    findTableCell(7, 0).find('.el-checkbox').click({
-      force: true
-    })
-    findTableCell(8, 0).find('.el-checkbox').click({
-      force: true
-    })
-    clickButton('课程绑定')
-    okOnPopConfirm()
-    cy.wait(3000)
-    jumpLast()
-    cy.wait(1000)
-    findTableCell(6, 8)
-      .find('button')
-      .contains('删除')
-      .click({
+    waitIntercept(interceptQueryLesson, () => {
+      getInput(keyword)
+      .clear({
         force: true
       })
+      clickButton('搜索')
+    }, () => {
+      jumpLast()
+      cy.wait(1000)
+      findTableCell(6, 0).find('.el-checkbox').click({
+        force: true
+      })
+      clickButton('取消绑定')
+      okOnPopConfirm()
+      cy.wait(3000)
+      findTableCell(6, 0).find('.el-checkbox').click({
+        force: true
+      })
+      findTableCell(7, 0).find('.el-checkbox').click({
+        force: true
+      })
+      findTableCell(8, 0).find('.el-checkbox').click({
+        force: true
+      })
+      clickButton('课程绑定')
+      okOnPopConfirm()
+      cy.wait(3000)
+      waitIntercept(interceptQueryLesson, () => {
+        jumpLast()
+      }, data => {
+        console.log(data);
+      const rowIndex = data.records.findIndex(item => item.pushCclNames.length === 0)
+      if (rowIndex !== -1) {
+        cy.wait(1000)
+        findTableCell(rowIndex, 8)
+          .find('button')
+          .contains('删除')
+          .click({
+            force: true
+          })
+        }
+      })
+    })
   })
   it('022.删除已绑定过的课程', () => {
     cy.visitPage('lesson')
@@ -625,28 +659,30 @@ context('课程管理', () => {
   })
   it('023.删除已组合的课程', () => {
     cy.wait(3000)
-    setInput('课程名', '[0503006]网页版-分组设置')
-    clearInput('授课者')
-    clickButton('搜索')
-    cy.wait(2000)
-    waitRequest({
-      intercept: deleteCheckLeason,
-      onBefore: () => {
-        findTableCell(0, 8)
-          .find('button')
-          .contains('删除')
-          .click({
-            force: true
-          })
-        okOnPopConfirm()
-      },
-      onSuccess: (data) => {
-        console.log(data)
-        cy.get('[aria-label="删除提示"] .el-message-box__message')
-          .should('contain.text', data.msg)
-      }
+    searchAndOperateLesson(keyword, '[0503006]网页版-分组设置', () => {
+      clearInput('授课者')
+      clickButton('搜索')
+      cy.wait(2000)
+      waitRequest({
+        intercept: deleteCheckLeason,
+        onBefore: () => {
+          findTableCell(0, 8)
+            .find('button')
+            .contains('删除')
+            .click({
+              force: true
+            })
+          okOnPopConfirm()
+        },
+        onSuccess: (data) => {
+          console.log(data)
+          cy.get('[aria-label="删除提示"] .el-message-box__message')
+            .should('contain.text', data.msg)
+        }
+      })
     })
-  })
+    // setInput('课程名', '[0503006]网页版-分组设置')
+   })
   it('024.单个条件搜索', () => {
     cy.wait(3000)
     setInput('课程名', '[0101001]从BCG检测白蛋白开始')
@@ -734,41 +770,41 @@ context('课程管理', () => {
   })
   it('027.管理员可以取消推送已组合过的课程', () => {
     cy.wait(3000)
-    setInput('课程名', '0000')
-    clickButton('搜索')
-    cy.wait(3000)
-    checkTableAll()
-    clickButton('批量推送')
-    cy.wait(3000)
-    withinDialog(() => {
-      focusInput('推送所选课程给以下管理单位')
-      getDocument()
-        .find('.el-select-popover:visible', {
-          timeout: 6000
-        })
-        .find('.el-scrollbar')
-        .not('.selected')
-        .contains('佛山市临床检验质量控制中心')
-        .should('exist')
-        .click({
+    searchAndOperateLesson(keyword, '0000', () => {
+      checkTableAll()
+      clickButton('批量推送')
+      cy.wait(3000)
+      withinDialog(() => {
+        focusInput('推送所选课程给以下管理单位')
+        getDocument()
+          .find('.el-select-popover:visible', {
+            timeout: 6000
+          })
+          .find('.el-scrollbar')
+          .not('.selected')
+          .contains('佛山市临床检验质量控制中心')
+          .should('exist')
+          .click({
+            force: true
+          })
+        cy.get('.el-dialog__title').click({
           force: true
         })
-      cy.get('.el-dialog__title').click({
-        force: true
-      })
-      clickButton('确定')
-    }, '推送课程组合')
-    cy.wait(3000)
-    checkTableAll()
-    clickButton('取消推送')
-    okOnPopConfirm()
+        clickButton('确定')
+      }, '推送课程组合')
+      cy.wait(3000)
+      checkTableAll()
+      clickButton('取消推送')
+      okOnPopConfirm()
+    })
   })
   it('028.批量推送后编辑课程数据', () => {
     cy.wait(3000)
     setInput('课程名', '0000')
     clickButton('搜索')
     cy.wait(3000)
-    findTableCell(0, 8)
+    searchAndOperateLesson(keyword, '0000', () => {
+      findTableCell(0, 8)
       .find('button')
       .contains('编辑')
       .click({
@@ -779,5 +815,6 @@ context('课程管理', () => {
       setInput('授课者', '77')
       clickButton('保存')
     }, '编辑课程')
+    })
   })
 })

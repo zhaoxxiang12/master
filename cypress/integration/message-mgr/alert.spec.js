@@ -1,3 +1,5 @@
+import { expandSearchConditions } from "../eqa/eqa-order/eqa-order"
+
 /**
  * 告警查询
  */
@@ -7,9 +9,7 @@ context('消息互通-告警查询', () => {
     cy.visit('/cqb-base-mgr-fe/app.html#/message-mgr/alert')
     cy.wait(1000)
     //点击展开
-    cy.get('button').contains('展开').click({
-      force: true
-    })
+    expandSearchConditions('高级搜索')
     cy.get('label[for="date"]+div').click({
       force: true
     })
@@ -47,7 +47,6 @@ context('消息互通-告警查询', () => {
   })
   it('002-使用消息状态进行查询-未读', () => {
     let StatusType = 2
-    let NotRead = 1
     cy.get('input[placeholder="请选择"]').eq(StatusType).click({
       force: true
     })
@@ -149,7 +148,7 @@ context('消息互通-告警查询', () => {
       let Data = xhr.response.body.data.total
       if (Data == null) {
         let ExpectStatus = 200
-        let ResponseStatus = xhr.xhr.response.statusCode
+        let ResponseStatus = xhr.response.statusCode
         expect(ResponseStatus).to.equal(ExpectStatus)
         cy.get('body').should('contain', '暂无数据')
       } else {

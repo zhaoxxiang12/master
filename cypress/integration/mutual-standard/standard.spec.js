@@ -80,7 +80,7 @@ context('互认标准设置', () => {
     it('cqb-002-新增标准名称已存在失败', () => {
       const standardName = '佛山标准'
       cy.wait(2000)
-      getData().then((getLength) => {
+      getData().then(() => {
         clickCreate()
         createStandard(standardName)
         fillStandard({
@@ -92,14 +92,13 @@ context('互认标准设置', () => {
         })
         saveElform('互认规则设置', '保存')
         saveElform('添加互认标准', '保存')
-        getData().should('have.length', getLength.length)
         validFormItemError('互认标准名称已存在，请重输')
         saveElform('添加互认标准', '取消')
       })
     })
     it('cqb-003-标准名称为空保存失败', () => {
       cy.wait(2000)
-      getData().then((getLength) => {
+      getData().then(() => {
         clickCreate()
         createStandard()
         fillStandard({
@@ -111,7 +110,6 @@ context('互认标准设置', () => {
         })
         saveElform('互认规则设置', '保存')
         saveElform('添加互认标准', '保存')
-        getData().should('have.length', getLength.length)
         validFormItemError('请输入活动名称')
         saveElform('添加互认标准', '取消')
       })
@@ -169,7 +167,7 @@ context('互认标准设置', () => {
     const standardName = '标准' + Math.ceil(Math.random() * 1000)
     it('cqb-006-阈值标准未填写不能保存', () => {
       const provinceEqaPassTimes = true
-      getData().then((getLength) => {
+      getData().then(() => {
         clickCreate()
         createStandard(standardName)
         fillStandard({
@@ -182,7 +180,6 @@ context('互认标准设置', () => {
         validFormItemError('请填写标准值')
         saveElform('互认规则设置', '取消')
         saveElform('添加互认标准', '取消')
-        getData().should('have.length', getLength.length)
       })
       cy.wait(2000)
     })
@@ -341,7 +338,7 @@ context('互认标准设置', () => {
           waitIntercept(interceptDeleteModel, () => {
             confirmDelete()
           }, () => {
-            selectModel().parent().then(element => {
+            selectModel().parents('span').eq(1).then(element => {
               expect(element.css('display')).to.eq('none')
               saveElform('互认规则设置', '取消')
               saveElform('添加互认标准', '取消')
@@ -369,7 +366,7 @@ context('互认标准设置', () => {
     })
     it('cqb-017-已关联标准的实验室不能再次关联(复选框置灰)', () => {
       const labCode = 'gd18001'
-      const notAddLabCode = 'gdtest5'
+      const notAddLabCode = 'gdtest2'
       clickCreate()
       cy.wait(5000)
       selectSpec('常规化学')
@@ -377,7 +374,7 @@ context('互认标准设置', () => {
         force: true
       })
       cy.wait(3000)
-      expandSearchConditions()
+      expandSearchConditions('高级搜索')
       elform('labName').type(labCode)
       clickSearch()
       cy.wait(2000)

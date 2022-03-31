@@ -21,8 +21,9 @@ import {
 import {
   expandSearchConditions
 } from '../eqa/eqa-order/eqa-order'
+import { getDialog } from '../message/message'
 import {
-  elform
+  elform, findLabel
 } from '../mutual-result/mutual-item'
 import {
   reportElformClickDay
@@ -49,18 +50,50 @@ export const generateCertReport = (startTime, endTime, month, validDate, editMod
     })
   }
   //月度范围
-  elform('startTime').first().click()
-  activeDateMonth(startTime)
-  elform('startTime').last().click()
-  activeDateMonth(endTime)
-  elform('validTime').click({
-    force: true
+  getDialog('生成报告').within(() => {
+    //室内质控CV%考核周期
+    findLabel('室内质控CV%考核周期').first().click({
+      force:true
+    })
+    cy.wait(1000)
+    activeDateMonth(startTime)
+    findLabel('室内质控CV%考核周期').last().click({
+      force:true
+    })
+    cy.wait(1000)
+    activeDateMonth(endTime)
+    //室间质评EQA考核周期
+    findLabel('室间质评EQA考核周期').first().click({
+      force:true
+    })
+    cy.wait(1000)
+    activeDateMonth(startTime)
+    findLabel('室间质评EQA考核周期').last().click({
+      force:true
+    })
+    cy.wait(1000)
+    activeDateMonth(endTime)
+    //质量管理标准考核周期
+    findLabel('质量管理标准考核周期').first().click({
+      force:true
+    })
+    cy.wait(1000)
+    activeDateMonth(startTime)
+    findLabel('质量管理标准考核周期').last().click({
+      force:true
+    })
+    cy.wait(1000)
+    activeDateMonth(endTime)
+     //报告合格有效期限
+    elform('validTime').click({
+      force:true
+    })
+    cy.wait(1000)
+    activeSelect(month)
+    //报告有效期
+    elform('validDateUntil').click()
+    activeDateDay(validDate)
   })
-  //报告合格有效期限
-  activeSelect(month)
-  //报告有效期
-  elform('validDateUntil').click()
-  activeDateDay(validDate)
   waitIntercept(interceptCheckCertReport, () => {
     withinDialog(clickOkInDialog,'生成报告')
   },() => {
@@ -76,7 +109,7 @@ export const visitCert = (labCode, monthString) => {
   visitPage('cert-year')
   cy.wait(1000)
   closeClientAlert()
-  expandSearchConditions()
+  expandSearchConditions('高级搜索')
   elform('keyword').clear().type(labCode)
   reportElformClickDay('创建时间', '开始时间')
   activeDateDay(monthString)

@@ -1,3 +1,6 @@
+import { clickButton } from "../common/button"
+import { interceptAll, waitIntercept } from "../common/http"
+
 export const selectArea = (cls, text) => {
   cy.get(cls)
     .should('exist')
@@ -35,6 +38,14 @@ export const setYear = (year) => {
     .click({
       force: true
     })
+   cy.get('.el-input__icon.el-icon-circle-close').click({
+     force:true
+   })
+   cy.get('[placeholder="起始年份"]')
+   .should('exist')
+   .click({
+     force: true
+   }) 
   cy.get('.el-picker-panel__content .el-year-table tbody tr')
     .first()
     .find('td')
@@ -60,3 +71,37 @@ export const setPlanName = (planName) => {
       force: true
     })
 }
+ 
+export const interceptQueryPlan = () => {
+  return interceptAll('service/edu/plan/query?*', interceptQueryPlan.name)
+}
+
+export const interceptQueryPlanData = () => {
+  return interceptAll('service/edu/stat/exam/manage?*', interceptQueryPlanData.name)
+}
+
+/**
+ * 
+ * @param {function} intercept 拦截路由
+ * @param {number} year 年份
+ * @param {*} option 拦截路由后的操作
+ * @param {boolean} 是否查询搜索条件的计划
+ */
+export const searchDataAfterOption = (intercept, year, option, queryPlan = true) => {
+  waitIntercept(intercept, () => {
+    setYear(year)
+    if (queryPlan === false) {
+      clickButton('搜索')
+    }
+  }, data => {
+    if (queryPlan) {
+      if (data) {
+        console.log(123);
+      }
+    } else {
+      console.log(54);
+    }
+      option() && option()
+  })
+}
+

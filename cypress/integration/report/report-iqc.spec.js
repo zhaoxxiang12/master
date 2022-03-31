@@ -76,7 +76,7 @@ export const visitIqcPage = (labCode, monthString) => {
   cy.wait(3000)
   closeClientAlert()
   cy.wait(1000)
-  expandSearchConditions()
+  expandSearchConditions('高级搜索')
   elform('labName').clear().type(labCode)
   elform('reportType').click({
     force: true
@@ -87,10 +87,7 @@ export const visitIqcPage = (labCode, monthString) => {
   cy.wait(2000)
   reportElformClickDay('月份范围', '结束时间')
   activeDateMonth(monthString)
-  clickSearch()
 }
-
-
 
 /**
  * IQC月度报告
@@ -116,31 +113,14 @@ context('IQC月度报告', () => {
     const day = dayjs().format('DD')
     const currentTime = year + '-' + currentMonth + '-' + day
     const pdfData = {
-      Headers: '我是一颗远方孤星的泪水',
       monthDate: year + '年' + transformMonth + '月',
       iqcReportName: '结果互认专业室内质控数据室间化比对报告',
       reportType: '总结分析报告',
       labName: '实验室名称：佛山市妇幼保健院(gd18030)',
       reportDate: year + '-' + currentMonth + '-' + day
     }
-    it('管理端推送成功,实验室端可以预览和下载', () => {
-      // 管理端生成报告
-      choseLab(labCode)
-      cy.clickButton('生成月度报告')
-      cy.wait(2000)
-      findCreateReport('templateId').find('button').contains('报告模板一').click({
-        force: true
-      })
-      elform('date').click()
-      activeDateMonth(monthString)
-      waitIntercept(interceptCreateIqcReport, () => {
-        withinDialog(clickOkInDialog, '生成报告')
-      }, () => {
-        validSuccessMessage()
-      })
-      // 管理端推送报告
-      visitIqcPage(labCode,monthString)
-      cy.wait(1000)
+
+    const pushReport = () => {
       reportOption('推送')
       waitIntercept(interceptPushIqcReport, () => {
         closeTips('提示', '推送')
@@ -172,7 +152,6 @@ context('IQC月度报告', () => {
         })
         const fileName = year + '年' + transformMonth + '月' + '广东省结果互认专业室内质控数据室间化比对报告.pdf'
         validatePdfFile(fileName, data => {
-          expect(data.text).to.contain(pdfData.Headers)
           expect(data.text).to.contain(pdfData.monthDate)
           expect(data.text).to.contain(pdfData.iqcReportName)
           expect(data.text).to.contain(pdfData.reportType)
@@ -180,6 +159,43 @@ context('IQC月度报告', () => {
           expect(data.text).to.contain(pdfData.reportDate)
         })
       })
+    }
+    it('管理端推送成功,实验室端可以预览和下载', () => {
+      // 管理端生成报告
+      choseLab(labCode)
+      cy.clickButton('生成月度报告')
+      cy.wait(2000)
+      findCreateReport('templateId').find('button').contains('报告模板一').click({
+        force: true
+      })
+      elform('date').click()
+      activeDateMonth(monthString)
+      waitIntercept(interceptCreateIqcReport, () => {
+        withinDialog(clickOkInDialog, '生成报告')
+      }, () => {
+        validSuccessMessage()
+      })
+      // 管理端推送报告
+      visitIqcPage(labCode,monthString)
+      cy.wait(1000)
+      waitIntercept(interceptQueryIqcReport, () => {
+        clickSearch()
+        cy.wait(1000)
+      }, data => {
+        if (data.data[0].push === false) {
+          pushReport()
+        } else {
+          reportOption('取消推送')
+          waitIntercept(interceptPushIqcReport, () => {
+            closeTips('提示', '推送')
+          }, () => {
+            validSuccessMessage()
+          })
+          cy.wait(2000)
+          pushReport()
+        }
+      })
+ 
     })
     it('验证报告状态', () => {
       visitIqcPage(labCode,monthString)

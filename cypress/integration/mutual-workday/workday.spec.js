@@ -18,8 +18,8 @@ import {
 context('月度工作日申请审核', () => {
   before(() => {
     cy.loginCQB()
-    cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/mutual-workday')
-    expandSearchConditions()
+    cy.visit('/cqb-base-mgr-fe/app.html#/mutual-std/mutual-workday')
+    expandSearchConditions('高级搜索')
     //选择开始时间2020/1
     reportElformClickDay('开始时间','开始时间')
     cy.wait(1000)

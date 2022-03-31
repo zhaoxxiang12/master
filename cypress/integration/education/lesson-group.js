@@ -1,5 +1,11 @@
+import { clickOkInDialog, withinDialog } from "../common/dialog"
+import { interceptAll, waitIntercept, waitRequest } from "../common/http"
+import { interceptQueryLessonGroup } from "../cqb_admin/auth-manager"
+import { getDialog } from "../message/message"
+import { mathRomdomNumber } from "../single-import/single-import"
+
 export const logout = () => {
-  cy.get('.cqbicon.icon-logout')
+  cy.get('.el-dropdown-menu__item').contains(' 退 出')
     .click({
       force: true
     })
@@ -35,6 +41,10 @@ export const selectCheckbox = (text) => {
     })
 }
 
+export const interceptLessonName = () => {
+  return interceptAll('service/edu/group/page?*', interceptLessonName.name)
+ }
+
 export const clickCreateGroupBtn = (text) => {
   cy.get('[aria-label="创建课程组合"] button')
     .contains(text)
@@ -45,6 +55,7 @@ export const clickCreateGroupBtn = (text) => {
 }
 
 export const selectAll = () => {
+  cy.wait(500)
   cy.get('.el-table__header')
     .find('th')
     .eq(0)
@@ -84,12 +95,14 @@ export const pushLesson = () => {
     .click({
       force: true
     })
-  cy.get('button')
+  getDialog('推送课程组合').within(() => {
+    cy.get('button')
     .contains('确定')
     .should('exist')
     .click({
       force: true
     })
+  })
 }
 
 export const searchGroupName = (name) => {
@@ -169,12 +182,11 @@ export const seeLessonGroupDetail = () => {
 }
 
 export const closeDetailDialog = () => {
-  cy.get('[aria-label="课程信息"] button')
-    .contains('关闭')
-    .should('exist')
-    .click({
-      force: true
-    })
+  withinDialog(clickOkInDialog, '课程信息')
+}
+
+const interceptPush = () => {
+  return interceptAll('service/edu/group/cancelPush', interceptPush.name)
 }
 
 export const cancelPush = () => {
@@ -184,11 +196,59 @@ export const cancelPush = () => {
     .click({
       force: true
     })
-  cy.get('[aria-label="提示"] button')
-    .contains('确定')
-    .should('exist')
-    .click({
-      force: true
-    })
-  cy.get('.el-message--error').should('contain', 'AA课程组合已经应用到相同名称计划、异步处理验证课程计划中')
+  waitRequest({
+    intercept: interceptPush,
+    onBefore: () => {
+      cy.get('[aria-label="提示"] button')
+        .contains('确定')
+        .should('exist')
+        .click({
+          force: true
+        })  
+    },
+    onError: (message) => {
+      cy.get('.el-message--error').should('contain', message)
+    }
+  })
+}
+
+export const addLessonGroup = (lessonGroupName) => {
+ waitIntercept(interceptLessonName, () => {
+  cy.findAllByPlaceholderText('请输入课程组合名称').clear({
+    force:true
+  })
+  cy.wait(1000)
+  cy.get('button')
+  .contains('搜索')
+  .should('exist')
+  .click({
+    force: true
+  })
+  }, data => {
+    console.log(data);
+    const lesson1 = data.records[0].lessonList[0].lessonName
+    const lesson2 = data.records[0].lessonList[1].lessonName
+    cy.wait(300)
+    customizeLessonGroup()
+    cy.wait(3000)
+    setLessonGroupName(lessonGroupName)
+    cy.wait(2000)
+    selectCheckbox(lesson1)
+    selectCheckbox(lesson2)
+    cy.wait(5000)
+    clickCreateGroupBtn('添加')
+    clickCreateGroupBtn('确定')
+  })
+}
+
+export const searchAndOperate = (groupName, option) => {
+  waitIntercept(interceptQueryLessonGroup, () => {
+    searchGroupName(groupName)
+  }, data => {
+    console.log(data);
+    if (data.total) {
+      cy.wait(300)
+      option() && option()
+    }
+  })
 }

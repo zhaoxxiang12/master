@@ -16,8 +16,13 @@ import {
   clickSearch
 } from '../setting/report-monitor/report-monitor'
 
-const getOption = () => {
-  return cy.get('.el-table__fixed-right .el-table__body:visible').last().find('.el-table__row')
+const getOption = (right = false) => {
+  if (right === false) {
+    return cy.get('.el-table__fixed-right .el-table__body:visible').last().find('.el-table__row')
+  } else {
+    return cy.get('.el-table__fixed-left .el-table__body:visible').last().find('.el-table__row')
+  }
+  
 }
 
 const selectElform = (prop) => {
@@ -43,7 +48,7 @@ const interceptSearchData = () => {
 }
 
 const inputNumber = (number) => {
-  getOption().first().find('.el-input__inner').clear({
+  cy.get('.el-table__body:visible').first().find('.el-input__inner').clear({
     force: true
   }).type(number, {
     force: true
@@ -153,9 +158,9 @@ const validData = (checkData) => {
 context('结果互认设置-单位转换设置', () => {
   before(() => {
     cy.loginCQB()
-    cy.visit('/cqb-base-mgr-fe/app.html#/setting/mutual-result/unit-transform')
+    cy.visit('/cqb-base-mgr-fe/app.html#/mutual-std/unit-transform')
     cy.wait(5000)
-    expandSearchConditions()
+    expandSearchConditions('高级搜索')
   })
   context('编辑重置', () => {
     before(() => {
@@ -172,41 +177,43 @@ context('结果互认设置-单位转换设置', () => {
       waitIntercept(interceptSearchData, () => {
         clickSearch()
       }, data => {
-        getOption().should('have.length', data.data.length)
-        cy.wait(2000)
-        cy.get('.unit-fn').eq(formulaBox).invoke('text').then((data) => {
-          let oldFormula = data
-          findButtonClick('编辑')
+        if (data.total) {
+          getOption().should('have.length', data.data.length)
           cy.wait(2000)
-          //录入新值
-          inputNumber(typeNumber)
-          getOption().first().findByText('保存').click({
-            force: true
-          })
-          //保存数据
-          waitIntercept(interceptUpdateData, () => {
-            findButtonClick('保存')
-          }, () => {
-            validSuccessMessage()
-            cy.wait(5000)
-          })
           cy.get('.unit-fn').eq(formulaBox).invoke('text').then((data) => {
-            let newFormula = data
-            expect(oldFormula).not.to.equal(newFormula)
-            //将公式还原成初始状态
+            let oldFormula = data
             findButtonClick('编辑')
-            inputNumber(oldData)
-            findButtonClick('保存')
+            cy.wait(2000)
+            //录入新值
+            inputNumber(typeNumber)
+            getOption().first().findByText('保存').click({
+              force: true
+            })
+            //保存数据
+            waitIntercept(interceptUpdateData, () => {
+              findButtonClick('保存')
+            }, () => {
+              validSuccessMessage()
+              cy.wait(5000)
+            })
+            cy.get('.unit-fn').eq(formulaBox).invoke('text').then((data) => {
+              let newFormula = data
+              expect(oldFormula).not.to.equal(newFormula)
+              //将公式还原成初始状态
+              findButtonClick('编辑')
+              inputNumber(oldData)
+              findButtonClick('保存')
+            })
           })
-        })
+        }
       })
     })
     it('002-批量编辑', () => {
-      let firstBox = 6
-      let secondBox = 7
-      let thirdBox = 8
+      let firstBox = 1
+      let secondBox = 3
+      let thirdBox = 2
       let formulaBox1 = 0 // 第一条数据
-      let formulaBox2 = 1 // 第二条数据
+      let formulaBox2 = 2 // 第二条数据
       let typeNumber = parseInt(Math.random() * 1000)
       const labName = '南方医科大学顺德医院附属杏坛医院'
       selectElform('labName').clear().type(labName)
@@ -275,7 +282,7 @@ context('结果互认设置-单位转换设置', () => {
       selectElform('labName').clear()
       clickSearch()
       cy.wait(2000)
-      getOption().first().find('.unit-fn').invoke('text').then((formula) => {
+      cy.get('.el-table__body:visible').first().find('.unit-fn').first().invoke('text').then((formula) => {
         findButtonClick('编辑')
         cy.wait(2000)
         cy.wait(500)
@@ -284,7 +291,7 @@ context('结果互认设置-单位转换设置', () => {
         findButtonClick('保存')
         validSuccessMessage()
         cy.wait(2000)
-        getOption().first().find('.unit-fn').invoke('text').then((newFormula) => {
+        cy.get('.el-table__body:visible').first().find('.unit-fn').first().invoke('text').then((newFormula) => {
           expect(formula).to.eq(newFormula)
         })
       })

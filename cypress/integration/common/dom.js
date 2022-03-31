@@ -1,3 +1,4 @@
+import { confirmDelete } from "./dialog"
 
 /**
  * 判断元素是否存在
@@ -12,9 +13,7 @@ export function ifDomExist(selector, text, event) {
       console.log($el.find(selector))
       let that = $el.find(selector)
       if (that.length > 0) {
-        that.contains(text) && that.contains(text)[event]({
-          force: true
-        })
+        confirmDelete()
       }
     })
 }

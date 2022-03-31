@@ -5,7 +5,7 @@ import { interceptGet, waitIntercept, waitRequest } from '../common/http'
 import { closeClientAlert } from '../common/message'
 import { activeSelect } from '../common/select'
 import { findTableLineCell } from '../common/table'
-import { BUTTON_PDF, checkRadio, clickSearch, clickTool, openProvince, openTagSelect, validCclChecked, validCclSelect, validMonthRange, validPrint, validTableColumnSort } from './effect-query'
+import { BUTTON_PDF, checkRadio, clickSearch, clickTool, openProvince, openTagSelect, queryMgrTree, validCclChecked, validCclSelect, validMonthRange, validPrint, validTableColumnSort } from './effect-query'
 
 context('失控处理情况', () => {
   let result, messageDict
@@ -84,7 +84,11 @@ context('失控处理情况', () => {
   }
   
   before(() => {
-    cy.visitPage('report-effect-outcontrol')
+    waitIntercept(queryMgrTree, () => {
+      cy.visitPage('report-effect-outcontrol')
+    }, () => {
+      
+    })
   })
 
   context('默认选中管理机构', () => {
@@ -222,7 +226,7 @@ context('失控处理情况', () => {
     })
 
     it(`007-${BUTTON_PDF}`, () => {
-      clickListener(() => clickTool(BUTTON_PDF))
+      clickListener(() => clickTool(BUTTON_PDF), 8000)
       validatePdfFile('失控处理情况报表.pdf', data => {
         if (result.outControDeals.length) {
           expect(data.numpages).to.gt(0)

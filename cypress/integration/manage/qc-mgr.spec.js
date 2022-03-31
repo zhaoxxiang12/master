@@ -1,21 +1,34 @@
 import {
   visitPage
 } from '../../shared/route'
+import { clickButton } from '../common/button'
 import {
-  closeTips
+  clickCancelInDialog,
+  clickOkInDialog,
+  closeTips, confirmDelete, withinDialog
 } from '../common/dialog'
 import {
   interceptAll,
+  waitIntercept,
   waitRequest
 } from '../common/http'
+import { loginMgrWithGdccl } from '../common/login'
+import { validErrorMsg, validSuccessMessage } from '../common/message'
+import { activeSelect } from '../common/select'
+import { expandSearchConditions } from '../eqa/eqa-order/eqa-order'
+import { getDialog } from '../message/message'
+import { elform, elformSwitch, findLabel } from '../mutual-result/mutual-item'
+import { clickSearch } from '../setting/report-monitor/report-monitor'
+import { mathRomdomNumber } from '../single-import/single-import'
+import { validData } from './cert-year'
 
 /**
  * 
  * @param {string} prop 
  * @returns 
  */
-const findElement = (prop) => {   
-  return cy.get(`[for="${prop}"]`).next('.el-form-item__content').find('.el-tree-node__children').contains('IQC管理')
+const findElement = (prop,treeText) => {   
+  return cy.get(`[for="${prop}"]`).next('.el-form-item__content').find('.el-tree-node__children').contains(treeText)
     .parents('.el-tree-node').first()
 }
 
@@ -30,8 +43,28 @@ const clickSave = (prop,text) => {
   })
 }
 
-const checkPermissions = (prop) => {
-  return findElement(prop).find('.tree-resource-node').contains('质控品管理').parents('.el-tree-node__content')
+const checkPermissions = (prop, treeText, childTreeText) => {
+  return findElement(prop,treeText).find('.tree-resource-node').contains(childTreeText).parents('.el-tree-node__content')
+}
+
+const cancelPermissions = (prop, treeText, childTreeText) => {
+  checkPermissions(prop, treeText, childTreeText).next('.el-tree-node__children').find('[type="checkbox"]').first()
+  .uncheck('',{
+      force:true
+    })
+  checkPermissions(prop, treeText, childTreeText).next('.el-tree-node__children').find('[type="checkbox"]').last()
+    .uncheck('',{
+      force:true
+    })
+  waitRequest({
+    intercept: interceptEditManage,
+    onBefore: () => {
+      clickSave('编辑管理单位','保存')
+    },
+    onSuccess: () => {
+      cy.get('.el-message__content').should('have.text', '管理单位已更新')
+    }
+  })
 }
 
 const openEditPage = () => {
@@ -52,7 +85,7 @@ const editUser = ()=>{
     })
     cy.wait(3000)
   })
-  cy.get('.el-table__body').first().find('.el-table__row').eq(1)
+  cy.get('.el-table__body').first().find('.el-table__row').contains('gdfslj').parents('.el-table__row')
     .findByText('编辑').click({
       force:true
     })
@@ -65,6 +98,139 @@ const interceptEditManage = () => {
 
 const interceptEditUser = () =>{
   return interceptAll('service/system/user/update',interceptEditUser.name)
+}
+
+const interceptAddQcMgr = () => {
+  return interceptAll('service/mgr/qc/item', interceptAddQcMgr.name)
+}
+
+const interceptQueryQcMgr = () => {
+  return interceptAll('service/mgr/qc/item/page?*', interceptQueryQcMgr.name)
+}
+
+const interceptDeleteQcMgr = () => {
+  return interceptAll('service/mgr/qc/item/*', interceptDeleteQcMgr.name)
+}
+
+const deleteQcMgr = (batchNo) => {
+  waitIntercept(interceptQueryQcMgr, () => {
+    elform('batchNo').clear().type(batchNo)
+    clickSearch()
+  }, data => {
+    if (data.total) {
+      cy.get('.el-table__body .el-table__row').first().findByText('删除').click({
+        force:true
+      })
+      waitRequest({
+        intercept: interceptDeleteQcMgr,
+        onBefore: () => {
+          confirmDelete()
+        },
+        onSuccess: () => {
+          if (data.total === 1) {
+            cy.get('body').should('contain', '暂无数据')
+          } else if (data.total > 20){
+            cy.get('.el-pagination__total').should('have.text', '共 ' + (data.total - 1) +' 条')
+          } else {
+            cy.get('.el-table__body .el-table__row').first().should('have.length', data.total - 1)
+          }
+        },
+        onError: (msg) => {
+          validErrorMsg(msg)
+        }
+      })
+    }
+  })
+}
+
+const addQcMgr = (itemName, batchNo, commodityNo, matrix, factory) => {
+  getDialog('添加质控品').within(() => {
+    elform('itemName').type(itemName)
+    elform('batchNo').type(batchNo)
+    elform('commodityNo').type(commodityNo)
+    elform('matrix').click({
+      force:true
+    })
+    activeSelect(matrix)
+    elform('factory').type(factory)
+  })
+  waitRequest({
+    intercept: interceptAddQcMgr,
+    onBefore: () => {
+      withinDialog(clickOkInDialog, '添加质控品')
+    },
+    onSuccess: () => {
+      validSuccessMessage()
+    },
+    onError: (msg) => {
+      validErrorMsg(msg)
+      withinDialog(clickCancelInDialog, '添加质控品')
+    }
+  })
+}
+
+const searchQcMgr = (batchNo, itemName, factory, cclName) => {
+  if (batchNo) {
+    elform('batchNo').type(batchNo)
+    waitIntercept(interceptQueryQcMgr, () => {
+      clickSearch()
+    }, data => {
+      validData(data)
+      if (data.total) {
+        data.data.map(item => expect(item.batchNo).to.contain(batchNo))
+      }
+    })
+  }
+  if (itemName) {
+    elform('itemName').clear().type(itemName)
+    waitIntercept(interceptQueryQcMgr, () => {
+      clickSearch()
+    }, data => {
+      validData(data)
+      if (data.total) {
+        data.data.map(item => expect(item.itemName).to.contain(itemName))
+      }
+    })
+  }
+  if (factory) {
+    elform('factory').clear().type(factory)
+    waitIntercept(interceptQueryQcMgr, () => {
+      clickSearch()
+    }, data => {
+      validData(data)
+      if (data.total) {
+        data.data.map(item => expect(item.factory).to.contain(factory))
+      }
+    })
+  }
+  if (cclName) {
+      findLabel('质控主管单位').click({
+        force:true
+      })
+      waitIntercept(interceptQueryQcMgr, () => {
+        activeSelect(cclName)
+      }, data => {
+        validData(data)
+        if (data.total) {
+          data.data.map(item => expect(item.cclName).to.eq(cclName))
+        }
+      }) 
+  }
+}
+
+const editQcMgr = (batchNo, option) => {
+  waitIntercept(interceptQueryQcMgr, () => {
+    elform('batchNo').clear().type(batchNo)
+    clickSearch()
+  }, data => {
+    if (data.total) {
+      cy.get('.el-table__body .el-table__row').first().findByText('编辑').click({
+        force:true
+      })
+      cy.wait(3000)
+      option() && option()
+    }
+  })
 }
 
 const loginOut = () => {
@@ -84,394 +250,156 @@ const loginOut = () => {
 
 context('质控品管理', () => {
   before(() => {
-    cy.loginCQB()
-    cy.visit('/cqb-base-mgr-fe/app.html#/manage/iqcSet/qc-mgr')
-    cy.get('.el-button.el-button--text.el-button--medium').contains('展开').click({
-      force: true
-    })
+    cy.visitPage('qc-mgr')
+    expandSearchConditions('高级搜索')
   })
-  it('001-质控品管理-添加质控品', () => {
-    cy.wait(1000)
-    // 给质控品信息添加随机数避免重复
-    let num = Math.ceil(Math.random() * 10000)
-    //点击添加按钮
-    cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
-      force: true
-    })
-    //输入质控品名称
-    cy.get('[aria-label="添加质控品"] input').first().type('自动化质控品名称')
-    //输入质控品批号
-    cy.get('[aria-label="添加质控品"] input').eq(2).type('lot' + num)
-    //输入货号
-    cy.get('[aria-label="添加质控品"] input').eq(3).type('prod' + num)
-    // 由于组件的下拉框是模拟的，不能使用select，因此需要通过点击操作
-    cy.get('[aria-label="添加质控品"] input').eq(6).click({
-      force: true
-    })
-    // 下拉菜单是在body下生成的
-    cy.get('body>.el-select-dropdown li').first().click({
-      force: true
-    })
-    //输入厂商信息
-    cy.get('[aria-label="添加质控品"] input').eq(7).type('厂商' + num)
-    //保存弹窗信息
-    cy.get('[aria-label="添加质控品"] .el-dialog__footer button').contains('保存').click({
-      force: true
-    })
-    // 没有错误提示
-    cy.get('.el-form-item__error').should('have.length', 0)
-    // 提示成功添加
-    cy.get('body').should('contain', '已添加质控品')
-
-  })
-
-  it('002-质控品管理-添加重复的质控品', () => {
-    let num = Math.ceil(Math.random() * 10000)
-    //点击添加按钮
-    cy.get('.el-button.el-button--primary.el-button--medium.is-plain').click({
-      force: true
-    })
-    //弹窗中填写质控品名称
-    cy.get('[aria-label="添加质控品"] input').first().type('质控品名称' + num)
-    //弹窗中添加质控品批号
-    cy.get('[aria-label="添加质控品"] input').eq(2).type('HCV-20190826')
-    //输入货号
-    cy.get('[aria-label="添加质控品"] input').eq(3).type('prod' + num)
-    // 由于组件的下拉框是模拟的，不是使用select，因此需要通过点击操作
-    cy.get('[aria-label="添加质控品"] input').eq(6).click({
-      force: true
-    })
-    // 下拉菜单是在body下生成的
-    cy.get('body>.el-select-dropdown li').first().click({
-      force: true
-    })
-    //添加厂商信息
-    cy.get('[aria-label="添加质控品"] input').eq(7).type('厂商' + num)
-    cy.get('[aria-label="添加质控品"] .el-dialog__footer button').contains('保存').click({
-      force: true
-    })
-    // 对添加失败的提示进行断言
-    cy.get('.el-message--error').should('contain', '校验失败，您添加的质控品批号已存在。')
-    cy.get('.el-button.el-button--default.el-button--medium').eq(1).click({
-      force: true
-    })
-  })
-
-  it('003-质控品管理-编辑质控品', () => {
-    cy.get('input[placeholder="请输入质控品名称"]').type('自动化质控品名称', {
-      force: true
-    })
-    let num = Math.ceil(Math.random() * 10000)
-    let typeName = '质控品名称' + num
-    // //点击搜索按钮
-    cy.get('button[type="submit"]').first().click({
-      force: true
-    })
-    cy.intercept({
-      url: '**/cqb-base-mgr/service/mgr/qc/item/*',
-      method: 'GET'
-    }).as('edit')
-    // // 点击编辑按钮
-    cy.get('.el-table__fixed-right tbody tr').first().find('button').contains('编辑').click({
-      force: true
-    })
-    cy.wait('@edit').then((xhr) => {
-      cy.compare(xhr)
-    })
-    cy.wait(1000)
-    //在弹窗中输入质控品名称
-    cy.get('[aria-label="编辑质控品"] input').first().clear().type(typeName, {
-      force: true
-    })
-    //点击保存按钮
-    cy.get('[aria-label="编辑质控品"] .el-dialog__footer button').contains('保存').click({
-      force: true
-    })
-    cy.get('.el-form-item__error').should('have.length', 0)
-    // 断言编辑成功提示框
-    cy.get('.el-message--success').should('contain', '已更新质控品')
-    //将数据返回之前
-    cy.get('input[placeholder="请输入质控品名称"]').clear({
-      force: true
-    }).type(typeName, {
-      force: true
-    })
-    cy.get('button[type="submit"]').first().click({
-      force: true
-    })
-    cy.intercept({
-      url: '**/cqb-base-mgr/service/mgr/qc/item/*',
-      method: 'GET'
-    }).as('edit')
-    cy.get('.el-table__fixed-right tbody tr').first().find('button').contains('编辑').click({
-      force: true
-    })
-    cy.wait('@edit').then((xhr) => {
-      cy.compare(xhr)
-    })
-    cy.wait(1000)
-    cy.get('[aria-label="编辑质控品"] input').first().clear({
-      force: true
-    }).type('自动化质控品名称', {
-      force: true
-    })
-    cy.intercept({
-      url: '/cqb-base-mgr/service/mgr/qc/item',
-      method: 'PUT'
-    }).as('editItem')
-    cy.get('[aria-label="编辑质控品"] .el-dialog__footer button').contains('保存').click({
-      force: true
-    })
-    cy.wait('@editItem').then((xhr) => {
-      cy.compare(xhr)
-    })
-  })
-
-  it('004-质控品管理-取消删除质控品', () => {
-    //点击质控品名称输入框，输入搜索条件
-    cy.get('input[placeholder="请输入质控品名称"]').clear().type('质控品名称')
-    //点击搜索按钮
-    cy.get('button[type="submit"]').first().contains('搜索').click({
-      force: true
-    })
-    cy.get('.el-table__fixed-right tbody tr').first().find('button').contains('删除').click({
-      force: true
-    })
-    //点击取消弹窗
-    cy.get('button[class="el-button el-button--default el-button--small"]').click({
-      force: true
-    })
-  })
-  it('005-质控品管理-停用质控品', () => {
-    let status = 7
-    let body = 2
-    let first = 0
-    let edit = 6
-    //点击输入框，输入搜索条件
-    cy.get('input[placeholder="请输入质控品名称"]').clear().type('自动化质控品名称', {
-      force: true
-    })
-    //点击搜索按钮
-    cy.get('button[type="submit"]').first().click({
-      force: true
-    })
-    cy.wait(500)
-    cy.get('.el-table__body').eq(body).find('.el-table__row').eq(first).find('.cell').eq(status).invoke('text').then((data) => {
-      let oldStatus = data
-      cy.get('.el-button.el-button--text.el-button--medium').eq(edit).click({
-        force: true
+  context('添加/删除质控品', () => {
+    const itemName = '自动化质控品名称'
+    const batchNo ='lot' + mathRomdomNumber(1,1000)
+    const commodityNo = 'prod' + mathRomdomNumber(1,1000)
+    const matrix = '全血'
+    const factory = 'MINDRAY'
+    let  repeatBatchNo
+    before(() => {
+      waitIntercept(interceptQueryQcMgr, () => {
+        clickSearch()
+      }, data => {
+        if (data.total) {
+          repeatBatchNo = data.data[0].batchNo
+        }
       })
-      cy.wait(1000)
-      //在编辑弹窗中，点击停用/启用按钮
-      cy.get('.el-switch__core').first().click({
-        force: true
+    })
+    context('添加质控品', () => {
+      it('质控品管理-添加质控品', () => {
+        clickButton('添加')
+        addQcMgr(itemName, batchNo, commodityNo, matrix, factory)
       })
-      cy.intercept({
-        url: '/cqb-base-mgr/service/mgr/qc/item',
-        method: 'PUT'
-      }).as('stopQc-Mgr')
-      //点击保存弹窗按钮
-      cy.get('.el-dialog__body + div').find('button').eq(1).click({
-        force: true
+      it('添加重复的质控品', () => {
+        clickButton('添加')
+        addQcMgr(itemName, repeatBatchNo, commodityNo, matrix, factory)
       })
+    })
+    context('删除质控品', () => {
+      before(() => {
+        cy.wait(8000)
+      })
+      it('已关联数据不允许删除', () => {
+        const batchNo = 'HBeAb2020120100'
+        deleteQcMgr(batchNo)
+      })
+      it('删除成功', () => {
+        deleteQcMgr(batchNo)
+      })
+    })
+  })
+  context('操作质控品', () => {
+    const batchNo ='lot' + mathRomdomNumber(1,1000)
+    const editQcName = '自动化修改质控品名称'
+    it('编辑质控品', () => {
+      const itemName = '自动化质控品名称'
+      const commodityNo = 'prod' + mathRomdomNumber(1,1000)
+      const matrix = '全血'
+      const factory = 'MINDRAY'
+      clickButton('添加')
       cy.wait(3000)
-      cy.wait('@stopQc-Mgr').then((xhr) => {
-        cy.compare(xhr)
-        cy.get('.el-table__body').eq(body).find('.el-table__row').eq(first).find('.cell').eq(status).invoke('text').then((text2) => {
-          expect(oldStatus).to.not.eq(text2)
+      addQcMgr(itemName, batchNo, commodityNo, matrix, factory)
+      cy.wait(2000)
+      editQcMgr(batchNo, () => {
+        elform('itemName').clear().type(editQcName)
+        waitIntercept(interceptAddQcMgr, () => {
+          withinDialog(clickOkInDialog, '编辑质控品')
+        }, () => {
+          validSuccessMessage()
+        })    
+      })
+    })
+    it('停用/启用', () => {
+      editQcMgr(batchNo, () => {
+        elformSwitch('status', '停用').click({
+          force:true
+        })
+        let queryData
+        waitIntercept(interceptAddQcMgr, () => {
+          queryData = interceptQueryQcMgr()
+          withinDialog(clickOkInDialog, '编辑质控品')  
+        }, () => {
+          validSuccessMessage()
+          waitIntercept(queryData, data => {
+            console.log(data);
+            if (data.data[0].status) {
+              cy.get('.el-table__body .el-table__row').first().find('.cell').eq(7)
+                .invoke('text')
+                .then((text) => {
+                  expect(text).to.eq('在用')
+                  deleteQcMgr(batchNo)
+                })
+            } else {
+              cy.get('.el-table__body .el-table__row').first().find('.cell').eq(7)
+                .invoke('text')
+                .then((text) => {
+                  expect(text).to.eq('停用')
+                  deleteQcMgr(batchNo)
+                })
+            }
+          })
         })
       })
     })
   })
-  it('006-质控品管理-删除质控品', () => {
-    //点击展开搜索条件
-    cy.get('button[type="button"]').contains('展开').click({
-      force: true
+  context('筛选条件', () => {
+    it('批号搜索', () => {
+      searchQcMgr('2019052501')
+      clickButton('重置')
     })
-    //点击质控品名称输入框，输入搜索条件
-    cy.get('input[placeholder="请输入质控品名称"]').clear().type('自动化质控品名称', {
-      force: true
+    it('质控品名称搜索', () => {
+      searchQcMgr(null, '免疫质控物')
+      clickButton('重置')
     })
-    //点击搜索按钮
-    cy.get('.ql-search__btns').find('button[type="submit"]').click({
-      force: true
+    it('厂商搜索', () => {
+      searchQcMgr(null, null, '安图')
+      clickButton('重置')
     })
-    cy.wait(1000)
-    //点击删除按钮    
-    cy.get('.el-table__fixed-right tbody tr').first().find('button').contains('删除').click({
-      force: true
-    })
-    //点击弹窗中的确认‘删除’
-    cy.get('button[class="el-button el-button--default el-button--small el-button--primary el-button--danger"]').click({
-      force: true
-    })
-    //删除后，对页面文案的断言
-    cy.get('body').should('contain', '暂无数据')
-
-  })
-  it('007-质控品管理-批号搜索', () => {
-    let expand = 0
-    let batchBox = 2
-    let batchNumber = '9920016'
-    let body = 2
-    cy.get('input[placeholder="请输入质控品名称"]').clear()
-    cy.get('.el-button.el-button--text.el-button--medium').eq(expand).click({
-      force: true
-    })
-    //录入批号
-    cy.get('.el-input__inner').eq(batchBox).clear().type(batchNumber, {
-      force: true
-    })
-    cy.intercept('**/cqb-base-mgr/service/mgr/qc/item/page?*').as('getWebData')
-    cy.wait(500)
-    cy.get('button').contains('搜索').click({
-      force: true
-    })
-    cy.wait('@getWebData').then((getData) => {
-      let total = getData.response.body.data.total
-      let getStatus = getData.response.statusCode
-      let expectStatus = 200
-      expect(getStatus).to.eq(expectStatus)
-      if (total == 0) {
-        cy.get('body').should('contain', '暂无数据')
-      } else if (total <= 20) {
-        cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', total)
-      } else {
-        cy.get('.el-pagination__total').should('have.text', '共 ' + total + ' 条')
-      }
-    })
-  })
-  it('008-质控品管理-质控品名称搜索', () => {
-    let expand = 0
-    let body = 2
-    let batchName = '免疫质控物'
-    let batchBox = 2
-    cy.get('.el-input__inner').eq(batchBox).clear()
-    cy.get('.el-button.el-button--text.el-button--medium').eq(expand).click({
-      force: true
-    })
-    cy.get('input[placeholder="请输入质控品名称"]').clear().type(batchName, {
-      force: true
-    })
-    cy.intercept('**/cqb-base-mgr/service/mgr/qc/item/page?*').as('getWebData')
-    cy.wait(500)
-    cy.get('button').contains('搜索').click({
-      force: true
-    })
-    cy.wait('@getWebData').then((getData) => {
-      let total = getData.response.body.data.total
-      let getStatus = getData.response.statusCode
-      let expectStatus = 200
-      expect(getStatus).to.eq(expectStatus)
-      if (total == 0) {
-        cy.get('body').should('contain', '暂无数据')
-      } else if (total <= 20) {
-        cy.get('.el-table__body').eq(body).find('.el-table__row').should('have.length', total)
-      } else {
-        cy.get('.el-pagination__total').should('have.text', '共 ' + total + ' 条')
-      }
-    })
-  })
-  it('009-质控品管理-删除质控品(已关联数据的不能被删除)', () => {
-    let batchNumber = '20210305B'
-    let batchBox = 2
-    let expand = 0
-    cy.get('input[placeholder="请输入质控品名称"]').clear()
-    //点击展开搜索条件
-    cy.get('.el-button.el-button--text.el-button--medium').eq(expand).click({
-      force: true
-    })
-    //录入批号
-    cy.get('.el-input__inner').eq(batchBox).clear().type(batchNumber, {
-      force: true
-    })
-    //点击搜索按钮
-    cy.get('.ql-search__btns').find('button[type="submit"]').click({
-      force: true
-    })
-    //点击删除按钮    
-    cy.get('.el-table__fixed-right tbody tr').first().find('button').contains('删除').click({
-      force: true
-    })
-    cy.intercept('**/cqb-base-mgr/service/mgr/qc/item/*').as('delete')
-    //确认删除
-    cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click({
-      force: true
-    })
-    cy.wait(1000)
-    cy.wait('@delete').then((xhr) => {
-      let getStatus = xhr.response.statusCode
-      let expectStatus = 400
-      expect(getStatus).to.eq(expectStatus)
-      cy.get('body').should('contain', '该质控品已被质控批号关联，不能删除')
-    })
-  })
-  it('010-质控品管理-切换质控主管单位(青浦医联体)', () => {
-    let dropList = 1
-    let QP = 1
-    let organizationBox = 0
-    let body = 2
-    let first = 0
-    let organization = 4
-    let batchBox = 2
-    cy.wait(500)
-    cy.get('.el-input__inner').eq(batchBox).clear()
-    cy.get('input[placeholder="请输入质控品名称"]').clear()
-    cy.get('.el-table__body').eq(body).find('.el-table__row').eq(first).find('.cell').eq(organization).invoke('text').then((data) => {
-      let oldOrganization = data
-      cy.get('.el-input__inner').eq(organizationBox).click({
-        force: true
-      })
-      cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(dropList).find('li').eq(QP).click({
-        force: true
-      })
-      cy.wait(1000)
-      cy.get('.el-table__body').eq(body).find('.el-table__row').eq(first).find('.cell').eq(organization).invoke('text').then((data) => {
-        let newOrganization = data
-        expect(newOrganization).not.to.eq(oldOrganization)
-      })
+    it('质控主管单位', () => {
+      searchQcMgr(null, null, null, '青浦医联体')
     })
   })
   context('权限验证', () => {
     it('011-取消勾选页面权限', () => {
       openEditPage()
-      checkPermissions('relaRightCodes').find('.el-tree-node__expand-icon.el-icon-caret-right').click({
-        force:true
-      })
-      checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').first()
-        .uncheck('',{
-          force:true
-        })
-      checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').last()
-        .uncheck('',{
-          force:true
-        })
-      waitRequest({
-        intercept: interceptEditManage,
-        onBefore: () => {
-          clickSave('编辑管理单位','保存')
-        },
-        onSuccess: () => {
-          cy.get('.el-message__content').should('have.text', '管理单位已更新')
+      findElement('relaRightCodes', '物料管理').find('.el-checkbox__input').first().then((el) => {
+        if ((el.hasClass('is-checked') || (el.hasClass('is-indeterminate')))) {
+          cancelPermissions('relaRightCodes', '物料管理', '质控品管理')
+        } else {
+          findElement('relaRightCodes', '物料管理').find('.el-checkbox__input').click({
+            force:true
+          })
+          cancelPermissions('relaRightCodes', '物料管理', '质控品管理')
         }
       })
-      loginOut()
-      cy.gdfslj_user_login()
-      cy.get('.el-menu.el-menu--inline').contains('质控品管理').parents('.el-menu-item').should('have.class', 'is-disabled')
+      waitRequest({
+        intercept:interceptQueryQcMgr, 
+        onBefore: () => {
+          loginMgrWithGdccl('qc-mgr')
+        },
+        onError: (msg) => {
+          validErrorMsg(msg)
+        }
+      })
     })
     it('012-勾选查看权限', () => {
-      loginOut()
-      cy.loginCQB()
-      visitPage('manage-dept')
+      loginMgrWithGdccl('manage-dept', 'admin')
       openEditPage() 
-      checkPermissions('relaRightCodes').find('.el-tree-node__expand-icon.el-icon-caret-right').click({
+      findElement('relaRightCodes', '物料管理').find('[type="checkbox"]').first().check({
         force:true
       })
       //勾选查看权限
-      checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').first()
-        .check('',{
-          force:true
-        })
+      findElement('relaRightCodes', '质控品管理').find('[type="checkbox"]').first().check({
+        force:true
+      })
+      findElement('relaRightCodes', '质控品管理').find('[type="checkbox"]').last().uncheck({
+        force:true
+      })
+      cy.wait(2000)
       waitRequest({
         intercept: interceptEditManage,
         onBefore: () => {
@@ -483,15 +411,12 @@ context('质控品管理', () => {
       })
       //编辑用户权限
       editUser()
-      checkPermissions('permissions').find('.el-tree-node__expand-icon.el-icon-caret-right').click({
+      findElement('permissions', '物料管理').find('[type="checkbox"]').first().check({
         force:true
       })
-      cy.wait(1000)
-      //勾选查看权限   
-      checkPermissions('permissions').next('.el-tree-node__children').find('[type="checkbox"]').first()
-        .check('',{
-          force:true
-        })
+      findElement('permissions', '质控品管理').find('[type="checkbox"]').first().check({
+        force:true
+      })
       waitRequest({
         intercept:interceptEditUser,
         onBefore:()=>{
@@ -501,32 +426,25 @@ context('质控品管理', () => {
           cy.get('.el-message__content').should('have.text', '用户已更新')
         }
       })
-      loginOut()
-      cy.gdfslj_user_login()
-      cy.get('.el-menu.el-menu--inline').contains('质控品管理').parents('.el-menu-item').should('not.have.class', 'is-disabled')
-      visitPage('qc-mgr')
+      loginMgrWithGdccl('qc-mgr')
       cy.wait(2000)
       cy.get('.el-table__body .el-table__row').first().find('.cell').last().findByText('查看').parents('.el-button').should('not.have.css','display','none')
       cy.get('.el-table__body .el-table__row').first().find('.cell').last().findByText('编辑').parents('.el-button').should('have.css','display','none')
       cy.get('.el-table__body .el-table__row').first().find('.cell').last().findByText('删除').parents('.ql-button-confirm').should('have.css','display','none')
     })
     it('013-勾选编辑权限', ()=>{
-      loginOut()
-      cy.loginCQB()
-      visitPage('manage-dept')
+     loginMgrWithGdccl('manage-dept', 'admin')
       openEditPage() 
-      checkPermissions('relaRightCodes').find('.el-tree-node__expand-icon.el-icon-caret-right').click({
+      findElement('relaRightCodes', '物料管理').find('[type="checkbox"]').first().check({
         force:true
       })
       //勾选查看权限
-      checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').first()
-        .uncheck('',{
-          force:true
-        })
-      checkPermissions('relaRightCodes').next('.el-tree-node__children').find('[type="checkbox"]').last()
-        .check('',{
-          force:true
-        })
+      findElement('relaRightCodes', '质控品管理').find('[type="checkbox"]').first().check({
+        force:true
+      })
+      findElement('relaRightCodes', '质控品管理').find('[type="checkbox"]').last().check({
+        force:true
+      })
       waitRequest({
         intercept: interceptEditManage,
         onBefore: () => {
@@ -538,20 +456,15 @@ context('质控品管理', () => {
       })
       //编辑用户权限
       editUser()
-      checkPermissions('permissions').find('.el-tree-node__expand-icon.el-icon-caret-right').click({
+      findElement('permissions', '物料管理').find('[type="checkbox"]').first().check({
         force:true
       })
-      cy.wait(1000)
-      //
-      checkPermissions('permissions').next('.el-tree-node__children').find('[type="checkbox"]').first()
-        .uncheck('',{
-          force:true
-        })
-      //勾选维护权限   
-      checkPermissions('permissions').next('.el-tree-node__children').find('[type="checkbox"]').last()
-        .check('',{
-          force:true
-        })
+      findElement('permissions', '质控品管理').find('[type="checkbox"]').first().check({
+        force:true
+      })
+      findElement('permissions', '质控品管理').find('[type="checkbox"]').last().check({
+        force:true
+      })
       waitRequest({
         intercept:interceptEditUser,
         onBefore:()=>{
@@ -561,10 +474,7 @@ context('质控品管理', () => {
           cy.get('.el-message__content').should('have.text', '用户已更新')
         }
       })
-      loginOut()
-      cy.gdfslj_user_login()
-      cy.get('.el-menu.el-menu--inline').contains('质控品管理').parents('.el-menu-item').should('not.have.class', 'is-disabled')
-      visitPage('qc-mgr')
+      loginMgrWithGdccl('qc-mgr')
       cy.wait(2000)
       cy.get('.el-table__body .el-table__row').first().find('.cell').last().findByText('查看').parents('.el-button').should('not.have.css','display','none')
       cy.get('.el-table__body .el-table__row').first().find('.cell').last().findByText('编辑').parents('.el-button').should('not.have.css','display','none')

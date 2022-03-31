@@ -157,10 +157,10 @@ export function waitRequest (options) {
     if (data.response.statusCode === 200 && (data.response.body.status === 0 || data.response.body.code === 'SUCCESS')) {
       options.onSuccess && options.onSuccess(data.response.body.data, data.request)
     } else {
-      if (data.response.statusCode === 500) {
-        throw new Error(data.response.body)
-      }
       options.onError && options.onError(data.response.body.msg)
+      if (data.response.statusCode === 500 && options.errorLevel !== 'info') {
+        throw new Error(data.response.body && data.response.body.msg)
+      }
     }
   })
 }

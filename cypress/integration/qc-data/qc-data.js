@@ -1,7 +1,9 @@
 import {
   visitLabPage
 } from '../../shared/route'
-import { confirmDelete } from '../common/dialog'
+import {
+  confirmDelete
+} from '../common/dialog'
 import {
   interceptAll,
   waitIntercept
@@ -15,10 +17,16 @@ import {
 } from '../common/select'
 import {
   clickConfigButton,
-  selectMajor, validEnterPreserveMode
+  enableItem,
+  selectMajor,
+  validEnterPreserveMode
 } from '../ds-config/ds-config'
 import {
-  getRelateOption, interceptBatchImport
+  findLabel
+} from '../mutual-result/mutual-item'
+import {
+  getRelateOption,
+  interceptBatchImport
 } from '../single-import/single-import'
 
 export const interceptQueryGroup = () => {
@@ -42,8 +50,14 @@ export const interceptDeleteBatchNo = () => {
   return interceptAll('service/base/qc/group/*', interceptDeleteBatchNo.name, '/cqb-base')
 }
 
+export const queryRelateGroupData = () => {
+  return interceptAll('service/base/qc/relate?*', queryRelateGroupData.name, '/cqb-base')
+}
+
 export const getData = () => {
-  return cy.get('.el-table__body').find('.el-table__row')
+  return cy.get('.el-table__body')
+    .first()
+    .find('.el-table__row')
 }
 
 export const interceptRelate = () => {
@@ -81,18 +95,28 @@ export const interceptDeleteReportData = () => {
   return interceptAll('service/base/qc/data/*', interceptDeleteReportData.name, '/cqb-bse')
 }
 
-export const createGroup = (batchNo) => {
+/**
+ * 创建质控组合
+ * 
+ * @param {string} batchNo 质控批号
+ * @param {number} groupLength 已关联质控批号的个数
+ * 
+ */
+export const createGroup = (batchNo, groupLength) => {
   cy.get('.el-table__body').findByText('添加').click({
     force: true
   })
   clickElformPlaceHolder('请选择').click({
     force: true
   })
-  activeSelect(batchNo)
+  for (let i = 0; i < groupLength; i++) {
+    activeSelect(batchNo[i])
+    cy.wait(1000)
+  }
 }
 
 export const clickDeleteData = () => {
-  cy.get('.el-tag__close.el-icon-close:visible').click({
+  cy.get('.tag-select__clear:visible').click({
     force: true
   })
 }
@@ -104,7 +128,7 @@ export const elformButton = (text) => {
 }
 
 export const getQcData = () => {
-  return cy.get('.el-table__body').last().find('.el-table__row')
+  return cy.get('.el-table__body').first().find('.el-table__row')
 }
 
 export const visitDsConfig = () => {
@@ -117,23 +141,25 @@ export const visitDsConfig = () => {
   closeClientAlert()
 }
 
-export const selectTitle = (titleName) => {
-  cy.get('.el-tabs__item.is-top').contains(titleName).click({
-    force: true
-  })
-}
-
 export const interceptChange = (groupId) => {
   return interceptAll('service/base/qc/group/' + groupId + '/change', interceptChange.name, '/cqb-base')
 }
 
+/**
+ * 
+ * @param {string} groupName 质控组合名称
+ * @param {string} dropListValue 质控组合批号(后端查询返回过来的,但后续操作需要切片)
+ * @param {string} groupMap 弹窗名称
+ */
 export const selectGroupValue = (groupName, dropListValue, groupMap = '批号对照') => {
   if (dropListValue !== '保存' && dropListValue !== '取消') {
     if (groupMap) {
       cy.get(`[aria-label="${groupName}-${groupMap}"]`).findByPlaceholderText('请选择').click({
         force: true
       })
-      activeSelect(dropListValue)
+      for (let i = 0; i < (dropListValue.split('_')).length; i++) {
+        activeSelect((dropListValue.split('_'))[i])
+      }
     } else {
       cy.get(`[aria-label="${groupName}-批号对照"]`).findByPlaceholderText('请选择').click({
         force: true
@@ -178,24 +204,22 @@ export const clickSaveData = () => {
   })
 }
 
-export const reportData = (data,batchReport = false) => {
+export const reportData = (data, batchReport = false) => {
   cy.wait(2000)
   if (batchReport === true) {
     cy.get('.el-table__body')
       .find('.el-input__inner:visible')
       .last().type(data)
-    cy.get('.page-title')
-      .parent()
-      .find('.el-form-item__content')
-      .last()
-      .within(() => {
-        waitIntercept(interceptBatchImport, () => {
-          cy.get('button').findByText('保存所有结果').click({
-            force:true
-          })
-        }, () => {
+    findLabel('时间选择').parent().next('.el-button')
+    waitIntercept(interceptBatchImport, () => {
+      findLabel('时间选择')
+        .parent()
+        .next('.el-button')
+        .findByText('保存所有结果')
+        .click({
+          force: true
         })
-      })
+    }, () => {})
   } else {
     cy.get('.el-table__body')
       .find('.el-input__inner:visible')
@@ -209,7 +233,7 @@ export const reportData = (data,batchReport = false) => {
 }
 
 /**
- * 
+ * 关联质控品
  * @param {string} instrument 仪器
  * @param {string} batchGroupName 质控批号
  */
@@ -220,7 +244,7 @@ export const relateConfig = (instrument, batchGroupName) => {
     force: true
   })
   cy.wait(1000)
-  createGroup(batchGroupName)
+  createGroup(batchGroupName, 1)
   relatedGroupButton('选择质控批号', '确定')
   waitIntercept(interceptRelate, () => {
     getRelateOption(instrument, '保存').click({
@@ -228,7 +252,7 @@ export const relateConfig = (instrument, batchGroupName) => {
     })
   }, () => {
     validSuccessMessage()
-    getQcData().last().find('.tag-select__title').should('contain', batchGroupName)
+    getData().last().find('.tag-select__title').should('contain', batchGroupName)
   })
 }
 
@@ -252,4 +276,51 @@ export const removeBatchGroup = (itemName) => {
       confirmDelete()
     })
   })
+}
+
+/**
+ * @param {boolean} findButton 查找操作按键(编辑，或者保存、删除) 默认值false 
+ * @param {string} groupName 质控组合名称
+ * @param {string} buttonText 按键名称
+ */
+const findRowDo = (findButton = false, groupName, buttonText) => {
+  if (findButton === false) {
+    getData().find('.el-switch__core').first().click({
+      force: true
+    })
+  } else {
+    getData().contains(groupName).parents('.el-table__row').findByText(buttonText).click({
+      force: true
+    })
+  }
+}
+
+/**
+ * 
+ * @param {string} groupName 质控组合名称
+ * @param {boolean} disableGroup 是否停用质控组合 默认停用 true
+ * 启用停用质控组合
+ */
+export const enableOrDisableGroup = (groupName, disableGroup = true) => {
+  findRowDo(true, groupName, '编辑')
+  cy.wait(1000)
+  findRowDo(false)
+  waitIntercept(interceptCreateGroup, () => {
+
+    getData().findByText('保存').click({
+      force: true
+    })
+  }, () => {
+    if (disableGroup) {
+      cy.get('#tab-0').click({
+        force: true
+      })
+    } else {
+      cy.get('#tab-1').click({
+        force: true
+      })
+    }
+  })
+  cy.wait(2000)
+  cy.get('.el-table__body').find('.el-table__row').contains(groupName).should('exist')
 }

@@ -49,7 +49,9 @@ export const createConfig = (paramMap,selfValue) => {
   for (const key in paramMap) {
     const context = params[key]
     if (context.type === 1) {
-      clickPlaceHolder('请输入').eq(context.index).click()
+      clickPlaceHolder('请输入').eq(context.index).click({
+        force:true
+      })
       cy.wait(2000)
       dropListSelect(paramMap[key])
       cy.wait(1000)
@@ -57,7 +59,9 @@ export const createConfig = (paramMap,selfValue) => {
     } else if (context.type === 2) {
       clickPlaceHolder('请输入或自动生成').type(paramMap[key])
     } else if (context.type === 3) {
-      clickPlaceHolder('请选择').click()
+      clickPlaceHolder('请选择').click({
+        force:true
+      })
       cy.wait(2000)
       activeSelect(paramMap[key])
     } else {
@@ -160,7 +164,7 @@ export const quitPreserveMode = (text) => {
  * @param {string} majorName 专业名称
  */
 export const selectMajor = (majorName) => {
-  cy.get('.el-tabs__nav.is-top:visible').contains(majorName).click({
+  cy.get('[role="tablist"]').contains(majorName).click({
     force: true
   })
 }
@@ -172,6 +176,8 @@ export const interceptQueryInstr = () => {
 export const interceptQueryItemTesting = () => {
   return interceptAll('service/base/item?categoryId=*',interceptQueryItemTesting.name,'/cqb-base')
 }
+
+
 
 export const getPageData = (itemName) => {
   return cy.get('.data-table__body').find('tbody').find('.item-cell__text').contains(itemName)
@@ -208,3 +214,4 @@ export const closeModeTips = (text) => {
       }
     })
 }
+

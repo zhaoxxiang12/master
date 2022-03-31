@@ -288,7 +288,7 @@ context('质量管理体系基本信息', () => {
     it('管理端校验数据', () => {
       const labCode = 'gd18030'
       cy.visitPage('report-effect-collection')
-      expandSearchConditions()
+      expandSearchConditions('高级搜索')
       cy.wait(1000)
       cy.findAllByPlaceholderText('所有表单').click({
         force: true

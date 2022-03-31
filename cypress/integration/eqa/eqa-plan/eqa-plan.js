@@ -1,11 +1,13 @@
 
 import dayjs from 'dayjs'
+import { clickButton } from '../../common/button'
 import { getMonthZh } from '../../common/date'
 import { clickOkInDialog, withinDialog } from '../../common/dialog'
 import { interceptAll,waitIntercept,waitRequest } from '../../common/http'
 import {
   activeSelect
 } from '../../common/select'
+import { getDialog } from '../../message/message'
 
 /**
  * 
@@ -96,9 +98,7 @@ export function searchPlan(keyword) {
   //搜索新增的比对计划
   cy.get('.panel-dept .ql-search').within(() => {
     const $input = cy.get('[placeholder="请输入比对计划名称关键字"]:visible')
-    console.log($input)
     $input.clear()
-
     if (keyword) {
       $input.type(keyword)
     }
@@ -110,15 +110,6 @@ export function searchPlan(keyword) {
       })
     cy.wait(2000)
   })
-  // cy.get('[placeholder="请输入比对计划名称关键字"]').first().clear({
-  //   force: true
-  // }).type(keyword, {
-  //   force: true
-  // })
-  // cy.get('button').contains('搜索').click({
-  //   force: true
-  // })
-  // cy.wait(1000)
 }
 
 export function cancelPush() {
@@ -302,7 +293,9 @@ const params = {
 
 export function addEqaPlan(paramsMap) {
   // 点击添加计划
-  cy.get('.el-button.el-button--primary.el-button--medium.is-plain').first().click()
+  cy.get('.el-button.el-button--primary.el-button--medium.is-plain').first().click({
+    force:true
+  })
   cy.wait(3000)
   //上报截止时间
   selectDate('submitExpireDate')
@@ -316,10 +309,16 @@ export function addEqaPlan(paramsMap) {
       if (paramsMap[key]) {
         switch (context.type) {
         case 1:
-          getIframeElement(context.value).type(paramsMap[key])
+          getDialog('新增比对计划').within(() => {
+            getIframeElement(context.value).type(paramsMap[key])
+          })
           break
         case 2:
-          getIframeElement(context.value).click()
+          getDialog('新增比对计划').within(() => {
+            getIframeElement(context.value).click({
+              force:true
+            })
+          })
           cy.get('.el-scrollbar__view.el-select-dropdown__list').last().contains(paramsMap[key]).click({
             force:true
           })
@@ -360,7 +359,9 @@ export function addEqaPlan(paramsMap) {
           force: true
         })
         cy.wait(1000)
-        cy.get('.ql-card-list__list').find('.el-card.is-always-shadow.ql-card-list__item').last().click()
+        cy.get('.ql-card-list__list').find('.el-card.is-always-shadow.ql-card-list__item').last().click({
+          force:true
+        })
       }
     }
   }
@@ -385,7 +386,9 @@ export function eqaModel(modelName) {
     simpleNum,
     times
   })
-  cy.get('button').contains('保存为模板').click()
+  cy.get('button').contains('保存为模板').click({
+    force:true
+  })
   //输入模板名称
   if (modelName) {
     cy.get('.el-form').last().find('.el-input__inner').clear().type(modelName, {
@@ -410,7 +413,9 @@ export function cannotPush(planName, danger) {
     force: true
   })
   waitIntercept(deletePlanReq, () => {
-    cy.get('.el-popconfirm__action').last().find('button').contains('确定').click()
+    cy.get('.el-popconfirm__action').last().find('button').contains('确定').click({
+      force:true
+    })
   }, data => {
 
   })
@@ -544,7 +549,7 @@ export const checkCompareCode = () => {
  */
 export const checkPlan = () => {
   let randomCode = parseInt(Math.random() * 100000)
-  const year = 2021
+  const year = dayjs().format('YYYY')
   const planName = '订单验证2'
   const planCompareCode = 'plan' + randomCode
   const times = 2
@@ -586,38 +591,46 @@ const reportModelIntercept = () => {
 }
 
 export const editReportModel = (modelName, lab, instr, method, rea, calibrator) => {
-  searchPlan('订单验证2')
-  cy.get('.el-table__body').eq(1).find('.el-table__row').findByText('生成报告').click({
-    force: true
+  waitIntercept(queryData, () => {
+    clickButton('搜索')
+  }, data => {
+    if (data.total) {
+      const rowIndex = data.records.findIndex(item => item.canGenerateReport)
+      if (rowIndex !== -1) {
+        cy.get('.el-table__body').eq(rowIndex).find('.el-table__row').findByText('生成报告').click({
+          force: true
+        })
+        if (lab) {
+          checkbox('lab')
+        }
+        if (instr) {
+          checkbox('instr')
+        }
+        if (method) {
+          checkbox('method')
+        }
+        if (rea) {
+          checkbox('rea')
+        }
+        if (calibrator) {
+          checkbox('calibrator')
+        }
+        cy.get('.el-dialog__footer').eq(6).findByText('保存为模板').click({
+          force: true
+        })
+        cy.get('.el-form').last().find('.el-input__inner').clear({
+          force: true
+        })
+        if (modelName) {
+          cy.get('.el-form').last().find('.el-input__inner')
+            .type(modelName, {
+              force: true
+            })
+      
+        }
+      }
+    }
   })
-  if (lab) {
-    checkbox('lab')
-  }
-  if (instr) {
-    checkbox('instr')
-  }
-  if (method) {
-    checkbox('method')
-  }
-  if (rea) {
-    checkbox('rea')
-  }
-  if (calibrator) {
-    checkbox('calibrator')
-  }
-  cy.get('.el-dialog__footer').eq(6).findByText('保存为模板').click({
-    force: true
-  })
-  cy.get('.el-form').last().find('.el-input__inner').clear({
-    force: true
-  })
-  if (modelName) {
-    cy.get('.el-form').last().find('.el-input__inner')
-      .type(modelName, {
-        force: true
-      })
-
-  }
 }
 
 export const saveReportModel = () => {
@@ -663,8 +676,8 @@ export function findButton(prop, text) {
   return cy.get(`[aria-label="${prop}"]`).findAllByText(text).last()
 }
 
-export function clickGenerateReport() {
-  cy.get('.el-table__body').eq(1).find('.el-table__row').findByText('生成报告').click({
+export function clickGenerateReport(rowIndex) {
+  cy.get('.el-table__body').eq(rowIndex).find('.el-table__row').findByText('生成报告').click({
     force: true
   })
 }
@@ -679,4 +692,59 @@ export const interceptQueryData = () => {
 
 export function interceptSendSimple() {
   return interceptAll('service/plan/sample/save', interceptSendSimple.name, '')
+}
+
+export const interceptLabIsSubmit = () => {
+  return interceptAll('service/plan/lab/list?planId=*', interceptLabIsSubmit.name,'')
+}
+
+/**
+ * 
+ * @param {function} canGenerateReport 能生成报告要执行的操作
+ * @param {function} cannotGenerateReport 不能生成报告执行的操作
+ * @param {boolean} generate 是否生成报告 默认不生成 true为生成报告,false为生成报告
+ */
+export const validGenerateReport = (canGenerateReport, cannotGenerateReport, generate = false) => {
+  waitIntercept(queryData, () => {
+    clickButton('搜索')
+  }, data => {
+    if (data.total) {
+      const rowIndex = data.records.findIndex(item => item.canGenerateReport)
+      if (rowIndex !== -1) {
+        waitIntercept(interceptLabIsSubmit, () => {
+          clickGenerateReport(rowIndex)
+        }, labList => {
+          const isSubmit = labList.findIndex(list => list.isSubmit === true)
+          if (isSubmit === -1) {// 等于-1说明没有实验室进行上报
+            cannotGenerateReport() && cannotGenerateReport()
+          } else {// 不等于-1说明有实验室进行上报
+            if (generate) {
+              cy.get('.el-table__body').eq(1).find('.el-table__row').eq(isSubmit).findByText('生成报告').click({
+                force: true
+              })
+              checkbox('lab')
+              checkbox('instr')
+              waitRequest({
+                intercept: generateReport,
+                onBefore: () => {
+                  findButton('生成报告', '确定').click({
+                    force: true
+                  })
+                  findButton('温馨提示', '已配置').click({
+                    force: true
+                  })
+                },
+                onSuccess: () => {
+                  canGenerateReport() && canGenerateReport()
+                }
+              })
+            } else {
+              console.log(123);
+              canGenerateReport() && canGenerateReport()
+            }   
+          }
+        })
+      }
+    }
+  })
 }

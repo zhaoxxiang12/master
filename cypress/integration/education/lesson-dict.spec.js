@@ -20,7 +20,6 @@ import {
 
 context('字典维护', () => {
   before(() => {
-    cy.loginCQB()
     cy.visitPage('lesson-dict')
   })
   it('001-添加课程类型的字典', () => {

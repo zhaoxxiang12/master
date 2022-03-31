@@ -36,7 +36,7 @@ export const messageOption = (itemName) => {
 export const visitReportMonitorPage = () => {
   cy.visitPage('report-monitor')
   cy.wait(2000)
-  expandSearchConditions()
+  expandSearchConditions('高级搜索')
   elform('labName').type('gd18020')
   clickSearch()
   cy.wait(1000)

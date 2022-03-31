@@ -4,7 +4,7 @@ import {
 } from '../../common/date'
 import { closeTips, confirmDelete } from '../../common/dialog'
 import {
-  interceptAll
+  interceptAll, waitIntercept
 } from '../../common/http'
 import { validSuccessMessage } from '../../common/message'
 import {
@@ -56,6 +56,10 @@ export const selectMonth = (month) => {
     })
 }
 
+const interceptQuery = () => {
+  return interceptAll('service/mgr/item/workDays/ids?*', interceptQuery.name)
+}
+
 export const interceptApplyMsg = () => {
   return interceptAll('service/base/message/site/page?*', interceptApplyMsg.name + new Date().getTime(), '/cqb-base')
 }
@@ -102,8 +106,11 @@ export const getApplyType = (month, workdayName) => {
  * @param {string} monthString 如2021年五月,2021-5
  */
 export const loginMgrSearch = (labCode, itemName, monthString) => {
-  cy.visitPage('mutual-workday')
-  expandSearchConditions()
+  waitIntercept(interceptQuery, () => {
+    cy.visitPage('mutual-workday')
+  }, () => {
+    expandSearchConditions('高级搜索')
+  })
   elform('labName')
     .clear()
     .type(labCode)
@@ -118,8 +125,11 @@ export const loginMgrSearch = (labCode, itemName, monthString) => {
   cy.get('.el-form').last().findByPlaceholderText('结束时间').click()
   cy.wait(500)
   activeDateMonth(monthString)
-  clickSearch()
-  cy.wait(5000)
+  waitIntercept(interceptQuery, () => {
+    clickSearch()
+  }, () => {
+    cy.wait(5000)
+  })
 }
 
 export const clickButton = (text) => {

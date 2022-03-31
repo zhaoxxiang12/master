@@ -53,7 +53,9 @@ export function selectDateMonthRange (options) {
 export function activeDateMonth (monthString) {
   const [year, month] = getYearMonth(monthString)
   
-  cy.get('.el-picker-panel:visible')
+  cy.document()
+    .its('body')
+    .find('.el-picker-panel:visible')
     .should('exist')
     .within(() => {
       cy.get('.el-date-picker__header-label:visible')
@@ -89,7 +91,9 @@ export function getMonthZh (month) {
  */
 export const activeDateDay = (stringDate) => {
   const yearMonthDate = stringDate.split('/')
-  cy.get('.el-picker-panel:visible')
+  cy.document()
+    .its('body')
+    .find('.el-picker-panel:visible')
     .should('exist')
     .within(() => {
       //选择年份
@@ -116,6 +120,25 @@ export const activeDateDay = (stringDate) => {
         .should('exist')
         .find('.available')
         .contains(yearMonthDate[2])
+        .click({
+          force:true
+        })
+    })
+}
+
+/**
+ * 选择年份
+ * @param {*} year 选择对应的年份
+ */
+export const activeYear = (year) => {
+  cy.document()
+    .its('body')
+    .find('.el-year-table')
+    .should('exist')
+    .within(() => {
+      cy.get('.available:visible')
+        .should('exist')
+        .findByText(year)
         .click({
           force:true
         })

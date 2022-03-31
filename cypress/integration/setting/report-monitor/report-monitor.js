@@ -204,7 +204,7 @@ export const reportMonitorAssert = (labCode, tag, area, status) => {
 export const monitorPushScreen = (title, pushInformationType, pushArea) => {
   //大屏区域下标
   let screenArea = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  cy.get('button').contains('推送到大屏').click({
+  cy.get('.ql-search__tools-top').contains('推送到大屏').click({
     force: true
   })
   cy.wait(1000)
@@ -312,13 +312,10 @@ export const closeElform = () => {
 /**
  * 
  * @param {string} messageModel 消息模板
- * @param {string} pushObject 发送对象
- * @param {string} messageType 消息类型
+ * @param {string} pushObject 发送对象  1.当前实验室  2.管理单位
+ * @param {string} messageType 消息类型 1.未上报  2.失控  3.CV/符合率
  */
 export const pushMessage = (messageModel, pushObject, messageType) => {
-  cy.get('.el-dialog__body').findByText('推送消息通知').click({
-    force: true
-  })
   if (messageModel) {
     searchData(null, null, null, null, messageModel)
   }

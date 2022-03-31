@@ -1,7 +1,20 @@
-import { confirmPushReport } from '../common/button'
-import { closeTips, confirmDelete } from '../common/dialog'
-import { interceptAll, waitIntercept } from '../common/http'
-import { validSuccessMessage } from '../common/message'
+import {
+  confirmPushReport
+} from '../common/button'
+import {
+  closeTips,
+  confirmDelete
+} from '../common/dialog'
+import {
+  interceptAll,
+  waitIntercept
+} from '../common/http'
+import {
+  validSuccessMessage
+} from '../common/message'
+import {
+  expandSearchConditions
+} from '../eqa/eqa-order/eqa-order'
 /**
  * 差异性分析报告
  */
@@ -25,16 +38,15 @@ context('差异性分析报告', () => {
 
   let result
   const queryData = () => {
-    const name = queryData.name
+    const name = queryData.name 
     cy.intercept(/\/cqb-base-mgr\/service\/mgr\/lab\/report\/monthdiff\/new-page\?[^-]*$/).as(name)
     return `@${name}`
   }
 
   const waitQueryData = (cb) => {
-    waitIntercept(queryData,()=>{
+    waitIntercept(queryData, () => {
       cy.reload()
       cy.wait(3000)
-      closeTips('提示','确定')
     }, data => {
       result = data.data
     })
@@ -139,12 +151,11 @@ context('差异性分析报告', () => {
     })
     it('001-界面是否存在数据', () => {
       validData()
-      cy.get('.ql-search__header').find('button').contains('展开').click()
     })
   })
   context('查询1-8月', () => {
     before(() => {
-      // cy.get('.ql-search__header').find('button').contains('展开').click()
+      expandSearchConditions('高级搜索')
       selectDate()
       waitIntercept(queryData, clickSearchButton, data => {
         result = data.data
@@ -196,7 +207,7 @@ context('差异性分析报告', () => {
       const rowIndex = result.findIndex(report => report.download)
       if (rowIndex !== -1) {
         cy.get('.el-table__body .el-table__row').eq(rowIndex).findByText('已阅读').should('exist')
-      }else {
+      } else {
         cy.log('实验室暂未月度报告')
       }
     })
@@ -229,7 +240,7 @@ context('差异性分析报告', () => {
     it('009-地区查询', () => {
       selectDate()
       cy.get('.el-form').last().findByPlaceholderText('请选择省').click({
-        force:true
+        force: true
       })
       //地区选择上海
       cy.get('.el-scrollbar__view.el-select-dropdown__list').last().contains('上海市').click()
@@ -258,21 +269,20 @@ context('差异性分析报告', () => {
       })
     })
     it('011-管理单位', () => {
-      const org = 3
       const city = '佛山市'
       const shanghai = '上海市'
       selectDate()
       cy.get('.el-form').last().findByPlaceholderText('请选择管理机构').click()
       cy.wait(1000)
       //选择青浦医联体
-      cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(org).contains('青浦医联体').click()
+      cy.get('.el-scrollbar__view.el-select-dropdown__list:visible').last().contains('青浦医联体').click()
       waitIntercept(queryData, clickSearchButton, data => {
         result = data.data
         validData(result, null, shanghai)
       })
-      //选择佛山市临床检验质量中心
+      //选择佛山市临床检验质量控制中心
       cy.get('.el-form').last().findByPlaceholderText('请选择管理机构').click()
-      cy.get('.el-scrollbar__view.el-select-dropdown__list').eq(org).contains('佛山市临床').click()
+      cy.get('.el-scrollbar__view.el-select-dropdown__list:visible').last().contains('佛山市临床检验质量控制中心').click()
       waitIntercept(queryData, clickSearchButton, data => {
         result = data.data
         validData(result, null, city)
@@ -317,24 +327,29 @@ context('差异性分析报告', () => {
       selectDate()
       typeKeyword(labName)
       waitIntercept(queryData, clickSearchButton, data => {
-        const dataLength = data.data.length
-        if (dataLength === 1) {
-          cy.get('.el-table__body .el-table__row').last().findByText('删除').click()
-          waitIntercept(queryData, confirmDelete, data => {
-            expect(data.data.length).to.be.equal(0)
-            cy.get('body').should('contain', '暂无数据')
-            reset()
-          })
-        } else if (dataLength === 0) {
-          cy.get('body').should('contain', '暂无数据')
-          reset()
-        } else {
-          cy.get('.el-table__body .el-table__row').last().findByText('删除').click()
-          waitIntercept(queryData, confirmDelete, data => {
-            expect(data.data.length).to.be.equal(dataLength - 1)
-            cy.get('.el-table__body .el-table__row').should('have.length', dataLength - 1)
-            reset()
-          })
+        if (data.total) {
+          const rowIndex = data.data.findIndex(item => item.push === false)
+          if (rowIndex !== -1) {
+            cy.get('.el-table__body .el-table__row').eq(rowIndex).findByText('删除').click()
+            if (data.data.length === 1) {
+              waitIntercept(queryData, confirmDelete, responseData => {
+                expect(responseData.data.length).to.be.equal(0)
+                cy.get('body').should('contain', '暂无数据')
+                reset()
+              })
+            } else if (data.data.length > 20) {
+              waitIntercept(queryData, confirmDelete, responseData => {
+                cy.get('.el-pagination__total').should('have.text', '共 ' + responseData.total + ' 条')
+                reset()
+              })
+            } else {
+              waitIntercept(queryData, confirmDelete, responseData => {
+                expect(responseData.data.length).to.be.equal(data.data.length - 1)
+                cy.get('.el-table__body .el-table__row').should('have.length', data.data.length - 1)
+                reset()
+              })
+            }
+          }
         }
       })
     })

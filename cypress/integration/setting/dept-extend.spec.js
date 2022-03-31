@@ -1,20 +1,44 @@
 import {
   clickCancelInDialog,
   clickOkInDialog,
+  confirmDelete,
   withinDialog
 } from "../common/dialog"
+import {
+  interceptAll,
+  waitIntercept
+} from "../common/http"
+import {
+  validSuccessMessage
+} from "../common/message"
 import {
   getDialog
 } from "../message/message"
 import {
   elform
 } from "../mutual-result/mutual-item"
+import {
+  queryMgrTree
+} from "../report-effect/effect-query"
+import {
+  clickSearch
+} from "./report-monitor/report-monitor"
 
 context('管理单位扩展属性', () => {
+  const getEltableRowData = () => {
+    return cy.get('.el-table__body:visible .el-table__row')
+  }
+
+  const queryExtendData = () => {
+    return interceptAll('service/mgr/ccl/ext?*', queryExtendData.name)
+  }
+
   const getData = (alias) => {
     cy.intercept('**/cqb-base-mgr/service/mgr/ccl/ext*').as(alias)
   }
-
+  const interceptQueryExt = () => {
+    return interceptAll('service/mgr/ccl/ext?*', interceptQueryExt.name)
+  }
   const validRequiredFields = (org, extModule, extCode, extValue) => {
     cy.get('button').contains('添加').click()
     cy.wait(1000)
@@ -23,10 +47,10 @@ context('管理单位扩展属性', () => {
         cy.findAllByPlaceholderText('请选择').click()
         cy.wait(1000)
         cy.document()
-        .its('body')
-        .find('.el-tree-node.is-expanded.is-focusable:visible').contains(org).click({
-          force:true
-        })
+          .its('body')
+          .find('.el-tree-node.is-expanded.is-focusable:visible').contains(org).click({
+            force: true
+          })
       }
       if (extModule) {
         elform('extModule').type('IQC')
@@ -40,23 +64,22 @@ context('管理单位扩展属性', () => {
     })
   }
 
-  const addDept_extend = () => {
-    let randomCode = parseInt(Math.random() * 100000)
+  const addDept_extend = (model) => {
     cy.get('button').contains('添加').click()
     cy.get('button').contains('确定').should('be.exist')
     getDialog('添加管理单位扩展属性').within(() => {
       cy.findAllByPlaceholderText('请选择').click()
       cy.wait(1000)
       cy.document()
-      .its('body')
-      .find('.el-tree-node.is-expanded.is-focusable:visible').contains('佛山市临床检验质量控制中心').click({
-        force:true
-      })
-      elform('extModule').type('IQC'+ randomCode)
+        .its('body')
+        .find('.el-tree-node.is-expanded.is-focusable:visible').contains('佛山市临床检验质量控制中心').click({
+          force: true
+        })
+      elform('extModule').type(model)
       elform('extCode').type('IQC')
       elform('extValue').type(1)
     })
-    withinDialog(clickOkInDialog,'添加管理单位扩展属性')
+    withinDialog(clickOkInDialog, '添加管理单位扩展属性')
     cy.wait('@getData').then((xhr) => {
       cy.compare(xhr)
       cy.get('body').should('contain', '添加成功')
@@ -65,7 +88,11 @@ context('管理单位扩展属性', () => {
   }
 
   before(() => {
-    cy.visitPage('dept-extend')
+    waitIntercept(queryMgrTree, () => {
+      cy.visitPage('dept-extend')
+    }, () => {
+
+    })
     cy.wait(500)
   })
   it('001-管理单位扩展属性-使用关键字进行搜索', () => {
@@ -138,110 +165,162 @@ context('管理单位扩展属性', () => {
     cy.get('button').contains('重置').click()
     cy.get('[placeholder="参数关键字"]').should('have.value', '')
   })
-  it('004-管理单位扩展属性-添加功能', () => {
-    getData('getData')
-    cy.get('button').contains('搜索').click()
-    cy.wait('@getData').then((xhr) => {
-      cy.compare(xhr)
-      cy.get('.el-table__row').then((data) => {
+  context('必填项校验', () => {
+    before(() => {
+      waitIntercept(queryExtendData, () => {
+        clickSearch()
+      }, () => {})
+      cy.wait(2000)
+      waitIntercept(queryMgrTree, () => {
+        cy.get('.ql-search__tools-top.is-left').findByText('添加').click({
+          force:true
+        })
+      }, () => {
+        withinDialog(clickCancelInDialog, '添加管理单位扩展属性')
+      })
+    })
+    it('004-管理单位扩展属性-添加功能(未选择质控主管单位不能保存)', () => {
+      getEltableRowData()
+        .then((data) => {
+          let getLength = data.length
+          cy.get('button').contains('搜索').click()
+          validRequiredFields(null, 'IQC', 'IQC', 1)
+          withinDialog(clickOkInDialog, '添加管理单位扩展属性')
+          cy.get('body').should('contain', '请选择管理单位')
+          withinDialog(clickCancelInDialog, '添加管理单位扩展属性')
+          cy.wait(1000)
+          getEltableRowData().should('have.length', getLength)
+        })
+    })
+    it('005-管理单位扩展属性-添加功能(模块名称未填写不能保存)', () => {
+      getEltableRowData().then((data) => {
         let getLength = data.length
-        if (getLength >= 20) {
-          cy.get('.el-pagination__total').invoke('text').then((data) => {
-            let getData = data.split(' ')
-            let total = parseInt(getData[1])
-            addDept_extend()
-            //断言
-            cy.get('.el-pagination__total').should('have.text', '共 ' + (total + 1) + ' 条')
-          })
-        } else {
-          addDept_extend()
-          cy.get('.el-table__row').should('have.length', getLength + 1)
-        }
+        cy.get('button').contains('搜索').click()
+        validRequiredFields('佛山市临床检验质量控制中心', null, 'IQC', 1)
+        withinDialog(clickOkInDialog, '添加管理单位扩展属性')
+        cy.get('body').should('contain', '请输入模块名称')
+        withinDialog(clickCancelInDialog, '添加管理单位扩展属性')
+        cy.wait(1000)
+        getEltableRowData().should('have.length', getLength)
+      })
+    })
+    it('006-管理单位扩展属性-添加功能(参数编码未填写不能保存)', () => {
+      getEltableRowData().then((data) => {
+        let getLength = data.length
+        cy.get('button').contains('搜索').click()
+        validRequiredFields('佛山市临床检验质量控制中心', 'IQC', null, 1)
+        withinDialog(clickOkInDialog, '添加管理单位扩展属性')
+        cy.get('body').should('contain', '请输入参数编码')
+        withinDialog(clickCancelInDialog, '添加管理单位扩展属性')
+        cy.wait(1000)
+        getEltableRowData().should('have.length', getLength)
+      })
+    })
+    it('007-管理单位扩展属性-添加功能(参数值未填写不能保存)', () => {
+      getEltableRowData().then((data) => {
+        let getLength = data.length
+        cy.get('button').contains('搜索').click()
+        validRequiredFields('佛山市临床检验质量控制中心', 'IQC', 'IQC')
+        getData('getData')
+        withinDialog(clickOkInDialog, '添加管理单位扩展属性')
+        cy.get('body').should('contain', '请输入参数值')
+        withinDialog(clickCancelInDialog, '添加管理单位扩展属性')
+        cy.wait(1000)
+        getEltableRowData().should('have.length', getLength)
       })
     })
   })
-  it('005-管理单位扩展属性-添加功能(未选择质控主管单位不能保存)', () => {
-    cy.get('.el-table__row').then((data) => {
-      let getLength = data.length
-      cy.get('button').contains('搜索').click()
-      validRequiredFields(null,'IQC','IQC',1)
-      withinDialog(clickOkInDialog, '添加管理单位扩展属性')
-      cy.get('body').should('contain', '请选择管理单位')
-      cy.get('.el-table__row').should('have.length', getLength)
-      withinDialog(clickCancelInDialog, '添加管理单位扩展属性')
-    })
-  })
-  it('006-管理单位扩展属性-添加功能(模块名称未填写不能保存)', () => {
-    cy.get('.el-table__row').then((data) => {
-      let getLength = data.length
-      cy.get('button').contains('搜索').click()
-      validRequiredFields('佛山市临床检验质量控制中心',null,'IQC',1)
-      withinDialog(clickOkInDialog,'添加管理单位扩展属性')
-      cy.get('body').should('contain', '请输入模块名称')
-      cy.get('.el-table__row').should('have.length', getLength)
-    })
-    withinDialog(clickCancelInDialog,'添加管理单位扩展属性')
-  })
-  it('007-管理单位扩展属性-添加功能(参数编码未填写不能保存)', () => {
-    cy.get('.el-table__row').then((data) => {
-      let getLength = data.length
-      cy.get('button').contains('搜索').click()
-      validRequiredFields('佛山市临床检验质量控制中心','IQC',null,1)
-      withinDialog(clickOkInDialog,'添加管理单位扩展属性')
-      cy.get('body').should('contain', '请输入参数编码')
-      cy.get('.el-table__row').should('have.length', getLength)
-      withinDialog(clickCancelInDialog,'添加管理单位扩展属性')
-    })
-  })
-  it('008-管理单位扩展属性-添加功能(参数值未填写不能保存)', () => {
-    cy.get('.el-table__row').then((data) => {
-      let getLength = data.length
-      cy.get('button').contains('搜索').click()
-      validRequiredFields('佛山市临床检验质量控制中心','IQC','IQC')
+  context('添加/编辑/删除', () => {
+    let randomCode = parseInt(Math.random() * 100000)
+    const model = 'IQC' + randomCode
+    it('008-管理单位扩展属性-添加功能', () => {
       getData('getData')
-      withinDialog(clickOkInDialog,'添加管理单位扩展属性')
-      cy.get('body').should('contain', '请输入参数值')
-      cy.get('.el-table__row').should('have.length', getLength)
+      cy.get('button').contains('搜索').click()
+      cy.wait('@getData').then((xhr) => {
+        cy.compare(xhr)
+        cy.get('.el-table__row').then((data) => {
+          let getLength = data.length
+          if (getLength >= 20) {
+            cy.get('.el-pagination__total').invoke('text').then((data) => {
+              let getData = data.split(' ')
+              let total = parseInt(getData[1])
+              addDept_extend(model)
+              //断言
+              cy.get('.el-pagination__total').should('have.text', '共 ' + (total + 1) + ' 条')
+            })
+          } else {
+            addDept_extend(model)
+            cy.get('.el-table__row').should('have.length', getLength + 1)
+          }
+        })
+      })
     })
-    withinDialog(clickCancelInDialog,'添加管理单位扩展属性')
-  })
-  it('009-管理单位扩展属性-编辑功能', () => {
-    let words = '自动化参数'
-    let remark = 4
-    cy.get('.el-table__row').then((data) => {
-      let getLength = data.length
-      if (getLength <= 13) {
-        return
-      } else {
-        cy.get('.el-table__row').first().find('button').contains('编辑').click()
-        cy.wait(500)
-        cy.get('.el-textarea__inner').type(words, {
-          force: true
-        })
-        getData('getData')
-        cy.get('button').contains('确定').click()
-        cy.wait('@getData').then((xhr) => {
-          cy.compare(xhr)
-          cy.get('body').should('contain', '编辑成功')
-          cy.get('.el-table__row').first().find('td').eq(remark).should('have.text', words)
-        })
-      }
+    it('009-管理单位扩展属性-编辑功能', () => {
+      let words = '自动化参数'
+      let remark = 4
+      cy.get('[placeholder="参数关键字"]').clear().type(model)
+      waitIntercept(interceptQueryExt, () => {
+        cy.get('button').contains('搜索').click()
+        cy.wait(1000)
+      }, data => {
+        if (data.total > 0) {
+          cy.get('.el-table__body:visible')
+            .contains(model)
+            .parents('.el-table__row')
+            .findByText('编辑')
+            .click({
+              force: true
+            })
+          cy.wait(2000)
+          getDialog('编辑管理单位扩展属性').within(() => {
+            cy.get('.el-textarea__inner').type(words, {
+              force: true
+            })
+          })
+          withinDialog(clickOkInDialog, '编辑管理单位扩展属性')
+          validSuccessMessage()
+          cy.wait(2000)
+          cy.get('.el-table__body:visible')
+            .contains(model)
+            .parents('.el-table__row')
+            .find('.cell')
+            .eq(remark)
+            .should('have.text', words)
+        }
+      })
     })
-  })
-  it('010-管理单位扩展属性-删除功能', () => {
-    cy.get('.el-table__row').then((data) => {
-      let getLength = data.length
-      if (getLength <= 11) {
-        return
-      } else {
-        cy.get('.el-table__row').first().find('button').contains('删除').click()
-        getData('getData')
-        cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click()
-        cy.wait('@getData').then((xhr) => {
-          cy.compare(xhr)
-          cy.get('.el-table__row').should('have.length', getLength - 1)
-        })
-      }
+    it('010-管理单位扩展属性-删除功能', () => {
+      cy.get('[placeholder="参数关键字"]').clear().type(model)
+      waitIntercept(interceptQueryExt, () => {
+        cy.get('button').contains('搜索').click()
+        cy.wait(1000)
+      }, data => {
+        if (data.total === 1) {
+          cy.get('.el-table__body:visible')
+            .contains(model)
+            .parents('.el-table__row')
+            .findByText('删除')
+            .click({
+              force: true
+            })
+          cy.wait(2000)
+          confirmDelete()
+          cy.wait(2000)
+          cy.get('body').should('contain', '暂无数据')
+        } else {
+          cy.get('.el-table__body:visible')
+            .contains('IQC45779')
+            .parents('.el-table__row')
+            .findByText('删除')
+            .click({
+              force: true
+            })
+          cy.wait(2000)
+          confirmDelete()
+          cy.wait(2000)
+          getEltableRowData().should('have.length', data.total - 1)
+        }
+      })
     })
   })
 })

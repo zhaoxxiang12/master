@@ -10,7 +10,7 @@ import {
   validatePdfFile
 } from '../common/file.js'
 import {
-  waitIntercept
+  waitIntercept, waitRequest
 } from '../common/http.js'
 import {
   closeClientAlert,
@@ -41,9 +41,9 @@ import {
 context('年度互认证书', () => {
   const labCode = 'gd18030'
   const year = dayjs().format('YYYY')
-  const currentMonth = dayjs().format('MM')
-  const day = dayjs().format('DD')
-  const monthString = year + '/' + currentMonth + '/' + day
+  const currentMonth = dayjs().format('M')
+  const day = dayjs().format('D')
+  const monthString = dayjs().format('YYYY/MM/DD')
   const summaryData = {
     labName: '实验室名称：佛山市妇幼保健院(gd18030',
     reportDate: (monthString.replace(/\//g, '-')),
@@ -53,7 +53,86 @@ context('年度互认证书', () => {
   const certData = {
     labName: '佛山市妇幼保健院',
     validDate: (monthString.replace(/\//g, '-')),
-    reportDate: year + '年' + currentMonth + '月' + day + '日'
+    reportDate: year + '年' + dayjs().format('MM') + '月' + day + '日'
+  }
+
+  const pushCertYearReport = () => {
+    reportOption('推送')
+    let queryCert
+    waitIntercept(interceptPushCert, () => {
+      closeTips('提示', '推送')
+      queryCert = interceptQueryCert()
+    }, () => {
+      validSuccessMessage()
+      waitIntercept(queryCert, data => {
+        data.data.forEach(item => expect(item.pushStatus).to.eq(true))
+      })
+    })
+    waitIntercept(interceptQueryLabCert, () => {
+      cy.visitLabPage('cert-year', 'labgd18030')
+    }, data => {
+      const waitOptions = {
+        timeout: 90000
+      }
+      const rowIndex = data.data.map((item, index) => {
+        let splitTime = (item.createTime).split(' ')[0]
+        if (splitTime === (monthString.replace(/\//g, '-'))) {
+          return index
+        }
+      }).filter(filterData => filterData !== undefined)
+      if (rowIndex.length > 0) {
+        // 预览汇总报告
+        waitRequest({
+          waitOptions,
+          intercept:interceptViewSummaryReport,
+          onBefore: () => {
+            labCertOption(rowIndex[0], '预览').first().click({
+              force: true
+            })
+          },
+          onSuccess: () => {
+            
+          }
+        })
+        closeViewPage()
+        //下载汇总报告
+        const certificateNo = data.data[0].certificateNo
+        const labName = data.data[0].labName
+        const summaryReportName = certificateNo + labName +'临床检验结果互认报告.pdf'
+        clickListener(() => {
+          labCertOption(rowIndex[0], '下载').first().click({
+            force: true
+          })
+        })
+        validatePdfFile(summaryReportName, pdfData => {
+          expect(pdfData.text).to.contain(summaryData.technologySupport)
+          expect(pdfData.text).to.contain(summaryData.reportDate)
+          expect(pdfData.text).to.contain(summaryData.labName)
+          closeClientAlert()
+        })
+        // 预览互认证书
+        waitIntercept(interceptViewCert, () => {
+          labCertOption(rowIndex[0], '预览').last().click({
+            force: true
+          })
+        }, () => {})
+        closeViewPage()
+        //下载互认证书
+        clickListener(() => {
+          labCertOption(rowIndex[0], '下载').last().click({
+            force: true
+          })
+        })
+        const certName = certificateNo + labName+'临床检验结果互认证书.pdf'
+        validatePdfFile(certName, pdfData => {
+          console.log(pdfData);
+          expect(pdfData.text).to.contain(certData.reportDate)
+          expect(pdfData.text).to.contain(certData.validDate)
+          expect(pdfData.text).to.contain(certData.labName)
+          expect(pdfData.text).to.contain(certificateNo)
+        })
+      }
+    })
   }
 
   context('实验室端操作', () => {
@@ -67,75 +146,26 @@ context('年度互认证书', () => {
       choseLab(labCode)
       generateCertReport(startTime, endTime, currentMonth, monthString)
       visitCert(labCode, monthString)
-      cy.wait(20000)
-      clickSearch()
-      cy.wait(1000)
-      reportOption('推送')
-      let queryCert
-      waitIntercept(interceptPushCert, () => {
-        closeTips('提示', '推送')
-        queryCert = interceptQueryCert()
-      }, () => {
-        validSuccessMessage()
-        waitIntercept(queryCert, data => {
-          data.data.forEach(item => expect(item.pushStatus).to.eq(true))
-        })
-      })
-      waitIntercept(interceptQueryLabCert, () => {
-        cy.visitLabPage('cert-year', 'labgd18030')
+      cy.wait(30000)
+      waitIntercept(interceptQueryCert, () => {
+        clickSearch()
+        cy.wait(1000)
       }, data => {
-        const rowIndex = data.data.map((item, index) => {
-          let splitTime = (item.createTime).split(' ')[0]
-          if (splitTime === (monthString.replace(/\//g, '-'))) {
-            return index
-          }
-        }).filter(filterData => filterData !== undefined)
-        if (rowIndex.length > 0) {
-          // 预览汇总报告
-          waitIntercept(interceptViewSummaryReport, () => {
-            labCertOption(rowIndex[0], '预览').first().click({
-              force: true
-            })
+        if (data.data[0].pushStatus === false) {
+          pushCertYearReport()
+        } else {
+          reportOption('取消推送')
+          cy.wait(1000)
+          waitIntercept(interceptPushCert, () => {
+            confirmDelete()
           }, () => {
-
+            validSuccessMessage()
+            cy.wait(1000)
           })
-          closeViewPage()
-          //下载汇总报告
-          const certificateNo = data.data[0].certificateNo
-          const summaryReportName = certificateNo + '广东省佛山市临床检验结果互认报告.pdf'
-          clickListener(() => {
-            labCertOption(rowIndex[0], '下载').first().click({
-              force: true
-            })
-          })
-          validatePdfFile(summaryReportName, pdfData => {
-            expect(pdfData.text).to.contain(summaryData.technologySupport)
-            expect(pdfData.text).to.contain(summaryData.reportDate)
-            expect(pdfData.text).to.contain(summaryData.labName)
-            closeClientAlert()
-          })
-          // 预览互认证书
-          waitIntercept(interceptViewCert, () => {
-            labCertOption(rowIndex[0], '预览').last().click({
-              force: true
-            })
-          }, () => {})
-          closeViewPage()
-          //下载互认证书
-          clickListener(() => {
-            labCertOption(rowIndex[0], '下载').last().click({
-              force: true
-            })
-          })
-          const certName = certificateNo + '广东省佛山市临床检验结果互认证书.pdf'
-          validatePdfFile(certName, pdfData => {
-            expect(pdfData.text).to.contain(certData.reportDate)
-            expect(pdfData.text).to.contain(certData.validDate)
-            expect(pdfData.text).to.contain(certData.labName)
-            expect(pdfData.text).to.contain(certificateNo)
-          })
+          pushCertYearReport()
         }
       })
+      
     })
     it('验证报告状态', () => {
       visitCert(labCode, monthString)

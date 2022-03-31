@@ -10,3 +10,12 @@ export function closeDailyScreen() {
     force: true
   })
 }
+
+/**
+ * 关闭大屏监控内容配置
+ */
+export const closeScreen = () => {
+  cy.get('.tool-icon.is-close').click({
+    force: true
+  })
+}

@@ -2,6 +2,7 @@
 import dayjs from 'dayjs'
 import '@testing-library/cypress/add-commands'
 import { findTableLineCell } from '../common/table'
+import { interceptAll } from '../common/http'
 
 export const BUTTON_EXCEL = '导出Excel'
 
@@ -180,7 +181,7 @@ export function validMonthRange () {
     .should('exist')
     .next()
     .within(() => {
-      const month = dayjs().subtract(1, 'month').format('YYYY-MM')
+      const month = dayjs().subtract(1, 'month').format('YYYY'+'年'+'MM'+'月')
       cy.findByPlaceholderText('起始时间').should('have.value', month)
       cy.findByPlaceholderText('结束时间').should('have.value', month)
     })
@@ -256,4 +257,8 @@ export function validTableColumnSort (colIndex, sortCls) {
       }
     })
   })
+}
+
+export const queryMgrTree = () => {
+  return interceptAll('service/mgr/ccl/trees', queryMgrTree.name)
 }

@@ -1,11 +1,17 @@
+import { visitPage } from "../../shared/route"
+import { clickCancelInDialog, clickOkInDialog, confirmDelete, withinDialog } from "../common/dialog"
+
 /**
  * 业务标签
  */
 context('标签管理-业务标签', () => {
   before(() => {
     cy.loginCQB()
-    cy.visit('/cqb-base-mgr-fe/app.html#/manage/tags/tags-service')
+    visitPage('tags-service')
     cy.wait(500)
+  })
+  beforeEach(() => {
+    cy.wait(3000)
   })
   it('001-业务标签-添加标签分类', () => {
     cy.get('.el-collapse.ql-category.cqb-collapse').find('.el-collapse-item.ql-category__item').then((getData) => {
@@ -57,17 +63,15 @@ context('标签管理-业务标签', () => {
     })
   })
   it('003-业务标签-添加标签', () => {
-    let save = 2
-    let close = 1
     cy.get('.el-collapse.ql-category.cqb-collapse').find('.el-collapse-item.ql-category__item').last().click()
     //-------标签名为空不能保存-----------
     cy.get('.el-icon-plus').last().click()
-    cy.get('.el-button.el-button--primary.el-button--medium').eq(save).click()
+    withinDialog(clickOkInDialog, '添加标签')
     cy.get('body').should('contain', '请输入标签名称')
     //-------添加成功-----------
     cy.get('.el-input__inner').first().clear().type('自动添加标签1')
     cy.intercept('**/cqb-base-mgr/service/mgr/tags/service*').as('add')
-    cy.get('.el-button.el-button--primary.el-button--medium').eq(save).click()
+    withinDialog(clickOkInDialog, '添加标签')
     cy.wait('@add').then((xhr) => {
       let ExpectStatus = 200
       let ResponseStatus = xhr.response.statusCode
@@ -76,13 +80,12 @@ context('标签管理-业务标签', () => {
       //--------添加重复的标签-------------
       cy.get('.el-icon-plus').last().click()
       cy.get('.el-input__inner').first().clear().type('自动添加标签1')
-      cy.get('.el-button.el-button--primary.el-button--medium').eq(save).click()
+      withinDialog(clickOkInDialog, '添加标签')
       cy.get('body').should('contain', '标签已存在，请重新输入')
-      cy.get('.el-button.el-button--default.el-button--medium').eq(close).click()
+      withinDialog(clickCancelInDialog, '添加标签')
     })
   })
   it('004-业务标签-修改标签名', () => {
-    let save= 2
     //-----标签名已存在,保存失败-------------
     cy.get('.el-collapse.ql-category.cqb-collapse').find('.el-collapse-item.ql-category__item').last().click()
     cy.get('.el-collapse-item__content').last().find('.ql-tag.el-tag.el-tag--medium').then((getData) => {
@@ -96,7 +99,7 @@ context('标签管理-业务标签', () => {
       //-----标签修改成功----------
       cy.get('.el-input__inner').first().clear().type('自动修改')
       cy.intercept('**/cqb-base-mgr/service/mgr/tags/service/*').as('update')
-      cy.get('.el-button.el-button--primary.el-button--medium').eq(save).click()
+      withinDialog(clickOkInDialog, '编辑标签')
       cy.wait('@update').then((xhr) => {
         let ExpectStatus = 200
         let ResponseStatus = xhr.response.statusCode
@@ -109,7 +112,7 @@ context('标签管理-业务标签', () => {
   it('005-业务标签-删除标签', () => {
     cy.get('.el-tag__close.el-icon-close').last().click()
     cy.intercept('**/cqb-base-mgr/service/mgr/tags/service/*').as('delete')
-    cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click()
+    confirmDelete()
     cy.wait('@delete').then((xhr) => {
       let ExpectStatus = 200
       let ResponseStatus = xhr.response.statusCode
@@ -122,7 +125,7 @@ context('标签管理-业务标签', () => {
       //-------分类下存在标签，不允许删除--------    
       cy.get('.el-button.el-button--danger.el-button--mini').first().click()
       cy.intercept('**/cqb-base-mgr/service/mgr/tag/types/service/*').as('delete')
-      cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click()
+      confirmDelete()
       cy.wait('@delete').then((xhr) => {
         let ExpectStatus = 400
         let ResponseStatus = xhr.response.statusCode
@@ -133,7 +136,7 @@ context('标签管理-业务标签', () => {
       //-----成功删除-----------
       cy.get('.el-button.el-button--danger.el-button--mini').last().click()
       cy.intercept('**/cqb-base-mgr/service/mgr/tag/types/service/*').as('delete')
-      cy.get('.el-button.el-button--default.el-button--small.el-button--primary.el-button--danger').click()
+      confirmDelete()
       cy.wait('@delete').then((xhr) => {
         let ExpectStatus = 200
         let ResponseStatus = xhr.response.statusCode

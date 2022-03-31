@@ -5,7 +5,7 @@ import {
   MGR_BASE_URL,
   MGR_LOGIN_URL
 } from '../../shared/constants'
-import { visitIframePage } from '../../shared/route'
+import { visitIframePage, visitPage } from '../../shared/route'
 import {
   interceptPost,
   waitIntercept
@@ -48,7 +48,7 @@ export function loginMgr(featureName, cb) {
           .type(adminJSON.password, {
             force: true
           }).should('have.value', adminJSON.password)
-        cy.get('[placeholder="验证码"]')
+        cy.get('[placeholder="输入验证码"]')
           .type(adminJSON.captcha, {
             force: true
           }).should('have.value', adminJSON.captcha)
@@ -61,10 +61,9 @@ export function loginMgr(featureName, cb) {
             force: true
           })
         }, data => {
-          if (data.permissions.includes('mgr:data:nationalScreen')) {
-            closeDailyScreen()
-          }
-          
+          // if (data.permissions.includes('mgr:data:nationalScreen')) {
+          //   closeDailyScreen()
+          // } 
           cb && cb()
         })
       })

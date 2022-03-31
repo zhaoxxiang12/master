@@ -4,19 +4,22 @@ import {
   activeDateDay
 } from '../../common/date'
 import {
-  closeTips
-} from '../../common/dialog'
-import {
   interceptAll,
   waitIntercept,
   waitRequest
 } from '../../common/http'
 import {
-  closeDailyScreen
+  closeScreen
 } from '../../common/screen'
 import {
   activeSelect
 } from '../../common/select'
+import {
+  expandSearchConditions
+} from '../../eqa/eqa-order/eqa-order'
+import {
+  queryMessageContent
+} from '../../message-setting/push-setting'
 import {
   buttonPushScreen,
   pushToScreen
@@ -43,23 +46,31 @@ context('监控内容配置', () => {
   }
 
   before(() => {
-    waitIntercept(queryMonitor, () => {
-      cy.visitPage('report-monitor')
-    }, data => {
-      cy.get('.report-monitor').should('exist')
-      cy.get('.ql-search--simple.is-right').first().within($el => {
-        if ($el.css('display') === 'block') {
-          cy.get('.el-form.el-form--inline').last().findByText('展开').click({
-            force: true
-          })
-        }
-      })
+    const waitOptions = {
+      timeout: 90000
+    }
+    waitIntercept({
+      waitOptions,
+      intercept: queryMonitor,
+      onBefore: () => {
+        cy.visitPage('report-monitor')
+      },
+      onSuccess: () => {
+        cy.get('.report-monitor').should('exist')
+        cy.get('.ql-search--simple.is-right').first().within($el => {
+          if ($el.css('display') === 'block') {
+            cy.get('.el-form.el-form--inline').last().findByText('高级搜索').click({
+              force: true
+            })
+          }
+        })
+      }
     })
   })
   context('筛选条件', () => {
     const labCode = 'gd18002'
     const FoshanTag = '佛山'
-    const GuangxiTag = '广西'
+    const GuangxiTag = '外资'
     const Guangdong = '广东省'
     const Shanghai = '上海市'
     const reported = '已上报'
@@ -268,26 +279,33 @@ context('监控内容配置', () => {
     })
   })
   context('消息推送', () => {
-    const message = '1'
+    let message
     const sendObject = '1'
     const messageType = '1'
     const labCode = 'gd18020'
     const reportDetails = 0
     beforeEach(() => {
-      cy.reload()
-      closeTips('提示', '关闭')
-      cy.get('.ql-search--simple.is-right').first().within($el => {
-        if ($el.css('display') === 'block') {
-          cy.get('.el-form.el-form--inline').last().findByText('展开').click({
+      waitIntercept(queryMonitor, () => {
+        cy.reload()
+      }, () => {
+        expandSearchConditions('高级搜索')
+        searchConditions('labName', 'lab').find('.el-input__inner').clear().type(labCode)
+      })
+      waitIntercept(queryMonitor, () => {
+        clickSearch('lab')
+      }, () => {
+        cy.wait(1000)
+        cy.get('.ql-lab-list__status').find('div').eq(reportDetails).click({
+          force: true
+        })
+        cy.wait(1000)
+        waitIntercept(queryMessageContent, () => {
+          cy.get('.el-dialog__body:visible').findByText('推送消息通知').click({
             force: true
           })
-        }
-      })
-      searchConditions('labName', 'lab').find('.el-input__inner').clear().type(labCode)
-      clickSearch('lab')
-      cy.wait(1000)
-      cy.get('.ql-lab-list__status').find('div').eq(reportDetails).click({
-        force: true
+        }, msgContent => {
+          message = msgContent.data[0].content
+        })
       })
     })
     it('013-未选择消息模板', () => {
@@ -309,7 +327,6 @@ context('监控内容配置', () => {
       clickCancelButton()
     })
     it('016-向实验室端推送消息成功', () => {
-      const message = '1'
       const sendObject = '1'
       const messageType = '1'
       const year = dayjs().format('YYYY')
@@ -383,7 +400,7 @@ context('监控内容配置', () => {
       cy.get('[role="tooltip"]').find('button').contains('确定').click({
         force: true
       })
-      closeDailyScreen()
+      closeScreen()
     })
     context('大屏参数验证', () => {
       before(() => {

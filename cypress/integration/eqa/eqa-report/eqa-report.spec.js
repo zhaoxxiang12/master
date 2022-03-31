@@ -141,6 +141,9 @@ context('EQA反馈报告', () => {
     })
     it('009-重新生成', () => {
       cy.wait(1000)
+      const waitOptions = {
+        timeout: 90000
+      }
       const getTotal = queryResult.total
       if (getTotal) {
         const rowIndex = queryResult.records.findIndex(report => report.status === 2)
@@ -152,6 +155,7 @@ context('EQA反馈报告', () => {
           })
           cy.wait(500)
           waitRequest({
+            waitOptions,
             intercept: interceptRegenerate,
             onBefore: () => {
               clickRegerate(selfIndex)

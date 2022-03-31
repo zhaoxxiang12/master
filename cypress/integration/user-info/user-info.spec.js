@@ -139,7 +139,9 @@ const validResponseVersionTitle = (responseData, versionTitle) => {
  * @param {string} endTime 搜索条件结束时间
  */
 const modelOption = (modelName, startTime, endTime) => {
-  cy.get('.dropdown-link:visible').last().click()
+  cy.get('.el-dropdown-menu').last().click({
+    force:true
+  })
   cy.wait(2000)
   cy.get('.el-dropdown-menu:visible').contains(modelName).click()
   cy.wait(2000)
@@ -147,6 +149,7 @@ const modelOption = (modelName, startTime, endTime) => {
   cy.wait(2000)
   activeDateDay(startTime)
   reportElformClickDay('结束时间', '结束时间', true)
+
   cy.wait(2000)
   activeDateDay(endTime)
 }
@@ -169,7 +172,9 @@ context('用户信息', () => {
           }, data => {
             assertLabVersion(data, '更新日志')
           })
-          reportElformClickDay('结束时间', '结束时间', true)
+          getDialog('更新日志').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+          })
           cy.wait(1000)
           activeDateDay('2021/11/4')
           waitIntercept(interceptVersion, () => {
@@ -180,10 +185,14 @@ context('用户信息', () => {
         })
         it('关键字查询', () => {
           const version = '实验室端更新'
-          reportElformClickDay('结束时间', '结束时间', true)
+          getDialog('更新日志').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+          })
           cy.wait(1000)
           activeDateDay(endTime)
-          cy.findAllByPlaceholderText('输入关键字').type(version)
+          getDialog('更新日志').within(() => {
+            cy.findAllByPlaceholderText('输入关键字').type(version)
+          })
           waitIntercept(interceptVersion, () => {
             clickSearch()
           }, data => {
@@ -195,10 +204,14 @@ context('用户信息', () => {
       })
       context('查看版本更新日志', () => {
         it('查看版本日志', () => {
-          reportElformClickDay('开始时间', '开始时间', true)
+          getDialog('更新日志').within(() => {
+            reportElformClickDay('开始时间', '开始时间', true)
+          })
           cy.wait(1000)
           activeDateDay(startTime)
-          reportElformClickDay('结束时间', '结束时间', true)
+          getDialog('更新日志').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+          })
           cy.wait(1000)
           activeDateDay(endTime)
           waitIntercept(interceptVersion, () => {
@@ -222,6 +235,8 @@ context('用户信息', () => {
               cy.get('.el-dialog__close.el-icon.el-icon-close:visible').click({
                 force: true
               })
+            } else {
+              withinDialog(clickOkInDialog, '更新日志')
             }
           })
         })
@@ -233,7 +248,9 @@ context('用户信息', () => {
       })
       context('筛选条件', () => {
         it('时间范围查询数据', () => {
-          reportElformClickDay('开始时间', '开始时间', true)
+          getDialog('操作手册').within(() => {
+            reportElformClickDay('开始时间', '开始时间', true)
+          })
           cy.wait(1000)
           activeDateDay('2021/5/11')
           waitIntercept(interceptInstruction, () => {
@@ -241,7 +258,9 @@ context('用户信息', () => {
           }, data => {
             assertLabVersion(data, '操作手册')
           })
-          reportElformClickDay('结束时间', '结束时间', true)
+          getDialog('操作手册').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+          })
           cy.wait(1000)
           activeDateDay('2021/11/4')
           waitIntercept(interceptInstruction, () => {
@@ -306,7 +325,7 @@ context('用户信息', () => {
   })
   context('管理端用户信息', () => {
     before(() => {
-      cy.visitPage('message')
+      cy.visitPage('main')
     })
     context('版本更新', () => {
       const startTime = '2021/10/5'
@@ -322,8 +341,10 @@ context('用户信息', () => {
           }, data => {
             assertLabVersion(data, '更新日志')
           })
-          reportElformClickDay('结束时间', '结束时间', true)
-          cy.wait(1000)
+          getDialog('更新日志').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+            cy.wait(1000)
+          })
           activeDateDay('2021/11/4')
           waitIntercept(interceptVersion(true), () => {
             clickSearch()
@@ -334,8 +355,10 @@ context('用户信息', () => {
         it('关键字查询', () => {
           const version = '管理端版本'
           const time = '2021/11/5'
-          reportElformClickDay('结束时间', '结束时间', true)
-          cy.wait(1000)
+          getDialog('更新日志').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+            cy.wait(1000)
+          })
           activeDateDay(time)
           cy.findAllByPlaceholderText('输入关键字').type(version)
           waitIntercept(interceptVersion(true), () => {
@@ -349,11 +372,15 @@ context('用户信息', () => {
       })
       context('查看版本更新日志', () => {
         it('查看版本日志', () => {
-          reportElformClickDay('开始时间', '开始时间', true)
-          cy.wait(1000)
+          getDialog('更新日志').within(() => {
+            reportElformClickDay('开始时间', '开始时间', true)
+            cy.wait(1000)
+          })
           activeDateDay(startTime)
-          reportElformClickDay('结束时间', '结束时间', true)
-          cy.wait(1000)
+          getDialog('更新日志').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+            cy.wait(1000)
+          })
           activeDateDay(endTime)
           waitIntercept(interceptVersion(true), () => {
             clickSearch()
@@ -395,7 +422,9 @@ context('用户信息', () => {
           }, data => {
             assertLabVersion(data, '操作手册')
           })
-          reportElformClickDay('结束时间', '结束时间', true)
+          getDialog('操作手册').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+          })
           cy.wait(1000)
           activeDateDay('2021/11/4')
           waitIntercept(interceptInstruction(true), () => {
@@ -406,7 +435,9 @@ context('用户信息', () => {
         })
         it('关键字查询', () => {
           const manual = '2021年09月广东省结果互认专业室内质控数据室间化比对报告'
-          reportElformClickDay('结束时间', '结束时间', true)
+          getDialog('操作手册').within(() => {
+            reportElformClickDay('结束时间', '结束时间', true)
+          })
           cy.wait(1000)
           activeDateDay(endTime)
           getDialog('操作手册').within(() => {
@@ -423,9 +454,11 @@ context('用户信息', () => {
         context('查看和下载', () => {
           let result
           before(() => {
-            reportElformClickDay('开始时间', '开始时间', true)
+            getDialog('操作手册').within(() => {
+              reportElformClickDay('开始时间', '开始时间', true)
+            })
             cy.wait(1000)
-            activeDateDay('2021/5/11')
+            activeDateDay('2021/5/11')  
             waitIntercept(interceptInstruction(true), () => {
               clickSearch()
             }, data => {
@@ -491,7 +524,7 @@ context('用户信息', () => {
               cy.wait(1000)
               cy.visitLabPage('home', 'labgd18020')
               cy.reload()
-              cy.wait(3000)
+              cy.wait(5000)
               closeClientAlert()
               modelOption('公告板', currentTime, currentTime)
               getDialog('公告板').within(() => {

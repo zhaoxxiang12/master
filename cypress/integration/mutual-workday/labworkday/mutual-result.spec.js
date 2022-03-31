@@ -1,7 +1,5 @@
 import dayjs from 'dayjs'
-import {
-  visitPage
-} from '../../../shared/route'
+import { visitLabPage } from '../../../shared/route'
 import {
   getMonthZh
 } from '../../common/date'
@@ -12,12 +10,6 @@ import {
   confirmDelete,
   withinDialog
 } from '../../common/dialog'
-import {
-  clickListener
-} from '../../common/event'
-import {
-  validatePdfFile
-} from '../../common/file'
 import {
   validFormItemError
 } from '../../common/form'
@@ -82,13 +74,13 @@ context('工作日申请', () => {
           cy.get('.el-menu').contains('新冠病毒核酸').click({
             force: true
           })
-          cy.wait(1000)
+          cy.wait(5000)
         }, data => {
           result = data
         })
       })
     })
-    it('禁用的项目不能申请', () => {
+    it('禁用的项目不能申请', () => {  
       const itemIndex = result.findIndex(item => item.status === false)
       if (itemIndex === -1) {
         const changeItemIndex = 0
@@ -252,7 +244,7 @@ context('工作日申请', () => {
             force: true
           })
           cy.wait(500)
-          assertText(month, planApply, '审核中', 'rgb(43, 181, 235)')
+          assertText(month, planApply, '审核中', 'rgb(38, 97, 230)')
           //修改申请
           applyWorkDay(month, planApply, 18)
           waitIntercept(interceptApplyWorkDay, () => {
@@ -302,6 +294,14 @@ context('工作日申请', () => {
         cy.wait(1000)
         waitIntercept(interceptApplyMsg, () => {
           cy.visitLabPage('mutual-result', 'labgd18020')
+          cy.location('href').then(url => {
+            const path = url.split('#')[1]
+            if (path !== '/lab/mutual-result') {
+              visitLabPage('mutual-result')
+              cy.wait(3000)
+              closeClientAlert()
+            }
+          })
         }, (data) => {
           expect(data.data[0].createTime).to.contain(dayjs().format('YYYY') + '-' + dayjs().format('MM') + '-' + dayjs().format('DD'))
           // expect(data.data[0].status).to.eq(1)
@@ -341,7 +341,7 @@ context('工作日申请', () => {
             .contains('肿瘤标志物').click({
               force: true
             })
-          cy.wait(1000)
+          cy.wait(5000)
         }, (data) => {
           result = data
           itemName = result.map((item, index) => {
@@ -372,7 +372,6 @@ context('工作日申请', () => {
           waitIntercept(interceptQuery, () => {
             clickSearch()
           }, data => {
-            console.log(data)
             cy.get('.el-table__body').last().find('.el-table__row').should('have.length', data.data.length)
             for (let j = 0; j < data.data.length; j++) {
               if (data.data.length >= 1) {
@@ -446,7 +445,7 @@ context('工作日申请', () => {
       let MsgResult
       before(() => {
         waitIntercept(interceptApplyMsg, () => {
-          cy.visitLabPage('mutual-result', 'labgd18020')
+          cy.visitLabPage('home', 'labgd18020')
           cy.wait(3000)
           closeClientAlert()
         }, (data) => {
@@ -455,7 +454,7 @@ context('工作日申请', () => {
 
       })
       it('默认展示5条消息', () => {
-        cy.get('.popover-notice').click()
+        cy.get('.cqbicon.icon-gonggaoban').click()
         cy.get('.el-tabs__nav-scroll').within(() => {
           cy.get('#tab-notice').click()
         })

@@ -1,6 +1,6 @@
 import { clickOkInDialog, withinDialog } from '../common/dialog'
 import {
-  interceptAll
+  interceptAll, waitIntercept
 } from '../common/http'
 import {
   activeSelect
@@ -21,84 +21,93 @@ import { relateLab } from '../user-info/lab-info'
  * @param {string} testTarget 检测目标
  * @param {string} keyword 搜索关键字
  */
+
+export const queryMessageContent = () => {
+  return interceptAll('service/mgr/message/templates?*', queryMessageContent.name)
+}
 export const createRules = (triggerEvent, message, sendTime, destinationType, pushList, time, testTarget, keyword) => {
-  cy.get('.ql-search__tools-top.is-left').findByText('添加自动推送规则').click({
-    force: true
-  })
-  if (triggerEvent) {
-    switch (triggerEvent) {
-    case '1':
-      elform('eventType', 'radio').check('1', {
-        force: true
-      })
-      break
-    case '2':
-      elform('eventType', 'radio').check('2', {
-        force: true
-      })
-      break
-    case '3':
-      elform('eventType', 'radio').check('3', {
-        force: true
-      })
-      break
-    case '4':
-      elform('eventType', 'radio').check('4', {
-        force: true
-      })
-    }
-  }
-  if (message) {
-    elform('message').click()
-    activeSelect(message)
-  }
-  if (sendTime) {
-    elform('sendTime').click()
-    activeSelect(sendTime)
-  }
-  if (destinationType === '1') {
-    elform('destinationType', 'checkbox').check('1', {
+  waitIntercept(queryMessageContent, () => {
+    cy.get('.ql-search__tools-top.is-left').findByText('添加自动推送规则').click({
       force: true
     })
-  } else if (destinationType === '2') {
-    elform('destinationType', 'checkbox').check('2', {
-      force: true
-    })
-  }
-  if (pushList === 'live') {
-    elform('pushList', 'checkbox').check('live', {
-      force: true
-    })
-  } else if (pushList === 'time') {
-    elform('pushList', 'checkbox').check('time', {
-      force: true
-    })
-    if (time) {
-      if (sendTime) {
-        elform('sendTime').click()
-        activeSelect(sendTime)
+  }, messageContent => {
+    if (triggerEvent) {
+      switch (triggerEvent) {
+      case '1':
+        elform('eventType', 'radio').check('1', {
+          force: true
+        })
+        break
+      case '2':
+        elform('eventType', 'radio').check('2', {
+          force: true
+        })
+        break
+      case '3':
+        elform('eventType', 'radio').check('3', {
+          force: true
+        })
+        break
+      case '4':
+        elform('eventType', 'radio').check('4', {
+          force: true
+        })
       }
     }
-  }
-  if (testTarget === 'some') {
-    elform('eventObject', 'radio').check('some', {
-      force: true
-    })
-    if (keyword) {
-      cy.get('.ql-select-lab__assign').find('button').contains('添加').click({
+    if (message) {
+      elform('message').click()
+      activeSelect(messageContent.data[0].content)
+    }
+    if (sendTime) {
+      elform('sendTime').click()
+      activeSelect(sendTime)
+    }
+    if (destinationType === '1') {
+      elform('destinationType', 'checkbox').check('1', {
         force: true
       })
-      cy.get('[for=labName]').parent('.el-form-item.el-form-item--medium')
-        .findAllByPlaceholderText('请输入实验室名称或编码')
-        .type(keyword)
-      cy.get('.ql-search--simple.is-right').find('button').contains('搜索').click()
-      cy.wait(1000)
-      cy.get('.el-table__body').last().find('[type=checkbox]').check({
-        force:true
+    } else if (destinationType === '2') {
+      elform('destinationType', 'checkbox').check('2', {
+        force: true
       })
-      withinDialog(clickOkInDialog,'选择实验室')
     }
-  }
+    if (pushList === 'live') {
+      elform('pushList', 'checkbox').check('live', {
+        force: true
+      })
+    } else if (pushList === 'time') {
+      elform('pushList', 'checkbox').check('time', {
+        force: true
+      })
+      if (time) {
+        if (sendTime) {
+          elform('sendTime').click()
+          activeSelect(sendTime)
+        }
+      }
+    }
+    if (testTarget === 'some') {
+      elform('eventObject', 'radio').check('some', {
+        force: true
+      })
+      if (keyword) {
+        cy.get('.ql-select-lab__assign').find('button').contains('添加').click({
+          force: true
+        })
+        cy.get('[for=labName]').parent('.el-form-item.el-form-item--medium')
+          .findAllByPlaceholderText('请输入实验室名称或编码')
+          .type(keyword)
+        cy.get('.ql-search--simple.is-right').find('button').contains('搜索').click()
+        cy.wait(1000)
+        cy.get('.el-table__body').last().find('[type=checkbox]').check({
+          force:true
+        })
+        withinDialog(clickOkInDialog,'选择实验室')
+      }
+    }
+  })
+
+
 }
 
 /**
@@ -112,52 +121,55 @@ export const createRules = (triggerEvent, message, sendTime, destinationType, pu
  * @param {string} keyword 搜索关键字
  */
 export function createSDIRules (compareType,labTag,sdiThreshold,message,pushList,destinationType,testTarget,keyword) {
-  cy.get('.ql-search').findByText('添加自动推送规则').click({
-    force: true
-  })
-  getDialog('自动推送规则').within(() => {
-    elform('eventType', 'radio').check('4', {
+  waitIntercept(queryMessageContent, () => {
+    cy.get('.ql-search').findByText('添加自动推送规则').click({
       force: true
     })
-    if (compareType === '1') {
-      elform('sdi.compareType','radio').check('1',{
-        force:true
-      })
-    }
-    if (labTag) {
-      elform('labTag').click()
-      activeSelect(labTag)
-    }
-    if (sdiThreshold) {
-      elform('sdi.sdiThreshold').type(sdiThreshold)
-    }
-    if (message) {
-      elform('message').click()
-      activeSelect(message)
-    }
-    if (pushList) {
-      elform('pushList','checkbox').check('live',{
-        force:true
-      })
-    }
-    if (destinationType === '1') {
-      elform('destinationType', 'checkbox').check('1', {
+  }, messageContent => {
+    getDialog('自动推送规则').within(() => {
+      elform('eventType', 'radio').check('4', {
         force: true
       })
-    } else if (destinationType === '2') {
-      elform('destinationType', 'checkbox').check('2', {
-        force: true
-      })
-    }
-    if (testTarget === 'some') {
-      elform('eventObject', 'radio').check('some', {
-        force: true
-      })
-      if (keyword) {
-        relateLab('自动推送规则',keyword,'检测目标')
-        withinDialog(clickOkInDialog,'选择实验室')
+      if (compareType === '1') {
+        elform('sdi.compareType','radio').check('1',{
+          force:true
+        })
       }
-    }
+      if (labTag) {
+        elform('labTag').click()
+        activeSelect(labTag)
+      }
+      if (sdiThreshold) {
+        elform('sdi.sdiThreshold').type(sdiThreshold)
+      }
+      if (message) {
+        elform('message').click()
+        activeSelect(messageContent.data[0].content)
+      }
+      if (pushList) {
+        elform('pushList','checkbox').check('live',{
+          force:true
+        })
+      }
+      if (destinationType === '1') {
+        elform('destinationType', 'checkbox').check('1', {
+          force: true
+        })
+      } else if (destinationType === '2') {
+        elform('destinationType', 'checkbox').check('2', {
+          force: true
+        })
+      }
+      if (testTarget === 'some') {
+        elform('eventObject', 'radio').check('some', {
+          force: true
+        })
+        if (keyword) {
+          relateLab('自动推送规则',keyword,'检测目标')
+          withinDialog(clickOkInDialog,'选择实验室')
+        }
+      }
+    })
   })
 }
 

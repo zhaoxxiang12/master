@@ -1,5 +1,5 @@
 import {
-  visitPage
+  visitPage, visitScreen
 } from '../../shared/route'
 import { clickOkInDialog, withinDialog } from '../common/dialog'
 import {
@@ -28,7 +28,7 @@ export const regionText = [
   '实验室标签'
 ]
 export const shCclName = '青浦医联体'
-export const specName = '常规化学'
+export const specName = '全血细胞计数'
 export const itemName = '钾'
 export const queryYear = '2020'
 export const startMonth = '五月'
@@ -70,6 +70,14 @@ export const activeSomeSpec = (text) => {
     }).then(() => {
       if (!existText) {
         activeSelect(text)
+        cy.get('.el-select__tags-text').then((getLength) => {
+          const length = getLength.length
+          if (length > 1) {
+            cy.get('.el-tag__close').first().click({
+              force:true
+            })
+          }
+        })
       }
     })
 }
@@ -140,7 +148,7 @@ export function pushToScreen(cb, beforeWait) {
   let date = new Date().toLocaleString()
   const title = `自动化测试推送的标题 ${date}`
 
-  cy.get('button')
+  cy.get('.ql-search__tools-top')
     .contains(buttonPushScreen)
     .click({
       force: true
@@ -154,7 +162,9 @@ export function pushToScreen(cb, beforeWait) {
     beforeWait()
   }
   waitIntercept(interceptPost('service/mgr/screen/details', 'submitPush'), () => {
+    cy.wait(5000)
     withinDialog(clickOkInDialog, '推送到大屏')
+    cy.wait(500)
     cy.get('body').within(($el) => {
       if ($el.find('.el-message-box__wrapper')) {
         cy.get('.el-message-box__btns button').contains('覆盖').click({
@@ -164,11 +174,10 @@ export function pushToScreen(cb, beforeWait) {
     })
   }, (data, request) => {
     waitIntercept(interceptAll('service/mgr/screen/details', 'queryScreenDetails'), () => {
-      visitPage('daily-screen')
+      visitScreen()
     }, screenData => {
       const lastScreen = screenData.pop()
       cb(title, lastScreen, request)
-      closeDailyScreen()
     })
   })
 }

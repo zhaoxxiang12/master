@@ -5,9 +5,7 @@ import {
   visitIframePage
 } from '../../../shared/route'
 import {
-  clickOkInDialog,
-  okOnPopConfirm,
-  withinDialog
+  okOnPopConfirm
 } from '../../common/dialog'
 import {
   clickListener
@@ -23,9 +21,6 @@ import {
   loginIframeWithFeature,
 } from '../../common/login'
 import {
-  validSuccessMessage
-} from '../../common/message'
-import {
   searchPlan
 } from '../eqa-plan/eqa-plan'
 import { interceptQueryData } from '../eqa-plan/eqa-plan'
@@ -35,8 +30,8 @@ import {
   expandSearchConditions,
   findOrderButton,
   interceptCreateOrder,
-  interceptResetReport,
-  interceptViewOrder
+  queryJoinedLab,
+  resetLabReport,
 } from './eqa-order'
 
 context('eqa订单信息', () => {
@@ -45,24 +40,23 @@ context('eqa订单信息', () => {
     expandSearchConditions()
   })
   context('实验室管理', () => {
-    it('重置上报', () => {
-      searchPlan('订单验证2')
-      findOrderButton('实验室管理').click({
-        force: true
-      })
-      cy.get('.el-table__body').eq(4).find('.el-table__row').first().findByText('重置上报').click({
-        force: true
-      })
-      waitRequest({
-        intercept: interceptResetReport,
-        onBefore: () => {
-          cy.get('.el-popconfirm__action').findByText('确定').click({
-            force: true
+    it.only('重置上报', () => {
+      cy.wait(3000)
+      waitIntercept(interceptQueryData, () => {
+        searchPlan()
+      }, data => {
+        if (data.total) {
+          waitIntercept(queryJoinedLab, () => {
+            findOrderButton('实验室管理').click({
+              force: true
+            })
+          }, data => {
+            if (data.length === 1) {
+             resetLabReport(0)
+            } else {
+              resetLabReport(0)
+            }
           })
-        },
-        onSuccess: () => {
-          validSuccessMessage()
-          withinDialog(clickOkInDialog, '实验室管理')
         }
       })
     })
@@ -142,31 +136,31 @@ context('eqa订单信息', () => {
         expect(planMajor).to.eq(returnData.majorName)
       })
     })
-    it('导出订单', () => {
-      // cy.wait(3000)
-      let queryPlanReq
-      waitIntercept(interceptQueryData, () => {
-        queryPlanReq = interceptViewOrder()
-        expandSearchConditions()
-        searchPlan(returnData.planName)
-      }, () => {
-        waitRequest({
-          intercept: queryPlanReq,
-          onBefore: () => {
-            findOrderButton('查看订单').should('exist').click({
-              force: true
-            })
-          },
-          onSuccess: () => {
-            clickListener(() => {
-              cy.get('[aria-label="查看订单信息"]').findByText('导出订单').should('exist').click({
-                force: true
-              })
-            }, 6000)
-          }
-        })
-      })
-    })   
+  //   it('导出订单', () => {
+  //     // cy.wait(3000)
+  //     let queryPlanReq
+  //     waitIntercept(interceptQueryData, () => {
+  //       queryPlanReq = interceptViewOrder()
+  //       expandSearchConditions()
+  //       searchPlan(returnData.planName)
+  //     }, () => {
+  //       waitRequest({
+  //         intercept: queryPlanReq,
+  //         onBefore: () => {
+  //           findOrderButton('查看订单').should('exist').click({
+  //             force: true
+  //           })
+  //         },
+  //         onSuccess: () => {
+  //           clickListener(() => {
+  //             cy.get('[aria-label="查看订单信息"]').findByText('导出订单').should('exist').click({
+  //               force: true
+  //             })
+  //           }, 6000)
+  //         }
+  //       })
+  //     })
+  //   })   
   })
   context('删除测试数据', () => {
     it('删除数据', () => {

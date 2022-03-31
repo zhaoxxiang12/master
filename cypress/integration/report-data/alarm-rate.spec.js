@@ -3,6 +3,7 @@ import { getUrlQuery } from '../../shared/util'
 import { activeSelect } from '../common/select'
 import { interceptAll, waitIntercept, waitRequest } from '../common/http'
 import { queryCclReq } from '../api/ccl'
+import { closeScreen } from '../common/screen'
 
 /**
  * 告警及反馈统计页面
@@ -315,10 +316,8 @@ context('告警及反馈统计页面', () => {
             const $splitviewItem = cy.get('.ql-splitview__item')
             $splitviewItem.should('have.length', 1)
             $splitviewItem.find('canvas').should('have.length', 1)
-            cy.get('.ql-splitview__top').trigger('mouseover')
-            cy.get('.ql-splitview__close').click({
-              force: true
-            })
+            // cy.get('.ql-splitview__top').trigger('mouseover')
+           closeScreen()
           })
         })
         it(`013-${buttonPushScreen}`, () => {
